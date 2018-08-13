@@ -13,7 +13,7 @@ class Database {
       }
 
       res(newDoc);
-    }))
+    }));
   }
 
   async find (query, projection) {
@@ -23,7 +23,7 @@ class Database {
       }
 
       res(docs);
-    }
+    };
 
     return new Promise((res, rej) => {
       if (projection) {
@@ -31,7 +31,7 @@ class Database {
       } else {
         this.db.find(query, cbk(res, rej));
       }
-    })
+    });
   }
 
   async findOne (query, projection) {
@@ -41,7 +41,7 @@ class Database {
       }
 
       res(doc);
-    }
+    };
 
     return new Promise((res, rej) => {
       if (projection) {
@@ -49,7 +49,7 @@ class Database {
       } else {
         this.db.findOne(query, cbk(res, rej));
       }
-    })
+    });
   }
 
   async update (query, update, options = {}) {
@@ -59,7 +59,7 @@ class Database {
       }
 
       res(result);
-    }))
+    }));
   }
 
   async remove (query, options = {}) {
@@ -69,11 +69,12 @@ class Database {
       }
 
       res(result);
-    }))
+    }));
   }
 
 }
 
 module.exports = {
+  class: Database,
   pages: new Database(pages)
 };

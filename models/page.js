@@ -1,28 +1,31 @@
-const uuid4 = require('uuid4');
 const {pages} = require('../database');
 
 class Page {
 
-  constructor (id, data = {}) {
-    this.db = pages;
+  static async get(_id) {
+    const data = await pages.findOne({_id});
 
-    if (id) {
-      this.db.findOne({_id: id}).then(page => {
-        console.log(page)
+    return new Page(data);
+  }
 
-        if (!page) {
-          this.data = data;
-          return;
-        }
+  static async getAll(query = {}) {
+    const docs = await pages.find(query);
 
-        this._id = page._id;
-        this.data = page;
-      }).catch(ignored => {
-        this.data = data;
-      })
-    } else {
+    return Promise.all(docs.map(doc => new Page(doc)));
+  }
+
+  constructor (data = {}) {
+      if (data === null) {
+          data = {};
+      }
+
+      this.db = pages;
+
+      if (data._id) {
+          this._id = data._id;
+      }
+
       this.data = data;
-    }
   }
 
   set data (pageData) {
@@ -43,25 +46,42 @@ class Page {
   }
 
   set parent (parentPage) {
-    this._parent = parentPage.id;
+    this._parent = parentPage._id;
   }
 
   get parent () {
-    return this.db.find({_id: this._parent});
+    return this.db.findOne({_id: this._parent})
+        .then(data => new Page(data));
+  }
+
+  get children () {
+      return this.db.find({parent: this._id})
+          .then(data => data.map(page => new Page(page)));
   }
 
   async save () {
-    if (!this._id) {
-      const insertedRow = await this.db.insert(this.data);
+      if (!this._id) {
+          const insertedRow = await this.db.insert(this.data);
 
-      this._id = insertedRow._id;
-    } else {
-      await this.db.update({_id: this._id}, this.data);
-    }
+          this._id = insertedRow._id;
+      } else {
+          await this.db.update({_id: this._id}, this.data);
+      }
+
+      return this;
+  }
+
+  async destroy () {
+    await this.db.remove({_id: this._id});
+
+    delete this._id;
 
     return this;
   }
 
+  toJSON () {
+    return this.data;
+  }
 }
 
 module.exports = Page;
