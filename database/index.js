@@ -1,11 +1,29 @@
 const pages = require('./pages');
 
+/**
+ * @class Database
+ * @classdesc Simple decorator class to work with nedb datastore
+ *
+ * @property db - nedb Datastore object
+ */
 class Database {
 
+  /**
+   * @constructor
+   *
+   * @param {Object} nedbInstance - nedb Datastore object
+   */
   constructor (nedbInstance) {
     this.db = nedbInstance;
   }
 
+  /**
+   * Insert new document into the database
+   * @see https://github.com/louischatriot/nedb#inserting-documents
+   *
+   * @param {Object} doc - object to insert
+   * @returns {Promise<Object|Error>} - inserted doc or Error object
+   */
   async insert (doc) {
     return new Promise((res, rej) => this.db.insert(doc, (err, newDoc) => {
       if (err) {
@@ -16,6 +34,14 @@ class Database {
     }));
   }
 
+  /**
+   * Find documents that match passed query
+   * @see https://github.com/louischatriot/nedb#finding-documents
+   *
+   * @param {Object} query - query object
+   * @param {Object} projection - projection object
+   * @returns {Promise<Array<Object>|Error>} - found docs or Error object
+   */
   async find (query, projection) {
     const cbk = (res, rej) => (err, docs) => {
       if (err) {
@@ -34,6 +60,14 @@ class Database {
     });
   }
 
+  /**
+   * Find one document matches passed query
+   * @see https://github.com/louischatriot/nedb#finding-documents
+   *
+   * @param {Object} query - query object
+   * @param {Object} projection - projection object
+   * @returns {Promise<Object|Error>} - found doc or Error object
+   */
   async findOne (query, projection) {
     const cbk = (res, rej) => (err, doc) => {
       if (err) {
@@ -52,6 +86,15 @@ class Database {
     });
   }
 
+  /**
+   * Update document matches query
+   * @see https://github.com/louischatriot/nedb#updating-documents
+   *
+   * @param {Object} query - query object
+   * @param {Object} update - fields to update
+   * @param {Object} options
+   * @returns {Promise<number|Error>} - number of updated rows or Error object
+   */
   async update (query, update, options = {}) {
     return new Promise((res, rej) => this.db.update(query, update, options, (err, result) => {
       if (err) {
@@ -62,6 +105,14 @@ class Database {
     }));
   }
 
+  /**
+   * Remove document matches passed query
+   * @see https://github.com/louischatriot/nedb#removing-documents
+   *
+   * @param {Object} query - query object
+   * @param {Object} options
+   * @returns {Promise<number|Error>} - number of removed rows or Error object
+   */
   async remove (query, options = {}) {
     return new Promise((res, rej) => this.db.remove(query, options, (err, result) => {
       if (err) {

@@ -3,6 +3,11 @@ const router = express.Router();
 const multer = require('multer')();
 const Pages = require('../controllers/pages');
 
+/**
+ * GET /page/:id
+ *
+ * Return PageData of page with given id
+ */
 router.get('/page/:id', async (req, res) => {
   try {
     const page = await Pages.get(req.params.id);
@@ -19,6 +24,11 @@ router.get('/page/:id', async (req, res) => {
   }
 });
 
+/**
+ * GET /pages
+ *
+ * Return PageData for all pages
+ */
 router.get('/pages', async (req, res) => {
   try {
     const pages = await Pages.getAll();
@@ -35,9 +45,15 @@ router.get('/pages', async (req, res) => {
   }
 });
 
+/**
+ * PUT /page
+ *
+ * Create new page in the database
+ */
 router.put('/page', multer.any(), async (req, res,) => {
   try {
-    const page = await Pages.insert(req.body);
+    const {title, body, parent} = req.body
+    const page = await Pages.insert({title, body, parent});
     res.json({
       success: true,
       result: page
@@ -51,11 +67,17 @@ router.put('/page', multer.any(), async (req, res,) => {
 
 });
 
+/**
+ * POST /page/:id
+ *
+ * Update page data in the database
+ */
 router.post('/page/:id', multer.any(), async (req, res) => {
   const {id} = req.params;
 
   try {
-    const page = await Pages.update(id, req.body);
+    const {title, body, parent} = req.body
+    const page = await Pages.update(id, {title, body, parent});
 
     res.json({
       success: true,
@@ -69,6 +91,11 @@ router.post('/page/:id', multer.any(), async (req, res) => {
   }
 });
 
+/**
+ * DELETE /page/:id
+ *
+ * Remove page from the database
+ */
 router.delete('/page/:id', async (req, res) => {
   try {
     const page = await Pages.remove(req.params.id);
