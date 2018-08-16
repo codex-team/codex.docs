@@ -68,6 +68,33 @@ describe('Database', () => {
         expect(updatedDoc.data).to.equal(updatedData);
     });
 
+    it('Updating documents with options', async () => {
+        const data = {update: true, data: 'Text data'};
+
+        await db.insert(data);
+        await db.insert(data);
+
+        let numberOfUpdatedDocs = await db.update({update: true}, {$set: {data: 'First update'}}, {multi: true});
+
+        expect(numberOfUpdatedDocs).to.equal(2);
+
+        const affectedDocs = await db.update({update: true}, {$set: {data: 'Second update'}}, {multi: true, returnUpdatedDocs: true});
+
+        expect(affectedDocs).to.be.a('array');
+        affectedDocs.forEach(doc => {
+            expect(doc.data).to.equal('Second update');
+        });
+
+        const upsertedDoc = await db.update({update: true, data: 'First update'}, {$set: {data: 'Third update'}}, {upsert: true});
+
+        expect(upsertedDoc.update).to.be.true;
+        expect(upsertedDoc.data).to.equal('Third update');
+
+        numberOfUpdatedDocs = await db.update({data: 'Third update'}, {$set: {data: 'Fourth update'}}, {upsert: true});
+
+        expect(numberOfUpdatedDocs).to.equal(1);
+    });
+
     it('Finding documents', async () => {
         const data1 = 'Text data 1';
         const data2 = 'Text data 2';

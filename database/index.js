@@ -93,15 +93,31 @@ class Database {
    * @param {Object} query - query object
    * @param {Object} update - fields to update
    * @param {Object} options
-   * @returns {Promise<number|Error>} - number of updated rows or Error object
+   * @param {Boolean} options.multi - (false) allows update several documents
+   * @param {Boolean} options.upsert - (false) if true, upsert document with update fields.
+   *                                    Method will return inserted doc or number of affected docs if doc hasn't been inserted
+   * @param {Boolean} options.returnUpdatedDocs - (false) if true, returns affected docs
+   * @returns {Promise<number|Object|Object[]|Error>} - number of updated rows or affected docs or Error object
    */
   async update (query, update, options = {}) {
-    return new Promise((res, rej) => this.db.update(query, update, options, (err, result) => {
+    return new Promise((res, rej) => this.db.update(query, update, options, (err, result, affectedDocs) => {
       if (err) {
         rej(err);
       }
 
-      res(result);
+      switch (true) {
+          case options.returnUpdatedDocs:
+            res(affectedDocs);
+            break;
+          case options.upsert:
+              if (affectedDocs) {
+                  res(affectedDocs);
+              }
+              res(result);
+            break;
+          default:
+            res(result)
+      }
     }));
   }
 
@@ -111,6 +127,7 @@ class Database {
    *
    * @param {Object} query - query object
    * @param {Object} options
+   * @param {Boolean} options.multi - (false) if true, remove several docs
    * @returns {Promise<number|Error>} - number of removed rows or Error object
    */
   async remove (query, options = {}) {
