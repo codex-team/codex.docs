@@ -6,7 +6,7 @@
     "start": "nodemon ./bin/www",
     "test": "mocha --recursive ./test",
     "lint": "eslint --fix ./**/*.js",
-    "precommit": "yarn lint && yarn test"
+    "precommit": "yarn lint && yarn test --exit"
   },
   "dependencies": {
     "body-parser": "latest",
