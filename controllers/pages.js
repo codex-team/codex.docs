@@ -1,4 +1,4 @@
-const model = require('../models/page');
+const Model = require('../models/page');
 
 /**
  * @class Pages
@@ -11,7 +11,7 @@ class Pages {
    *
    * @returns {['title', 'body']}
    */
-  static get REQUIRED_FIELDS () {
+  static get REQUIRED_FIELDS() {
     return ['title', 'body'];
   }
 
@@ -22,14 +22,14 @@ class Pages {
    * @param {string} id - page id
    * @returns {Promise<Page>}
    */
-  static async get (id) {
-      const page = await model.get(id);
+  static async get(id) {
+    const page = await Model.get(id);
 
-      if (!page._id) {
-          throw new Error('Page with given id does not exist');
-      }
+    if (!page._id) {
+      throw new Error('Page with given id does not exist');
+    }
 
-      return page;
+    return page;
   }
 
   /**
@@ -38,7 +38,7 @@ class Pages {
    * @returns {Promise<Page[]>}
    */
   static async getAll() {
-      return await model.getAll();
+    return Model.getAll();
   }
 
   /**
@@ -47,12 +47,12 @@ class Pages {
    * @param {PageData} data
    * @returns {Promise<Page>}
    */
-  static async insert (data) {
+  static async insert(data) {
     if (!Pages.validate(data)) {
-      throw new Error('Invalid request format')
+      throw new Error('Invalid request format');
     }
 
-    const page = new model(data);
+    const page = new Model(data);
 
     return page.save();
   }
@@ -63,7 +63,7 @@ class Pages {
    * @param {PageData} data
    * @returns {boolean}
    */
-  static validate (data) {
+  static validate(data) {
     return Pages.REQUIRED_FIELDS.every(field => typeof data[field] !== 'undefined');
   }
 
@@ -74,8 +74,8 @@ class Pages {
    * @param {PageData} data
    * @returns {Promise<Page>}
    */
-  static async update (id, data) {
-    const page = await model.get(id);
+  static async update(id, data) {
+    const page = await Model.get(id);
 
     if (!page._id) {
       throw new Error('Page with given id does not exist');
@@ -83,7 +83,7 @@ class Pages {
 
     page.data = data;
 
-    return page.save()
+    return page.save();
   }
 
   /**
@@ -92,14 +92,14 @@ class Pages {
    * @param {string} id - page id
    * @returns {Promise<Page>}
    */
-  static async remove (id) {
-      const page = await model.get(id);
+  static async remove(id) {
+    const page = await Model.get(id);
 
-      if (!page._id) {
-          throw new Error('Page with given id does not exist');
-      }
+    if (!page._id) {
+      throw new Error('Page with given id does not exist');
+    }
 
-      return page.destroy();
+    return page.destroy();
   }
 }
 

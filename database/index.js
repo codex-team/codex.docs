@@ -7,13 +7,12 @@ const pages = require('./pages');
  * @property db - nedb Datastore object
  */
 class Database {
-
   /**
    * @constructor
    *
    * @param {Object} nedbInstance - nedb Datastore object
    */
-  constructor (nedbInstance) {
+  constructor(nedbInstance) {
     this.db = nedbInstance;
   }
 
@@ -24,13 +23,13 @@ class Database {
    * @param {Object} doc - object to insert
    * @returns {Promise<Object|Error>} - inserted doc or Error object
    */
-  async insert (doc) {
-    return new Promise((res, rej) => this.db.insert(doc, (err, newDoc) => {
+  async insert(doc) {
+    return new Promise((resolve, reject) => this.db.insert(doc, (err, newDoc) => {
       if (err) {
-        rej(err);
+        reject(err);
       }
 
-      res(newDoc);
+      resolve(newDoc);
     }));
   }
 
@@ -42,20 +41,20 @@ class Database {
    * @param {Object} projection - projection object
    * @returns {Promise<Array<Object>|Error>} - found docs or Error object
    */
-  async find (query, projection) {
-    const cbk = (res, rej) => (err, docs) => {
+  async find(query, projection) {
+    const cbk = (resolve, reject) => (err, docs) => {
       if (err) {
-        rej(err);
+        reject(err);
       }
 
-      res(docs);
+      resolve(docs);
     };
 
-    return new Promise((res, rej) => {
+    return new Promise((resolve, reject) => {
       if (projection) {
-        this.db.find(query, projection, cbk(res, rej));
+        this.db.find(query, projection, cbk(resolve, reject));
       } else {
-        this.db.find(query, cbk(res, rej));
+        this.db.find(query, cbk(resolve, reject));
       }
     });
   }
@@ -68,20 +67,20 @@ class Database {
    * @param {Object} projection - projection object
    * @returns {Promise<Object|Error>} - found doc or Error object
    */
-  async findOne (query, projection) {
-    const cbk = (res, rej) => (err, doc) => {
+  async findOne(query, projection) {
+    const cbk = (resolve, reject) => (err, doc) => {
       if (err) {
-        rej(err);
+        reject(err);
       }
 
-      res(doc);
+      resolve(doc);
     };
 
-    return new Promise((res, rej) => {
+    return new Promise((resolve, reject) => {
       if (projection) {
-        this.db.findOne(query, projection, cbk(res, rej));
+        this.db.findOne(query, projection, cbk(resolve, reject));
       } else {
-        this.db.findOne(query, cbk(res, rej));
+        this.db.findOne(query, cbk(resolve, reject));
       }
     });
   }
@@ -99,24 +98,24 @@ class Database {
    * @param {Boolean} options.returnUpdatedDocs - (false) if true, returns affected docs
    * @returns {Promise<number|Object|Object[]|Error>} - number of updated rows or affected docs or Error object
    */
-  async update (query, update, options = {}) {
-    return new Promise((res, rej) => this.db.update(query, update, options, (err, result, affectedDocs) => {
+  async update(query, update, options = {}) {
+    return new Promise((resolve, reject) => this.db.update(query, update, options, (err, result, affectedDocs) => {
       if (err) {
-        rej(err);
+        reject(err);
       }
 
       switch (true) {
-          case options.returnUpdatedDocs:
-            res(affectedDocs);
-            break;
-          case options.upsert:
-              if (affectedDocs) {
-                  res(affectedDocs);
-              }
-              res(result);
-            break;
-          default:
-            res(result)
+        case options.returnUpdatedDocs:
+          resolve(affectedDocs);
+          break;
+        case options.upsert:
+          if (affectedDocs) {
+            resolve(affectedDocs);
+          }
+          resolve(result);
+          break;
+        default:
+          resolve(result);
       }
     }));
   }
@@ -130,16 +129,15 @@ class Database {
    * @param {Boolean} options.multi - (false) if true, remove several docs
    * @returns {Promise<number|Error>} - number of removed rows or Error object
    */
-  async remove (query, options = {}) {
-    return new Promise((res, rej) => this.db.remove(query, options, (err, result) => {
+  async remove(query, options = {}) {
+    return new Promise((resolve, reject) => this.db.remove(query, options, (err, result) => {
       if (err) {
-        rej(err);
+        reject(err);
       }
 
-      res(result);
+      resolve(result);
     }));
   }
-
 }
 
 module.exports = {

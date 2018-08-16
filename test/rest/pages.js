@@ -8,192 +8,195 @@ const {expect} = chai;
 chai.use(chaiHTTP);
 
 describe('Pages REST: ', () => {
-    let agent;
+  let agent;
 
-    before(async () => {
-        agent = chai.request.agent(app);
-    });
+  before(async () => {
+    agent = chai.request.agent(app);
+  });
 
-    it('Creating page', async () => {
-        const title = 'Test page';
-        const body = 'Test page body';
+  it('Creating page', async () => {
+    const title = 'Test page';
+    const body = 'Test page body';
 
-        const res = await agent
-            .put('/page')
-            .send({title, body});
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
+    const res = await agent
+      .put('/page')
+      .send({title, body});
 
-        const {success, result} = res.body;
+    expect(res).to.have.status(200);
+    expect(res).to.be.json;
 
-        expect(success).to.be.true;
-        expect(result._id).to.be.a('string');
-        expect(result.title).to.equal(title);
-        expect(result.body).to.equal(body);
+    const {success, result} = res.body;
 
-        const createdPage = await model.get(result._id);
+    expect(success).to.be.true;
+    expect(result._id).to.be.a('string');
+    expect(result.title).to.equal(title);
+    expect(result.body).to.equal(body);
 
-        expect(createdPage).not.be.null;
-        expect(createdPage._id).to.equal(result._id);
-        expect(createdPage.title).to.equal(title);
-        expect(createdPage.body).to.equal(body);
+    const createdPage = await model.get(result._id);
 
-        createdPage.destroy();
-    });
+    expect(createdPage).not.be.null;
+    expect(createdPage._id).to.equal(result._id);
+    expect(createdPage.title).to.equal(title);
+    expect(createdPage.body).to.equal(body);
 
-    it('Page data validation on create', async () => {
-        const res = await agent
-            .put('/page')
-            .send({someField: 'Some text'});
+    createdPage.destroy();
+  });
 
-        expect(res).to.have.status(400);
-        expect(res).to.be.json;
+  it('Page data validation on create', async () => {
+    const res = await agent
+      .put('/page')
+      .send({someField: 'Some text'});
 
-        const {success, error} = res.body;
+    expect(res).to.have.status(400);
+    expect(res).to.be.json;
 
-        expect(success).to.be.false;
-        expect(error).to.equal('Invalid request format');
-    });
+    const {success, error} = res.body;
 
-    it('Finding page', async () => {
-        const title = 'Test page';
-        const body = 'Test page body';
+    expect(success).to.be.false;
+    expect(error).to.equal('Invalid request format');
+  });
 
-        const put = await agent
-            .put('/page')
-            .send({title, body});
-        expect(put).to.have.status(200);
-        expect(put).to.be.json;
+  it('Finding page', async () => {
+    const title = 'Test page';
+    const body = 'Test page body';
 
-        const {result: {_id}} = put.body;
+    const put = await agent
+      .put('/page')
+      .send({title, body});
 
-        const get = await agent.get(`/page/${_id}`);
+    expect(put).to.have.status(200);
+    expect(put).to.be.json;
 
-        expect(get).to.have.status(200);
-        expect(get).to.be.json;
+    const {result: {_id}} = put.body;
 
-        const {success} = get.body;
+    const get = await agent.get(`/page/${_id}`);
 
-        expect(success).to.be.true;
+    expect(get).to.have.status(200);
+    expect(get).to.be.json;
 
-        const foundPage = await model.get(_id);
+    const {success} = get.body;
 
-        expect(foundPage._id).to.equal(_id);
-        expect(foundPage.title).to.equal(title);
-        expect(foundPage.body).to.equal(body);
+    expect(success).to.be.true;
 
-        foundPage.destroy();
-    });
+    const foundPage = await model.get(_id);
 
-    it('Finding page with not existing id', async () => {
-       const res = await agent.get('/page/not-existing-id');
+    expect(foundPage._id).to.equal(_id);
+    expect(foundPage.title).to.equal(title);
+    expect(foundPage.body).to.equal(body);
 
-       expect(res).to.have.status(400);
-       expect(res).to.be.json;
+    foundPage.destroy();
+  });
 
-       const {success, error} = res.body;
+  it('Finding page with not existing id', async () => {
+    const res = await agent.get('/page/not-existing-id');
 
-       expect(success).to.be.false;
-       expect(error).to.equal('Page with given id does not exist');
-    });
+    expect(res).to.have.status(400);
+    expect(res).to.be.json;
 
-    it('Updating page', async () => {
-        const title = 'Test page';
-        const body = 'Test page body';
+    const {success, error} = res.body;
 
-        let res = await agent
-            .put('/page')
-            .send({title, body});
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
+    expect(success).to.be.false;
+    expect(error).to.equal('Page with given id does not exist');
+  });
 
-        const {result: {_id}} = res.body;
+  it('Updating page', async () => {
+    const title = 'Test page';
+    const body = 'Test page body';
 
-        const updatedTitle = 'Updated test page';
-        const updatedBody = 'Updated test page body';
+    let res = await agent
+      .put('/page')
+      .send({title, body});
 
-        res = await agent
-            .post(`/page/${_id}`)
-            .send({title: updatedTitle, body: updatedBody});
+    expect(res).to.have.status(200);
+    expect(res).to.be.json;
 
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
+    const {result: {_id}} = res.body;
 
-        const {success, result} = res.body;
+    const updatedTitle = 'Updated test page';
+    const updatedBody = 'Updated test page body';
 
-        expect(success).to.be.true;
-        expect(result._id).to.equal(_id);
-        expect(result.title).not.equal(title);
-        expect(result.title).to.equal(updatedTitle);
-        expect(result.body).not.equal(body);
-        expect(result.body).to.equal(updatedBody);
+    res = await agent
+      .post(`/page/${_id}`)
+      .send({title: updatedTitle, body: updatedBody});
 
-        const updatedPage = await model.get(_id);
+    expect(res).to.have.status(200);
+    expect(res).to.be.json;
 
-        expect(updatedPage._id).to.equal(_id);
-        expect(updatedPage.title).not.equal(title);
-        expect(updatedPage.title).to.equal(updatedTitle);
-        expect(updatedPage.body).not.equal(body);
-        expect(updatedPage.body).to.equal(updatedBody);
+    const {success, result} = res.body;
 
-        updatedPage.destroy();
-    });
+    expect(success).to.be.true;
+    expect(result._id).to.equal(_id);
+    expect(result.title).not.equal(title);
+    expect(result.title).to.equal(updatedTitle);
+    expect(result.body).not.equal(body);
+    expect(result.body).to.equal(updatedBody);
 
-    it('Updating page with not existing id', async () => {
-       const res = await agent
-                             . post('/page/not-existing-id')
-                             .send({title: 'Updated title', body: 'Updated body'});
+    const updatedPage = await model.get(_id);
 
-       expect(res).to.have.status(400);
-       expect(res).to.be.json;
+    expect(updatedPage._id).to.equal(_id);
+    expect(updatedPage.title).not.equal(title);
+    expect(updatedPage.title).to.equal(updatedTitle);
+    expect(updatedPage.body).not.equal(body);
+    expect(updatedPage.body).to.equal(updatedBody);
 
-       const {success, error} = res.body;
+    updatedPage.destroy();
+  });
 
-       expect(success).to.be.false;
-       expect(error).to.equal('Page with given id does not exist');
-    });
+  it('Updating page with not existing id', async () => {
+    const res = await agent
+      . post('/page/not-existing-id')
+      .send({title: 'Updated title', body: 'Updated body'});
 
-    it('Removing page', async () => {
-        const title = 'Test page';
-        const body = 'Test page body';
+    expect(res).to.have.status(400);
+    expect(res).to.be.json;
 
-        let res = await agent
-            .put('/page')
-            .send({title, body});
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
+    const {success, error} = res.body;
 
-        const {result: {_id}} = res.body;
+    expect(success).to.be.false;
+    expect(error).to.equal('Page with given id does not exist');
+  });
 
-        res = await agent
-                    .delete(`/page/${_id}`);
+  it('Removing page', async () => {
+    const title = 'Test page';
+    const body = 'Test page body';
 
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
+    let res = await agent
+      .put('/page')
+      .send({title, body});
 
-        const {success, result} = res.body;
+    expect(res).to.have.status(200);
+    expect(res).to.be.json;
 
-        expect(success).to.be.true;
-        expect(result._id).to.be.undefined;
-        expect(result.title).to.equal(title);
-        expect(result.body).to.equal(body);
+    const {result: {_id}} = res.body;
 
-        const deletedPage = await model.get(_id);
+    res = await agent
+      .delete(`/page/${_id}`);
 
-        expect(deletedPage._id).to.be.undefined;
-    });
+    expect(res).to.have.status(200);
+    expect(res).to.be.json;
 
-    it('Removing page with not existing id', async () => {
-        const res = await agent
-                           .delete('/page/not-existing-id');
+    const {success, result} = res.body;
 
-        expect(res).to.have.status(400);
-        expect(res).to.be.json;
+    expect(success).to.be.true;
+    expect(result._id).to.be.undefined;
+    expect(result.title).to.equal(title);
+    expect(result.body).to.equal(body);
 
-        const {success, error} = res.body;
+    const deletedPage = await model.get(_id);
 
-        expect(success).to.be.false;
-        expect(error).to.equal('Page with given id does not exist');
-    })
+    expect(deletedPage._id).to.be.undefined;
+  });
 
+  it('Removing page with not existing id', async () => {
+    const res = await agent
+      .delete('/page/not-existing-id');
+
+    expect(res).to.have.status(400);
+    expect(res).to.be.json;
+
+    const {success, error} = res.body;
+
+    expect(success).to.be.false;
+    expect(error).to.equal('Page with given id does not exist');
+  });
 });

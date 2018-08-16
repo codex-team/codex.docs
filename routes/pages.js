@@ -13,14 +13,14 @@ router.get('/page/:id', async (req, res) => {
     const page = await Pages.get(req.params.id);
 
     res.json({
-        success: true,
-        result: page.data
-    })
+      success: true,
+      result: page.data
+    });
   } catch (err) {
     res.status(400).json({
-        success: false,
-        error: err.message
-    })
+      success: false,
+      error: err.message
+    });
   }
 });
 
@@ -34,14 +34,14 @@ router.get('/pages', async (req, res) => {
     const pages = await Pages.getAll();
 
     res.json({
-        success: true,
-        result: pages
+      success: true,
+      result: pages
     });
   } catch (err) {
-      res.status(400).json({
-          success: false,
-          error: err.message
-      });
+    res.status(400).json({
+      success: false,
+      error: err.message
+    });
   }
 });
 
@@ -50,10 +50,11 @@ router.get('/pages', async (req, res) => {
  *
  * Create new page in the database
  */
-router.put('/page', multer.any(), async (req, res,) => {
+router.put('/page', multer.any(), async (req, res) => {
   try {
-    const {title, body, parent} = req.body
+    const {title, body, parent} = req.body;
     const page = await Pages.insert({title, body, parent});
+
     res.json({
       success: true,
       result: page
@@ -64,7 +65,6 @@ router.put('/page', multer.any(), async (req, res,) => {
       error: err.message
     });
   }
-
 });
 
 /**
@@ -76,7 +76,7 @@ router.post('/page/:id', multer.any(), async (req, res) => {
   const {id} = req.params;
 
   try {
-    const {title, body, parent} = req.body
+    const {title, body, parent} = req.body;
     const page = await Pages.update(id, {title, body, parent});
 
     res.json({
@@ -103,12 +103,12 @@ router.delete('/page/:id', async (req, res) => {
     res.json({
       success: true,
       result: page
-    })
+    });
   } catch (err) {
-      res.status(400).json({
-          success: false,
-          error: err.message
-      })
+    res.status(400).json({
+      success: false,
+      error: err.message
+    });
   }
 });
 

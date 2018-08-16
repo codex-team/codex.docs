@@ -19,7 +19,6 @@ const {pages} = require('../database');
  * @property {string} _parent - id of parent page
  */
 class Page {
-
   /**
    * Find and return model of page with given id
    * @param {string} _id - page id
@@ -48,18 +47,18 @@ class Page {
    *
    * @param {PageData} data
    */
-  constructor (data = {}) {
-      if (data === null) {
-          data = {};
-      }
+  constructor(data = {}) {
+    if (data === null) {
+      data = {};
+    }
 
-      this.db = pages;
+    this.db = pages;
 
-      if (data._id) {
-          this._id = data._id;
-      }
+    if (data._id) {
+      this._id = data._id;
+    }
 
-      this.data = data;
+    this.data = data;
   }
 
   /**
@@ -67,7 +66,7 @@ class Page {
    *
    * @param {PageData} pageData
    */
-  set data (pageData) {
+  set data(pageData) {
     const {title, body, parent} = pageData;
 
     this.title = title || this.title;
@@ -80,13 +79,13 @@ class Page {
    *
    * @returns {PageData}
    */
-  get data () {
+  get data() {
     return {
       _id: this._id,
       title: this.title,
       body: this.body,
       parent: this._parent
-    }
+    };
   }
 
   /**
@@ -94,7 +93,7 @@ class Page {
    *
    * @param {Page} parentPage
    */
-  set parent (parentPage) {
+  set parent(parentPage) {
     this._parent = parentPage._id;
   }
 
@@ -103,9 +102,9 @@ class Page {
    *
    * @returns {Promise<Page>}
    */
-  get parent () {
+  get parent() {
     return this.db.findOne({_id: this._parent})
-        .then(data => new Page(data));
+      .then(data => new Page(data));
   }
 
   /**
@@ -113,9 +112,9 @@ class Page {
    *
    * @returns {Promise<Page[]>}
    */
-  get children () {
-      return this.db.find({parent: this._id})
-          .then(data => data.map(page => new Page(page)));
+  get children() {
+    return this.db.find({parent: this._id})
+      .then(data => data.map(page => new Page(page)));
   }
 
   /**
@@ -123,16 +122,16 @@ class Page {
    *
    * @returns {Promise<Page>}
    */
-  async save () {
-      if (!this._id) {
-          const insertedRow = await this.db.insert(this.data);
+  async save() {
+    if (!this._id) {
+      const insertedRow = await this.db.insert(this.data);
 
-          this._id = insertedRow._id;
-      } else {
-          await this.db.update({_id: this._id}, this.data);
-      }
+      this._id = insertedRow._id;
+    } else {
+      await this.db.update({_id: this._id}, this.data);
+    }
 
-      return this;
+    return this;
   }
 
   /**
@@ -140,7 +139,7 @@ class Page {
    *
    * @returns {Promise<Page>}
    */
-  async destroy () {
+  async destroy() {
     await this.db.remove({_id: this._id});
 
     delete this._id;
@@ -153,7 +152,7 @@ class Page {
    *
    * @returns {PageData}
    */
-  toJSON () {
+  toJSON() {
     return this.data;
   }
 }
