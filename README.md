@@ -6,6 +6,8 @@ $ chmod u+x ./bin/nvm.sh && ./bin/nvm.sh
 $ nvm install
 ```
 
+> For windows use [nvm for windows](https://github.com/coreybutler/nvm-windows)
+
 Install Yarn package manager
 ```
 $ brew install yarn --without-node
