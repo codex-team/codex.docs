@@ -8,7 +8,7 @@ const babelLoader = {
   options: {
     cacheDirectory: '.cache/babel-loader',
     presets: [
-      "env"
+      'env'
     ],
     plugins: [
       /**

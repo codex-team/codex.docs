@@ -68,3 +68,4 @@ db/
 
 # Cache of babel and others
 .cache/
+.eslintcache

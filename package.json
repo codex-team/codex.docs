@@ -5,8 +5,9 @@
   "scripts": {
     "start": "nodemon ./bin/www",
     "test": "mocha --recursive ./test",
-    "lint": "eslint --fix ./**/*.js",
-    "build": "webpack ./frontend/js/app.js --o='./public/dist/bundle.js' --output-library=Docs -d"
+    "lint": "eslint --fix --cache ./**/*.js",
+    "build": "webpack ./frontend/js/app.js --o='./public/dist/bundle.js' --output-library=Docs -d",
+    "precommit": "yarn lint && yarn test --exit"
   },
   "dependencies": {
     "body-parser": "latest",
