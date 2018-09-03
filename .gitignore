@@ -65,3 +65,6 @@ typings/
 
 # Database files
 db/
+
+# Cache of babel and others
+.cache/
