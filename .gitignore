@@ -64,4 +64,8 @@ typings/
 .idea/
 
 # Database files
-db/
+.db/
+
+# Cache of babel and others
+.cache/
+.eslintcache

@@ -1,6 +1,6 @@
 const {expect} = require('chai');
-const Page = require('../../models/page');
-const {pages} = require('../../database');
+const Page = require('../../src/models/page');
+const {pages} = require('../../src/utils/database');
 
 describe('Page model', () => {
   it('Working with empty model', async () => {

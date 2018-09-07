@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-const app = require('../app');
+const app = require('../src/app');
 const debug = require('debug')('codex.editor.docs:server');
 const http = require('http');
 

@@ -1,5 +1,5 @@
 const {app} = require('../../bin/www');
-const model = require('../../models/page');
+const model = require('../../src/models/page');
 
 const chai = require('chai');
 const chaiHTTP = require('chai-http');
