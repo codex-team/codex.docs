@@ -5,7 +5,7 @@ const {class: Database} = require('../src/utils/database');
 const Datastore = require('nedb');
 
 describe('Database', () => {
-  const pathToDB = './db/test.db';
+  const pathToDB = './.db/test.db';
   let nedbInstance;
   let db;
 
