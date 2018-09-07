@@ -1,7 +1,7 @@
 const fs = require('fs');
 const {expect} = require('chai');
 
-const {class: Database} = require('../database');
+const {class: Database} = require('../src/utils/database');
 const Datastore = require('nedb');
 
 describe('Database', () => {

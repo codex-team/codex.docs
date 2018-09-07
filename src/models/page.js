@@ -1,4 +1,4 @@
-const {pages} = require('../database');
+const {pages} = require('../utils/database/index');
 
 /**
  * @typedef {Object} PageData

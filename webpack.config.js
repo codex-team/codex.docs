@@ -37,7 +37,7 @@ module.exports = (env) => {
               loader: 'postcss-loader',
               options: {
                 config: {
-                  path: './frontend/'
+                  path: './src/frontend/'
                 }
               }
             }
