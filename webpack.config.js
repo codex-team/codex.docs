@@ -8,14 +8,11 @@ const babelLoader = {
   options: {
     cacheDirectory: '.cache/babel-loader',
     presets: [
-      'env'
+      '@babel/preset-env',
     ],
     plugins: [
-      /**
-       * Dont need to use «.default» after «export default Class Ui {}»
-       * @see  {@link https://github.com/59naga/babel-plugin-add-module-exports}
-       */
-      // 'add-module-exports',
+      'babel-plugin-transform-es2015-modules-commonjs',
+      '@babel/plugin-syntax-dynamic-import'
     ]
   }
 };
@@ -44,6 +41,7 @@ module.exports = (env) => {
           ])
         }, {
           test: /\.js$/,
+          exclude: /(node_modules|bower_components)/,
           use: [
             babelLoader
           ]
@@ -54,7 +52,7 @@ module.exports = (env) => {
       new ExtractTextPlugin('bundle.css')
     ],
     optimization: {
-      minimize: true
+      minimize: false
     }
   };
 };

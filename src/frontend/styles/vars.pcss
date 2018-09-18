@@ -10,4 +10,22 @@
   --layout-padding-horisontal: 40px;
   --layout-width-aside: 250px;
   --layout-width-main-col: 650px;
+
+  --button {
+    display: inline-block;
+    background:  var(--color-link-active);
+    color: #fff;
+    border-radius: 3px;
+    padding: 9px 15px;
+    font-size: 14px;
+    line-height: 1em;
+
+    svg {
+      margin: 0 0.3em 0 -0.05em;
+    }
+
+    &:hover {
+      background: color-mod(var(--color-link-active) blackness(+10%));
+    }
+  }
 }

@@ -4,6 +4,13 @@ const multer = require('multer')();
 const Pages = require('../controllers/pages');
 
 /**
+ * Create new page form
+ */
+router.get('/page/new', async (req, res) => {
+  res.render('pages/form');
+});
+
+/**
  * GET /page/:id
  *
  * Return PageData of page with given id
