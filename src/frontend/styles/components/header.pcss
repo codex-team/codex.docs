@@ -7,16 +7,12 @@
 
   a {
     text-decoration: none;
-    color: inherit;
     display: inline-block;
-
-    &:hover {
-      color: var(--color-link-active);
-    }
   }
 
   &__logo {
     font-weight: bold;
+    color: inherit;
   }
 
   &__menu {
@@ -27,5 +23,18 @@
       list-style: none;
       margin-left: 20px;
     }
+
+    a:not(.docs-header__button) {
+      color: inherit;
+
+      &:hover {
+        color: var(--color-link-active);
+      }
+    }
+  }
+
+  &__button {
+    @apply --button;
+    margin: auto 30px auto auto;
   }
 }
