@@ -3,9 +3,22 @@
   <head>
     <title>{{ title }}</title>
     <link rel="stylesheet" href="/dist/bundle.css" />
-    <script src="/dist/bundle.js" onload="new Docs()"></script>
   </head>
   <body>
-    {% block body %}{% endblock %}
+    {% include "components/header.twig" %}
+    <div class="docs">
+      <aside class="docs__aside">
+        {% include "components/aside.twig" %}
+      </aside>
+      <div class="docs__content">
+        <div class="docs__content-inner">
+          {% block body %}{% endblock %}
+        </div>
+      </div>
+    </div>
+    <script src="/dist/bundle.js"></script>
+    <script>
+      new Docs();
+    </script>
   </body>
 </html>

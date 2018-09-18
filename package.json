@@ -6,7 +6,7 @@
     "start": "nodemon ./bin/www",
     "test": "mocha --recursive ./test",
     "lint": "eslint --fix --cache ./src/**/*.js",
-    "build": "webpack ./src/frontend/js/app.js --o='./public/dist/bundle.js' --output-library=Docs -d",
+    "build": "webpack ./src/frontend/js/app.js --o='./public/dist/bundle.js' --output-library=Docs -d --watch",
     "precommit": "yarn lint && yarn test --exit"
   },
   "dependencies": {
@@ -19,6 +19,7 @@
     "multer": "^1.3.1",
     "nedb": "^1.8.0",
     "nodemon": "^1.18.3",
+    "normalize.css": "^8.0.0",
     "twig": "~0.10.3",
     "uuid4": "^1.0.0"
   },
