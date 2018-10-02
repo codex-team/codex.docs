@@ -1,4 +1,4 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 /**
  * Options for the Babel
@@ -8,10 +8,14 @@ const babelLoader = {
   options: {
     cacheDirectory: '.cache/babel-loader',
     presets: [
-      '@babel/preset-env',
+      [
+        '@babel/preset-env',
+        {
+          'useBuiltIns': 'usage'
+        }
+      ]
     ],
     plugins: [
-      'babel-plugin-transform-es2015-modules-commonjs',
       '@babel/plugin-syntax-dynamic-import'
     ]
   }
@@ -19,11 +23,22 @@ const babelLoader = {
 
 module.exports = (env) => {
   return {
+    output: {
+      libraryExport: 'default' // uses to export .default field of app.js exported class instance
+    },
     module: {
       rules: [
         {
           test: /\.p?css$/,
-          use: ExtractTextPlugin.extract([
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                // you can specify a publicPath here
+                // by default it use publicPath in webpackOptions.output
+                publicPath: '../'
+              }
+            },
             {
               loader: 'css-loader',
               options: {
@@ -38,7 +53,7 @@ module.exports = (env) => {
                 }
               }
             }
-          ])
+          ]
         }, {
           test: /\.js$/,
           exclude: /(node_modules|bower_components)/,
@@ -49,10 +64,14 @@ module.exports = (env) => {
       ]
     },
     plugins: [
-      new ExtractTextPlugin('bundle.css')
+      new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        filename: '[name].css'
+      })
     ],
     optimization: {
-      minimize: false
+      minimize: true,
+      splitChunks: false
     }
   };
 };
