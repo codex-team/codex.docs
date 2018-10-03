@@ -1,6 +1,25 @@
 {% extends 'layout.twig' %}
 
 {% block body %}
+  <style>
+    .docs-header__button {
+      visibility: hidden;
+    }
+  </style>
   <section data-module="writing">
+    <header class="writing-header">
+      <span class="writing-header__left">
+        New Page at the
+          <select name="parent">
+            <option value="0">Root</option>
+            {% for page in pagesAvailable %}
+              <option value="{{ page._id }}">{{ page.title }}</option>
+            {% endfor %}
+          </select>
+      </span>
+      <span class="writing-header__save" name="js-submit">
+        Save
+      </span>
+    </header>
   </section>
 {% endblock %}

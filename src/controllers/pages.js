@@ -12,7 +12,7 @@ class Pages {
    * @returns {['title', 'body']}
    */
   static get REQUIRED_FIELDS() {
-    return ['title', 'body'];
+    return [ 'body' ];
   }
 
   /**
@@ -64,7 +64,10 @@ class Pages {
    * @returns {boolean}
    */
   static validate(data) {
-    return Pages.REQUIRED_FIELDS.every(field => typeof data[field] !== 'undefined');
+    let allRequiredFields = Pages.REQUIRED_FIELDS.every(field => typeof data[field] !== 'undefined');
+    let hasTitle = Model.extractTitleFromBlocks(data.body);
+
+    return allRequiredFields && hasTitle;
   }
 
   /**

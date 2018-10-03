@@ -67,10 +67,10 @@ class Page {
    * @param {PageData} pageData
    */
   set data(pageData) {
-    const {title, body, parent} = pageData;
+    const {body, parent} = pageData;
 
-    this.title = title || this.title;
     this.body = body || this.body;
+    this.title = Page.extractTitleFromBlocks(body || this.body);
     this._parent = parent || this._parent;
   }
 
@@ -86,6 +86,17 @@ class Page {
       body: this.body,
       parent: this._parent
     };
+  }
+
+  /**
+   * Extract first header from editor data
+   * @param {{blocks, time, version}} editorData
+   * @return {string}
+   */
+  static extractTitleFromBlocks(editorData) {
+    const headerBlock = editorData ? editorData.blocks.find(block => block.type === 'header') : '';
+
+    return headerBlock ? headerBlock.data.text : '';
   }
 
   /**

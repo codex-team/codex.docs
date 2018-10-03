@@ -1453,6 +1453,10 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
+codex.editor.header@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/codex.editor.header/-/codex.editor.header-2.0.5.tgz#fe0cc7d710b090e877499b7d9951ea36fddfbdc9"
+
 codex.editor@^2.0.11:
   version "2.0.11"
   resolved "https://registry.yarnpkg.com/codex.editor/-/codex.editor-2.0.11.tgz#c45bb2c85888f96c129a6bfb01b0268f06768e15"
