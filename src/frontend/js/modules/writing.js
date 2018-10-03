@@ -1,8 +1,10 @@
 /**
  * Module for pages create/edit
  */
-module.exports = class Writing {
+export default class Writing {
   constructor(){
+    this.editorWrapper = null;
+    this.editor = null;
   }
 
   /**
@@ -14,15 +16,14 @@ module.exports = class Writing {
 
     moduleEl.appendChild(this.editorWrapper);
 
-
-    this.loadEditor().then(() => {
-      console.log('Editor loaded');
+    this.loadEditor().then((editor) => {
+      this.editor = editor;
     })
   };
 
-  loadEditor(){
-    return import(/* webpackChunkName: "codex-editor" */ 'codex.editor').then(({ default: CodexEditor }) => {
-       console.log('codex-editor', new CodexEditor());
-    }).catch(error => 'An error occurred while loading CodeX Editor');
+  async loadEditor(){
+    const {default: Editor} = await import(/* webpackChunkName: "editor" */ './../classes/editor');
+
+    return new Editor();
   }
-};
+}

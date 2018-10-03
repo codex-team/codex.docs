@@ -23,6 +23,7 @@ class Docs {
    */
   constructor() {
     console.log('CodeX Docs initialized');
+
     this.writing = new Writing();
 
     document.addEventListener('DOMContentLoaded', (event) => {
@@ -40,4 +41,4 @@ class Docs {
   }
 }
 
-module.exports = new Docs();
+export default new Docs();
