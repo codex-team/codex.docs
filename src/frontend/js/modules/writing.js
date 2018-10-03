@@ -1,6 +1,13 @@
 /**
  * Module for pages create/edit
  */
+/**
+ * @typedef {object} editorData
+ * @property {{type, data}[]} blocks - array of Blocks
+ * @property {string} version - used Editor version
+ * @property {number} time - saving time
+ */
+
 export default class Writing {
   /**
    * Creates base properties
@@ -54,41 +61,50 @@ export default class Writing {
 
   /**
    * Returns all writing form data
-   * @return {Promise.<{}>}
+   * @throws {Error} - validation error
+   * @return {Promise.<{parent: string, body: {editorData}}>}
    */
   async getData(){
-    return this.editor.save()
-      .then((editorData) => {
-        let writingData = {};
+    const editorData = await this.editor.save();
+    const firstBlock = editorData.blocks.length ? editorData.blocks[0] : null;
+    const title = firstBlock && firstBlock.type === 'header' ? firstBlock.data.text : null;
 
-        writingData.parent = this.nodes.parentIdSelector.value;
-        writingData.body = editorData;
+    if (!title) {
+      throw new Error('Entry should start with Header');
+    }
 
-        return writingData;
-      });
+    return {
+      parent: this.nodes.parentIdSelector.value,
+      body: editorData
+    };
   }
 
   /**
    * Handler for clicks on the Save button
    */
   async saveButtonClicked(){
-    const writingData = await this.getData();
+    try {
+      const writingData = await this.getData();
 
-    fetch('/page', {
-      method: 'PUT',
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify(writingData),
-    })
-      .then(response => response.json())
-      .then(response => {
-        console.log('resp', response);
+      try {
+        const response = await fetch('/page', {
+          method: 'PUT',
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
+          body: JSON.stringify(writingData),
+        }).then(response => response.json());
+
         if (response.success){
           document.location = '/page/' + response.result._id;
         }
-      })
-      .catch(console.log);
 
+      } catch (sendingError) {
+        console.log('Saving request failed:', sendingError);
+      }
+    } catch (savingError){
+      alert(savingError);
+      console.log('Saving error: ', savingError);
+    }
   }
 }
