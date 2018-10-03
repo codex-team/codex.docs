@@ -73,13 +73,6 @@ export default class Writing {
    */
   async saveButtonClicked(){
     const writingData = await this.getData();
-    let formData = new FormData();
-
-    for ( let field in writingData ){
-      if (!writingData.hasOwnProperty(field)) {
-        formData.append(field, writingData[field])
-      }
-    }
 
     fetch('/page', {
       method: 'PUT',
