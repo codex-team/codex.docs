@@ -1,0 +1,20 @@
+.writing-header {
+  display: flex;
+  padding: 15px 0;
+  margin-top: calc(-1 * var(--layout-padding-vertical));
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 2;
+  box-shadow: 0 3px 10px #fff;
+
+  &__save {
+    @apply --button;
+    margin-left: auto;
+  }
+
+  &__left {
+    margin: auto 0;
+    color: var(--color-text-second);
+  }
+}

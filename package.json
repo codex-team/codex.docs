@@ -13,6 +13,7 @@
     "@babel/polyfill": "^7.0.0",
     "body-parser": "latest",
     "codex.editor": "^2.0.11",
+    "codex.editor.header": "^2.0.5",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
