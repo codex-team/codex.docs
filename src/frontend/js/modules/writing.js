@@ -87,16 +87,21 @@ export default class Writing {
       const writingData = await this.getData();
 
       try {
-        const response = await fetch('/page', {
+        let response = await fetch('/page', {
           method: 'PUT',
           headers: {
             "Content-Type": "application/json; charset=utf-8",
           },
           body: JSON.stringify(writingData),
-        }).then(response => response.json());
+        });
+
+        response = await response.json();
 
         if (response.success){
           document.location = '/page/' + response.result._id;
+        } else {
+          alert(response.error);
+          console.log('Validation failed:', response.error);
         }
 
       } catch (sendingError) {

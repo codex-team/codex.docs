@@ -61,7 +61,7 @@ describe('Pages REST: ', () => {
     const {success, error} = res.body;
 
     expect(success).to.be.false;
-    expect(error).to.equal('Invalid request format');
+    expect(error).to.equal('Error: Some of required fields is missed');
   });
 
   it('Finding page', async () => {

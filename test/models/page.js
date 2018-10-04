@@ -265,19 +265,21 @@ describe('Page model', () => {
   });
 
   it('Extracting title from page body', async () => {
-    const body = {
-      blocks: [
-        {
-          type: 'header',
-          data: {
-            text: 'Page header'
+    const pageData = {
+      body: {
+        blocks: [
+          {
+            type: 'header',
+            data: {
+              text: 'Page header'
+            }
           }
-        }
-      ]
+        ]
+      }
     };
 
-    const title = Page.extractTitleFromBlocks(body);
+    const page = new Page(pageData);
 
-    expect(title).to.equal(body.blocks[0].data.text);
+    expect(page.title).to.equal(pageData.body.blocks[0].data.text);
   });
 });
