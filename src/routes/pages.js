@@ -7,7 +7,7 @@ const Pages = require('../controllers/pages');
  * Create new page form
  */
 router.get('/page/new', async (req, res) => {
-  let pagesAvailable = await await Pages.getAll();
+  let pagesAvailable = await Pages.getAll();
 
   res.render('pages/form', {
     pagesAvailable
