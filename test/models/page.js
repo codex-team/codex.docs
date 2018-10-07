@@ -1,8 +1,19 @@
 const {expect} = require('chai');
+const fs = require('fs');
+const path = require('path');
+const config = require('../../config');
 const Page = require('../../src/models/page');
 const {pages} = require('../../src/utils/database');
 
 describe('Page model', () => {
+  after(() => {
+    const pathToDB = path.resolve(__dirname, '../../', config.database, './pages.db');
+
+    if (fs.existsSync(pathToDB)) {
+      fs.unlinkSync(pathToDB);
+    }
+  });
+
   it('Working with empty model', async () => {
     let page = new Page();
 

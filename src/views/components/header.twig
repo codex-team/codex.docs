@@ -1,6 +1,6 @@
 <header class="docs-header">
   <a href="/" class="docs-header__logo">
-    CodeX Editor &nbsp; 🤩🧦🤨
+    {{ config.title }}
   </a>
   <ul class="docs-header__menu">
     <li>
@@ -9,25 +9,12 @@
         Add Page
       </a>
     </li>
-    <li>
-      <a href="">
-        Guides
-      </a>
-    </li>
-    <li>
-      <a href="">
-        API
-      </a>
-    </li>
-    <li>
-      <a href="">
-        Plugins
-      </a>
-    </li>
-    <li>
-      <a href="">
-        Support Project
-      </a>
-    </li>
+    {% for option in config.menu %}
+      <li>
+        <a href="{{option.uri}}">
+          {{ option.title }}
+        </a>
+      </li>
+    {% endfor %}
   </ul>
 </header>
