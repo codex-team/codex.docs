@@ -12,7 +12,7 @@ class Pages {
    * @returns {['title', 'body']}
    */
   static get REQUIRED_FIELDS() {
-    return ['title', 'body'];
+    return [ 'body' ];
   }
 
   /**
@@ -48,23 +48,47 @@ class Pages {
    * @returns {Promise<Page>}
    */
   static async insert(data) {
-    if (!Pages.validate(data)) {
-      throw new Error('Invalid request format');
+    try {
+      Pages.validate(data);
+
+      const page = new Model(data);
+
+      return page.save();
+    } catch (validationError) {
+      throw new Error(validationError);
     }
-
-    const page = new Model(data);
-
-    return page.save();
   }
 
   /**
    * Check PageData object for required fields
    *
    * @param {PageData} data
-   * @returns {boolean}
+   * @throws {Error} - validation error
    */
   static validate(data) {
-    return Pages.REQUIRED_FIELDS.every(field => typeof data[field] !== 'undefined');
+    const allRequiredFields = Pages.REQUIRED_FIELDS.every(field => typeof data[field] !== 'undefined');
+
+    if (!allRequiredFields) {
+      throw new Error('Some of required fields is missed');
+    }
+
+    const hasBlocks = data.body && data.body.blocks && Array.isArray(data.body.blocks) && data.body.blocks.length > 0;
+
+    if (!hasBlocks) {
+      throw new Error('Page body is invalid');
+    }
+
+    const hasHeaderAsFirstBlock = data.body.blocks[0].type === 'header';
+
+    if (!hasHeaderAsFirstBlock) {
+      throw new Error('First page Block must be a Header');
+    }
+
+    const headerIsNotEmpty = data.body.blocks[0].data.text.replace('<br>', '').trim() !== '';
+
+    if (!headerIsNotEmpty) {
+      throw new Error('Please, fill page Header');
+    }
   }
 
   /**

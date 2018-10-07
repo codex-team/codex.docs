@@ -22,7 +22,7 @@ describe('Page model', () => {
     let {data} = page;
 
     expect(data._id).to.be.undefined;
-    expect(data.title).to.be.undefined;
+    expect(data.title).to.be.empty;
     expect(data.body).to.be.undefined;
     expect(data.parent).to.be.undefined;
 
@@ -31,11 +31,23 @@ describe('Page model', () => {
     data = page.data;
 
     expect(data._id).to.be.undefined;
-    expect(data.title).to.be.undefined;
+    expect(data.title).to.be.empty;
     expect(data.body).to.be.undefined;
     expect(data.parent).to.be.undefined;
 
-    const initialData = {_id: 'page_id', title: 'Test page', body: 'Test page body'};
+    const initialData = {
+      _id: 'page_id',
+      body: {
+        blocks: [
+          {
+            type: 'header',
+            data: {
+              text: 'Page header'
+            }
+          }
+        ]
+      }
+    };
 
     page = new Page(initialData);
 
@@ -44,19 +56,27 @@ describe('Page model', () => {
     data = page.data;
 
     expect(data._id).to.equal(initialData._id);
-    expect(data.title).to.equal(initialData.title);
-    expect(data.body).to.equal(initialData.body);
+    expect(data.title).to.equal(initialData.body.blocks[0].data.text);
+    expect(data.body).to.deep.equal(initialData.body);
     expect(data.parent).to.be.undefined;
 
     expect(json._id).to.equal(initialData._id);
-    expect(json.title).to.equal(initialData.title);
-    expect(json.body).to.equal(initialData.body);
+    expect(json.title).to.equal(initialData.body.blocks[0].data.text);
+    expect(json.body).to.deep.equal(initialData.body);
     expect(json.parent).to.be.undefined;
 
     const update = {
       _id: 12345,
-      title: 'Test page',
-      body: 'Test page body'
+      body: {
+        blocks: [
+          {
+            type: 'header',
+            data: {
+              text: 'Updated page header'
+            }
+          }
+        ]
+      }
     };
 
     page.data = update;
@@ -64,19 +84,30 @@ describe('Page model', () => {
     data = page.data;
 
     expect(data._id).to.equal(initialData._id);
-    expect(data.title).to.equal(update.title);
+    expect(data.title).to.equal(update.body.blocks[0].data.text);
     expect(data.body).to.equal(update.body);
     expect(data.parent).to.be.undefined;
   });
 
   it('Saving, updating and deleting model in the database', async () => {
-    const initialData = {title: 'Test page', body: 'Test page body'};
+    const initialData = {
+      body: {
+        blocks: [
+          {
+            type: 'header',
+            data: {
+              text: 'Page header'
+            }
+          }
+        ]
+      }
+    };
     const page = new Page(initialData);
 
     let savedPage = await page.save();
 
     expect(savedPage._id).not.be.undefined;
-    expect(savedPage.title).to.equal(initialData.title);
+    expect(savedPage.title).to.equal(initialData.body.blocks[0].data.text);
     expect(savedPage.body).to.equal(initialData.body);
     expect(page._id).not.be.undefined;
 
@@ -84,9 +115,20 @@ describe('Page model', () => {
 
     expect(insertedPage._id).to.equal(page._id);
     expect(insertedPage.title).to.equal(page.title);
-    expect(insertedPage.body).to.equal(page.body);
+    expect(insertedPage.body).to.deep.equal(page.body);
 
-    const updateData = {title: 'Updated test page', body: 'Updated test page body'};
+    const updateData = {
+      body: {
+        blocks: [
+          {
+            type: 'header',
+            data: {
+              text: 'Updated page header'
+            }
+          }
+        ]
+      }
+    };
 
     page.data = updateData;
     await page.save();
@@ -96,8 +138,8 @@ describe('Page model', () => {
     const updatedPage = await pages.findOne({_id: page._id});
 
     expect(updatedPage._id).to.equal(savedPage._id);
-    expect(updatedPage.title).to.equal(updateData.title);
-    expect(updatedPage.body).to.equal(updateData.body);
+    expect(updatedPage.title).to.equal(updateData.body.blocks[0].data.text);
+    expect(updatedPage.body).to.deep.equal(updateData.body);
 
     await page.destroy();
 
@@ -109,7 +151,18 @@ describe('Page model', () => {
   });
 
   it('Static get method', async () => {
-    const initialData = {title: 'Test page', body: 'Test page body'};
+    const initialData = {
+      body: {
+        blocks: [
+          {
+            type: 'header',
+            data: {
+              text: 'Test Page header'
+            }
+          }
+        ]
+      }
+    };
     const page = new Page(initialData);
 
     const savedPage = await page.save();
@@ -119,16 +172,38 @@ describe('Page model', () => {
     const {data} = foundPage;
 
     expect(data._id).to.equal(savedPage._id);
-    expect(data.title).to.equal(initialData.title);
-    expect(data.body).to.equal(initialData.body);
+    expect(data.title).to.equal(initialData.body.blocks[0].data.text);
+    expect(data.body).to.deep.equal(initialData.body);
 
     await page.destroy();
   });
 
   it('Static getAll method', async () => {
     const pagesToSave = [
-      new Page({title: 'Page 1', body: 'Page 1 body'}),
-      new Page({title: 'Page 2', body: 'Page 2 body'})
+      new Page({
+        body: {
+          blocks: [
+            {
+              type: 'header',
+              data: {
+                text: 'Page 1 header'
+              }
+            }
+          ]
+        }
+      }),
+      new Page({
+        body: {
+          blocks: [
+            {
+              type: 'header',
+              data: {
+                text: 'Page 2 header'
+              }
+            }
+          ]
+        }
+      })
     ];
 
     const savedPages = await Promise.all(pagesToSave.map(page => page.save()));
@@ -137,16 +212,42 @@ describe('Page model', () => {
 
     expect(foundPages.length).to.equal(2);
     foundPages.forEach((page, i) => {
-      expect(page.title).to.equal(pagesToSave[i].title);
-      expect(page.body).to.equal(pagesToSave[i].body);
+      expect(page.title).to.equal(pagesToSave[i].body.blocks[0].data.text);
+      expect(page.body).to.deep.equal(pagesToSave[i].body);
     });
   });
 
   it('Parent pages', async () => {
-    const parent = new Page({title: 'Parent page', body: 'Parent page body'});
+    const parent = new Page(
+      {
+        body: {
+          blocks: [
+            {
+              type: 'header',
+              data: {
+                text: 'Parent page header'
+              }
+            }
+          ]
+        }
+      }
+    );
     const {_id: parentId} = await parent.save();
 
-    const child = new Page({title: 'Child page', body: 'Child page body'});
+    const child = new Page(
+      {
+        body: {
+          blocks: [
+            {
+              type: 'header',
+              data: {
+                text: 'Child page header'
+              }
+            }
+          ]
+        }
+      }
+    );
 
     child.parent = parent;
 
@@ -155,8 +256,8 @@ describe('Page model', () => {
     const testedParent = await child.parent;
 
     expect(testedParent._id).to.equal(parentId);
-    expect(testedParent.title).to.equal(parent.title);
-    expect(testedParent.body).to.equal(parent.body);
+    expect(testedParent.title).to.equal(parent.body.blocks[0].data.text);
+    expect(testedParent.body).to.deep.equal(parent.body);
 
     const children = await parent.children;
 
@@ -165,12 +266,31 @@ describe('Page model', () => {
     const testedChild = children.pop();
 
     expect(testedChild._id).to.equal(childId);
-    expect(testedChild.title).to.equal(child.title);
-    expect(testedChild.body).to.equal(child.body);
+    expect(testedChild.title).to.equal(child.body.blocks[0].data.text);
+    expect(testedChild.body).to.deep.equal(child.body);
     expect(testedChild._parent).to.equal(child._parent);
     expect(testedChild._parent).to.equal(parent._id);
 
     parent.destroy();
     child.destroy();
+  });
+
+  it('Extracting title from page body', async () => {
+    const pageData = {
+      body: {
+        blocks: [
+          {
+            type: 'header',
+            data: {
+              text: 'Page header'
+            }
+          }
+        ]
+      }
+    };
+
+    const page = new Page(pageData);
+
+    expect(page.title).to.equal(pageData.body.blocks[0].data.text);
   });
 });
