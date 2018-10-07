@@ -6,11 +6,12 @@
 const app = require('../src/app');
 const debug = require('debug')('codex.editor.docs:server');
 const http = require('http');
+const config = require('../config');
 
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(config.port || '3000');
 
 app.set('port', port);
 
@@ -30,16 +31,16 @@ server.on('listening', onListening);
  * Normalize a port into a number, string, or false.
  */
 function normalizePort(val) {
-  const port = parseInt(val, 10);
+  const value = parseInt(val, 10);
 
-  if (isNaN(port)) {
+  if (isNaN(value)) {
     // named pipe
     return val;
   }
 
-  if (port >= 0) {
+  if (value >= 0) {
     // port number
-    return port;
+    return value;
   }
 
   return false;
@@ -62,11 +63,9 @@ function onError(error) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
       process.exit(1);
-      break;
     case 'EADDRINUSE':
       console.error(bind + ' is already in use');
       process.exit(1);
-      break;
     default:
       throw error;
   }

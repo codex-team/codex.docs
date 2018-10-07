@@ -1,11 +1,12 @@
 const fs = require('fs');
+const config = require('../config');
 const {expect} = require('chai');
 
 const {class: Database} = require('../src/utils/database');
 const Datastore = require('nedb');
 
 describe('Database', () => {
-  const pathToDB = './.db/test.db';
+  const pathToDB = `./${config.database}/test.db`;
   let nedbInstance;
   let db;
 

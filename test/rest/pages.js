@@ -1,6 +1,9 @@
 const {app} = require('../../bin/www');
 const model = require('../../src/models/page');
 
+const fs = require('fs');
+const path = require('path');
+const config = require('../../config');
 const chai = require('chai');
 const chaiHTTP = require('chai-http');
 const {expect} = chai;
@@ -12,6 +15,14 @@ describe('Pages REST: ', () => {
 
   before(async () => {
     agent = chai.request.agent(app);
+  });
+
+  after(async () => {
+    const pathToDB = path.resolve(__dirname, '../../', config.database, './pages.db');
+
+    if (fs.existsSync(pathToDB)) {
+      fs.unlinkSync(pathToDB);
+    }
   });
 
   it('Creating page', async () => {
