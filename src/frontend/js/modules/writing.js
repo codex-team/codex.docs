@@ -7,18 +7,21 @@
  * @property {string} version - used Editor version
  * @property {number} time - saving time
  */
-
+/**
+ * @class Writing
+ * @classdesc Class for create/edit pages
+ */
 export default class Writing {
   /**
    * Creates base properties
    */
-  constructor(){
+  constructor() {
     this.editor = null;
     this.nodes = {
       editorWrapper: null,
       saveButton: null,
-      parentIdSelector: null,
-    }
+      parentIdSelector: null
+    };
   }
 
   /**
@@ -53,7 +56,7 @@ export default class Writing {
    * Loads class for working with Editor
    * @return {Promise<Editor>}
    */
-  async loadEditor(){
+  async loadEditor() {
     const {default: Editor} = await import(/* webpackChunkName: "editor" */ './../classes/editor');
 
     return new Editor();
@@ -64,7 +67,7 @@ export default class Writing {
    * @throws {Error} - validation error
    * @return {Promise.<{parent: string, body: {editorData}}>}
    */
-  async getData(){
+  async getData() {
     const editorData = await this.editor.save();
     const firstBlock = editorData.blocks.length ? editorData.blocks[0] : null;
     const title = firstBlock && firstBlock.type === 'header' ? firstBlock.data.text : null;
@@ -82,7 +85,7 @@ export default class Writing {
   /**
    * Handler for clicks on the Save button
    */
-  async saveButtonClicked(){
+  async saveButtonClicked() {
     try {
       const writingData = await this.getData();
 
@@ -90,24 +93,23 @@ export default class Writing {
         let response = await fetch('/page', {
           method: 'PUT',
           headers: {
-            "Content-Type": "application/json; charset=utf-8",
+            'Content-Type': 'application/json; charset=utf-8'
           },
-          body: JSON.stringify(writingData),
+          body: JSON.stringify(writingData)
         });
 
         response = await response.json();
 
-        if (response.success){
+        if (response.success) {
           document.location = '/page/' + response.result._id;
         } else {
           alert(response.error);
           console.log('Validation failed:', response.error);
         }
-
       } catch (sendingError) {
         console.log('Saving request failed:', sendingError);
       }
-    } catch (savingError){
+    } catch (savingError) {
       alert(savingError);
       console.log('Saving error: ', savingError);
     }

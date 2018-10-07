@@ -11,5 +11,10 @@
   "rules": {
     "no-unused-expressions": 0,
     "chai-friendly/no-unused-expressions": 2
+  },
+  "parser": "babel-eslint",
+  "globals": {
+    "fetch": true,
+    "alert": true
   }
 }
