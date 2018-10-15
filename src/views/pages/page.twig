@@ -1,0 +1,38 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+  <article class="page">
+    <header class="page__header">
+      <a href="/" class="page__header-nav">
+        Documentation
+      </a>
+      {% if page._parent %}
+        <a href="/page/{{ page._parent }}" class="page__header-nav">
+          Parent {{ page._parent }}
+        </a>
+      {% endif %}
+      <time class="page__header-time">
+        Last edit {{ (page.body.time / 1000)  | date("M d Y") }}
+        <a href="/page/edit/{{ page._id }}" class="page__header-button">
+          Edit
+        </a>
+      </time>
+    </header>
+    <h1 class="page__title">
+      {{ page.title }}
+    </h1>
+    <section class="page__content">
+      {% for block in page.body.blocks %}
+        {# Skip first header, because it is already showed as a Title #}
+        {% if not (loop.first and block.type == 'header') %}
+          {% if block.type in ['paragraph', 'header'] %}
+            {% include './blocks/' ~ block.type ~ '.twig' with block.data %}
+          {% endif %}
+        {% endif %}
+      {%  endfor %}
+    </section>
+    <footer>
+    </footer>
+  </article>
+
+{% endblock %}

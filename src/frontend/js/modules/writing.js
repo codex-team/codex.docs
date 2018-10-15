@@ -7,6 +7,12 @@
  * @property {string} version - used Editor version
  * @property {number} time - saving time
  */
+
+/**
+ * @typedef {object} writingSettings
+ * @property {{_id, _parent, title, body: editorData}} [page] - page data for editing
+ */
+
 /**
  * @class Writing
  * @classdesc Class for create/edit pages
@@ -17,6 +23,7 @@ export default class Writing {
    */
   constructor() {
     this.editor = null;
+    this.page = null; // stores Page on editing
     this.nodes = {
       editorWrapper: null,
       saveButton: null,
@@ -26,10 +33,10 @@ export default class Writing {
 
   /**
    * Called by ModuleDispatcher to initialize module from DOM
-   * @param {object} settings - module settings
+   * @param {writingSettings} settings - module settings
    * @param {HTMLElement} moduleEl - module element
    */
-  init(settings, moduleEl) {
+  init(settings = {}, moduleEl) {
     /**
      * Create Editor
      */
@@ -37,6 +44,10 @@ export default class Writing {
     this.nodes.editorWrapper.id = 'codex-editor';
 
     moduleEl.appendChild(this.nodes.editorWrapper);
+
+    if (settings.page){
+      this.page = settings.page;
+    }
 
     this.loadEditor().then((editor) => {
       this.editor = editor;
@@ -59,7 +70,9 @@ export default class Writing {
   async loadEditor() {
     const {default: Editor} = await import(/* webpackChunkName: "editor" */ './../classes/editor');
 
-    return new Editor();
+    return new Editor({
+      initialData: this.page ? this.page.body : null
+    });
   }
 
   /**
@@ -88,10 +101,11 @@ export default class Writing {
   async saveButtonClicked() {
     try {
       const writingData = await this.getData();
+      const endpoint = this.page ? '/api/page/' + this.page._id : '/api/page';
 
       try {
-        let response = await fetch('/page', {
-          method: 'PUT',
+        let response = await fetch(endpoint, {
+          method: this.page ? 'POST' : 'PUT',
           headers: {
             'Content-Type': 'application/json; charset=utf-8'
           },

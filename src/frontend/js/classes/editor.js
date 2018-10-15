@@ -7,8 +7,9 @@ import Header from 'codex.editor.header';
 export default class Editor {
   /**
    * Creates Editor instance
+   * @property {object} initialData - data to start with
    */
-  constructor() {
+  constructor({initialData}) {
     this.editor = new CodeXEditor({
       tools: {
         header: {
@@ -18,7 +19,7 @@ export default class Editor {
           }
         }
       },
-      data: {
+      data: initialData || {
         blocks: [
           {
             type: 'header',

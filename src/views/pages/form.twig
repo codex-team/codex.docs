@@ -7,15 +7,28 @@
     }
   </style>
   <section data-module="writing">
+    <module-settings hidden>
+      {
+        "page": {{ page | json_encode }}
+      }
+    </module-settings>
     <header class="writing-header">
       <span class="writing-header__left">
         New Page at the
-          <select name="parent">
-            <option value="0">Root</option>
-            {% for page in pagesAvailable %}
-              <option value="{{ page._id }}">{{ page.title }}</option>
-            {% endfor %}
-          </select>
+        {% set currentPageId = 0 %}
+        {% if page is not empty %}
+          {% set currentPageId = page._id %}
+        {% endif %}
+        <select name="parent">
+          <option value="0">Root</option>
+          {% for _page in pagesAvailable %}
+            {% if _page._id != currentPageId %}
+              <option value="{{ _page._id }}" {{ page is not empty and page._parent == _page._id ? 'selected' : ''}}>
+                {{ _page.title }}
+              </option>
+            {% endif %}
+          {% endfor %}
+        </select>
       </span>
       <span class="writing-header__save" name="js-submit">
         Save

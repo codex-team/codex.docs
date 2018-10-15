@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer')();
 const Pages = require('../controllers/pages');
 
 /**
@@ -10,116 +9,46 @@ router.get('/page/new', async (req, res) => {
   let pagesAvailable = await Pages.getAll();
 
   res.render('pages/form', {
-    pagesAvailable
+    pagesAvailable,
+    page: null
   });
 });
 
 /**
- * GET /page/:id
- *
- * Return PageData of page with given id
+ * Edit page form
  */
-router.get('/page/:id', async (req, res) => {
-  try {
-    const page = await Pages.get(req.params.id);
+router.get('/page/edit/:id', async (req, res, next) => {
+  const pageId = req.params.id;
 
-    res.json({
-      success: true,
-      result: page.data
+  try {
+    let page = await Pages.get(pageId);
+    let pagesAvailable = await Pages.getAll();
+
+    res.render('pages/form', {
+      pagesAvailable,
+      page
     });
-  } catch (err) {
-    res.status(400).json({
-      success: false,
-      error: err.message
-    });
+  } catch (error) {
+    res.status(404);
+    next(error);
   }
 });
 
 /**
- * GET /pages
- *
- * Return PageData for all pages
+ * View page
  */
-router.get('/pages', async (req, res) => {
-  try {
-    const pages = await Pages.getAll();
-
-    res.json({
-      success: true,
-      result: pages
-    });
-  } catch (err) {
-    res.status(400).json({
-      success: false,
-      error: err.message
-    });
-  }
-});
-
-/**
- * PUT /page
- *
- * Create new page in the database
- */
-router.put('/page', multer.any(), async (req, res) => {
-  try {
-    const {title, body, parent} = req.body;
-    const page = await Pages.insert({title, body, parent});
-
-    res.json({
-      success: true,
-      result: page
-    });
-  } catch (err) {
-    res.status(400).json({
-      success: false,
-      error: err.message
-    });
-  }
-});
-
-/**
- * POST /page/:id
- *
- * Update page data in the database
- */
-router.post('/page/:id', multer.any(), async (req, res) => {
-  const {id} = req.params;
+router.get('/page/:id', async (req, res, next) => {
+  const pageId = req.params.id;
 
   try {
-    const {title, body, parent} = req.body;
-    const page = await Pages.update(id, {title, body, parent});
+    let page = await Pages.get(pageId);
 
-    res.json({
-      success: true,
-      result: page
+    res.render('pages/page', {
+      page
     });
-  } catch (err) {
-    res.status(400).json({
-      success: false,
-      error: err.message
-    });
-  }
-});
-
-/**
- * DELETE /page/:id
- *
- * Remove page from the database
- */
-router.delete('/page/:id', async (req, res) => {
-  try {
-    const page = await Pages.remove(req.params.id);
-
-    res.json({
-      success: true,
-      result: page
-    });
-  } catch (err) {
-    res.status(400).json({
-      success: false,
-      error: err.message
-    });
+  } catch (error) {
+    res.status(404);
+    next(error);
   }
 });
 
