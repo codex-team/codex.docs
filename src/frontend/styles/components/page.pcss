@@ -1,0 +1,57 @@
+.page {
+  font-size: 16px;
+  line-height: 1.6;
+
+  &__header {
+    display: flex;
+    color: var(--color-text-second);
+
+    &-nav {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        color: var(--color-link-active);
+      }
+
+      &:not(:last-of-type) {
+        &::after {
+          content: '»';
+          margin: 0 0.7em 0 0.45em;
+        }
+      }
+    }
+
+    &-time {
+      margin-left: auto;
+    }
+
+    &-button {
+      @apply --button;
+      padding: 5px 10px;
+      font-size: 13px;
+      margin-left: 10px;
+    }
+  }
+
+  &__title {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.04px;
+    margin-bottom: -0.2em;
+  }
+}
+
+.block-header {
+  margin: 1.5em 0 0.5em;
+
+  &--2 {
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  &--3 {
+    font-size: 18px;
+    font-weight: 500;
+  }
+}

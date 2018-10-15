@@ -38,7 +38,7 @@ describe('Pages REST: ', () => {
     };
 
     const res = await agent
-      .put('/page')
+      .put('/api/page')
       .send({body});
 
     expect(res).to.have.status(200);
@@ -63,7 +63,7 @@ describe('Pages REST: ', () => {
 
   it('Page data validation on create', async () => {
     const res = await agent
-      .put('/page')
+      .put('/api/page')
       .send({someField: 'Some text'});
 
     expect(res).to.have.status(400);
@@ -88,7 +88,7 @@ describe('Pages REST: ', () => {
     };
 
     const put = await agent
-      .put('/page')
+      .put('/api/page')
       .send({body});
 
     expect(put).to.have.status(200);
@@ -96,7 +96,7 @@ describe('Pages REST: ', () => {
 
     const {result: {_id}} = put.body;
 
-    const get = await agent.get(`/page/${_id}`);
+    const get = await agent.get(`/api/page/${_id}`);
 
     expect(get).to.have.status(200);
     expect(get).to.be.json;
@@ -115,7 +115,7 @@ describe('Pages REST: ', () => {
   });
 
   it('Finding page with not existing id', async () => {
-    const res = await agent.get('/page/not-existing-id');
+    const res = await agent.get('/api/page/not-existing-id');
 
     expect(res).to.have.status(400);
     expect(res).to.be.json;
@@ -139,7 +139,7 @@ describe('Pages REST: ', () => {
     };
 
     let res = await agent
-      .put('/page')
+      .put('/api/page')
       .send({body});
 
     expect(res).to.have.status(200);
@@ -159,7 +159,7 @@ describe('Pages REST: ', () => {
     };
 
     res = await agent
-      .post(`/page/${_id}`)
+      .post(`/api/page/${_id}`)
       .send({body: updatedBody});
 
     expect(res).to.have.status(200);
@@ -187,7 +187,7 @@ describe('Pages REST: ', () => {
 
   it('Updating page with not existing id', async () => {
     const res = await agent
-      .post('/page/not-existing-id')
+      .post('/api/page/not-existing-id')
       .send({body: {
         blocks: [
           {
@@ -221,7 +221,7 @@ describe('Pages REST: ', () => {
     };
 
     let res = await agent
-      .put('/page')
+      .put('/api/page')
       .send({body});
 
     expect(res).to.have.status(200);
@@ -230,7 +230,7 @@ describe('Pages REST: ', () => {
     const {result: {_id}} = res.body;
 
     res = await agent
-      .delete(`/page/${_id}`);
+      .delete(`/api/page/${_id}`);
 
     expect(res).to.have.status(200);
     expect(res).to.be.json;
@@ -249,7 +249,7 @@ describe('Pages REST: ', () => {
 
   it('Removing page with not existing id', async () => {
     const res = await agent
-      .delete('/page/not-existing-id');
+      .delete('/api/page/not-existing-id');
 
     expect(res).to.have.status(400);
     expect(res).to.be.json;
