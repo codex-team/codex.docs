@@ -9,7 +9,7 @@ const asyncMiddleware = require('../../utils/asyncMiddleware');
 function createMenuTree(pages) {
   return pages.filter(page => page._parent === '0').map(page => {
     return Object.assign({
-      children: pages.filter(child => child._parent === page._id)
+      children: pages.filter(child => child._parent === page._id).reverse()
     }, page.data);
   });
 }
