@@ -1,19 +1,20 @@
 <div class="docs-aside">
-  <section class="docs-aside__section">
-    <a class="docs-aside__section-title" href="">
-      Base concepts
-    </a>
-    <ul class="docs-aside__section-list">
-      <li>
-        <a href="">
-          Insallation
+    {% for firstLevelPage in menu %}
+      <section class="docs-aside__section">
+        <a class="docs-aside__section-title" href="/page/{{ firstLevelPage._id }}">
+          {{ firstLevelPage.title }}
         </a>
-      </li>
-      <li>
-        <a href="">
-          Usage
-        </a>
-      </li>
-    </ul>
-  </section>
+        {% if firstLevelPage.children is not empty %}
+          <ul class="docs-aside__section-list">
+            {% for child in firstLevelPage.children %}
+              <li>
+                <a href="/page/{{ child._id }}">
+                  {{ child.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </section>
+    {% endfor %}
 </div>
