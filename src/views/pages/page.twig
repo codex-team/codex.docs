@@ -1,7 +1,7 @@
 {% extends 'layout.twig' %}
 
 {% block body %}
-  <article class="page">
+  <article class="page" data-module="page">
     <header class="page__header">
       <a href="/" class="page__header-nav">
         Documentation
@@ -25,7 +25,7 @@
       {% for block in page.body.blocks %}
         {# Skip first header, because it is already showed as a Title #}
         {% if not (loop.first and block.type == 'header') %}
-          {% if block.type in ['paragraph', 'header'] %}
+          {% if block.type in ['paragraph', 'header', 'list', 'code'] %}
             {% include './blocks/' ~ block.type ~ '.twig' with block.data %}
           {% endif %}
         {% endif %}

@@ -13,6 +13,7 @@ import ModuleDispatcher from 'module-dispatcher';
  * Import modules
  */
 import Writing from './modules/writing';
+import Page from './modules/page';
 
 /**
  * Main app class
@@ -25,6 +26,7 @@ class Docs {
     console.log('CodeX Docs initialized');
 
     this.writing = new Writing();
+    this.page = new Page();
 
     document.addEventListener('DOMContentLoaded', (event) => {
       this.docReady();
