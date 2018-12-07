@@ -43,8 +43,11 @@ router.get('/page/:id', async (req, res, next) => {
   try {
     let page = await Pages.get(pageId);
 
+    let parentTitle = (await page.parent).title;
+    console.log(parentTitle);
+
     res.render('pages/page', {
-      page
+      page, parentTitle
     });
   } catch (error) {
     res.status(404);
