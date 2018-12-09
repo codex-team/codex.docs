@@ -30,7 +30,7 @@ export default class Writing {
     const {default: CodeStyler} = await import(/* webpackChunkName: "code-styling" */ './../classes/codeStyler');
 
     return new CodeStyler({
-      selector: '.block-code',
+      selector: '.block-code'
     });
   };
 }
