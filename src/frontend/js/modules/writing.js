@@ -45,7 +45,7 @@ export default class Writing {
 
     moduleEl.appendChild(this.nodes.editorWrapper);
 
-    if (settings.page){
+    if (settings.page) {
       this.page = settings.page;
     }
 

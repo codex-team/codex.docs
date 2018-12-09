@@ -1,4 +1,4 @@
-import hljs from "highlight.js/lib/highlight";
+import hljs from 'highlight.js/lib/highlight';
 import javascript from 'highlight.js/lib/languages/javascript';
 import style from 'highlight.js/styles/github-gist.css';
 
