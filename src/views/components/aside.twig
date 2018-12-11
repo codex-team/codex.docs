@@ -1,7 +1,7 @@
 <div class="docs-aside">
     {% for firstLevelPage in menu %}
       <section class="docs-aside__section">
-        <a class="docs-aside__section-title" href="/page/{{ firstLevelPage._id }}">
+        <a class="docs-aside__section-title" href="/page/{{ firstLevelPage.uri }}">
           {{ firstLevelPage.title }}
         </a>
         {% if firstLevelPage.children is not empty %}

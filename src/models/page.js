@@ -4,6 +4,7 @@ const {pages: db} = require('../utils/database/index');
  * @typedef {Object} PageData
  * @property {string} _id - page id
  * @property {string} title - page title
+ * @property {string} uri - page uri
  * @property {*} body - page body
  * @property {string} parent - id of parent page
  *
@@ -15,6 +16,7 @@ const {pages: db} = require('../utils/database/index');
  *
  * @property {string} _id - page id
  * @property {string} title - page title
+ * @property {string} uri - page uri
  * @property {*} body - page body
  * @property {string} _parent - id of parent page
  */
@@ -69,6 +71,7 @@ class Page {
 
     this.body = body || this.body;
     this.title = this.extractTitleFromBody();
+    this.uri = this._id;
     this._parent = parent || this._parent;
   }
 
@@ -81,6 +84,7 @@ class Page {
     return {
       _id: this._id,
       title: this.title,
+      uri: this.uri,
       body: this.body,
       parent: this._parent
     };
