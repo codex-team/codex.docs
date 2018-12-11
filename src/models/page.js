@@ -1,4 +1,5 @@
-const {pages: db} = require('../utils/database/index');
+const {pages: pagesDb} = require('../utils/database/index');
+const {aliases: aliasesDb} = require('../utils/database/index');
 
 /**
  * @typedef {Object} PageData
@@ -27,7 +28,7 @@ class Page {
    * @returns {Promise<Page>}
    */
   static async get(_id) {
-    const data = await db.findOne({_id});
+    const data = await pagesDb.findOne({_id});
 
     return new Page(data);
   }
@@ -39,7 +40,7 @@ class Page {
    * @returns {Promise<Page[]>}
    */
   static async getAll(query = {}) {
-    const docs = await db.find(query);
+    const docs = await pagesDb.find(query);
 
     return Promise.all(docs.map(doc => new Page(doc)));
   }
@@ -115,7 +116,7 @@ class Page {
    * @returns {Promise<Page>}
    */
   get parent() {
-    return db.findOne({_id: this._parent})
+    return pagesDb.findOne({_id: this._parent})
       .then(data => new Page(data));
   }
 
@@ -125,7 +126,7 @@ class Page {
    * @returns {Promise<Page[]>}
    */
   get children() {
-    return db.find({parent: this._id})
+    return pagesDb.find({parent: this._id})
       .then(data => data.map(page => new Page(page)));
   }
 
@@ -136,11 +137,11 @@ class Page {
    */
   async save() {
     if (!this._id) {
-      const insertedRow = await db.insert(this.data);
+      const insertedRow = await pagesDb.insert(this.data);
 
       this._id = insertedRow._id;
     } else {
-      await db.update({_id: this._id}, this.data);
+      await pagesDb.update({_id: this._id}, this.data);
     }
 
     return this;
@@ -152,7 +153,7 @@ class Page {
    * @returns {Promise<Page>}
    */
   async destroy() {
-    await db.remove({_id: this._id});
+    await pagesDb.remove({_id: this._id});
 
     delete this._id;
 
