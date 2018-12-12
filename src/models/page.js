@@ -68,11 +68,11 @@ class Page {
    * @param {PageData} pageData
    */
   set data(pageData) {
-    const {body, parent} = pageData;
+    const {body, parent, uri} = pageData;
 
     this.body = body || this.body;
     this.title = this.extractTitleFromBody();
-    this.uri = this._id;
+    this.uri = uri || '';
     this._parent = parent || this._parent;
   }
 
@@ -137,7 +137,10 @@ class Page {
    */
   async save() {
     if (!this._id) {
-      const insertedRow = await pagesDb.insert(this.data);
+      const insertedRow = await pagesDb.insert({
+        ...this.data,
+        uri: this.title.toLowerCase().split(' ').join('-')
+      });
 
       this._id = insertedRow._id;
     } else {
