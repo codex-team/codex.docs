@@ -115,7 +115,7 @@ export default class Writing {
         response = await response.json();
 
         if (response.success) {
-          document.location = '/page/' + response.result._id;
+          window.location.pathname = response.result.uri;
         } else {
           alert(response.error);
           console.log('Validation failed:', response.error);

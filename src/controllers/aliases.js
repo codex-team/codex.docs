@@ -1,4 +1,4 @@
-const Model = require('../models/alias');
+const Alias = require('../models/alias');
 
 /**
  * @class Aliases
@@ -7,19 +7,19 @@ const Model = require('../models/alias');
 class Aliases {
   /**
    * @static
-   * Find and return id of entity with given alias
+   * Find and return entity with given alias
    *
-   * @param {string} alias - alias of entity
-   * @returns {Promise<string>}
+   * @param {string} aliasName - alias name of entity
+   * @returns {Promise<Alias>}
    */
-  static async get(alias) {
-    const id = await Model.get(alias);
-    console.log('id', id);
-    if (!id) {
+  static async get(aliasName) {
+    const alias = await Alias.get(aliasName.slice(1));
+
+    if (!alias.id) {
       throw new Error('Entity with given alias does not exist');
     }
 
-    return id;
+    return alias;
   }
 }
 

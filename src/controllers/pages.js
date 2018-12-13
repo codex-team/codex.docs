@@ -1,4 +1,7 @@
 const Model = require('../models/page');
+const Alias = require('../models/alias');
+const aliasTypes = require('../constants/aliasTypes');
+const getHashFromString = require('../utils/hash');
 
 /**
  * @class Pages
@@ -50,10 +53,22 @@ class Pages {
   static async insert(data) {
     try {
       Pages.validate(data);
-
+      console.log('data', data);
       const page = new Model(data);
 
-      return page.save();
+      const pagePromise = page.save();
+
+      pagePromise.then(() => {
+        const alias = new Alias({
+          id: page._id,
+          type: aliasTypes.PAGE,
+          hash: getHashFromString(page.uri).toString()
+        });
+
+        alias.save();
+      });
+
+      return pagePromise;
     } catch (validationError) {
       throw new Error(validationError);
     }

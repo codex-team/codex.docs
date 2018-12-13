@@ -72,7 +72,7 @@ class Page {
 
     this.body = body || this.body;
     this.title = this.extractTitleFromBody();
-    this.uri = uri || '';
+    this.uri = uri || this.title.toLowerCase().split(' ').join('-');
     this._parent = parent || this._parent;
   }
 
