@@ -1,7 +1,7 @@
 const Model = require('../models/page');
 const Alias = require('../models/alias');
 const aliasTypes = require('../constants/aliasTypes');
-const getHashFromString = require('../utils/hash');
+const md5 = require('blueimp-md5');
 
 /**
  * @class Pages
@@ -15,7 +15,7 @@ class Pages {
    * @returns {['title', 'body']}
    */
   static get REQUIRED_FIELDS() {
-    return [ 'body' ];
+    return ['body'];
   }
 
   /**
@@ -53,20 +53,18 @@ class Pages {
   static async insert(data) {
     try {
       Pages.validate(data);
-      console.log('data', data);
       const page = new Model(data);
 
       const pagePromise = page.save();
+      const updatedPage = await pagePromise;
 
-      pagePromise.then(() => {
-        const alias = new Alias({
-          id: page._id,
-          type: aliasTypes.PAGE,
-          hash: getHashFromString(page.uri).toString()
-        });
-
-        alias.save();
+      const alias = new Alias({
+        id: updatedPage._id,
+        type: aliasTypes.PAGE,
+        hash: md5(updatedPage.uri)
       });
+
+      alias.save();
 
       return pagePromise;
     } catch (validationError) {
@@ -119,10 +117,22 @@ class Pages {
     if (!page._id) {
       throw new Error('Page with given id does not exist');
     }
+    const oldAlias = page.uri;
 
     page.data = data;
+    const pagePromise = page.save();
+    const updatedPage = await pagePromise;
 
-    return page.save();
+    Alias.markAsDeprecated(oldAlias);
+
+    const alias = new Alias({
+      id: updatedPage._id,
+      type: aliasTypes.PAGE,
+      hash: md5(updatedPage.uri)
+    });
+
+    alias.save();
+    return pagePromise;
   }
 
   /**

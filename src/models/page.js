@@ -1,5 +1,6 @@
 const {pages: pagesDb} = require('../utils/database/index');
 const {aliases: aliasesDb} = require('../utils/database/index');
+const translateString = require('../utils/translation');
 
 /**
  * @typedef {Object} PageData
@@ -29,6 +30,17 @@ class Page {
    */
   static async get(_id) {
     const data = await pagesDb.findOne({_id});
+
+    return new Page(data);
+  }
+
+  /**
+   * Find and return model of page with given uri
+   * @param {string} uri - page uri
+   * @returns {Promise<Page>}
+   */
+  static async getByUri(uri) {
+    const data = await pagesDb.findOne({uri});
 
     return new Page(data);
   }
@@ -72,7 +84,7 @@ class Page {
 
     this.body = body || this.body;
     this.title = this.extractTitleFromBody();
-    this.uri = uri || this.title.toLowerCase().split(' ').join('-');
+    this.uri = uri || translateString(this.title.toLowerCase()).split(' ').join('-');
     this._parent = parent || this._parent;
   }
 
@@ -136,15 +148,29 @@ class Page {
    * @returns {Promise<Page>}
    */
   async save() {
+    let newUri = translateString(this.title.toLowerCase()).split(' ').join('-');
+    let pageWithSameUri = await Page.getByUri(newUri);
+    let pageWithSameUriCount = 0;
+
+    while (pageWithSameUri._id) {
+      pageWithSameUriCount++;
+      pageWithSameUri = await Page.getByUri(newUri + `-${pageWithSameUriCount}`);
+    }
+
+    this.uri = pageWithSameUriCount ? newUri + `-${pageWithSameUriCount}` : newUri;
+
     if (!this._id) {
       const insertedRow = await pagesDb.insert({
         ...this.data,
-        uri: this.title.toLowerCase().split(' ').join('-')
+        uri: this.uri
       });
 
       this._id = insertedRow._id;
     } else {
-      await pagesDb.update({_id: this._id}, this.data);
+      await pagesDb.update({_id: this._id}, {
+        ...this.data,
+        uri: this.uri
+      });
     }
 
     return this;
