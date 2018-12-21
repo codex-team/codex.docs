@@ -9,7 +9,7 @@
   <section data-module="writing">
     <module-settings hidden>
       {
-        "page": {{ page | json_encode }}
+      "page": {{ page | json_encode }}
       }
     </module-settings>
     <header class="writing-header">
@@ -23,7 +23,7 @@
           <option value="0">Root</option>
           {% for _page in pagesAvailable %}
             {% if _page._id != currentPageId %}
-              <option value="{{ _page._id }}" {{ page is not empty and page._parent == _page._id ? 'selected' : ''}}>
+              <option value="{{ _page._id }}" {{ page is not empty and page._parent == _page._id ? 'selected' : '' }}>
                 {{ _page.title }}
               </option>
             {% endif %}
@@ -34,5 +34,10 @@
         Save
       </span>
     </header>
+    {% if page is not empty %}
+      <main>
+        <input type="text" class="uri-input" name="uri-input" placeholder="Uri(Optional)" value="{{ page.uri }}">
+      </main>
+    {% endif %}
   </section>
 {% endblock %}

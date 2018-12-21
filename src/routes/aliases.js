@@ -11,8 +11,7 @@ const aliasTypes = require('../constants/aliasTypes');
  */
 router.get('*', async (req, res) => {
   try {
-    console.log('url ', req.originalUrl);
-    const alias = await Aliases.get(req.originalUrl);
+    const alias = await Aliases.get(req.originalUrl.slice(1));
 
     switch (alias.type) {
       case aliasTypes.PAGE: {

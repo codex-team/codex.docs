@@ -26,7 +26,11 @@ class Alias {
    */
   static async get(aliasName) {
     const hash = md5(aliasName);
-    const data = await aliasesDb.findOne({hash});
+    let data = await aliasesDb.findOne({hash: hash, deprecated: false});
+
+    if (!data) {
+      data = await aliasesDb.findOne({hash: hash});
+    }
 
     return new Alias(data);
   }

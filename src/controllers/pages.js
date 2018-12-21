@@ -117,21 +117,25 @@ class Pages {
     if (!page._id) {
       throw new Error('Page with given id does not exist');
     }
-    const oldAlias = page.uri;
+    const previousUri = page.uri;
 
     page.data = data;
+
     const pagePromise = page.save();
     const updatedPage = await pagePromise;
 
-    Alias.markAsDeprecated(oldAlias);
+    if (updatedPage.uri !== previousUri) {
+      Alias.markAsDeprecated(previousUri);
 
-    const alias = new Alias({
-      id: updatedPage._id,
-      type: aliasTypes.PAGE,
-      hash: md5(updatedPage.uri)
-    });
+      const alias = new Alias({
+        id: updatedPage._id,
+        type: aliasTypes.PAGE,
+        hash: md5(updatedPage.uri)
+      });
 
-    alias.save();
+      alias.save();
+    }
+
     return pagePromise;
   }
 

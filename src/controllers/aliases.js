@@ -13,7 +13,7 @@ class Aliases {
    * @returns {Promise<Alias>}
    */
   static async get(aliasName) {
-    const alias = await Alias.get(aliasName.slice(1));
+    const alias = await Alias.get(aliasName);
 
     if (!alias.id) {
       throw new Error('Entity with given alias does not exist');

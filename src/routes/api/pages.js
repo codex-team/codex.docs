@@ -76,8 +76,8 @@ router.post('/page/:id', multer.any(), async (req, res) => {
   const {id} = req.params;
 
   try {
-    const {title, body, parent} = req.body;
-    const page = await Pages.update(id, {title, body, parent});
+    const {title, body, parent, uri} = req.body;
+    const page = await Pages.update(id, {title, body, parent, uri});
 
     res.json({
       success: true,

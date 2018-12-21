@@ -148,11 +148,11 @@ class Page {
    * @returns {Promise<Page>}
    */
   async save() {
-    let newUri = translateString(this.title.toLowerCase()).split(' ').join('-');
+    let newUri = this.uri;
     let pageWithSameUri = await Page.getByUri(newUri);
     let pageWithSameUriCount = 0;
 
-    while (pageWithSameUri._id) {
+    while (pageWithSameUri._id && pageWithSameUri._id !== this._id) {
       pageWithSameUriCount++;
       pageWithSameUri = await Page.getByUri(newUri + `-${pageWithSameUriCount}`);
     }

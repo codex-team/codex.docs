@@ -27,7 +27,8 @@ export default class Writing {
     this.nodes = {
       editorWrapper: null,
       saveButton: null,
-      parentIdSelector: null
+      parentIdSelector: null,
+      uriInput: null
     };
   }
 
@@ -61,6 +62,7 @@ export default class Writing {
       this.saveButtonClicked();
     });
     this.nodes.parentIdSelector = moduleEl.querySelector('[name="parent"]');
+    this.nodes.uriInput = moduleEl.querySelector('[name="uri-input"]');
   };
 
   /**
@@ -91,6 +93,7 @@ export default class Writing {
 
     return {
       parent: this.nodes.parentIdSelector.value,
+      uri: this.nodes.uriInput ? this.nodes.uriInput.value : '',
       body: editorData
     };
   }
