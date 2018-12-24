@@ -1,5 +1,5 @@
 const {aliases: aliasesDb} = require('../utils/database/index');
-const md5 = require('blueimp-md5');
+const md5 = require('../utils/md5');
 /**
  * @typedef {Object} AliasData
  * @property {string} _id - alias id

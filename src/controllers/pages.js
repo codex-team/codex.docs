@@ -1,7 +1,7 @@
 const Model = require('../models/page');
 const Alias = require('../models/alias');
 const aliasTypes = require('../constants/aliasTypes');
-const md5 = require('blueimp-md5');
+const md5 = require('../utils/md5');
 
 /**
  * @class Pages
@@ -15,7 +15,7 @@ class Pages {
    * @returns {['title', 'body']}
    */
   static get REQUIRED_FIELDS() {
-    return ['body'];
+    return [ 'body' ];
   }
 
   /**

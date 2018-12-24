@@ -148,29 +148,14 @@ class Page {
    * @returns {Promise<Page>}
    */
   async save() {
-    let newUri = this.uri;
-    let pageWithSameUri = await Page.getByUri(newUri);
-    let pageWithSameUriCount = 0;
-
-    while (pageWithSameUri._id && pageWithSameUri._id !== this._id) {
-      pageWithSameUriCount++;
-      pageWithSameUri = await Page.getByUri(newUri + `-${pageWithSameUriCount}`);
-    }
-
-    this.uri = pageWithSameUriCount ? newUri + `-${pageWithSameUriCount}` : newUri;
+    this.uri = await this.composeUri(this.uri);
 
     if (!this._id) {
-      const insertedRow = await pagesDb.insert({
-        ...this.data,
-        uri: this.uri
-      });
+      const insertedRow = await pagesDb.insert(this.data);
 
       this._id = insertedRow._id;
     } else {
-      await pagesDb.update({_id: this._id}, {
-        ...this.data,
-        uri: this.uri
-      });
+      await pagesDb.update({_id: this._id}, this.data);
     }
 
     return this;
@@ -187,6 +172,23 @@ class Page {
     delete this._id;
 
     return this;
+  }
+
+  /**
+   * Find and return available uri
+   *
+   * @returns {Promise<string>}
+   */
+  async composeUri(uri) {
+    let pageWithSameUri = await Page.getByUri(uri);
+    let pageWithSameUriCount = 0;
+
+    while (pageWithSameUri._id && pageWithSameUri._id !== this._id) {
+      pageWithSameUriCount++;
+      pageWithSameUri = await Page.getByUri(uri + `-${pageWithSameUriCount}`);
+    }
+
+    return pageWithSameUriCount ? uri + `-${pageWithSameUriCount}` : uri;
   }
 
   /**
