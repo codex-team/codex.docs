@@ -84,7 +84,13 @@ class Page {
 
     this.body = body || this.body;
     this.title = this.extractTitleFromBody();
-    this.uri = uri || translateString(this.title.toLowerCase()).split(' ').join('-');
+    this.uri = uri || translateString(this.title
+      .replace(/&nbsp;/g, ' ')
+      .replace(/-/g, ' ')
+      .trim()
+      .toLowerCase()
+      .split(' ')
+      .join('-'));
     this._parent = parent || this._parent;
   }
 

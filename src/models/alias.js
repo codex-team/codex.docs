@@ -39,13 +39,17 @@ class Alias {
    * @constructor
    *
    * @param {AliasData} data
+   * @param {string} aliasName - alias of entity
    */
-  constructor(data = {}) {
+  constructor(data = {}, aliasName) {
     if (data === null) {
       data = {};
     }
     if (data._id) {
       this._id = data._id;
+    }
+    if (aliasName) {
+      this.hash = md5(aliasName);
     }
     this.data = data;
   }

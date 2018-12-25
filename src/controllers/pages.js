@@ -1,7 +1,6 @@
 const Model = require('../models/page');
 const Alias = require('../models/alias');
 const aliasTypes = require('../constants/aliasTypes');
-const md5 = require('../utils/md5');
 
 /**
  * @class Pages
@@ -60,9 +59,8 @@ class Pages {
 
       const alias = new Alias({
         id: updatedPage._id,
-        type: aliasTypes.PAGE,
-        hash: md5(updatedPage.uri)
-      });
+        type: aliasTypes.PAGE
+      }, updatedPage.uri);
 
       alias.save();
 
@@ -129,9 +127,8 @@ class Pages {
 
       const alias = new Alias({
         id: updatedPage._id,
-        type: aliasTypes.PAGE,
-        hash: md5(updatedPage.uri)
-      });
+        type: aliasTypes.PAGE
+      }, updatedPage.uri);
 
       alias.save();
     }
