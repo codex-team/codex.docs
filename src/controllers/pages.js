@@ -42,8 +42,10 @@ class Pages {
   }
 
   /**
+   * @static
    * Return all pages without children pages
    *
+   * @param {string} parent - id of current page
    * @returns {Promise<Page[]>}
    */
   static async getWithoutChildren(parent) {
@@ -53,9 +55,12 @@ class Pages {
   }
 
   /**
-   * Change wrong pages to null
+   * @static
+   * Set all children elements to null
    *
-   * @returns page[]
+   * @param {Array<?Page>} pagesAvailable - Array of all pages
+   * @param {string} parent - id of parent page
+   * @returns {Array<?Page>}
    */
   static removeChildren(pagesAvailable, parent) {
     pagesAvailable.forEach(async (item, index) => {
