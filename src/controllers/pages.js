@@ -64,13 +64,11 @@ class Pages {
    */
   static removeChildren(pagesAvailable, parent) {
     pagesAvailable.forEach(async (item, index) => {
-      if (item !== null && item._parent === parent) {
-        pagesAvailable[index] = null;
-        pagesAvailable = Pages.removeChildren(pagesAvailable, item._id);
-
-        return false;
+      if (item === null || item._parent !== parent) {
+        return;
       }
-      return true;
+      pagesAvailable[index] = null;
+      pagesAvailable = Pages.removeChildren(pagesAvailable, item._id);
     });
     return pagesAvailable;
   }
