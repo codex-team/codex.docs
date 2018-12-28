@@ -22,19 +22,7 @@ router.get('/page/edit/:id', async (req, res, next) => {
 
   try {
     let page = await Pages.get(pageId);
-    let pagesAvailable = await Pages.getAll();
-
-    (function childrenRemove(parent) {
-      pagesAvailable.forEach((item, index) => {
-        if (item !== null && item._parent === parent) {
-          pagesAvailable[index] = null;
-          childrenRemove(item._id);
-          return false;
-        }
-        return true;
-      });
-    })(page._id);
-    pagesAvailable = pagesAvailable.filter((item) => item !== null);
+    let pagesAvailable = await Pages.getWithoutChildren(pageId);
 
     res.render('pages/form', {
       pagesAvailable,

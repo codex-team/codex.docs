@@ -42,6 +42,35 @@ class Pages {
   }
 
   /**
+   * Return all pages without children pages
+   *
+   * @returns {Promise<Page[]>}
+   */
+  static async getWithoutChildren(parent) {
+    let pagesAvailable = this.removeChildren(await Pages.getAll(), parent);
+
+    return pagesAvailable.filter((item) => item !== null);
+  }
+
+  /**
+   * Change wrong pages to null
+   *
+   * @returns {Promise<Page[]>}
+   */
+  static removeChildren(pagesAvailable, parent) {
+    pagesAvailable.forEach(async (item, index) => {
+      if (item !== null && item._parent === parent) {
+        pagesAvailable[index] = null;
+        pagesAvailable = Pages.removeChildren(pagesAvailable, item._id);
+
+        return false;
+      }
+      return true;
+    });
+    return pagesAvailable;
+  }
+
+  /**
    * Create new page model and save it in the database
    *
    * @param {PageData} data
