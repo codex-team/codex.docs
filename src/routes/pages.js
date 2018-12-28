@@ -22,7 +22,7 @@ router.get('/page/edit/:id', async (req, res, next) => {
 
   try {
     let page = await Pages.get(pageId);
-    let pagesAvailable = await Pages.getWithoutChildren(pageId);
+    let pagesAvailable = await Pages.getAllExceptChildrends(pageId);
 
     res.render('pages/form', {
       pagesAvailable,
