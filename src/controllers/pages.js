@@ -55,7 +55,7 @@ class Pages {
   /**
    * Change wrong pages to null
    *
-   * @returns {Promise<Page[]>}
+   * @returns page[]
    */
   static removeChildren(pagesAvailable, parent) {
     pagesAvailable.forEach(async (item, index) => {
