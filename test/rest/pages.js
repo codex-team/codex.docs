@@ -1,5 +1,6 @@
 const {app} = require('../../bin/www');
 const model = require('../../src/models/page');
+const translateString = require('../../src/utils/translation');
 
 const fs = require('fs');
 const path = require('path');
@@ -49,6 +50,13 @@ describe('Pages REST: ', () => {
     expect(success).to.be.true;
     expect(result._id).to.be.a('string');
     expect(result.title).to.equal(body.blocks[0].data.text);
+    expect(result.uri).to.equal(translateString(body.blocks[0].data.text
+      .replace(/&nbsp;/g, ' ')
+      .replace(/-/g, ' ')
+      .trim()
+      .toLowerCase()
+      .split(' ')
+      .join('-')));
     expect(result.body).to.deep.equal(body);
 
     const createdPage = await model.get(result._id);
@@ -56,6 +64,13 @@ describe('Pages REST: ', () => {
     expect(createdPage).not.be.null;
     expect(createdPage._id).to.equal(result._id);
     expect(createdPage.title).to.equal(body.blocks[0].data.text);
+    expect(createdPage.uri).to.equal(translateString(body.blocks[0].data.text
+      .replace(/&nbsp;/g, ' ')
+      .replace(/-/g, ' ')
+      .trim()
+      .toLowerCase()
+      .split(' ')
+      .join('-')));
     expect(createdPage.body).to.deep.equal(body);
 
     createdPage.destroy();
@@ -109,6 +124,13 @@ describe('Pages REST: ', () => {
 
     expect(foundPage._id).to.equal(_id);
     expect(foundPage.title).to.equal(body.blocks[0].data.text);
+    expect(foundPage.uri).to.equal(translateString(body.blocks[0].data.text
+      .replace(/&nbsp;/g, ' ')
+      .replace(/-/g, ' ')
+      .trim()
+      .toLowerCase()
+      .split(' ')
+      .join('-')));
     expect(foundPage.body).to.deep.equal(body);
 
     foundPage.destroy();
@@ -157,10 +179,11 @@ describe('Pages REST: ', () => {
         }
       ]
     };
+    const updatedUri = 'updated-uri';
 
     res = await agent
       .post(`/api/page/${_id}`)
-      .send({body: updatedBody});
+      .send({body: updatedBody, uri: updatedUri});
 
     expect(res).to.have.status(200);
     expect(res).to.be.json;
@@ -171,6 +194,14 @@ describe('Pages REST: ', () => {
     expect(result._id).to.equal(_id);
     expect(result.title).not.equal(body.blocks[0].data.text);
     expect(result.title).to.equal(updatedBody.blocks[0].data.text);
+    expect(result.uri).not.equal(translateString(body.blocks[0].data.text
+      .replace(/&nbsp;/g, ' ')
+      .replace(/-/g, ' ')
+      .trim()
+      .toLowerCase()
+      .split(' ')
+      .join('-')));
+    expect(result.uri).to.equal(updatedUri);
     expect(result.body).not.equal(body);
     expect(result.body).to.deep.equal(updatedBody);
 
@@ -179,10 +210,89 @@ describe('Pages REST: ', () => {
     expect(updatedPage._id).to.equal(_id);
     expect(updatedPage.title).not.equal(body.blocks[0].data.text);
     expect(updatedPage.title).to.equal(updatedBody.blocks[0].data.text);
+    expect(updatedPage.uri).not.equal(translateString(body.blocks[0].data.text
+      .replace(/&nbsp;/g, ' ')
+      .replace(/-/g, ' ')
+      .trim()
+      .toLowerCase()
+      .split(' ')
+      .join('-')));
+    expect(updatedPage.uri).to.equal(updatedUri);
     expect(updatedPage.body).not.equal(body);
     expect(updatedPage.body).to.deep.equal(updatedBody);
 
     updatedPage.destroy();
+  });
+
+  it('Handle multiple page creation with the same uri', async () => {
+    const body = {
+      blocks: [
+        {
+          type: 'header',
+          data: {
+            text: 'Page header'
+          }
+        }
+      ]
+    };
+
+    let res = await agent
+      .put('/api/page')
+      .send({body});
+
+    expect(res).to.have.status(200);
+    expect(res).to.be.json;
+
+    const {result: {_id}} = res.body;
+
+    res = await agent
+      .put('/api/page')
+      .send({body: body});
+
+    expect(res).to.have.status(200);
+    expect(res).to.be.json;
+
+    const {success: secondPageSuccess, result: secondPageResult} = res.body;
+
+    expect(secondPageSuccess).to.be.true;
+    expect(secondPageResult.title).to.equal(body.blocks[0].data.text);
+    expect(secondPageResult.uri).to.equal(translateString(body.blocks[0].data.text
+      .replace(/&nbsp;/g, ' ')
+      .replace(/-/g, ' ')
+      .trim()
+      .toLowerCase()
+      .split(' ')
+      .join('-')) + '-1');
+    expect(secondPageResult.body).to.deep.equal(body);
+
+    const newFirstPageUri = 'New uri';
+
+    res = await agent
+      .post(`/api/page/${_id}`)
+      .send({body: body, uri: newFirstPageUri});
+
+    expect(res).to.have.status(200);
+    expect(res).to.be.json;
+
+    res = await agent
+      .put('/api/page')
+      .send({body: body});
+
+    expect(res).to.have.status(200);
+    expect(res).to.be.json;
+
+    const {success: thirdPageSuccess, result: thirdPageResult} = res.body;
+
+    expect(thirdPageSuccess).to.be.true;
+    expect(thirdPageResult.title).to.equal(body.blocks[0].data.text);
+    expect(thirdPageResult.uri).to.equal(translateString(body.blocks[0].data.text
+      .replace(/&nbsp;/g, ' ')
+      .replace(/-/g, ' ')
+      .trim()
+      .toLowerCase()
+      .split(' ')
+      .join('-')));
+    expect(thirdPageResult.body).to.deep.equal(body);
   });
 
   it('Updating page with not existing id', async () => {
@@ -214,7 +324,7 @@ describe('Pages REST: ', () => {
         {
           type: 'header',
           data: {
-            text: 'Page header'
+            text: 'Page header to be deleted'
           }
         }
       ]
@@ -240,6 +350,13 @@ describe('Pages REST: ', () => {
     expect(success).to.be.true;
     expect(result._id).to.be.undefined;
     expect(result.title).to.equal(body.blocks[0].data.text);
+    expect(result.uri).to.equal(translateString(body.blocks[0].data.text
+      .replace(/&nbsp;/g, ' ')
+      .replace(/-/g, ' ')
+      .trim()
+      .toLowerCase()
+      .split(' ')
+      .join('-')));
     expect(result.body).to.deep.equal(body);
 
     const deletedPage = await model.get(_id);
