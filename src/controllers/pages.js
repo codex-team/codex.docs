@@ -54,17 +54,16 @@ class Pages {
       Pages.validate(data);
       const page = new Model(data);
 
-      const pagePromise = page.save();
-      const updatedPage = await pagePromise;
+      const insertedPage = await page.save();
 
       const alias = new Alias({
-        id: updatedPage._id,
+        id: insertedPage._id,
         type: aliasTypes.PAGE
-      }, updatedPage.uri);
+      }, insertedPage.uri);
 
       alias.save();
 
-      return pagePromise;
+      return insertedPage;
     } catch (validationError) {
       throw new Error(validationError);
     }
@@ -119,8 +118,7 @@ class Pages {
 
     page.data = data;
 
-    const pagePromise = page.save();
-    const updatedPage = await pagePromise;
+    const updatedPage = await page.save();
 
     if (updatedPage.uri !== previousUri) {
       Alias.markAsDeprecated(previousUri);
@@ -133,7 +131,7 @@ class Pages {
       alias.save();
     }
 
-    return pagePromise;
+    return updatedPage;
   }
 
   /**
