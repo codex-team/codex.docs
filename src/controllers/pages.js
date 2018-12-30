@@ -43,12 +43,12 @@ class Pages {
 
   /**
    * @static
-   * Return all pages without children pages
+   * Return all pages without children of passed page
    *
    * @param {string} parent - id of current page
    * @returns {Promise<Page[]>}
    */
-  static async getAllExceptChildrends(parent) {
+  static async getAllExceptChildrens(parent) {
     let pagesAvailable = this.removeChildren(await Pages.getAll(), parent);
 
     return pagesAvailable.filter((item) => item !== null);
@@ -58,7 +58,7 @@ class Pages {
    * @static
    * Set all children elements to null
    *
-   * @param {Array<?Page>} pagesAvailable - Array of all pages
+   * @param {Page[]} [pagesAvailable] - Array of all pages
    * @param {string} parent - id of parent page
    * @returns {Array<?Page>}
    */
