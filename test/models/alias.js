@@ -3,8 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const config = require('../../config');
 const Alias = require('../../src/models/alias');
-const md5 = require('../utils/md5');
-const aliasTypes = require('../constants/aliasTypes');
+const md5 = require('../../src/utils/md5');
+const aliasTypes = require('../../src/constants/aliasTypes');
 const {aliases} = require('../../src/utils/database');
 
 describe('Alias model', () => {
