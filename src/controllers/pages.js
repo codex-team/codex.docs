@@ -48,7 +48,7 @@ class Pages {
    * @param {string} parent - id of current page
    * @returns {Promise<Page[]>}
    */
-  static async getAllExceptChildrends(parent) {
+   static async getAllExceptChildrens(parent) {
     let pagesAvailable = this.removeChildren(await Pages.getAll(), parent);
 
     return pagesAvailable.filter((item) => item !== null);
