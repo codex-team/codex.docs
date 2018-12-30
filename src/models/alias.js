@@ -41,7 +41,7 @@ class Alias {
    * @param {AliasData} data
    * @param {string} aliasName - alias of entity
    */
-  constructor(data = {}, aliasName) {
+  constructor(data = {}, aliasName = '') {
     if (data === null) {
       data = {};
     }
@@ -62,6 +62,8 @@ class Alias {
   async save() {
     if (!this._id) {
       const insertedRow = await aliasesDb.insert(this.data);
+
+      this._id = insertedRow._id;
     } else {
       await aliasesDb.update({_id: this._id}, this.data);
     }
