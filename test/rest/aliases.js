@@ -49,9 +49,9 @@ describe('Aliases REST: ', () => {
     expect(put).to.have.status(200);
     expect(put).to.be.json;
 
-    const {result: {_id}} = put.body;
+    const {result: {uri}} = put.body;
 
-    const get = await agent.get(`/api/page/${_id}`);
+    const get = await agent.get(`/${uri}`);
 
     expect(get).to.have.status(200);
   });
