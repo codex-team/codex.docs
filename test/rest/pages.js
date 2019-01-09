@@ -13,6 +13,16 @@ chai.use(chaiHTTP);
 
 describe('Pages REST: ', () => {
   let agent;
+  const transformToUri = (string) => {
+    return translateString(string
+      .replace(/&nbsp;/g, ' ')
+      .replace(/[^a-zA-Z0-9А-Яа-яЁё ]/g, ' ')
+      .replace(/  +/g, ' ')
+      .trim()
+      .toLowerCase()
+      .split(' ')
+      .join('-'));
+  };
 
   before(async () => {
     agent = chai.request.agent(app);
@@ -50,13 +60,7 @@ describe('Pages REST: ', () => {
     expect(success).to.be.true;
     expect(result._id).to.be.a('string');
     expect(result.title).to.equal(body.blocks[0].data.text);
-    expect(result.uri).to.equal(translateString(body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')));
+    expect(result.uri).to.equal(transformToUri(body.blocks[0].data.text));
     expect(result.body).to.deep.equal(body);
 
     const createdPage = await model.get(result._id);
@@ -64,13 +68,7 @@ describe('Pages REST: ', () => {
     expect(createdPage).not.be.null;
     expect(createdPage._id).to.equal(result._id);
     expect(createdPage.title).to.equal(body.blocks[0].data.text);
-    expect(createdPage.uri).to.equal(translateString(body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')));
+    expect(createdPage.uri).to.equal(transformToUri(body.blocks[0].data.text));
     expect(createdPage.body).to.deep.equal(body);
 
     createdPage.destroy();
@@ -124,13 +122,7 @@ describe('Pages REST: ', () => {
 
     expect(foundPage._id).to.equal(_id);
     expect(foundPage.title).to.equal(body.blocks[0].data.text);
-    expect(foundPage.uri).to.equal(translateString(body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')));
+    expect(foundPage.uri).to.equal(transformToUri(body.blocks[0].data.text));
     expect(foundPage.body).to.deep.equal(body);
 
     foundPage.destroy();
@@ -194,13 +186,7 @@ describe('Pages REST: ', () => {
     expect(result._id).to.equal(_id);
     expect(result.title).not.equal(body.blocks[0].data.text);
     expect(result.title).to.equal(updatedBody.blocks[0].data.text);
-    expect(result.uri).not.equal(translateString(body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')));
+    expect(result.uri).not.equal(transformToUri(body.blocks[0].data.text));
     expect(result.uri).to.equal(updatedUri);
     expect(result.body).not.equal(body);
     expect(result.body).to.deep.equal(updatedBody);
@@ -210,13 +196,7 @@ describe('Pages REST: ', () => {
     expect(updatedPage._id).to.equal(_id);
     expect(updatedPage.title).not.equal(body.blocks[0].data.text);
     expect(updatedPage.title).to.equal(updatedBody.blocks[0].data.text);
-    expect(updatedPage.uri).not.equal(translateString(body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')));
+    expect(updatedPage.uri).not.equal(transformToUri(body.blocks[0].data.text));
     expect(updatedPage.uri).to.equal(updatedUri);
     expect(updatedPage.body).not.equal(body);
     expect(updatedPage.body).to.deep.equal(updatedBody);
@@ -256,13 +236,7 @@ describe('Pages REST: ', () => {
 
     expect(secondPageSuccess).to.be.true;
     expect(secondPageResult.title).to.equal(body.blocks[0].data.text);
-    expect(secondPageResult.uri).to.equal(translateString(body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')) + '-1');
+    expect(secondPageResult.uri).to.equal(transformToUri(body.blocks[0].data.text) + '-1');
     expect(secondPageResult.body).to.deep.equal(body);
 
     const newFirstPageUri = 'New uri';
@@ -285,13 +259,7 @@ describe('Pages REST: ', () => {
 
     expect(thirdPageSuccess).to.be.true;
     expect(thirdPageResult.title).to.equal(body.blocks[0].data.text);
-    expect(thirdPageResult.uri).to.equal(translateString(body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')));
+    expect(thirdPageResult.uri).to.equal(transformToUri(body.blocks[0].data.text));
     expect(thirdPageResult.body).to.deep.equal(body);
   });
 
@@ -350,13 +318,7 @@ describe('Pages REST: ', () => {
     expect(success).to.be.true;
     expect(result._id).to.be.undefined;
     expect(result.title).to.equal(body.blocks[0].data.text);
-    expect(result.uri).to.equal(translateString(body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')));
+    expect(result.uri).to.equal(transformToUri(body.blocks[0].data.text));
     expect(result.body).to.deep.equal(body);
 
     const deletedPage = await model.get(_id);

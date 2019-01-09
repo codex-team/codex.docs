@@ -86,7 +86,8 @@ class Page {
     this.title = this.extractTitleFromBody();
     this.uri = uri || translateString(this.title
       .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
+      .replace(/[^a-zA-Z0-9А-Яа-яЁё ]/g, ' ')
+      .replace(/  +/g, ' ')
       .trim()
       .toLowerCase()
       .split(' ')

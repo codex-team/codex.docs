@@ -7,6 +7,18 @@ const {pages} = require('../../src/utils/database');
 const translateString = require('../../src/utils/translation');
 
 describe('Page model', () => {
+
+  const transformToUri = (string) => {
+    return translateString(string
+      .replace(/&nbsp;/g, ' ')
+      .replace(/[^a-zA-Z0-9А-Яа-яЁё ]/g, ' ')
+      .replace(/  +/g, ' ')
+      .trim()
+      .toLowerCase()
+      .split(' ')
+      .join('-'));
+  };
+
   after(() => {
     const pathToDB = path.resolve(__dirname, '../../', config.database, './pages.db');
 
@@ -60,13 +72,7 @@ describe('Page model', () => {
 
     expect(data._id).to.equal(initialData._id);
     expect(data.title).to.equal(initialData.body.blocks[0].data.text);
-    expect(data.uri).to.equal(translateString(initialData.body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')));
+    expect(data.uri).to.equal(transformToUri(initialData.body.blocks[0].data.text));
     expect(data.body).to.deep.equal(initialData.body);
     expect(data.parent).to.be.undefined;
 
@@ -96,13 +102,7 @@ describe('Page model', () => {
 
     expect(data._id).to.equal(initialData._id);
     expect(data.title).to.equal(update.body.blocks[0].data.text);
-    expect(data.uri).to.equal(translateString(update.body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')));
+    expect(data.uri).to.equal(transformToUri(update.body.blocks[0].data.text));
     expect(data.body).to.equal(update.body);
     expect(data.parent).to.be.undefined;
   });
@@ -126,13 +126,7 @@ describe('Page model', () => {
 
     expect(savedPage._id).not.be.undefined;
     expect(savedPage.title).to.equal(initialData.body.blocks[0].data.text);
-    expect(savedPage.uri).to.equal(translateString(initialData.body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')));
+    expect(savedPage.uri).to.equal(transformToUri(initialData.body.blocks[0].data.text));
     expect(savedPage.body).to.equal(initialData.body);
     expect(page._id).not.be.undefined;
 
@@ -196,13 +190,7 @@ describe('Page model', () => {
     const secondPage = new Page(initialData);
     let secondSavedPage = await secondPage.save();
 
-    expect(secondSavedPage.uri).to.equal(translateString(initialData.body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')) + '-1');
+    expect(secondSavedPage.uri).to.equal(transformToUri(initialData.body.blocks[0].data.text) + '-1');
 
     const newUri = 'new-uri';
 
@@ -214,13 +202,7 @@ describe('Page model', () => {
     const thirdPage = new Page(initialData);
     let thirdSavedPage = await thirdPage.save();
 
-    expect(thirdSavedPage.uri).to.equal(translateString(initialData.body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')));
+    expect(thirdSavedPage.uri).to.equal(transformToUri(initialData.body.blocks[0].data.text));
   });
 
   it('Static get method', async () => {
@@ -246,13 +228,7 @@ describe('Page model', () => {
 
     expect(data._id).to.equal(savedPage._id);
     expect(data.title).to.equal(initialData.body.blocks[0].data.text);
-    expect(data.uri).to.equal(translateString(initialData.body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')));
+    expect(data.uri).to.equal(transformToUri(initialData.body.blocks[0].data.text));
     expect(data.body).to.deep.equal(initialData.body);
 
     await page.destroy();
@@ -293,13 +269,7 @@ describe('Page model', () => {
     expect(foundPages.length).to.equal(2);
     foundPages.forEach((page, i) => {
       expect(page.title).to.equal(pagesToSave[i].body.blocks[0].data.text);
-      expect(page.uri).to.equal(translateString(pagesToSave[i].body.blocks[0].data.text
-        .replace(/&nbsp;/g, ' ')
-        .replace(/-/g, ' ')
-        .trim()
-        .toLowerCase()
-        .split(' ')
-        .join('-')));
+      expect(page.uri).to.equal(transformToUri(pagesToSave[i].body.blocks[0].data.text));
       expect(page.body).to.deep.equal(pagesToSave[i].body);
     });
   });
@@ -344,13 +314,7 @@ describe('Page model', () => {
 
     expect(testedParent._id).to.equal(parentId);
     expect(testedParent.title).to.equal(parent.body.blocks[0].data.text);
-    expect(testedParent.uri).to.equal(translateString(parent.body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')));
+    expect(testedParent.uri).to.equal(transformToUri(parent.body.blocks[0].data.text));
     expect(testedParent.body).to.deep.equal(parent.body);
 
     const children = await parent.children;
@@ -361,13 +325,7 @@ describe('Page model', () => {
 
     expect(testedChild._id).to.equal(childId);
     expect(testedChild.title).to.equal(child.body.blocks[0].data.text);
-    expect(testedChild.uri).to.equal(translateString(child.body.blocks[0].data.text
-      .replace(/&nbsp;/g, ' ')
-      .replace(/-/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-')));
+    expect(testedChild.uri).to.equal(transformToUri(child.body.blocks[0].data.text));
     expect(testedChild.body).to.deep.equal(child.body);
     expect(testedChild._parent).to.equal(child._parent);
     expect(testedChild._parent).to.equal(parent._id);
