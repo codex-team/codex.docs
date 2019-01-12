@@ -7,7 +7,7 @@
         Documentation
       </a>
       {% if page._parent %}
-        <a href="/page/{{ page._parent }}" class="page__header-nav">
+        <a href="{{ pageParent.uri }}" class="page__header-nav">
           Parent {{ pageParent.title }}
         </a>
       {% endif %}
