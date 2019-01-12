@@ -1,5 +1,4 @@
 const {pages: pagesDb} = require('../utils/database/index');
-const {aliases: aliasesDb} = require('../utils/database/index');
 const translateString = require('../utils/translation');
 
 /**

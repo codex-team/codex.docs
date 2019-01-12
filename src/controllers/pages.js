@@ -114,6 +114,11 @@ class Pages {
     if (!page._id) {
       throw new Error('Page with given id does not exist');
     }
+
+    if (!data.uri.match(/^[a-z0-9'-]+$/i)) {
+      throw new Error('Uri has unexpected characters');
+    }
+
     const previousUri = page.uri;
 
     page.data = data;
