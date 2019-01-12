@@ -86,6 +86,15 @@ export default class Writing {
     const editorData = await this.editor.save();
     const firstBlock = editorData.blocks.length ? editorData.blocks[0] : null;
     const title = firstBlock && firstBlock.type === 'header' ? firstBlock.data.text : null;
+    let uri = '';
+
+    if (this.nodes.uriInput) {
+      if (this.nodes.uriInput.value.match(/^[a-z0-9'-]+$/i)) {
+        uri = this.nodes.uriInput.value;
+      } else {
+        throw new Error('Uri has unexpected characters');
+      }
+    }
 
     if (!title) {
       throw new Error('Entry should start with Header');
@@ -93,7 +102,7 @@ export default class Writing {
 
     return {
       parent: this.nodes.parentIdSelector.value,
-      uri: this.nodes.uriInput ? this.nodes.uriInput.value : '',
+      uri: uri,
       body: editorData
     };
   }

@@ -11,7 +11,7 @@ const aliasTypes = require('../constants/aliasTypes');
  */
 router.get('*', async (req, res) => {
   try {
-    const alias = await Aliases.get(req.originalUrl.slice(1));
+    const alias = await Aliases.get(req.originalUrl.slice(1)); // Cuts first '/' character
 
     switch (alias.type) {
       case aliasTypes.PAGE: {
