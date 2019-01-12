@@ -21,12 +21,35 @@ router.get('/page/edit/:id', async (req, res, next) => {
   const pageId = req.params.id;
 
   try {
-    let page = await Pages.get(pageId);
-    let pagesAvailable = await Pages.getAll();
+    const page = await Pages.get(pageId);
+    const pagesAvailable = await Pages.getAll();
+
+    /**
+     * get parent with children
+     */
+    let parentsChildren = [];
+
+    let parentsChildrenOrdered = [];
+
+    if (page._parent && page._parent !== '0') {
+      const parentPage = await Pages.get(page._parent);
+
+      parentsChildren = pagesAvailable.filter(_page => _page._parent === parentPage._id);
+
+      /** Order children */
+      parentPage.childrenOrder.forEach(_pageId => {
+        parentsChildren.forEach(_page => {
+          if (_page._id === _pageId && _pageId !== pageId) {
+            parentsChildrenOrdered.push(_page);
+          }
+        });
+      });
+    }
 
     res.render('pages/form', {
-      pagesAvailable,
-      page
+      page,
+      parentsChildrenOrdered,
+      pagesAvailable
     });
   } catch (error) {
     res.status(404);

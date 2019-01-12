@@ -6,7 +6,7 @@ const {pages: db} = require('../utils/database/index');
  * @property {string} title - page title
  * @property {*} body - page body
  * @property {string} parent - id of parent page
- *
+ * @property {Array} childrenOrder - array with children order
  */
 
 /**
@@ -17,6 +17,7 @@ const {pages: db} = require('../utils/database/index');
  * @property {string} title - page title
  * @property {*} body - page body
  * @property {string} _parent - id of parent page
+ * @property {Array} _childrenOrder - array with children order
  */
 class Page {
   /**
@@ -65,11 +66,12 @@ class Page {
    * @param {PageData} pageData
    */
   set data(pageData) {
-    const {body, parent} = pageData;
+    const {body, parent, childrenOrder} = pageData;
 
     this.body = body || this.body;
     this.title = this.extractTitleFromBody();
     this._parent = parent || this._parent;
+    this._childrenOrder = childrenOrder || this._childrenOrder || [];
   }
 
   /**
@@ -82,7 +84,8 @@ class Page {
       _id: this._id,
       title: this.title,
       body: this.body,
-      parent: this._parent
+      parent: this._parent,
+      childrenOrder: this._childrenOrder
     };
   }
 
@@ -103,6 +106,24 @@ class Page {
    */
   set parent(parentPage) {
     this._parent = parentPage._id;
+  }
+
+  /**
+   * Update children order
+   *
+   * @param newOrder
+   */
+  set childrenOrder(newOrder) {
+    this._childrenOrder = newOrder;
+  }
+
+  /**
+   * Children order
+   *
+   * @return {Array<string>}
+   */
+  get childrenOrder() {
+    return this._childrenOrder;
   }
 
   /**

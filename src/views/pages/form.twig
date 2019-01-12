@@ -29,6 +29,15 @@
             {% endif %}
           {% endfor %}
         </select>
+
+        {% if parentsChildrenOrdered is not empty %}
+          Put Above
+          <select name="above">
+            {% for _page in parentsChildrenOrdered %}
+              <option value="{{ _page._id }}">{{ _page.title }}</option>
+            {% endfor %}
+          </select>
+        {% endif %}
       </span>
       <span class="writing-header__save" name="js-submit">
         Save

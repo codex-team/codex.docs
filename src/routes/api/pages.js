@@ -55,6 +55,17 @@ router.put('/page', multer.any(), async (req, res) => {
     const {title, body, parent} = req.body;
     const page = await Pages.insert({title, body, parent});
 
+    /**
+     * Each new page push to order at the last
+     */
+    if (parent && parent !== '0') {
+      const parentPage = await Pages.get(page._parent);
+
+      /** Push to parents children order */
+      parentPage.childrenOrder.push(page._id);
+      parentPage.save();
+    }
+
     res.json({
       success: true,
       result: page
@@ -76,8 +87,28 @@ router.post('/page/:id', multer.any(), async (req, res) => {
   const {id} = req.params;
 
   try {
-    const {title, body, parent} = req.body;
+    const {title, body, parent, putAbovePageId} = req.body;
     const page = await Pages.update(id, {title, body, parent});
+
+    /** update child order */
+    if (parent && parent !== '0') {
+      const parentPage = await Pages.get(parent);
+      const found1 = parentPage.childrenOrder.indexOf(putAbovePageId);
+      const found2 = parentPage.childrenOrder.indexOf(id);
+
+      if (found1 < found2) {
+        for(let i = found2; i >= found1; i--) {
+          parentPage.childrenOrder[i] = parentPage.childrenOrder[i - 1];
+        }
+        parentPage.childrenOrder[found1] = id;
+      } else {
+        for(let i = found2; i < found1; i++) {
+          parentPage.childrenOrder[i] = parentPage.childrenOrder[i + 1];
+        }
+        parentPage.childrenOrder[found1 - 1] = id;
+      }
+      parentPage.save();
+    }
 
     res.json({
       success: true,
