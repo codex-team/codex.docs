@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer')();
 const Pages = require('../../controllers/pages');
+const PagesChildrenOrder = require('../../controllers/pagesChildrenOrder');
 
 /**
  * GET /page/:id
@@ -55,16 +56,8 @@ router.put('/page', multer.any(), async (req, res) => {
     const {title, body, parent} = req.body;
     const page = await Pages.insert({title, body, parent});
 
-    /**
-     * Each new page push to order at the last
-     */
-    if (parent && parent !== '0') {
-      const parentPage = await Pages.get(page._parent);
-
-      /** Push to parents children order */
-      parentPage.childrenOrder.push(page._id);
-      parentPage.save();
-    }
+    /** push to the orders array */
+    await PagesChildrenOrder.push(parent, page._id);
 
     res.json({
       success: true,
@@ -88,28 +81,15 @@ router.post('/page/:id', multer.any(), async (req, res) => {
 
   try {
     const {title, body, parent, putAbovePageId} = req.body;
-    const page = await Pages.update(id, {title, body, parent});
+    let page = await Pages.get(id);
 
-    /** update child order */
-    if (parent && parent !== '0') {
-      const parentPage = await Pages.get(parent);
-      const found1 = parentPage.childrenOrder.indexOf(putAbovePageId);
-      const found2 = parentPage.childrenOrder.indexOf(id);
-
-      if (found1 < found2) {
-        for(let i = found2; i >= found1; i--) {
-          parentPage.childrenOrder[i] = parentPage.childrenOrder[i - 1];
-        }
-        parentPage.childrenOrder[found1] = id;
-      } else {
-        for(let i = found2; i < found1; i++) {
-          parentPage.childrenOrder[i] = parentPage.childrenOrder[i + 1];
-        }
-        parentPage.childrenOrder[found1 - 1] = id;
-      }
-      parentPage.save();
+    if (page._parent !== parent) {
+      await PagesChildrenOrder.renew(page._parent, parent, id);
+    } else {
+      await PagesChildrenOrder.update(page._id, page._parent, putAbovePageId);
     }
 
+    page = await Pages.update(id, {title, body, parent});
     res.json({
       success: true,
       result: page

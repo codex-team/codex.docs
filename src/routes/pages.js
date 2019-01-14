@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Pages = require('../controllers/pages');
+const PagesChildrenOrder = require('../controllers/pagesChildrenOrder');
 
 /**
  * Create new page form
@@ -23,28 +24,7 @@ router.get('/page/edit/:id', async (req, res, next) => {
   try {
     const page = await Pages.get(pageId);
     const pagesAvailable = await Pages.getAll();
-
-    /**
-     * get parent with children
-     */
-    let parentsChildren = [];
-
-    let parentsChildrenOrdered = [];
-
-    if (page._parent && page._parent !== '0') {
-      const parentPage = await Pages.get(page._parent);
-
-      parentsChildren = pagesAvailable.filter(_page => _page._parent === parentPage._id);
-
-      /** Order children */
-      parentPage.childrenOrder.forEach(_pageId => {
-        parentsChildren.forEach(_page => {
-          if (_page._id === _pageId && _pageId !== pageId) {
-            parentsChildrenOrdered.push(_page);
-          }
-        });
-      });
-    }
+    const parentsChildrenOrdered = await PagesChildrenOrder.getOrderedChildren(pagesAvailable, pageId, page._parent, true);
 
     res.render('pages/form', {
       page,

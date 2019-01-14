@@ -1,26 +1,30 @@
 const Pages = require('../../controllers/pages');
+const PagesChildrenOrder = require('../../controllers/pagesChildrenOrder');
 const asyncMiddleware = require('../../utils/asyncMiddleware');
 
 /**
- * Process one-level pages list to parent-childrens list
+ * Process one-level pages list to parent-children list
  * @param {Page[]} pages - list of all available pages
  * @return {Page[]}
  */
-function createMenuTree(pages) {
-  return pages.filter(page => page._parent === '0').map(page => {
-    const children = pages.filter(child => child._parent === page._id);
-    const orderedChildren = [];
-    page.childrenOrder.forEach(pageId => {
-      children.forEach(_page => {
-        if (_page._id === pageId) {
-          orderedChildren.push(_page);
-        }
-      })
-    });
+async function createMenuTree(pages) {
+  return Promise.all(pages.filter(page => page._parent === '0').map(async page => {
+    const childrenOrdered = [];
+    try {
+      const children = await PagesChildrenOrder.get(page._id);
+      children.order.forEach(pageId => {
+        pages.forEach(_page => {
+          if (_page._id === pageId) {
+            childrenOrdered.push(_page);
+          }
+        })
+      });
+    } catch (e) {}
+
     return Object.assign({
-      children: orderedChildren
+      children: childrenOrdered
     }, page.data);
-  });
+  }));
 }
 
 /**
@@ -33,7 +37,7 @@ module.exports = asyncMiddleware(async function (req, res, next) {
   try {
     const menu = await Pages.getAll();
 
-    res.locals.menu = createMenuTree(menu);
+    res.locals.menu = await createMenuTree(menu)
   } catch (error) {
     console.log('Can not load menu:', error);
   }
