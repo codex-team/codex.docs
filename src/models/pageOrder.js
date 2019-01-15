@@ -38,7 +38,7 @@ class PageOrder {
    *
    * @param {PageOrderData} data
    */
-  constructor(data) {
+  constructor(data = {}) {
     if (data === null) {
       data = {};
     }
