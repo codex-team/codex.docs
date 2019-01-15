@@ -60,7 +60,7 @@ describe('Pages REST: ', () => {
     expect(createdPage.body).to.deep.equal(body);
 
     const pageOrder = await PageOrder.get('' + (createdPage.data.parent || 0));
-    expect(pageOrder.order).to.be.an('array').and.length(1);
+    expect(pageOrder.order).to.be.an('array');
 
     await createdPage.destroy();
     await pageOrder.destroy()
