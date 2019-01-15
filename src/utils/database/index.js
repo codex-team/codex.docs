@@ -1,5 +1,5 @@
 const pages = require('./pages');
-const pagesChildrenOrder = require('./pagesChildrenOrder');
+const pagesOrder = require('./pagesOrder');
 
 /**
  * @class Database
@@ -144,5 +144,5 @@ class Database {
 module.exports = {
   class: Database,
   pages: new Database(pages),
-  pagesChildrenOrder: new Database(pagesChildrenOrder)
+  pagesOrder: new Database(pagesOrder)
 };

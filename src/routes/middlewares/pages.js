@@ -1,5 +1,5 @@
 const Pages = require('../../controllers/pages');
-const PagesChildrenOrder = require('../../controllers/pagesChildrenOrder');
+const pagesOrder = require('../../controllers/pagesOrder');
 const asyncMiddleware = require('../../utils/asyncMiddleware');
 
 /**
@@ -11,7 +11,7 @@ async function createMenuTree(pages) {
   return Promise.all(pages.filter(page => page._parent === '0').map(async page => {
     const childrenOrdered = [];
     try {
-      const children = await PagesChildrenOrder.get(page._id);
+      const children = await pagesOrder.get(page._id);
       children.order.forEach(pageId => {
         pages.forEach(_page => {
           if (_page._id === pageId) {
