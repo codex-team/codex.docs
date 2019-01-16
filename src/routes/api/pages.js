@@ -86,7 +86,9 @@ router.post('/page/:id', multer.any(), async (req, res) => {
     if (page._parent !== parent) {
       await PagesOrder.move(page._parent, parent, id);
     } else {
-      await PagesOrder.update(page._id, page._parent, putAbovePageId);
+      if (putAbovePageId && putAbovePageId !== '0') {
+        await PagesOrder.update(page._id, page._parent, putAbovePageId);
+      }
     }
 
     page = await Pages.update(id, {title, body, parent});

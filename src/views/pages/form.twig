@@ -36,6 +36,7 @@
           <span>
             Put Above
             <select name="above">
+              <option value="0">—</option>
               {% for _page in parentsChildrenOrdered %}
                 <option value="{{ _page._id }}">{{ _page.title }}</option>
               {% endfor %}
