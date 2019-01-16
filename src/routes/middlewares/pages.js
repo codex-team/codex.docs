@@ -23,8 +23,8 @@ async function createMenuTree(pages, level = 1, currentLevel = 1) {
     let deepestChildren = [];
 
     /**
-     * Here we try to check parent's children page order
-     * If we got something, pluck found page's id deeper and get its Menu Tree
+     * Here we try to check parent's children order
+     * If we got something, pluck to found Page deeper and get its children order
      */
     try {
       /**
