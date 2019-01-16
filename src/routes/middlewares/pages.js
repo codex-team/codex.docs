@@ -3,40 +3,46 @@ const PagesOrder = require('../../controllers/pagesOrder');
 const asyncMiddleware = require('../../utils/asyncMiddleware');
 
 const RootPage = '0';
+
 /**
  * Process one-level pages list to parent-children list
- * @param {Page[]} pages - list of all available pages
+ * @param {string[]} pages - list of all available pages
+ * @param {number} level
+ * @param {number} currentLevel
+ *
  * @return {Page[]}
  */
-async function createMenuTree(pages) {
+async function createMenuTree(pages, level = 1, currentLevel = 1) {
+  return await Promise.all(pages.map(async pageId => {
+    const parent = await Pages.get(pageId);
 
-  const children = await PagesOrder.get(RootPage);
-  const firstLevelPages = [];
+    /**
+     * By default we accept that deepestChildren is empty Array
+     * @type {Array}
+     */
+    let deepestChildren = [];
 
-  children.order.forEach(pageId => {
-    pages.forEach(page => {
-      if (page._id === pageId) {
-        firstLevelPages.push(page);
-      }
-    });
-  });
-
-  return Promise.all(firstLevelPages.map(async page => {
-    const childrenOrdered = [];
+    /**
+     * Here we try to check parent's children page order
+     * If we got something, pluck found page's id deeper and get its Menu Tree
+     */
     try {
-      const children = await PagesOrder.get(page._id);
-      children.order.forEach(pageId => {
-        pages.forEach(_page => {
-          if (_page._id === pageId) {
-            childrenOrdered.push(_page);
-          }
-        })
-      });
+      /**
+       * Go deeper until we didn't get the deepest level
+       * On each 'currentLevel' create new Menu Tree with ordered Page ids
+       */
+      if (currentLevel !== level) {
+        const children = await PagesOrder.get(pageId);
+        deepestChildren = await createMenuTree(children.order, level, currentLevel + 1)
+      }
     } catch (e) {}
 
+    /**
+     * Assign parent's children with found Menu Tree
+     */
     return Object.assign({
-      children: childrenOrdered
-    }, page.data);
+      children: deepestChildren
+    }, parent.data);
   }));
 }
 
@@ -48,9 +54,8 @@ async function createMenuTree(pages) {
  */
 module.exports = asyncMiddleware(async function (req, res, next) {
   try {
-    const menu = await Pages.getAll();
-
-    res.locals.menu = await createMenuTree(menu)
+    const rootPages = await PagesOrder.get(RootPage);
+    res.locals.menu = await createMenuTree(rootPages.order, 2);
   } catch (error) {
     console.log('Can not load menu:', error);
   }
