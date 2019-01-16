@@ -84,7 +84,7 @@ router.post('/page/:id', multer.any(), async (req, res) => {
     let page = await Pages.get(id);
 
     if (page._parent !== parent) {
-      await PagesOrder.renew(page._parent, parent, id);
+      await PagesOrder.move(page._parent, parent, id);
     } else {
       await PagesOrder.update(page._id, page._parent, putAbovePageId);
     }

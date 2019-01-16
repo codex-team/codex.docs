@@ -41,28 +41,28 @@ class PagesOrder {
    *
    * @param {string} oldParentId - old parent page's id
    * @param {string} newParentId - new parent page's id
-   * @param {string} childId - page's id which is changing the parent page
+   * @param {string} targetPageId - page's id which is changing the parent page
    */
-  static async renew(oldParentId, newParentId, childId) {
+  static async move(oldParentId, newParentId, targetPageId) {
     const oldParentOrder = await Model.get(oldParentId);
 
-    oldParentOrder.remove(childId);
+    oldParentOrder.remove(targetPageId);
     oldParentOrder.save();
 
     const newParentOrder = await Model.get(newParentId);
 
-    newParentOrder.push(childId);
+    newParentOrder.push(targetPageId);
     await newParentOrder.save();
   }
 
   /**
    * Returns new array with ordered pages
    *
-   * @param {Array<Page>} pages - list of all available pages
+   * @param {Page[]} pages - list of all available pages
    * @param {string} currentPageId - page's id around which we are ordering
    * @param {string} parentPageId - parent page's id that contains page above
    * @param {Boolean} ignoreSelf - should we ignore current page in list or not
-   * @return Array<Page>
+   * @return {Page[]}
    */
   static async getOrderedChildren(pages, currentPageId, parentPageId, ignoreSelf = false) {
     const children = await PagesOrder.get(parentPageId);

@@ -17,15 +17,15 @@ class PageOrder {
   /**
    * Returns current Page's children order
    *
-   * @param page
+   * @param {string} pageId - page's id
    */
-  static async get(page) {
-    const order = await db.findOne({page});
+  static async get(pageId) {
+    const order = await db.findOne({page: pageId});
 
     let data = {};
 
     if (!order) {
-      data.page = page;
+      data.page = pageId;
     } else {
       data = order;
     }
@@ -74,7 +74,7 @@ class PageOrder {
   /**
    * Pushes page id to the orders array
    *
-   * @param {string} pageId
+   * @param {string} pageId - page's id
    */
   push(pageId) {
     this._order.push(pageId);
@@ -83,7 +83,7 @@ class PageOrder {
   /**
    * Removes page id from orders array
    *
-   * @param {string} pageId
+   * @param {string} pageId - page's id
    */
   remove(pageId) {
     const found = this._order.indexOf(pageId);
@@ -96,7 +96,7 @@ class PageOrder {
   /**
    * Returns ordered list
    *
-   * @return {Array<string>}
+   * @return {string[]}
    */
   get order() {
     return this._order;
