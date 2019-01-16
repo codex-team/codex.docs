@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/dist/main.css" />
   </head>
   <body>
-    {% include "components/header.twig" %}
+    {% include "components/header.twig" with isAuthorized %}
     <div class="docs">
       <aside class="docs__aside">
         {% include "components/aside.twig" %}

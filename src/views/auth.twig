@@ -1,0 +1,10 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+  <h1>{{header}}</h1>
+  <form method="post" action="/auth">
+    <input type="password" name="password" placeholder="Password">
+    <input type="submit" value="login">
+  </form>
+{% endblock %}
+

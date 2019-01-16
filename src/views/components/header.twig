@@ -4,10 +4,14 @@
   </a>
   <ul class="docs-header__menu">
     <li>
-      <a class="docs-header__button" href="/page/new">
-        {{ svg('plus') }}
-        Add Page
-      </a>
+      {% if isAuthorized == true %}
+        <a class="docs-header__button" href="/page/new">
+          {{ svg('plus') }}
+          Add Page
+        </a>
+      {% else %}
+        <a class="docs-header__button" href="/auth">Authorize</a>
+      {% endif %}
     </li>
     {% for option in config.menu %}
       <li>
