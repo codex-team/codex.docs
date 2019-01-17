@@ -47,7 +47,7 @@ class PagesOrder {
     const oldParentOrder = await Model.get(oldParentId);
 
     oldParentOrder.remove(targetPageId);
-    oldParentOrder.save();
+    await oldParentOrder.save();
 
     const newParentOrder = await Model.get(newParentId);
 
