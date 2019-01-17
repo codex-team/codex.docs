@@ -2,8 +2,6 @@ const Pages = require('../../controllers/pages');
 const PagesOrder = require('../../controllers/pagesOrder');
 const asyncMiddleware = require('../../utils/asyncMiddleware');
 
-const RootPage = '0';
-
 /**
  * Process one-level pages list to parent-children list
  * @param {string[]} pages - list of all available pages
@@ -53,8 +51,15 @@ async function createMenuTree(pages, level = 1, currentLevel = 1) {
  * @param next
  */
 module.exports = asyncMiddleware(async function (req, res, next) {
+  /**
+   * Pages without parent
+   * @type {string}
+   */
+  const parentIdOfRootPages = '0';
+
   try {
-    const rootPages = await PagesOrder.get(RootPage);
+    const rootPages = await PagesOrder.get(parentIdOfRootPages);
+
     res.locals.menu = await createMenuTree(rootPages.order, 2);
   } catch (error) {
     console.log('Can not load menu:', error);
