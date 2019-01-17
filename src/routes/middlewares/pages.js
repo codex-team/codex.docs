@@ -56,14 +56,11 @@ module.exports = asyncMiddleware(async function (req, res, next) {
    * @type {string}
    */
   const parentIdOfRootPages = '0';
-
   try {
     const rootPages = await PagesOrder.get(parentIdOfRootPages);
-
     res.locals.menu = await createMenuTree(rootPages.order, 2);
   } catch (error) {
     console.log('Can not load menu:', error);
   }
-
   next();
 });
