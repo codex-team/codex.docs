@@ -239,7 +239,7 @@ describe('Pages REST: ', () => {
     expect(secondPageResult.uri).to.equal(transformToUri(body.blocks[0].data.text) + '-1');
     expect(secondPageResult.body).to.deep.equal(body);
 
-    const newFirstPageUri = 'New uri';
+    const newFirstPageUri = 'New-uri';
 
     res = await agent
       .post(`/api/page/${_id}`)

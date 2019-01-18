@@ -1,12 +1,12 @@
 .writing-header {
   display: flex;
-  padding: 15px 0;
-  margin-top: calc(-1 * var(--layout-padding-vertical));
   position: sticky;
   top: 0;
+  padding: 15px 0;
+  margin-top: calc(-1 * var(--layout-padding-vertical));
   background: #fff;
-  z-index: 2;
   box-shadow: 0 3px 10px #fff;
+  z-index: 2;
 
   &__save {
     @apply --button;
@@ -20,11 +20,11 @@
 }
 
 .uri-input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 3px;
   border: 1px solid rgba(201, 201, 204, 0.48);
   box-shadow: inset 0 1px 2px 0 rgba(35, 44, 72, 0.06);
-  border-radius: 3px;
-  padding: 10px 12px;
   outline: none;
-  width: 100%;
-  box-sizing: border-box;
 }
