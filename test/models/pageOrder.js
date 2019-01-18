@@ -96,10 +96,20 @@ describe('PageOrder model', () => {
     const pageOrder = new PageOrder(testData);
     await pageOrder.save();
     pageOrder.push('3');
+    expect(pageOrder.data.order).to.be.an('array').that.is.not.empty;
+    pageOrder.data.order.forEach((el) => {
+      expect(el).to.be.an('string')
+    });
+
     expect(pageOrder.data.order).to.deep.equals(['1', '2', '3']);
 
     pageOrder.remove('2');
     expect(pageOrder.data.order).to.deep.equals(['1', '3']);
+
+    expect(() => {
+      pageOrder.push(3);
+    }).to.throw('given id is not string');
+
 
     await pageOrder.destroy();
   });
@@ -115,6 +125,10 @@ describe('PageOrder model', () => {
     const insertedPageOrder = await PageOrder.get(insertedData.data.page);
     expect(insertedPageOrder).to.instanceOf(PageOrder);
     expect(insertedPageOrder.data._id).to.be.equal(insertedData.data._id);
+
+    const emptyInstance = await PageOrder.get(null);
+    expect(emptyInstance.data.page).to.be.equal('0');
+    expect(emptyInstance.data.order).to.be.an('array').that.is.empty;
 
     await pageOrder.destroy();
   });

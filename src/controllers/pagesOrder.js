@@ -17,7 +17,7 @@ class PagesOrder {
     const order = await Model.get(parentId);
 
     if (!order._id) {
-      throw new Error('Page with given id does not exist');
+      throw new Error('Page with given id does not contain order');
     }
 
     return order;
@@ -85,14 +85,10 @@ class PagesOrder {
    * @param {string} putAbovePageId - page's id above which we put the target page
    */
   static async update(currentPageId, parentPageId, putAbovePageId) {
-    const children = await Model.get(parentPageId);
-    const found1 = children.order.indexOf(putAbovePageId);
-    const found2 = children.order.indexOf(currentPageId);
-    const margin = found1 < found2 ? 1 : 0;
+    const pageOrder = await Model.get(parentPageId);
 
-    children.order.splice(found1, 0, currentPageId);
-    children.order.splice(found2 + margin, 1);
-    children.save();
+    pageOrder.shift(currentPageId, putAbovePageId);
+    await pageOrder.save();
   }
 }
 

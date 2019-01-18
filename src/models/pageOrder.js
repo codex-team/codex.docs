@@ -77,7 +77,11 @@ class PageOrder {
    * @param {string} pageId - page's id
    */
   push(pageId) {
-    this._order.push(pageId);
+    if (typeof pageId === 'string') {
+      this._order.push(pageId);
+    } else {
+      throw new Error('given id is not string');
+    }
   }
 
   /**
@@ -91,6 +95,21 @@ class PageOrder {
     if (found >= 0) {
       this._order.splice(found, 1);
     }
+  }
+
+  /**
+   * @param {string} currentPageId - page's id that changes the order
+   * @param {string} putAbovePageId - page's id above which we put the target page
+   *
+   * @returns void
+   */
+  shift(currentPageId, putAbovePageId) {
+    const found1 = this.order.indexOf(putAbovePageId);
+    const found2 = this.order.indexOf(currentPageId);
+    const margin = found1 < found2 ? 1 : 0;
+
+    this.order.splice(found1, 0, currentPageId);
+    this.order.splice(found2 + margin, 1);
   }
 
   /**
