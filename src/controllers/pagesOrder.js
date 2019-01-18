@@ -88,18 +88,10 @@ class PagesOrder {
     const children = await Model.get(parentPageId);
     const found1 = children.order.indexOf(putAbovePageId);
     const found2 = children.order.indexOf(currentPageId);
+    const margin = found1 < found2 ? 1 : 0;
 
-    if (found1 < found2) {
-      for (let i = found2; i >= found1; i--) {
-        children.order[i] = children.order[i - 1];
-      }
-      children.order[found1] = currentPageId;
-    } else {
-      for (let i = found2; i < found1; i++) {
-        children.order[i] = children.order[i + 1];
-      }
-      children.order[found1 - 1] = currentPageId;
-    }
+    children.order.splice(found1, 0, currentPageId);
+    children.order.splice(found2 + margin, 1);
     children.save();
   }
 }
