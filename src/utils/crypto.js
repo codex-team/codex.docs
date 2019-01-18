@@ -5,7 +5,7 @@ const crypto = require('crypto');
  * @param stringToHash - string to hash
  * @returns {string} - binary hash of argument
  */
-module.exports = function md5(stringToHash) {
+module.exports = function binaryMD5(stringToHash) {
   return crypto.createHash('md5')
     .update(stringToHash)
     .digest('binary');

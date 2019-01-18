@@ -56,12 +56,14 @@ class Pages {
 
       const insertedPage = await page.save();
 
-      const alias = new Alias({
-        id: insertedPage._id,
-        type: aliasTypes.PAGE
-      }, insertedPage.uri);
+      if (insertedPage.uri) {
+        const alias = new Alias({
+          id: insertedPage._id,
+          type: aliasTypes.PAGE
+        }, insertedPage.uri);
 
-      alias.save();
+        alias.save();
+      }
 
       return insertedPage;
     } catch (validationError) {
@@ -110,19 +112,17 @@ class Pages {
    */
   static async update(id, data) {
     const page = await Model.get(id);
+    const previousUri = page.uri;
 
     if (!page._id) {
       throw new Error('Page with given id does not exist');
     }
 
-    if (!data.uri.match(/^[a-z0-9'-]+$/i)) {
+    if (data.uri && !data.uri.match(/^[a-z0-9'-]+$/i)) {
       throw new Error('Uri has unexpected characters');
     }
 
-    const previousUri = page.uri;
-
     page.data = data;
-
     const updatedPage = await page.save();
 
     if (updatedPage.uri !== previousUri) {

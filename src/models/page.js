@@ -83,14 +83,7 @@ class Page {
 
     this.body = body || this.body;
     this.title = this.extractTitleFromBody();
-    this.uri = uri || translateString(this.title
-      .replace(/&nbsp;/g, ' ')
-      .replace(/[^a-zA-Z0-9А-Яа-яЁё ]/g, ' ')
-      .replace(/  +/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-'));
+    this.uri = uri || '';
     this._parent = parent || this._parent;
   }
 
@@ -117,6 +110,21 @@ class Page {
     const headerBlock = this.body ? this.body.blocks.find(block => block.type === 'header') : '';
 
     return headerBlock ? headerBlock.data.text : '';
+  }
+
+  /**
+   * Transform title for uri
+   * @return {string}
+   */
+  transformTitleToUri() {
+    return translateString(this.title
+      .replace(/&nbsp;/g, ' ')
+      .replace(/[^a-zA-Z0-9А-Яа-яЁё ]/g, ' ')
+      .replace(/  +/g, ' ')
+      .trim()
+      .toLowerCase()
+      .split(' ')
+      .join('-'));
   }
 
   /**
@@ -186,12 +194,19 @@ class Page {
    * @returns {Promise<string>}
    */
   async composeUri(uri) {
-    let pageWithSameUri = await Page.getByUri(uri);
     let pageWithSameUriCount = 0;
 
-    while (pageWithSameUri._id && pageWithSameUri._id !== this._id) {
-      pageWithSameUriCount++;
-      pageWithSameUri = await Page.getByUri(uri + `-${pageWithSameUriCount}`);
+    if (!this._id) {
+      uri = this.transformTitleToUri();
+    }
+
+    if (uri) {
+      let pageWithSameUri = await Page.getByUri(uri);
+
+      while (pageWithSameUri._id && pageWithSameUri._id !== this._id) {
+        pageWithSameUriCount++;
+        pageWithSameUri = await Page.getByUri(uri + `-${pageWithSameUriCount}`);
+      }
     }
 
     return pageWithSameUriCount ? uri + `-${pageWithSameUriCount}` : uri;

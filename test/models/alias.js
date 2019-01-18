@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('../../config');
 const Alias = require('../../src/models/alias');
-const md5 = require('../../src/utils/md5');
+const binaryMD5 = require('../../src/utils/crypto');
 const aliasTypes = require('../../src/constants/aliasTypes');
 const {aliases} = require('../../src/utils/database');
 
@@ -50,14 +50,14 @@ describe('Alias model', () => {
     data = alias.data;
 
     expect(data._id).to.equal(initialData._id);
-    expect(data.hash).to.equal(md5(aliasName));
+    expect(data.hash).to.equal(binaryMD5(aliasName));
     expect(data.type).to.equal(initialData.type);
     expect(data.deprecated).to.equal(false);
 
     const update = {
       type: aliasTypes.PAGE,
       id: 'page_id',
-      hash: md5('another test hash'),
+      hash: binaryMD5('another test hash'),
       deprecated: true
     };
 
@@ -87,7 +87,7 @@ describe('Alias model', () => {
     const {data} = foundAlias;
 
     expect(data._id).to.equal(savedAlias._id);
-    expect(data.hash).to.equal(md5(aliasName));
+    expect(data.hash).to.equal(binaryMD5(aliasName));
     expect(data.type).to.equal(initialData.type);
     expect(data.deprecated).to.equal(false);
   });
@@ -104,7 +104,7 @@ describe('Alias model', () => {
     const savedAlias = await alias.save();
 
     expect(savedAlias._id).not.be.undefined;
-    expect(savedAlias.hash).to.equal(md5(aliasName));
+    expect(savedAlias.hash).to.equal(binaryMD5(aliasName));
     expect(savedAlias.type).to.equal(initialData.type);
     expect(savedAlias.id).to.equal(initialData.id);
     expect(savedAlias.deprecated).to.equal(false);
@@ -120,7 +120,7 @@ describe('Alias model', () => {
     const updateData = {
       type: aliasTypes.PAGE,
       id: 'page_id',
-      hash: md5('another test hash'),
+      hash: binaryMD5('another test hash'),
       deprecated: true
     };
 

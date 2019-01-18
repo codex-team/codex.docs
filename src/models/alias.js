@@ -1,9 +1,9 @@
 const {aliases: aliasesDb} = require('../utils/database/index');
-const md5 = require('../utils/md5');
+const binaryMD5 = require('../utils/crypto');
 /**
  * @typedef {Object} AliasData
  * @property {string} _id - alias id
- * @property {string} hash - alias hash
+ * @property {string} hash - alias binary hash
  * @property {string} type - entity type
  * @property {boolean} deprecated - indicate if alias deprecated
  * @property {string} id - entity id
@@ -13,7 +13,7 @@ const md5 = require('../utils/md5');
 /**
  * @class Alias
  * @property {string} _id - alias id
- * @property {string} hash - alias hash
+ * @property {string} hash - alias binary hash
  * @property {string} type - entity type
  * @property {boolean} deprecated - indicate if alias deprecated
  * @property {string} id - entity title
@@ -25,7 +25,7 @@ class Alias {
    * @returns {Promise<Alias>}
    */
   static async get(aliasName) {
-    const hash = md5(aliasName);
+    const hash = binaryMD5(aliasName);
     let data = await aliasesDb.findOne({hash: hash, deprecated: false});
 
     if (!data) {
@@ -49,7 +49,7 @@ class Alias {
       this._id = data._id;
     }
     if (aliasName) {
-      this.hash = md5(aliasName);
+      this.hash = binaryMD5(aliasName);
     }
     this.data = data;
   }

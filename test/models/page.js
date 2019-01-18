@@ -72,7 +72,7 @@ describe('Page model', () => {
 
     expect(data._id).to.equal(initialData._id);
     expect(data.title).to.equal(initialData.body.blocks[0].data.text);
-    expect(data.uri).to.equal(transformToUri(initialData.body.blocks[0].data.text));
+    expect(data.uri).to.be.empty;
     expect(data.body).to.deep.equal(initialData.body);
     expect(data.parent).to.be.undefined;
 
@@ -102,7 +102,7 @@ describe('Page model', () => {
 
     expect(data._id).to.equal(initialData._id);
     expect(data.title).to.equal(update.body.blocks[0].data.text);
-    expect(data.uri).to.equal(transformToUri(update.body.blocks[0].data.text));
+    expect(data.uri).to.be.empty;
     expect(data.body).to.equal(update.body);
     expect(data.parent).to.be.undefined;
   });

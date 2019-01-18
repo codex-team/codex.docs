@@ -88,7 +88,7 @@ export default class Writing {
     const title = firstBlock && firstBlock.type === 'header' ? firstBlock.data.text : null;
     let uri = '';
 
-    if (this.nodes.uriInput) {
+    if (this.nodes.uriInput && this.nodes.uriInput.value) {
       if (this.nodes.uriInput.value.match(/^[a-z0-9'-]+$/i)) {
         uri = this.nodes.uriInput.value;
       } else {
@@ -127,7 +127,7 @@ export default class Writing {
         response = await response.json();
 
         if (response.success) {
-          window.location.pathname = response.result.uri;
+          window.location.pathname = response.result.uri ? response.result.uri : '/page/' + response.result._id;
         } else {
           alert(response.error);
           console.log('Validation failed:', response.error);

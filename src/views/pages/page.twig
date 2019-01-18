@@ -7,7 +7,12 @@
         Documentation
       </a>
       {% if page._parent %}
-        <a href="{{ pageParent.uri }}" class="page__header-nav">
+        <a class="page__header-nav"
+          {% if pageParent.uri %}
+            href="/{{ pageParent.uri }}"
+          {% else %}
+            href="/page/{{ pageParent._id }}"
+          {% endif %}>
           Parent {{ pageParent.title }}
         </a>
       {% endif %}
