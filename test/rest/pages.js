@@ -1,5 +1,6 @@
 const {app} = require('../../bin/www');
 const model = require('../../src/models/page');
+const PageOrder = require('../../src/models/pageOrder');
 
 const fs = require('fs');
 const path = require('path');
@@ -34,12 +35,12 @@ describe('Pages REST: ', () => {
             text: 'Page header'
           }
         }
-      ]
+      ],
     };
-
+    const parent =  0;
     const res = await agent
       .put('/api/page')
-      .send({body});
+      .send({body, parent});
 
     expect(res).to.have.status(200);
     expect(res).to.be.json;
@@ -58,7 +59,11 @@ describe('Pages REST: ', () => {
     expect(createdPage.title).to.equal(body.blocks[0].data.text);
     expect(createdPage.body).to.deep.equal(body);
 
-    createdPage.destroy();
+    const pageOrder = await PageOrder.get('' + (createdPage.data.parent || 0));
+    expect(pageOrder.order).to.be.an('array');
+
+    await createdPage.destroy();
+    await pageOrder.destroy()
   });
 
   it('Page data validation on create', async () => {
@@ -106,12 +111,14 @@ describe('Pages REST: ', () => {
     expect(success).to.be.true;
 
     const foundPage = await model.get(_id);
+    const pageOrder = await PageOrder.get('' + foundPage._parent);
 
     expect(foundPage._id).to.equal(_id);
     expect(foundPage.title).to.equal(body.blocks[0].data.text);
     expect(foundPage.body).to.deep.equal(body);
 
-    foundPage.destroy();
+    await pageOrder.destroy();
+    await foundPage.destroy();
   });
 
   it('Finding page with not existing id', async () => {
@@ -175,6 +182,7 @@ describe('Pages REST: ', () => {
     expect(result.body).to.deep.equal(updatedBody);
 
     const updatedPage = await model.get(_id);
+    const pageOrder = await PageOrder.get('' + updatedPage._parent);
 
     expect(updatedPage._id).to.equal(_id);
     expect(updatedPage.title).not.equal(body.blocks[0].data.text);
@@ -182,7 +190,8 @@ describe('Pages REST: ', () => {
     expect(updatedPage.body).not.equal(body);
     expect(updatedPage.body).to.deep.equal(updatedBody);
 
-    updatedPage.destroy();
+    await pageOrder.destroy();
+    await updatedPage.destroy();
   });
 
   it('Updating page with not existing id', async () => {

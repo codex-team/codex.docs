@@ -6,7 +6,6 @@ const {pages: db} = require('../utils/database/index');
  * @property {string} title - page title
  * @property {*} body - page body
  * @property {string} parent - id of parent page
- *
  */
 
 /**

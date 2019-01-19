@@ -138,7 +138,6 @@ class Pages {
     }
 
     page.data = data;
-
     return page.save();
   }
 
