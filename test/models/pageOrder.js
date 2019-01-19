@@ -110,7 +110,15 @@ describe('PageOrder model', () => {
       pageOrder.push(3);
     }).to.throw('given id is not string');
 
+    pageOrder.push('4');
+    pageOrder.push('5');
+    pageOrder.push('2');
 
+    pageOrder.putAbove('2', '3');
+    expect(pageOrder.data.order).to.deep.equals(['1', '2', '3', '4', '5']);
+
+    pageOrder.putAbove('2', '10');
+    expect(pageOrder.data.order).to.deep.equals(['1', '2', '3', '4', '5']);
     await pageOrder.destroy();
   });
 

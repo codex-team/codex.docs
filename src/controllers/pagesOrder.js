@@ -87,7 +87,7 @@ class PagesOrder {
   static async update(currentPageId, parentPageId, putAbovePageId) {
     const pageOrder = await Model.get(parentPageId);
 
-    pageOrder.shift(currentPageId, putAbovePageId);
+    pageOrder.putAbove(currentPageId, putAbovePageId);
     await pageOrder.save();
   }
 }

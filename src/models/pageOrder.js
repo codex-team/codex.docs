@@ -103,9 +103,14 @@ class PageOrder {
    *
    * @returns void
    */
-  shift(currentPageId, putAbovePageId) {
+  putAbove(currentPageId, putAbovePageId) {
     const found1 = this.order.indexOf(putAbovePageId);
     const found2 = this.order.indexOf(currentPageId);
+
+    if (found1 === -1 || found2 === -1) {
+      return
+    }
+
     const margin = found1 < found2 ? 1 : 0;
 
     this.order.splice(found1, 0, currentPageId);
