@@ -108,7 +108,7 @@ class PageOrder {
     const found2 = this.order.indexOf(currentPageId);
 
     if (found1 === -1 || found2 === -1) {
-      return
+      return;
     }
 
     const margin = found1 < found2 ? 1 : 0;
