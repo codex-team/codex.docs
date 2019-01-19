@@ -126,14 +126,16 @@ class Pages {
     const updatedPage = await page.save();
 
     if (updatedPage.uri !== previousUri) {
+      if (updatedPage.uri) {
+        const alias = new Alias({
+          id: updatedPage._id,
+          type: aliasTypes.PAGE
+        }, updatedPage.uri);
+
+        alias.save();
+      }
+
       Alias.markAsDeprecated(previousUri);
-
-      const alias = new Alias({
-        id: updatedPage._id,
-        type: aliasTypes.PAGE
-      }, updatedPage.uri);
-
-      alias.save();
     }
 
     return updatedPage;
