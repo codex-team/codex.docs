@@ -1,6 +1,5 @@
 require('dotenv').config();
 const config = require('../../../config/index');
-
 const jwt = require('jsonwebtoken');
 
 module.exports = function verifyToken(token) {
