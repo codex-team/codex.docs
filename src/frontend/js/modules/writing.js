@@ -27,7 +27,8 @@ export default class Writing {
     this.nodes = {
       editorWrapper: null,
       saveButton: null,
-      parentIdSelector: null
+      parentIdSelector: null,
+      putAboveIdSelector: null,
     };
   }
 
@@ -61,6 +62,7 @@ export default class Writing {
       this.saveButtonClicked();
     });
     this.nodes.parentIdSelector = moduleEl.querySelector('[name="parent"]');
+    this.nodes.putAboveIdSelector = moduleEl.querySelector('[name="above"]');
   };
 
   /**
@@ -89,8 +91,15 @@ export default class Writing {
       throw new Error('Entry should start with Header');
     }
 
+    /** get ordering selector value */
+    let putAbovePageId = null;
+    if (this.nodes.putAboveIdSelector) {
+      putAbovePageId = this.nodes.putAboveIdSelector.value;
+    }
+
     return {
       parent: this.nodes.parentIdSelector.value,
+      putAbovePageId: putAbovePageId,
       body: editorData
     };
   }

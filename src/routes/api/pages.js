@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer')();
 const Pages = require('../../controllers/pages');
+const PagesOrder = require('../../controllers/pagesOrder');
 
 /**
  * GET /page/:id
@@ -55,6 +56,9 @@ router.put('/page', multer.any(), async (req, res) => {
     const {title, body, parent} = req.body;
     const page = await Pages.insert({title, body, parent});
 
+    /** push to the orders array */
+    await PagesOrder.push(parent, page._id);
+
     res.json({
       success: true,
       result: page
@@ -76,9 +80,18 @@ router.post('/page/:id', multer.any(), async (req, res) => {
   const {id} = req.params;
 
   try {
-    const {title, body, parent} = req.body;
-    const page = await Pages.update(id, {title, body, parent});
+    const {title, body, parent, putAbovePageId} = req.body;
+    let page = await Pages.get(id);
 
+    if (page._parent !== parent) {
+      await PagesOrder.move(page._parent, parent, id);
+    } else {
+      if (putAbovePageId && putAbovePageId !== '0') {
+        await PagesOrder.update(page._id, page._parent, putAbovePageId);
+      }
+    }
+
+    page = await Pages.update(id, {title, body, parent});
     res.json({
       success: true,
       result: page
