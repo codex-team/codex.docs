@@ -21,7 +21,7 @@
           {% set currentPageId = page._id %}
         {% endif %}
           <select name="parent">
-          <option value="0">Root</option>
+            <option value="0">Root</option>
             {% for _page in pagesAvailable %}
               {% if _page._id != currentPageId %}
                 <option value="{{ _page._id }}" {{ page is not empty and page._parent == _page._id ? 'selected' : ''}}>
@@ -29,7 +29,7 @@
               </option>
               {% endif %}
             {% endfor %}
-        </select>
+          </select>
         </span>
 
         {% if parentsChildrenOrdered is not empty %}
@@ -48,5 +48,10 @@
         Save
       </span>
     </header>
+    {% if page is not empty %}
+      <main>
+        <input type="text" class="uri-input" name="uri-input" placeholder="Uri(Optional)" value="{{ page.uri }}">
+      </main>
+    {% endif %}
   </section>
 {% endblock %}

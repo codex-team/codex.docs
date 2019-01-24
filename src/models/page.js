@@ -1,9 +1,11 @@
-const {pages: db} = require('../utils/database/index');
+const {pages: pagesDb} = require('../utils/database/index');
+const translateString = require('../utils/translation');
 
 /**
  * @typedef {Object} PageData
  * @property {string} _id - page id
  * @property {string} title - page title
+ * @property {string} uri - page uri
  * @property {*} body - page body
  * @property {string} parent - id of parent page
  */
@@ -14,6 +16,7 @@ const {pages: db} = require('../utils/database/index');
  *
  * @property {string} _id - page id
  * @property {string} title - page title
+ * @property {string} uri - page uri
  * @property {*} body - page body
  * @property {string} _parent - id of parent page
  */
@@ -24,7 +27,18 @@ class Page {
    * @returns {Promise<Page>}
    */
   static async get(_id) {
-    const data = await db.findOne({_id});
+    const data = await pagesDb.findOne({_id});
+
+    return new Page(data);
+  }
+
+  /**
+   * Find and return model of page with given uri
+   * @param {string} uri - page uri
+   * @returns {Promise<Page>}
+   */
+  static async getByUri(uri) {
+    const data = await pagesDb.findOne({uri});
 
     return new Page(data);
   }
@@ -36,7 +50,7 @@ class Page {
    * @returns {Promise<Page[]>}
    */
   static async getAll(query = {}) {
-    const docs = await db.find(query);
+    const docs = await pagesDb.find(query);
 
     return Promise.all(docs.map(doc => new Page(doc)));
   }
@@ -64,10 +78,11 @@ class Page {
    * @param {PageData} pageData
    */
   set data(pageData) {
-    const {body, parent} = pageData;
+    const {body, parent, uri} = pageData;
 
     this.body = body || this.body;
     this.title = this.extractTitleFromBody();
+    this.uri = uri || '';
     this._parent = parent || this._parent;
   }
 
@@ -80,6 +95,7 @@ class Page {
     return {
       _id: this._id,
       title: this.title,
+      uri: this.uri,
       body: this.body,
       parent: this._parent
     };
@@ -93,6 +109,21 @@ class Page {
     const headerBlock = this.body ? this.body.blocks.find(block => block.type === 'header') : '';
 
     return headerBlock ? headerBlock.data.text : '';
+  }
+
+  /**
+   * Transform title for uri
+   * @return {string}
+   */
+  transformTitleToUri() {
+    return translateString(this.title
+      .replace(/&nbsp;/g, ' ')
+      .replace(/[^a-zA-Z0-9А-Яа-яЁё ]/g, ' ')
+      .replace(/  +/g, ' ')
+      .trim()
+      .toLowerCase()
+      .split(' ')
+      .join('-'));
   }
 
   /**
@@ -110,7 +141,7 @@ class Page {
    * @returns {Promise<Page>}
    */
   get parent() {
-    return db.findOne({_id: this._parent})
+    return pagesDb.findOne({_id: this._parent})
       .then(data => new Page(data));
   }
 
@@ -120,7 +151,7 @@ class Page {
    * @returns {Promise<Page[]>}
    */
   get children() {
-    return db.find({parent: this._id})
+    return pagesDb.find({parent: this._id})
       .then(data => data.map(page => new Page(page)));
   }
 
@@ -130,12 +161,14 @@ class Page {
    * @returns {Promise<Page>}
    */
   async save() {
+    this.uri = await this.composeUri(this.uri);
+
     if (!this._id) {
-      const insertedRow = await db.insert(this.data);
+      const insertedRow = await pagesDb.insert(this.data);
 
       this._id = insertedRow._id;
     } else {
-      await db.update({_id: this._id}, this.data);
+      await pagesDb.update({_id: this._id}, this.data);
     }
 
     return this;
@@ -147,11 +180,35 @@ class Page {
    * @returns {Promise<Page>}
    */
   async destroy() {
-    await db.remove({_id: this._id});
+    await pagesDb.remove({_id: this._id});
 
     delete this._id;
 
     return this;
+  }
+
+  /**
+   * Find and return available uri
+   *
+   * @returns {Promise<string>}
+   */
+  async composeUri(uri) {
+    let pageWithSameUriCount = 0;
+
+    if (!this._id) {
+      uri = this.transformTitleToUri();
+    }
+
+    if (uri) {
+      let pageWithSameUri = await Page.getByUri(uri);
+
+      while (pageWithSameUri._id && pageWithSameUri._id !== this._id) {
+        pageWithSameUriCount++;
+        pageWithSameUri = await Page.getByUri(uri + `-${pageWithSameUriCount}`);
+      }
+    }
+
+    return pageWithSameUriCount ? uri + `-${pageWithSameUriCount}` : uri;
   }
 
   /**
