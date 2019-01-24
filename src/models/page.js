@@ -8,7 +8,6 @@ const translateString = require('../utils/translation');
  * @property {string} uri - page uri
  * @property {*} body - page body
  * @property {string} parent - id of parent page
- *
  */
 
 /**

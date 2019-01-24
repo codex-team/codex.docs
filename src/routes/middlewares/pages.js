@@ -1,17 +1,47 @@
 const Pages = require('../../controllers/pages');
+const PagesOrder = require('../../controllers/pagesOrder');
 const asyncMiddleware = require('../../utils/asyncMiddleware');
 
 /**
- * Process one-level pages list to parent-childrens list
- * @param {Page[]} pages - list of all available pages
+ * Process one-level pages list to parent-children list
+ * @param {string[]} pages - list of all available pages
+ * @param {number} level
+ * @param {number} currentLevel
+ *
  * @return {Page[]}
  */
-function createMenuTree(pages) {
-  return pages.filter(page => page._parent === '0').map(page => {
+async function createMenuTree(pages, level = 1, currentLevel = 1) {
+  return await Promise.all(pages.map(async pageId => {
+    const parent = await Pages.get(pageId);
+
+    /**
+     * By default we accept that deepestChildren is empty Array
+     * @type {Array}
+     */
+    let deepestChildren = [];
+
+    /**
+     * Here we try to check parent's children order
+     * If we got something, pluck to found Page deeper and get its children order
+     */
+    try {
+      /**
+       * Go deeper until we didn't get the deepest level
+       * On each 'currentLevel' create new Menu Tree with ordered Page ids
+       */
+      if (currentLevel !== level) {
+        const children = await PagesOrder.get(pageId);
+        deepestChildren = await createMenuTree(children.order, level, currentLevel + 1)
+      }
+    } catch (e) {}
+
+    /**
+     * Assign parent's children with found Menu Tree
+     */
     return Object.assign({
-      children: pages.filter(child => child._parent === page._id).reverse()
-    }, page.data);
-  });
+      children: deepestChildren
+    }, parent.data);
+  }));
 }
 
 /**
@@ -21,13 +51,16 @@ function createMenuTree(pages) {
  * @param next
  */
 module.exports = asyncMiddleware(async function (req, res, next) {
+  /**
+   * Pages without parent
+   * @type {string}
+   */
+  const parentIdOfRootPages = '0';
   try {
-    const menu = await Pages.getAll();
-
-    res.locals.menu = createMenuTree(menu);
+    const rootPages = await PagesOrder.get(parentIdOfRootPages);
+    res.locals.menu = await createMenuTree(rootPages.order, 2);
   } catch (error) {
     console.log('Can not load menu:', error);
   }
-
   next();
 });

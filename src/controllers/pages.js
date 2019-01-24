@@ -44,6 +44,38 @@ class Pages {
   }
 
   /**
+   * @static
+   * Return all pages without children of passed page
+   *
+   * @param {string} parent - id of current page
+   * @returns {Promise<Page[]>}
+   */
+  static async getAllExceptChildrens(parent) {
+    let pagesAvailable = this.removeChildren(await Pages.getAll(), parent);
+
+    return pagesAvailable.filter((item) => item !== null);
+  }
+
+  /**
+   * @static
+   * Set all children elements to null
+   *
+   * @param {Page[]} [pagesAvailable] - Array of all pages
+   * @param {string} parent - id of parent page
+   * @returns {Array<?Page>}
+   */
+  static removeChildren(pagesAvailable, parent) {
+    pagesAvailable.forEach(async (item, index) => {
+      if (item === null || item._parent !== parent) {
+        return;
+      }
+      pagesAvailable[index] = null;
+      pagesAvailable = Pages.removeChildren(pagesAvailable, item._id);
+    });
+    return pagesAvailable;
+  }
+
+  /**
    * Create new page model and save it in the database
    *
    * @param {PageData} data
@@ -52,6 +84,7 @@ class Pages {
   static async insert(data) {
     try {
       Pages.validate(data);
+
       const page = new Model(data);
 
       const insertedPage = await page.save();
