@@ -68,7 +68,7 @@ class Page {
 
     this.body = body || this.body;
     this.title = this.extractTitleFromBody();
-    this._parent = parent || this._parent || "0";
+    this._parent = parent || this._parent || '0';
   }
 
   /**
