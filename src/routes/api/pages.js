@@ -80,7 +80,7 @@ router.post('/page/:id', multer.any(), async (req, res) => {
   const {id} = req.params;
 
   try {
-    const {title, body, parent, putAbovePageId} = req.body;
+    const {title, body, parent, putAbovePageId, uri} = req.body;
     let page = await Pages.get(id);
 
     if (page._parent !== parent) {
@@ -91,7 +91,7 @@ router.post('/page/:id', multer.any(), async (req, res) => {
       }
     }
 
-    page = await Pages.update(id, {title, body, parent});
+    page = await Pages.update(id, {title, body, parent, uri});
     res.json({
       success: true,
       result: page

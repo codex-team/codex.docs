@@ -30,6 +30,7 @@ export default class Writing {
       removeButton: null,
       parentIdSelector: null,
       putAboveIdSelector: null,
+      uriInput: null
     };
   }
 
@@ -69,6 +70,7 @@ export default class Writing {
 
     this.nodes.parentIdSelector = moduleEl.querySelector('[name="parent"]');
     this.nodes.putAboveIdSelector = moduleEl.querySelector('[name="above"]');
+    this.nodes.uriInput = moduleEl.querySelector('[name="uri-input"]');
   };
 
   /**
@@ -92,6 +94,15 @@ export default class Writing {
     const editorData = await this.editor.save();
     const firstBlock = editorData.blocks.length ? editorData.blocks[0] : null;
     const title = firstBlock && firstBlock.type === 'header' ? firstBlock.data.text : null;
+    let uri = '';
+
+    if (this.nodes.uriInput && this.nodes.uriInput.value) {
+      if (this.nodes.uriInput.value.match(/^[a-z0-9'-]+$/i)) {
+        uri = this.nodes.uriInput.value;
+      } else {
+        throw new Error('Uri has unexpected characters');
+      }
+    }
 
     if (!title) {
       throw new Error('Entry should start with Header');
@@ -106,6 +117,7 @@ export default class Writing {
     return {
       parent: this.nodes.parentIdSelector.value,
       putAbovePageId: putAbovePageId,
+      uri: uri,
       body: editorData
     };
   }
@@ -130,7 +142,7 @@ export default class Writing {
         response = await response.json();
 
         if (response.success) {
-          document.location = '/page/' + response.result._id;
+          window.location.pathname = response.result.uri ? response.result.uri : '/page/' + response.result._id;
         } else {
           alert(response.error);
           console.log('Validation failed:', response.error);

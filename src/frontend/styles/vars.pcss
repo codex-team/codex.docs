@@ -4,6 +4,7 @@
   --color-line-gray: #E8E8EB;
   --color-link-active: #388AE5;
   --color-button-danger: #ff1629;
+  --color-gray-border: rgba(var(--color-line-gray), 0.48);
 
   /**
    * Site layout sizes
@@ -15,9 +16,11 @@
 
   --button {
     display: inline-block;
-    color: #fff;
-    border-radius: 3px;
     padding: 9px 15px;
+    border-radius: 3px;
+    color: #6c6375;
+    background: #fcfcff;
+    box-shadow: inset 0 0 0 1px rgba(184, 189, 206, 0.2);
     font-size: 14px;
     line-height: 1em;
     text-decoration: none;
@@ -30,6 +33,7 @@
 
   --button-danger {
     background: var(--color-button-danger);
+    color: #fff;
 
     &:hover {
       background: color-mod(var(--color-button-danger) blackness(+10%));
@@ -37,7 +41,8 @@
   }
 
   --button-primary {
-    background:  var(--color-link-active);
+    background: var(--color-link-active);
+    color: #fff;
 
     &:hover {
       background: color-mod(var(--color-link-active) blackness(+10%));
