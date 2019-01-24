@@ -2,7 +2,7 @@
   "ignore": [
     "node_modules",
     "src/frontend",
-    "public"
+    "public/dist"
   ],
   "events": {
     "restart": "echo \"App restarted due to: '$FILENAME'\""
