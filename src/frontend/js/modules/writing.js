@@ -42,11 +42,7 @@ export default class Writing {
     /**
      * Create Editor
      */
-    this.nodes.editorWrapper = document.createElement('div');
-    this.nodes.editorWrapper.id = 'codex-editor';
-
-    moduleEl.appendChild(this.nodes.editorWrapper);
-
+    this.nodes.editorWrapper = document.getElementById('codex-editor');
     if (settings.page) {
       this.page = settings.page;
     }
@@ -64,9 +60,13 @@ export default class Writing {
     });
 
     this.nodes.removeButton = moduleEl.querySelector('[name="js-submit-remove"]');
-    this.nodes.removeButton.addEventListener('click', () => {
-      this.removeButtonClicked();
-    });
+
+    if (this.nodes.removeButton) {
+      this.nodes.removeButton.addEventListener('click', () => {
+        this.removeButtonClicked();
+      });
+    }
+
     this.nodes.parentIdSelector = moduleEl.querySelector('[name="parent"]');
     this.nodes.putAboveIdSelector = moduleEl.querySelector('[name="above"]');
   };

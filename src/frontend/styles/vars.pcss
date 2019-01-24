@@ -3,6 +3,7 @@
   --color-text-second: #7B7E89;
   --color-line-gray: #E8E8EB;
   --color-link-active: #388AE5;
+  --color-button-danger: #ff1629;
 
   /**
    * Site layout sizes
@@ -14,17 +15,29 @@
 
   --button {
     display: inline-block;
-    background:  var(--color-link-active);
     color: #fff;
     border-radius: 3px;
     padding: 9px 15px;
     font-size: 14px;
     line-height: 1em;
     text-decoration: none;
+    cursor: pointer;
 
     svg {
       margin: 0 0.3em 0 -0.05em;
     }
+  }
+
+  --button-danger {
+    background: var(--color-button-danger);
+
+    &:hover {
+      background: color-mod(var(--color-button-danger) blackness(+10%));
+    }
+  }
+
+  --button-primary {
+    background:  var(--color-link-active);
 
     &:hover {
       background: color-mod(var(--color-link-active) blackness(+10%));

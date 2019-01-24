@@ -10,17 +10,8 @@
 
   &__save {
     @apply --button;
+    @apply --button-primary;
     margin-left: auto;
-  }
-
-  &__remove {
-    @apply --button;
-    margin-left: 10px;
-  }
-
-  &__save,
-  &__remove {
-    cursor: pointer;
   }
 
   &__left {
@@ -30,5 +21,12 @@
     & span {
       margin-right: 10px;
     }
+  }
+}
+
+.writing-buttons {
+  &__remove {
+    @apply --button;
+    @apply --button-danger;
   }
 }

@@ -44,13 +44,13 @@
           </span>
         {% endif %}
       </span>
-      <span class="writing-header__save" name="js-submit-save">
-        Save
-      </span>
-
-      <span class="writing-header__remove" name="js-submit-remove">
-        Remove
-      </span>
+      <span class="writing-header__save" name="js-submit-save">Save</span>
     </header>
+    <div id="codex-editor"></div>
+    <div class="writing-buttons">
+      {% if page._id is not empty %}
+      <span class="writing-buttons__remove" name="js-submit-remove">Remove</span>
+      {% endif %}
+    </div>
   </section>
 {% endblock %}

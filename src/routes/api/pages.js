@@ -115,12 +115,15 @@ router.delete('/page/:id', async (req, res) => {
     const page = await Pages.get(pageId);
     const parentPageOrder = await PagesOrder.get(page._parent);
     const pageBeforeId = parentPageOrder.getPageBefore(page._id);
+    const pageAfterId = parentPageOrder.getPageAfter(page._id);
 
-    let pageToReturn;
+    let responsePage;
     if (pageBeforeId) {
-      pageToReturn = await Pages.get(pageBeforeId);
+      responsePage = await Pages.get(pageBeforeId);
+    } else if (pageAfterId) {
+      responsePage = await Pages.get(pageAfterId);
     } else {
-      pageToReturn = page._parent !== "0" ? await Pages.get(page._parent) : null;
+      responsePage = page._parent !== "0" ? await Pages.get(page._parent) : null;
     }
 
     // remove current page and return previous from order
@@ -129,7 +132,7 @@ router.delete('/page/:id', async (req, res) => {
 
     res.json({
       success: true,
-      result: pageToReturn
+      result: responsePage
     });
   } catch (err) {
     res.status(400).json({

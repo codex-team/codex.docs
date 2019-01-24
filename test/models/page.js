@@ -24,7 +24,7 @@ describe('Page model', () => {
     expect(data._id).to.be.undefined;
     expect(data.title).to.be.empty;
     expect(data.body).to.be.undefined;
-    expect(data.parent).to.be.undefined;
+    expect(data.parent).to.be.equal('0');
 
     page = new Page(null);
 
@@ -33,7 +33,7 @@ describe('Page model', () => {
     expect(data._id).to.be.undefined;
     expect(data.title).to.be.empty;
     expect(data.body).to.be.undefined;
-    expect(data.parent).to.be.undefined;
+    expect(data.parent).to.be.equal('0');
 
     const initialData = {
       _id: 'page_id',
@@ -58,12 +58,12 @@ describe('Page model', () => {
     expect(data._id).to.equal(initialData._id);
     expect(data.title).to.equal(initialData.body.blocks[0].data.text);
     expect(data.body).to.deep.equal(initialData.body);
-    expect(data.parent).to.be.undefined;
+    expect(data.parent).to.be.equal('0');
 
     expect(json._id).to.equal(initialData._id);
     expect(json.title).to.equal(initialData.body.blocks[0].data.text);
     expect(json.body).to.deep.equal(initialData.body);
-    expect(json.parent).to.be.undefined;
+    expect(json.parent).to.be.equal('0');
 
     const update = {
       _id: 12345,
@@ -86,7 +86,7 @@ describe('Page model', () => {
     expect(data._id).to.equal(initialData._id);
     expect(data.title).to.equal(update.body.blocks[0].data.text);
     expect(data.body).to.equal(update.body);
-    expect(data.parent).to.be.undefined;
+    expect(data.parent).to.be.equal('0');
   });
 
   it('Saving, updating and deleting model in the database', async () => {

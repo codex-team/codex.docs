@@ -19,10 +19,15 @@ describe('Pages REST: ', () => {
   });
 
   after(async () => {
-    const pathToDB = path.resolve(__dirname, '../../', config.database, './pages.db');
+    const pathToPagesDB = path.resolve(__dirname, '../../', config.database, './pages.db');
+    const pathToPagesOrderDB = path.resolve(__dirname, '../../', config.database, './pagesOrder.db');
 
-    if (fs.existsSync(pathToDB)) {
-      fs.unlinkSync(pathToDB);
+    if (fs.existsSync(pathToPagesDB)) {
+      fs.unlinkSync(pathToPagesDB);
+    }
+
+    if (fs.existsSync(pathToPagesOrderDB)) {
+      fs.unlinkSync(pathToPagesOrderDB);
     }
   });
 
@@ -229,31 +234,36 @@ describe('Pages REST: ', () => {
       ]
     };
 
-    // let res = await agent
-    //   .put('/api/page')
-    //   .send({body});
-    //
-    // expect(res).to.have.status(200);
-    // expect(res).to.be.json;
-    //
-    // const {result: {_id}} = res.body;
+    let res = await agent
+      .put('/api/page')
+      .send({body});
 
-    // const res = await agent
-    //   .delete(`/api/page/${_id}`);
-    //
-    // expect(res).to.have.status(200);
-    // expect(res).to.be.json;
-    //
-    // const {success, result} = res.body;
-    //
-    // expect(success).to.be.true;
-    // expect(result._id).to.be.undefined;
-    // expect(result.title).to.equal(body.blocks[0].data.text);
-    // expect(result.body).to.deep.equal(body);
+    expect(res).to.have.status(200);
+    expect(res).to.be.json;
 
-    // const deletedPage = await model.get(_id);
+    const {result: {_id}} = res.body;
+    console.log('_id', _id);
 
-    // expect(deletedPage._id).to.be.undefined;
+    res = await agent
+      .delete(`/api/page/${_id}`);
+
+    expect(res).to.have.status(200);
+    expect(res).to.be.json;
+
+    const {success, result} = res.body;
+
+    expect(success).to.be.true;
+
+    if (result) {
+      expect(result._id).to.be.undefined;
+      expect(result.title).to.equal(body.blocks[0].data.text);
+      expect(result.body).to.deep.equal(body);
+      const deletedPage = await model.get(_id);
+
+      expect(deletedPage._id).to.be.undefined;
+    } else {
+      expect(result).to.be.null;
+    }
   });
 
   it('Removing page with not existing id', async () => {

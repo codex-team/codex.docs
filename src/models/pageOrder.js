@@ -136,6 +136,24 @@ class PageOrder {
   }
 
   /**
+   * Returns page before passed page with id
+   *
+   * @param pageId
+   */
+  getPageAfter(pageId) {
+    const currentPageInOrder = this.order.indexOf(pageId);
+
+    /**
+     * If page not found or is last
+     */
+    if (currentPageInOrder === -1 || currentPageInOrder === this.order.length - 1) {
+      return;
+    }
+
+    return this.order[currentPageInOrder + 1];
+  }
+
+  /**
    * Returns ordered list
    *
    * @return {string[]}
