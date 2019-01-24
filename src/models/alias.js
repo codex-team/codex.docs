@@ -1,5 +1,6 @@
 const {aliases: aliasesDb} = require('../utils/database/index');
 const binaryMD5 = require('../utils/crypto');
+
 /**
  * @typedef {Object} AliasData
  * @property {string} _id - alias id
@@ -19,6 +20,17 @@ const binaryMD5 = require('../utils/crypto');
  * @property {string} id - entity title
  */
 class Alias {
+  /**
+   * Return Alias types
+   *
+   * @returns {Object}
+   */
+  static get types() {
+    return {
+      PAGE: 'page'
+    };
+  };
+
   /**
    * Find and return alias with given alias
    * @param {string} aliasName - alias of entity

@@ -4,7 +4,6 @@ const path = require('path');
 const config = require('../../config');
 const Alias = require('../../src/models/alias');
 const binaryMD5 = require('../../src/utils/crypto');
-const aliasTypes = require('../../src/constants/aliasTypes');
 const {aliases} = require('../../src/utils/database');
 
 describe('Alias model', () => {
@@ -41,7 +40,7 @@ describe('Alias model', () => {
 
     const initialData = {
       _id: 'alias_id',
-      type: aliasTypes.PAGE,
+      type: Alias.types.PAGE,
       id: 'page_id'
     };
     const aliasName = 'alias name';
@@ -55,7 +54,7 @@ describe('Alias model', () => {
     expect(data.deprecated).to.equal(false);
 
     const update = {
-      type: aliasTypes.PAGE,
+      type: Alias.types.PAGE,
       id: 'page_id',
       hash: binaryMD5('another test hash'),
       deprecated: true
@@ -73,7 +72,7 @@ describe('Alias model', () => {
 
   it('Static get method', async () => {
     const initialData = {
-      type: aliasTypes.PAGE,
+      type: Alias.types.PAGE,
       id: 'page_id'
     };
     const aliasName = 'alias name';
@@ -94,7 +93,7 @@ describe('Alias model', () => {
 
   it('Saving, updating and deleting model in the database', async () => {
     const initialData = {
-      type: aliasTypes.PAGE,
+      type: Alias.types.PAGE,
       id: 'page_id'
     };
     const aliasName = 'alias name';
@@ -118,7 +117,7 @@ describe('Alias model', () => {
     expect(insertedAlias.deprecated).to.equal(savedAlias.deprecated);
 
     const updateData = {
-      type: aliasTypes.PAGE,
+      type: Alias.types.PAGE,
       id: 'page_id',
       hash: binaryMD5('another test hash'),
       deprecated: true

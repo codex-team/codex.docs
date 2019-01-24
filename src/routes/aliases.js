@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Aliases = require('../controllers/aliases');
 const Pages = require('../controllers/pages');
-const aliasTypes = require('../constants/aliasTypes');
+const Alias = require('../models/alias');
 
 /**
  * GET /*
@@ -14,7 +14,7 @@ router.get('*', async (req, res) => {
     const alias = await Aliases.get(req.originalUrl.slice(1)); // Cuts first '/' character
 
     switch (alias.type) {
-      case aliasTypes.PAGE: {
+      case Alias.types.PAGE: {
         let page = await Pages.get(alias.id);
 
         let pageParent = await page.parent;

@@ -1,6 +1,5 @@
 const Model = require('../models/page');
 const Alias = require('../models/alias');
-const aliasTypes = require('../constants/aliasTypes');
 
 /**
  * @class Pages
@@ -92,7 +91,7 @@ class Pages {
       if (insertedPage.uri) {
         const alias = new Alias({
           id: insertedPage._id,
-          type: aliasTypes.PAGE
+          type: Alias.types.PAGE
         }, insertedPage.uri);
 
         alias.save();
@@ -162,7 +161,7 @@ class Pages {
       if (updatedPage.uri) {
         const alias = new Alias({
           id: updatedPage._id,
-          type: aliasTypes.PAGE
+          type: Alias.types.PAGE
         }, updatedPage.uri);
 
         alias.save();
