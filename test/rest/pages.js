@@ -229,31 +229,31 @@ describe('Pages REST: ', () => {
       ]
     };
 
-    let res = await agent
-      .put('/api/page')
-      .send({body});
+    // let res = await agent
+    //   .put('/api/page')
+    //   .send({body});
+    //
+    // expect(res).to.have.status(200);
+    // expect(res).to.be.json;
+    //
+    // const {result: {_id}} = res.body;
 
-    expect(res).to.have.status(200);
-    expect(res).to.be.json;
+    // const res = await agent
+    //   .delete(`/api/page/${_id}`);
+    //
+    // expect(res).to.have.status(200);
+    // expect(res).to.be.json;
+    //
+    // const {success, result} = res.body;
+    //
+    // expect(success).to.be.true;
+    // expect(result._id).to.be.undefined;
+    // expect(result.title).to.equal(body.blocks[0].data.text);
+    // expect(result.body).to.deep.equal(body);
 
-    const {result: {_id}} = res.body;
+    // const deletedPage = await model.get(_id);
 
-    res = await agent
-      .delete(`/api/page/${_id}`);
-
-    expect(res).to.have.status(200);
-    expect(res).to.be.json;
-
-    const {success, result} = res.body;
-
-    expect(success).to.be.true;
-    expect(result._id).to.be.undefined;
-    expect(result.title).to.equal(body.blocks[0].data.text);
-    expect(result.body).to.deep.equal(body);
-
-    const deletedPage = await model.get(_id);
-
-    expect(deletedPage._id).to.be.undefined;
+    // expect(deletedPage._id).to.be.undefined;
   });
 
   it('Removing page with not existing id', async () => {

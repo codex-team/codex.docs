@@ -111,11 +111,25 @@ router.post('/page/:id', multer.any(), async (req, res) => {
  */
 router.delete('/page/:id', async (req, res) => {
   try {
-    const page = await Pages.remove(req.params.id);
+    const pageId = req.params.id;
+    const page = await Pages.get(pageId);
+    const parentPageOrder = await PagesOrder.get(page._parent);
+    const pageBeforeId = parentPageOrder.getPageBefore(page._id);
+
+    let pageToReturn;
+    if (pageBeforeId) {
+      pageToReturn = await Pages.get(pageBeforeId);
+    } else {
+      pageToReturn = page._parent !== "0" ? await Pages.get(page._parent) : null;
+    }
+
+    // remove current page and return previous from order
+    parentPageOrder.remove(req.params.id);
+    await [Pages.remove(req.params.id), parentPageOrder.save()];
 
     res.json({
       success: true,
-      result: page
+      result: pageToReturn
     });
   } catch (err) {
     res.status(400).json({
