@@ -1,0 +1,11 @@
+{
+  "ignore": [
+    "node_modules",
+    "src/frontend",
+    "public/dist"
+  ],
+  "events": {
+    "restart": "echo \"App restarted due to: '$FILENAME'\""
+  },
+  "ext": "js,twig"
+}
