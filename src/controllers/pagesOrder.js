@@ -90,6 +90,20 @@ class PagesOrder {
     pageOrder.putAbove(currentPageId, putAbovePageId);
     await pageOrder.save();
   }
+
+  /**
+   * @param parentId
+   * @returns {Promise<void>}
+   */
+  static async remove(parentId) {
+    const order = await Model.get(parentId);
+
+    if (!order._id) {
+      throw new Error('Page with given id does not contain order');
+    }
+
+    return order.destroy();
+  }
 }
 
 module.exports = PagesOrder;

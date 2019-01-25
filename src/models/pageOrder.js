@@ -18,6 +18,7 @@ class PageOrder {
    * Returns current Page's children order
    *
    * @param {string} pageId - page's id
+   * @returns {PageOrder}
    */
   static async get(pageId) {
     const order = await db.findOne({page: pageId});

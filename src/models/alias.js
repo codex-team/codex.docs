@@ -48,6 +48,18 @@ class Alias {
   }
 
   /**
+   * @param {string} id
+   * @returns {Promise<void>}
+   */
+  static async destroyByEntityId(id) {
+    await aliasesDb.remove({id});
+
+    delete this._id;
+
+    return this;
+  }
+
+  /**
    * @constructor
    *
    * @param {AliasData} data

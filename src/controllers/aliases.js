@@ -21,6 +21,14 @@ class Aliases {
 
     return alias;
   }
+
+  /**
+   * @param id
+   * @returns {Promise<void>}
+   */
+  static async removeById(id) {
+    return Alias.destroyByEntityId(id);
+  }
 }
 
 module.exports = Aliases;

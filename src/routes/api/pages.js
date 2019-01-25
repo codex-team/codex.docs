@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require('multer')();
 const Pages = require('../../controllers/pages');
 const PagesOrder = require('../../controllers/pagesOrder');
-
+const Aliases = require("../../controllers/aliases");
 /**
  * GET /page/:id
  *
@@ -126,15 +126,39 @@ router.delete('/page/:id', async (req, res) => {
       responsePage = page._parent !== "0" ? await Pages.get(page._parent) : null;
     }
 
-    // remove current page and return previous from order
+    // remove current page and go deeper to remove children with orders
+    async function deleteRecursively(startFrom) {
+      let order = [];
+      try {
+        const children = await PagesOrder.get(startFrom);
+        order = children.order;
+      } catch (e) {}
+
+      order.forEach(async id => {
+        await deleteRecursively(id);
+      });
+
+      try {
+        await Pages.remove(startFrom);
+        await PagesOrder.remove(startFrom);
+        await Aliases.removeById(startFrom);
+      } catch (e) {}
+
+    }
+
+    await deleteRecursively(req.params.id);
+
+    // remove also from parent's order
     parentPageOrder.remove(req.params.id);
-    await [Pages.remove(req.params.id), parentPageOrder.save()];
+    await Aliases.removeById(req.params.id);
+    await parentPageOrder.save();
 
     res.json({
       success: true,
       result: responsePage
     });
   } catch (err) {
+    console.log(err);
     res.status(400).json({
       success: false,
       error: err.message

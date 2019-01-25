@@ -352,4 +352,31 @@ describe('Page model', () => {
 
     expect(page.title).to.equal(pageData.body.blocks[0].data.text);
   });
+
+  it('test deletion', async () => {
+
+    const pages = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    const orders = {
+      '0' : ['1', '2', '3'],
+      '1' : ['4', '5'],
+      '5' : ['6', '7', '8'],
+      '3' : ['9']
+    };
+
+    function deleteRecursively(startFrom) {
+      const order = orders[startFrom];
+      if (!order) {
+        const found = pages.indexOf(startFrom);
+        pages.splice(found, 1);
+        return;
+      }
+
+      order.forEach(id => {
+        deleteRecursively(id);
+      });
+
+      const found = pages.indexOf(startFrom);
+      pages.splice(found, 1);
+    }
+  });
 });
