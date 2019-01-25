@@ -1,17 +1,22 @@
 const express = require('express');
 const router = express.Router();
+const csrf = require('csurf');
+const bodyParser = require('body-parser');
 const { password: db } = require('../utils/database/index');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/index');
 const md5 = require('md5');
 
+const csrfProtection = csrf({ cookie: true });
+const parseForm = bodyParser.urlencoded({ extended: false });
+
 /* GET authorization page. */
-router.get('/auth', function (req, res, next) {
-  res.render('auth', { title: 'Login page ', header: 'Enter password' });
+router.get('/auth', csrfProtection, function (req, res, next) {
+  res.render('auth', { title: 'Login page ', header: 'Enter password', csrfToken: req.csrfToken() });
 });
 
-router.post('/auth', async (req, res) => {
-  const passwordDoc = await db.findOne({password: md5(req.body.password)});
+router.post('/auth', parseForm, csrfProtection, async (req, res) => {
+  const passwordDoc = await db.findOne({ 'password': md5(req.body.password) });
 
   if (passwordDoc !== null) {
     const token = jwt.sign({

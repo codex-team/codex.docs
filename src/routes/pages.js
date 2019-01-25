@@ -6,30 +6,26 @@ const verifyToken = require('./middlewares/token');
 /**
  * Create new page form
  */
-router.get('/page/new', async (req, res) => {
-  verifyToken(req.cookies.authToken).then(
-    async () => {
-      let pagesAvailable = await Pages.getAll();
+router.get('/page/new', verifyToken, async (req, res, next) => {
+  if (!req.isAuthorized) {
+    res.render('auth', { title: 'Login page', header: 'Enter password to do this!' });
+  } else {
+    let pagesAvailable = await Pages.getAll();
 
-      res.render('pages/form', {
-        pagesAvailable,
-        page: null
-      });
-    },
-    () => {
-      res.render('auth', { title: 'Login page', header: 'Enter password to do this!' });
-    }
-
-  );
+    res.render('pages/form', {
+      pagesAvailable,
+      page: null
+    });
+  }
 });
 
 /**
  * Edit page form
  */
-router.get('/page/edit/:id', async (req, res, next) => {
-  const isAuthorized = await verifyToken(req.cookies.authToken);
-
-  if (isAuthorized) {
+router.get('/page/edit/:id', verifyToken, async (req, res, next) => {
+  if (!req.isAuthorized) {
+    res.render('auth', { title: 'Login page', header: 'Enter password to do this!' });
+  } else {
     const pageId = req.params.id;
 
     try {
@@ -44,17 +40,14 @@ router.get('/page/edit/:id', async (req, res, next) => {
       res.status(404);
       next(error);
     }
-  } else {
-    res.render('auth', { title: 'Login page', header: 'Enter password to do this!' });
   }
 });
 
 /**
  * View page
  */
-router.get('/page/:id', async (req, res, next) => {
+router.get('/page/:id', verifyToken, async (req, res, next) => {
   const pageId = req.params.id;
-  let isAuthorized = await verifyToken(req.cookies.authToken);
 
   try {
     let page = await Pages.get(pageId);
@@ -62,7 +55,7 @@ router.get('/page/:id', async (req, res, next) => {
     let pageParent = await page.parent;
 
     res.render('pages/page', {
-      page, pageParent, isAuthorized
+      page, pageParent, isAuthorized: req.isAuthorized
     });
   } catch (error) {
     res.status(404);

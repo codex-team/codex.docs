@@ -3,6 +3,7 @@
 {% block body %}
   <h1>{{header}}</h1>
   <form method="post" action="/auth">
+    <input type="hidden" name="_csrf" value={{csrfToken}}>
     <input type="password" name="password" placeholder="Password">
     <input type="submit" value="login">
   </form>
