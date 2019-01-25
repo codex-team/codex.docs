@@ -325,7 +325,6 @@ describe('Pages REST: ', () => {
     expect(res).to.be.json;
 
     const {result: {_id}} = res.body;
-    console.log('_id', _id);
 
     res = await agent
       .delete(`/api/page/${_id}`);
