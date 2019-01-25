@@ -47,9 +47,10 @@ export default class Writing {
 
     moduleEl.appendChild(this.nodes.editorWrapper);
 
-    if (settings.page) {
-      this.page = settings.page;
-    }
+    this.page = window.savedData;
+    // if (settings.page) {
+    //   this.page = settings.page;
+    // }
 
     this.loadEditor().then((editor) => {
       this.editor = editor;
