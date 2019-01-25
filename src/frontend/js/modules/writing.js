@@ -64,6 +64,11 @@ export default class Writing {
 
     if (this.nodes.removeButton) {
       this.nodes.removeButton.addEventListener('click', () => {
+        const isUserAgree = confirm("Are you sure?");
+        if (!isUserAgree) {
+          return
+        }
+
         this.removeButtonClicked();
       });
     }

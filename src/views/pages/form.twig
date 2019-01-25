@@ -53,9 +53,7 @@
       {% endif %}
     </div>
     {% if page is not empty %}
-      <main>
-        <input type="text" class="uri-input" name="uri-input" placeholder="Uri(Optional)" value="{{ page.uri }}">
-      </main>
+      <p><input type="text" class="uri-input" name="uri-input" placeholder="Uri(Optional)" value="{{ page.uri }}"></p>
     {% endif %}
   </section>
 {% endblock %}
