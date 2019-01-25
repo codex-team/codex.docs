@@ -83,7 +83,7 @@ class Page {
     this.body = body || this.body;
     this.title = this.extractTitleFromBody();
     this.uri = uri || '';
-    this._parent = parent || this._parent;
+    this._parent = parent || this._parent || '0';
   }
 
   /**

@@ -27,6 +27,7 @@ export default class Writing {
     this.nodes = {
       editorWrapper: null,
       saveButton: null,
+      removeButton: null,
       parentIdSelector: null,
       putAboveIdSelector: null,
       uriInput: null
@@ -42,11 +43,7 @@ export default class Writing {
     /**
      * Create Editor
      */
-    this.nodes.editorWrapper = document.createElement('div');
-    this.nodes.editorWrapper.id = 'codex-editor';
-
-    moduleEl.appendChild(this.nodes.editorWrapper);
-
+    this.nodes.editorWrapper = document.getElementById('codex-editor');
     if (settings.page) {
       this.page = settings.page;
     }
@@ -58,10 +55,24 @@ export default class Writing {
     /**
      * Activate form elements
      */
-    this.nodes.saveButton = moduleEl.querySelector('[name="js-submit"]');
+    this.nodes.saveButton = moduleEl.querySelector('[name="js-submit-save"]');
     this.nodes.saveButton.addEventListener('click', () => {
       this.saveButtonClicked();
     });
+
+    this.nodes.removeButton = moduleEl.querySelector('[name="js-submit-remove"]');
+
+    if (this.nodes.removeButton) {
+      this.nodes.removeButton.addEventListener('click', () => {
+        const isUserAgree = confirm("Are you sure?");
+        if (!isUserAgree) {
+          return
+        }
+
+        this.removeButtonClicked();
+      });
+    }
+
     this.nodes.parentIdSelector = moduleEl.querySelector('[name="parent"]');
     this.nodes.putAboveIdSelector = moduleEl.querySelector('[name="above"]');
     this.nodes.uriInput = moduleEl.querySelector('[name="uri-input"]');
@@ -147,6 +158,33 @@ export default class Writing {
     } catch (savingError) {
       alert(savingError);
       console.log('Saving error: ', savingError);
+    }
+  }
+
+  /**
+   * @returns {Promise<void>}
+   */
+  async removeButtonClicked() {
+    try {
+      const endpoint = this.page ? '/api/page/' + this.page._id : '';
+
+      let response = await fetch(endpoint, {
+        method: 'DELETE'
+      });
+
+      response = await response.json();
+      if (response.success) {
+        if (response.result && response.result._id) {
+          document.location = '/page/' + response.result._id;
+        } else {
+          document.location = '/';
+        }
+      } else {
+        alert(response.error);
+        console.log('Server fetch failed:', response.error);
+      }
+    } catch (e) {
+      console.log('Server fetch failed due to the:', e);
     }
   }
 }

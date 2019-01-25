@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require('multer')();
 const Pages = require('../../controllers/pages');
 const PagesOrder = require('../../controllers/pagesOrder');
-
+const Aliases = require("../../controllers/aliases");
 /**
  * GET /page/:id
  *
@@ -111,11 +111,53 @@ router.post('/page/:id', multer.any(), async (req, res) => {
  */
 router.delete('/page/:id', async (req, res) => {
   try {
-    const page = await Pages.remove(req.params.id);
+    const pageId = req.params.id;
+    const page = await Pages.get(pageId);
+    const parentPageOrder = await PagesOrder.get(page._parent);
+    const pageBeforeId = parentPageOrder.getPageBefore(page._id);
+    const pageAfterId = parentPageOrder.getPageAfter(page._id);
+
+    let pageToRedirect;
+    if (pageBeforeId) {
+      pageToRedirect = await Pages.get(pageBeforeId);
+    } else if (pageAfterId) {
+      pageToRedirect = await Pages.get(pageAfterId);
+    } else {
+      pageToRedirect = page._parent !== "0" ? await Pages.get(page._parent) : null;
+    }
+
+    /**
+     * remove current page and go deeper to remove children with orders
+     *
+     * @param startFrom
+     * @returns {Promise<void>}
+     */
+    async function deleteRecursively(startFrom) {
+      let order = [];
+      try {
+        const children = await PagesOrder.get(startFrom);
+        order = children.order;
+      } catch (e) {}
+
+      order.forEach(async id => {
+        await deleteRecursively(id);
+      });
+
+      await Pages.remove(startFrom);
+      try {
+        await PagesOrder.remove(startFrom);
+      } catch (e) {}
+    }
+
+    await deleteRecursively(req.params.id);
+
+    // remove also from parent's order
+    parentPageOrder.remove(req.params.id);
+    await parentPageOrder.save();
 
     res.json({
       success: true,
-      result: page
+      result: pageToRedirect
     });
   } catch (err) {
     res.status(400).json({

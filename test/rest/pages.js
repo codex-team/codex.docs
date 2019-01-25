@@ -30,10 +30,20 @@ describe('Pages REST: ', () => {
   });
 
   after(async () => {
-    const pathToDB = path.resolve(__dirname, '../../', config.database, './pages.db');
+    const pathToPagesDB = path.resolve(__dirname, '../../', config.database, './pages.db');
+    const pathToPagesOrderDB = path.resolve(__dirname, '../../', config.database, './pagesOrder.db');
+    const pathToAliasesDB = path.resolve(__dirname, '../../', config.database, './aliases.db');
 
-    if (fs.existsSync(pathToDB)) {
-      fs.unlinkSync(pathToDB);
+    if (fs.existsSync(pathToPagesDB)) {
+      fs.unlinkSync(pathToPagesDB);
+    }
+
+    if (fs.existsSync(pathToPagesOrderDB)) {
+      fs.unlinkSync(pathToPagesOrderDB);
+    }
+
+    if (fs.existsSync(pathToAliasesDB)) {
+      fs.unlinkSync(pathToAliasesDB);
     }
   });
 
@@ -325,14 +335,18 @@ describe('Pages REST: ', () => {
     const {success, result} = res.body;
 
     expect(success).to.be.true;
-    expect(result._id).to.be.undefined;
-    expect(result.title).to.equal(body.blocks[0].data.text);
-    expect(result.uri).to.equal(transformToUri(body.blocks[0].data.text));
-    expect(result.body).to.deep.equal(body);
 
-    const deletedPage = await model.get(_id);
+    if (result) {
+      expect(result._id).to.be.undefined;
+      expect(result.title).to.equal(body.blocks[0].data.text);
+      expect(result.uri).to.equal(transformToUri(body.blocks[0].data.text));
+      expect(result.body).to.deep.equal(body);
+      const deletedPage = await model.get(_id);
 
-    expect(deletedPage._id).to.be.undefined;
+      expect(deletedPage._id).to.be.undefined;
+    } else {
+      expect(result).to.be.null;
+    }
   });
 
   it('Removing page with not existing id', async () => {

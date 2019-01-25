@@ -18,6 +18,7 @@ class PageOrder {
    * Returns current Page's children order
    *
    * @param {string} pageId - page's id
+   * @returns {PageOrder}
    */
   static async get(pageId) {
     const order = await db.findOne({page: pageId});
@@ -115,6 +116,42 @@ class PageOrder {
 
     this.order.splice(found1, 0, currentPageId);
     this.order.splice(found2 + margin, 1);
+  }
+
+  /**
+   * Returns page before passed page with id
+   *
+   * @param {string} pageId
+   */
+  getPageBefore(pageId) {
+    const currentPageInOrder = this.order.indexOf(pageId);
+
+    /**
+     * If page not found or first return nothing
+     */
+    if (currentPageInOrder <= 0) {
+      return;
+    }
+
+    return this.order[currentPageInOrder - 1];
+  }
+
+  /**
+   * Returns page before passed page with id
+   *
+   * @param pageId
+   */
+  getPageAfter(pageId) {
+    const currentPageInOrder = this.order.indexOf(pageId);
+
+    /**
+     * If page not found or is last
+     */
+    if (currentPageInOrder === -1 || currentPageInOrder === this.order.length - 1) {
+      return;
+    }
+
+    return this.order[currentPageInOrder + 1];
   }
 
   /**

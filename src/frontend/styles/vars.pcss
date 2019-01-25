@@ -3,6 +3,7 @@
   --color-text-second: #7B7E89;
   --color-line-gray: #E8E8EB;
   --color-link-active: #388AE5;
+  --color-button-danger: #ff1629;
   --color-gray-border: rgba(var(--color-line-gray), 0.48);
 
   /**
@@ -17,15 +18,33 @@
     display: inline-block;
     padding: 9px 15px;
     border-radius: 3px;
-    background:  var(--color-link-active);
-    color: #fff;
+    color: #6c6375;
+    background: #fcfcff;
+    box-shadow: inset 0 0 0 1px rgba(184, 189, 206, 0.2);
     font-size: 14px;
     line-height: 1em;
     text-decoration: none;
+    cursor: pointer;
 
     svg {
       margin: 0 0.3em 0 -0.05em;
     }
+  }
+
+  --button-danger {
+    background: var(--color-button-danger);
+    color: #fff;
+    box-shadow: none;
+
+    &:hover {
+      background: color-mod(var(--color-button-danger) blackness(+10%));
+    }
+  }
+
+  --button-primary {
+    background: var(--color-link-active);
+    color: #fff;
+    box-shadow: none;
 
     &:hover {
       background: color-mod(var(--color-link-active) blackness(+10%));

@@ -44,14 +44,16 @@
           </span>
         {% endif %}
       </span>
-      <span class="writing-header__save" name="js-submit">
-        Save
-      </span>
+      <span class="writing-header__save" name="js-submit-save">Save</span>
     </header>
+    <div id="codex-editor"></div>
+    <div class="writing-buttons">
+      {% if page._id is not empty %}
+        <span class="writing-buttons__remove" name="js-submit-remove">Remove</span>
+      {% endif %}
+    </div>
     {% if page is not empty %}
-      <main>
-        <input type="text" class="uri-input" name="uri-input" placeholder="Uri(Optional)" value="{{ page.uri }}">
-      </main>
+      <p><input type="text" class="uri-input" name="uri-input" placeholder="URI(Optional)" value="{{ page.uri }}"></p>
     {% endif %}
   </section>
 {% endblock %}

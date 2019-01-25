@@ -7,7 +7,7 @@ const {pagesOrder} = require('../../src/utils/database');
 
 describe('PageOrder model', () => {
   after(() => {
-    const pathToDB = path.resolve(__dirname, '../../', config.database, './pages.db');
+    const pathToDB = path.resolve(__dirname, '../../', config.database, './pagesOrder.db');
 
     if (fs.existsSync(pathToDB)) {
       fs.unlinkSync(pathToDB);

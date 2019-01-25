@@ -32,6 +32,7 @@ describe('Aliases REST: ', () => {
 
   it('Finding page with alias', async () => {
     const body = {
+      time: 1548375408533,
       blocks: [
         {
           type: 'header',
@@ -51,7 +52,7 @@ describe('Aliases REST: ', () => {
 
     const {result: {uri}} = put.body;
 
-    const get = await agent.get(`/${uri}`);
+    const get = await agent.get('/' + uri);
 
     expect(get).to.have.status(200);
   });

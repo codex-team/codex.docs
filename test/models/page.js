@@ -38,7 +38,7 @@ describe('Page model', () => {
     expect(data.title).to.be.empty;
     expect(data.uri).to.be.empty;
     expect(data.body).to.be.undefined;
-    expect(data.parent).to.be.undefined;
+    expect(data.parent).to.be.equal('0');
 
     page = new Page(null);
 
@@ -48,7 +48,7 @@ describe('Page model', () => {
     expect(data.title).to.be.empty;
     expect(data.uri).to.be.empty;
     expect(data.body).to.be.undefined;
-    expect(data.parent).to.be.undefined;
+    expect(data.parent).to.be.equal('0');
 
     const initialData = {
       _id: 'page_id',
@@ -74,13 +74,13 @@ describe('Page model', () => {
     expect(data.title).to.equal(initialData.body.blocks[0].data.text);
     expect(data.uri).to.be.empty;
     expect(data.body).to.deep.equal(initialData.body);
-    expect(data.parent).to.be.undefined;
+    expect(data.parent).to.be.equal('0');
 
     expect(json._id).to.equal(initialData._id);
     expect(json.title).to.equal(initialData.body.blocks[0].data.text);
     expect(json.title).to.equal(initialData.body.blocks[0].data.text);
     expect(json.body).to.deep.equal(initialData.body);
-    expect(json.parent).to.be.undefined;
+    expect(json.parent).to.be.equal('0');
 
     const update = {
       _id: 12345,
@@ -104,7 +104,7 @@ describe('Page model', () => {
     expect(data.title).to.equal(update.body.blocks[0].data.text);
     expect(data.uri).to.be.empty;
     expect(data.body).to.equal(update.body);
-    expect(data.parent).to.be.undefined;
+    expect(data.parent).to.be.equal('0');
   });
 
   it('Saving, updating and deleting model in the database', async () => {
@@ -351,5 +351,32 @@ describe('Page model', () => {
     const page = new Page(pageData);
 
     expect(page.title).to.equal(pageData.body.blocks[0].data.text);
+  });
+
+  it('test deletion', async () => {
+
+    const pages = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    const orders = {
+      '0' : ['1', '2', '3'],
+      '1' : ['4', '5'],
+      '5' : ['6', '7', '8'],
+      '3' : ['9']
+    };
+
+    function deleteRecursively(startFrom) {
+      const order = orders[startFrom];
+      if (!order) {
+        const found = pages.indexOf(startFrom);
+        pages.splice(found, 1);
+        return;
+      }
+
+      order.forEach(id => {
+        deleteRecursively(id);
+      });
+
+      const found = pages.indexOf(startFrom);
+      pages.splice(found, 1);
+    }
   });
 });
