@@ -186,6 +186,10 @@ class Pages {
       throw new Error('Page with given id does not exist');
     }
 
+    const alias = await Alias.get(page.uri);
+
+    await alias.destroy();
+
     return page.destroy();
   }
 }

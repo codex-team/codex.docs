@@ -13,6 +13,8 @@ const binaryMD5 = require('../utils/crypto');
 
 /**
  * @class Alias
+ * @classdesc Alias model
+ *
  * @property {string} _id - alias id
  * @property {string} hash - alias binary hash
  * @property {string} type - entity type
@@ -45,18 +47,6 @@ class Alias {
     }
 
     return new Alias(data);
-  }
-
-  /**
-   * @param {string} id
-   * @returns {Promise<void>}
-   */
-  static async destroyByEntityId(id) {
-    await aliasesDb.remove({id});
-
-    delete this._id;
-
-    return this;
   }
 
   /**
@@ -135,6 +125,17 @@ class Alias {
     alias.deprecated = true;
 
     return alias.save();
+  }
+
+  /**
+   * @returns {Promise<Alias>}
+   */
+  async destroy() {
+    await aliasesDb.remove({_id: this._id});
+
+    delete this._id;
+
+    return this;
   }
 }
 
