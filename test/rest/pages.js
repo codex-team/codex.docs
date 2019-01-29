@@ -473,7 +473,7 @@ describe('Pages REST: ', () => {
     ];
   }
 
-  it('Removing pages recursively starting from parent to children', async () => {
+  it('Removing a page and its children', async () => {
     let pages = await createPageTree();
 
     /**
