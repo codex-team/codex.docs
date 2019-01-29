@@ -1,5 +1,6 @@
 const {app} = require('../../bin/www');
 const model = require('../../src/models/page');
+const Page = require('../../src/models/page');
 const PageOrder = require('../../src/models/pageOrder');
 const translateString = require('../../src/utils/translation');
 
@@ -360,5 +361,165 @@ describe('Pages REST: ', () => {
 
     expect(success).to.be.false;
     expect(error).to.equal('Page with given id does not exist');
+  });
+
+  async function createPageTree() {
+    /**
+     * Creating page tree
+     *
+     *         0
+     *       /  \
+     *      1   2
+     *     / \   \
+     *    3   5   6
+     *   /       / \
+     *  4       7  8
+     */
+    const body = {
+      blocks: [
+        {
+          type: 'header',
+          data: {
+            text: 'Page header'
+          }
+        }
+      ]
+    };
+
+    let parent, res, result;
+
+    /** Page 1 */
+    parent = 0;
+    res = await agent
+      .put('/api/page')
+      .send({body, parent});
+
+    result = res.body.result;
+    const page1 = result;
+
+    /** Page 2 */
+    parent = 0;
+    res = await agent
+      .put('/api/page')
+      .send({body, parent});
+
+    result = res.body.result;
+    const page2 = result;
+
+    /** Page 3 */
+    parent = page1._id;
+    res = await agent
+      .put('/api/page')
+      .send({body, parent});
+
+    result = res.body.result;
+    const page3 = result;
+
+    /** Page 4 */
+    parent = page3._id;
+    res = await agent
+      .put('/api/page')
+      .send({body, parent});
+
+    result = res.body.result;
+    const page4 = result;
+
+    /** Page 5 */
+    parent = page1._id;
+    res = await agent
+      .put('/api/page')
+      .send({body, parent});
+
+    result = res.body.result;
+    const page5 = result;
+
+    /** Page 6 */
+    parent = page2._id;
+    res = await agent
+      .put('/api/page')
+      .send({body, parent});
+
+    result = res.body.result;
+    const page6 = result;
+
+    /** Page 7 */
+    parent = page6._id;
+    res = await agent
+      .put('/api/page')
+      .send({body, parent});
+
+    result = res.body.result;
+    const page7 = result;
+
+    /** Page 8 */
+    parent = page6._id;
+    res = await agent
+      .put('/api/page')
+      .send({body, parent});
+
+    result = res.body.result;
+    const page8 = result;
+
+    return [
+      0,
+      page1._id,
+      page2._id,
+      page3._id,
+      page4._id,
+      page5._id,
+      page6._id,
+      page7._id,
+      page8._id
+    ];
+  }
+
+  it('Removing pages recursively starting from parent to children', async () => {
+    let pages = await createPageTree();
+
+    /**
+     * Deleting from tree page1
+     * Also pages 3, 5 and 4 must be deleted
+     */
+    await agent
+      .delete(`/api/page/${pages[1]}`);
+
+    const page3 = await Page.get(pages[3]);
+    expect(page3.data._id).to.be.undefined;
+
+    const page4 = await Page.get(pages[4]);
+    expect(page4.data._id).to.be.undefined;
+
+    const page5 = await Page.get(pages[5]);
+    expect(page5.data._id).to.be.undefined;
+
+    /** Okay, pages above is deleted */
+    const page2 = await Page.get(pages[2]);
+    expect(page2.data._id).not.to.be.undefined;
+
+    /** First check pages 6, 7 and 8 before deleting */
+    let page6 = await Page.get(pages[6]);
+    expect(page6.data._id).not.to.be.undefined;
+
+    let page7 = await Page.get(pages[7]);
+    expect(page7.data._id).not.to.be.undefined;
+
+    let page8 = await Page.get(pages[8]);
+    expect(page8.data._id).not.to.be.undefined;
+
+    /**
+     * Delete page6
+     * also pages 7 and 8 must be deleted
+     */
+    await agent
+      .delete(`/api/page/${pages[6]}`);
+
+    page6 = await Page.get(pages[6]);
+    expect(page6.data._id).to.be.undefined;
+    
+    page7 = await Page.get(pages[7]);
+    expect(page7.data._id).to.be.undefined;
+
+    page8 = await Page.get(pages[8]);
+    expect(page8.data._id).to.be.undefined;
   });
 });
