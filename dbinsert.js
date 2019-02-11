@@ -1,16 +1,38 @@
 let { password: db } = require('./src/utils/database');
-const md5 = require('md5');
 const program = require('commander');
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 program
   .description('Application for inserting new passwords to database.')
   .usage('insert [password]')
   .command('insert <password>')
   .action(async function (password) {
-    let doc = { password: md5(password) };
-    let newDoc = await db.insert(doc);
+    let userDoc = null;
+    let saltDoc = null;
 
-    console.log('Password was inserted as', newDoc);
+    bcrypt.genSalt(saltRounds, function (err1, salt) {
+      if (err1) {
+        return ('Salt generation error');
+      }
+
+      saltDoc = { type: 'salt', saltValue: salt };
+
+      bcrypt.hash(password, salt, async (err2, hash) => {
+        if (err2) {
+          return ('Hash generation error');
+        }
+
+        userDoc = { passHash: hash };
+
+        await db.insert(saltDoc);
+        await db.insert(userDoc);
+
+        console.log('Generated salt:', saltDoc.saltValue);
+        console.log('Password hash was inserted as:', userDoc.passHash);
+      });
+    });
   });
 
 program.on('--help', () => {

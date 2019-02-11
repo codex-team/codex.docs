@@ -1,36 +1,47 @@
 const express = require('express');
 const router = express.Router();
-const csrf = require('csurf');
 const bodyParser = require('body-parser');
-const { password: db } = require('../utils/database/index');
 const jwt = require('jsonwebtoken');
-const config = require('../../config/index');
-const md5 = require('md5');
 
+const Users = require('../controllers/users');
+const config = require('../../config/index');
+
+const bcrypt = require('bcrypt');
+// const saltRounds = 10;
+
+const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
 const parseForm = bodyParser.urlencoded({ extended: false });
 
 /* GET authorization page. */
-router.get('/auth', csrfProtection, function (req, res, next) {
+router.get('/auth', csrfProtection, function (req, res) {
   res.render('auth', { title: 'Login page ', header: 'Enter password', csrfToken: req.csrfToken() });
 });
 
 router.post('/auth', parseForm, csrfProtection, async (req, res) => {
-  const passwordDoc = await db.findOne({ 'password': md5(req.body.password) });
+  let salt = await Users.getSalt();
 
-  if (passwordDoc !== null) {
-    const token = jwt.sign({
-      'iss': 'Codex Team',
-      'sub': 'auth',
-      'iat': Date.now()
-    }, passwordDoc.password + config.secret);
+  bcrypt.hash(req.body.password, salt, async function (err, hash) {
+    if (err) {
+      res.status(500);
+    }
 
-    res.cookie('authToken', token);
+    const userDoc = await Users.get(hash);
 
-    res.redirect('/');
-  } else {
-    res.render('auth', { title: 'Login page', header: 'Wrong password' });
-  }
+    if (userDoc) {
+      const token = jwt.sign({
+        'iss': 'Codex Team',
+        'sub': 'auth',
+        'iat': Date.now()
+      }, userDoc.passHash + config.secret);
+
+      res.cookie('authToken', token);
+
+      res.redirect('/');
+    } else {
+      res.render('auth', { title: 'Login page', header: 'Wrong password', csrfToken: req.csrfToken() });
+    }
+  });
 });
 
 module.exports = router;
