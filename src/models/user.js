@@ -16,6 +16,10 @@ class User {
   static async get(passHash) {
     const data = await db.findOne({ passHash: passHash });
 
+    if (!data) {
+      return null;
+    }
+
     return new User(data);
   }
 
