@@ -1,23 +1,24 @@
 const express = require('express');
-const router = express.Router();
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-
+const router = express.Router();
 const Users = require('../controllers/users');
 const config = require('../../config/index');
-
 const bcrypt = require('bcrypt');
-// const saltRounds = 10;
-
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
 const parseForm = bodyParser.urlencoded({ extended: false });
 
-/* GET authorization page. */
+/**
+ * Authorization page
+ */
 router.get('/auth', csrfProtection, function (req, res) {
   res.render('auth', { title: 'Login page ', header: 'Enter password', csrfToken: req.csrfToken() });
 });
 
+/**
+ * Process given password
+ */
 router.post('/auth', parseForm, csrfProtection, async (req, res) => {
   let salt = await Users.getSalt();
 
