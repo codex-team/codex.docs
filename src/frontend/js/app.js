@@ -14,6 +14,7 @@ import ModuleDispatcher from 'module-dispatcher';
  */
 import Writing from './modules/writing';
 import Page from './modules/page';
+import Landing from './modules/landing';
 
 /**
  * Main app class
@@ -23,14 +24,15 @@ class Docs {
    * @constructor
    */
   constructor() {
-    console.log('CodeX Docs initialized');
-
     this.writing = new Writing();
     this.page = new Page();
+    this.landing = new Landing();
 
     document.addEventListener('DOMContentLoaded', (event) => {
       this.docReady();
     });
+
+    console.log('CodeX Docs initialized');
   }
 
   /**
