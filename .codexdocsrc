@@ -1,9 +1,0 @@
-{
-  "menu": [
-    "Guides",
-    "API",
-    "Plugins",
-    {"title": "Support Project", "uri": "/support"}
-  ],
-  "landingFrameSrc": "http://localhost:8080/editor?frame=1"
-}
