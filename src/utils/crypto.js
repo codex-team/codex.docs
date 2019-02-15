@@ -17,7 +17,7 @@ function binaryMD5(stringToHash) {
  */
 function random16() {
   return new Promise((resolve, reject) => {
-    crypto.pseudoRandomBytes(16, (err, raw) => {
+    crypto.randomBytes(16, (err, raw) => {
       if (err) {
         reject(err);
       }
