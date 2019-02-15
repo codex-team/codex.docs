@@ -95,11 +95,4 @@ export default class Editor {
   save() {
     return this.editor.saver.save();
   }
-
-  /**
-   * Click on Editor's node to focus after Editor has loaded
-   */
-  focus() {
-    document.querySelector('.codex-editor__redactor').click();
-  }
 }
