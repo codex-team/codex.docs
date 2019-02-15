@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+  <title>{{ config.title }}</title>
+  <link rel="stylesheet" href="/dist/main.css" />
+  <link rel="preload" href="{{ config.landingFrameSrc }}" as="document">
+</head>
+<body class="landing-body">
+  {% include "components/header.twig" %}
+  <div class="landing-loader" id="frame-loader">
+    {{ svg('loader') }}
+  </div>
+  <iframe class="landing-frame" src="{{ config.landingFrameSrc }}" seamless frameborder="0" onload="this.style.opacity = 1; setTimeout(document.getElementById('frame-loader').remove(), 500)"></iframe>
+</body>
+</html>
+

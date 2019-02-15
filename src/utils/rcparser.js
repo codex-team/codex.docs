@@ -40,8 +40,8 @@ module.exports = class RCParser {
       return RCParser.DEFAULTS;
     }
 
-    const file = fs.readFileSync(rcPath, {encoding: 'UTF-8'});
-    const rConfig = {};
+    const file = fs.readFileSync(rcPath, { encoding: 'UTF-8' });
+    const rConfig = RCParser.DEFAULTS;
     let userConfig;
 
     try {
@@ -51,8 +51,11 @@ module.exports = class RCParser {
       return RCParser.DEFAULTS;
     }
 
-    rConfig.title = userConfig.title || RCParser.DEFAULTS.title;
-    rConfig.menu = userConfig.menu || RCParser.DEFAULTS.menu;
+    for (let option in userConfig) {
+      if (userConfig.hasOwnProperty(option)) {
+        rConfig[option] = userConfig[option] || RCParser.DEFAULTS[option] || undefined;
+      }
+    }
 
     if (!(rConfig.menu instanceof Array)) {
       console.log('Menu section in the rc file must be an array.');
@@ -70,7 +73,7 @@ module.exports = class RCParser {
         return false;
       }
 
-      const {title, uri} = option;
+      const { title, uri } = option;
 
       if (!title || typeof title !== 'string') {
         console.log(`Menu option #${i} title must be a string.`);

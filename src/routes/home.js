@@ -193,7 +193,7 @@ router.get('/', function (req, res, next) {
     }
   ];
 
-  res.render('index', {
+  res.render('pages/index', {
     plugins
   });
 });
