@@ -4,6 +4,7 @@ import CodeTool from 'codex.editor.code';
 import InlineCode from 'codex.editor.inline-code';
 import Marker from 'codex.editor.marker';
 import ListTool from 'codex.editor.list';
+import ImageTool from 'codex.editor.image';
 
 /**
  * Class for working with Editor.js
@@ -34,6 +35,22 @@ export default class Editor {
         list: {
           class: ListTool,
           inlineToolbar: true
+        },
+        image: {
+          class: ImageTool,
+          config: {
+            endpoints: {
+              byFile: '/api/transport/image',
+              byUrl: '/api/transport/fetch'
+            },
+            additionalRequestData: {
+              map: JSON.stringify({
+                path: 'file:url',
+                size: 'file:size',
+                mimetype: 'file:mime',
+              })
+            },
+          }
         }
       },
       data: initialData || {

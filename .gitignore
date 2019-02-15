@@ -70,3 +70,6 @@ typings/
 # Cache of babel and others
 .cache/
 .eslintcache
+
+# Uploads
+/public/uploads

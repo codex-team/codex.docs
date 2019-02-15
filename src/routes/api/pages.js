@@ -51,7 +51,7 @@ router.get('/pages', async (req, res) => {
  *
  * Create new page in the database
  */
-router.put('/page', multer.any(), async (req, res) => {
+router.put('/page', multer.none(), async (req, res) => {
   try {
     const {title, body, parent} = req.body;
     const page = await Pages.insert({title, body, parent});
@@ -76,7 +76,7 @@ router.put('/page', multer.any(), async (req, res) => {
  *
  * Update page data in the database
  */
-router.post('/page/:id', multer.any(), async (req, res) => {
+router.post('/page/:id', multer.none(), async (req, res) => {
   const {id} = req.params;
 
   try {

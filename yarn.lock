@@ -1609,6 +1609,11 @@ codex.editor.header@^2.0.5:
   resolved "https://registry.yarnpkg.com/codex.editor.header/-/codex.editor.header-2.1.2.tgz#cfa34cc603905fc18a0df5c508f41cf3dcf74fd8"
   integrity sha512-lLXVXnSlpLGn2ktIerLoxN/6aY/F2UCbGgj9owEW8m+jzZZ9IaqawvEmY9jw+zcZEMonOqcRU5Z8DyLBqNkoXQ==
 
+codex.editor.image@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/codex.editor.image/-/codex.editor.image-2.0.3.tgz#afb8d43fae7cab84a56f66c1a73e1b28722327da"
+  integrity sha512-HifVir+o+gQ5ikSG4Ho84dTmGm/rFURJwhn7GcMgTpOe1zGTtWYWw4n+RMGyDAvhkYaNolxH/YxAvZb2LBFUmQ==
+
 codex.editor.inline-code@^1.0.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/codex.editor.inline-code/-/codex.editor.inline-code-1.2.0.tgz#f666859a50a07cb8d465b2442eb5c750c9bf7cca"
@@ -2831,6 +2836,11 @@ file-entry-cache@^2.0.0:
   dependencies:
     flat-cache "^1.2.1"
     object-assign "^4.0.1"
+
+file-type@^10.7.1:
+  version "10.7.1"
+  resolved "https://registry.yarnpkg.com/file-type/-/file-type-10.7.1.tgz#bcfdd618fddfa7f7e5fc504e08b62cfec7bda8f2"
+  integrity sha512-kUc4EE9q3MH6kx70KumPOvXLZLEJZzY9phEVg/bKWyGZ+OA9KoKZzFR4HS0yDmNv31sJkdf4hbTERIfplF9OxQ==
 
 fill-range@^4.0.0:
   version "4.0.0"
@@ -4536,6 +4546,11 @@ nise@^1.4.7:
     lolex "^2.3.2"
     path-to-regexp "^1.7.0"
     text-encoding "^0.6.4"
+
+node-fetch@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.3.0.tgz#1a1d940bbfb916a1d3e0219f037e89e71f8c5fa5"
+  integrity sha512-MOd8pV3fxENbryESLgVIeaGKrdl+uaYhCSSVkjeOb/31/njTpcis5aWfdqgNlHIrKOLRbMnfPINPOML2CIFeXA==
 
 node-libs-browser@^2.0.0:
   version "2.1.0"

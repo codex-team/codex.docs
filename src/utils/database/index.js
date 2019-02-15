@@ -1,4 +1,5 @@
 const pages = require('./pages');
+const files = require('./files');
 const aliases = require('./aliases');
 const pagesOrder = require('./pagesOrder');
 
@@ -146,5 +147,6 @@ module.exports = {
   class: Database,
   pages: new Database(pages),
   aliases: new Database(aliases),
-  pagesOrder: new Database(pagesOrder)
+  pagesOrder: new Database(pagesOrder),
+  files: new Database(files),
 };
