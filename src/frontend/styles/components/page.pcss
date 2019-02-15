@@ -6,9 +6,17 @@
     display: flex;
     color: var(--color-text-second);
 
+    @media (--mobile) {
+      font-size: 13px;
+    }
+
     &-nav {
       color: inherit;
       text-decoration: none;
+
+      @media (--mobile) {
+        display: none;
+      }
 
       &:hover {
         color: var(--color-link-active);
@@ -24,6 +32,10 @@
 
     &-time {
       margin-left: auto;
+
+      @media (--mobile) {
+        margin-left: 0;
+      }
     }
 
     &-button {

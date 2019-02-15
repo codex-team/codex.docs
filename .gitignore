@@ -70,3 +70,4 @@ typings/
 # Cache of babel and others
 .cache/
 .eslintcache
+.DS_Store

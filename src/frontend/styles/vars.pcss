@@ -14,6 +14,11 @@
   --layout-width-aside: 200px;
   --layout-width-main-col: 650px;
 
+  @media (--mobile) {
+    --layout-padding-horisontal: 15px;
+    --layout-padding-vertical: 15px;
+  }
+
   --button {
     display: inline-block;
     padding: 9px 15px;
@@ -25,6 +30,7 @@
     line-height: 1em;
     text-decoration: none;
     cursor: pointer;
+    white-space: nowrap;
 
     svg {
       margin: 0 0.3em 0 -0.05em;
@@ -51,3 +57,11 @@
     }
   }
 }
+
+/**
+* Custom media queries
+*/
+@custom-media --desktop all and (min-width: 1050px);
+@custom-media --tablet all and (max-width: 1050px);
+@custom-media --mobile all and (max-width: 980px);
+@custom-media --retina all and (-webkit-min-device-pixel-ratio: 1.5);

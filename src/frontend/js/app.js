@@ -23,14 +23,14 @@ class Docs {
    * @constructor
    */
   constructor() {
-    console.log('CodeX Docs initialized');
-
     this.writing = new Writing();
     this.page = new Page();
 
     document.addEventListener('DOMContentLoaded', (event) => {
       this.docReady();
     });
+
+    console.log('CodeX Docs initialized');
   }
 
   /**

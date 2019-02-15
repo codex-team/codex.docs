@@ -1,4 +1,4 @@
-const {pagesOrder: db} = require('../utils/database/index');
+const { pagesOrder: db } = require('../utils/database/index');
 
 /**
  * @typedef {Object} PageOrderData
@@ -21,7 +21,7 @@ class PageOrder {
    * @returns {PageOrder}
    */
   static async get(pageId) {
-    const order = await db.findOne({page: pageId});
+    const order = await db.findOne({ page: pageId });
 
     let data = {};
 
@@ -172,7 +172,7 @@ class PageOrder {
 
       this._id = insertedRow._id;
     } else {
-      await db.update({_id: this._id}, this.data);
+      await db.update({ _id: this._id }, this.data);
     }
 
     return this;
@@ -182,7 +182,7 @@ class PageOrder {
    * Remove page data from the database
    */
   async destroy() {
-    await db.remove({_id: this._id});
+    await db.remove({ _id: this._id });
 
     delete this._id;
 
