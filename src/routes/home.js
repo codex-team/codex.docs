@@ -6,7 +6,7 @@ router.get('/', function (req, res, next) {
   /**
    * Array of plugins contributors
    */
-  var contributors = {
+  const contributors = {
     polinaShneider: {
       name: 'PolinaShneider',
       photo: 'https://avatars3.githubusercontent.com/u/15448200?s=40&v=4'
@@ -37,7 +37,7 @@ router.get('/', function (req, res, next) {
     }
   };
 
-  var plugins = [
+  const plugins = [
     {
       name: 'Header',
       type: 'Block',

@@ -3,16 +3,16 @@ import CodeXEditor from 'codex.editor';
 /**
  * Tools for the Editor
  */
-const Header = require('codex.editor.header');
-const Quote = require('codex.editor.quote');
-const Marker = require('codex.editor.marker');
-const CodeTool = require('codex.editor.code');
-const Delimiter = require('codex.editor.delimiter');
-const InlineCode = require('codex.editor.inline-code');
-const List = require('codex.editor.list');
-const RawTool = require('codex.editor.raw');
-const ImageTool = require('codex.editor.image');
-const Embed = require('codex.editor.embed');
+import Header from 'codex.editor.header';
+import Quote from 'codex.editor.quote';
+import Marker from 'codex.editor.marker';
+import CodeTool from 'codex.editor.code';
+import Delimiter from 'codex.editor.delimiter';
+import InlineCode from 'codex.editor.inline-code';
+import List from 'codex.editor.list';
+import RawTool from 'codex.editor.raw';
+import ImageTool from 'codex.editor.image';
+import Embed from 'codex.editor.embed';
 
 /**
  * Class for working with Editor.js
