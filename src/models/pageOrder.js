@@ -35,6 +35,19 @@ class PageOrder {
   }
 
   /**
+   * Find all pages which match passed query object
+   *
+   * @param {Object} query
+   * @returns {Promise<Page[]>}
+   */
+  static async getAll(query = {}) {
+    const docs = await db.find(query);
+
+    return Promise.all(docs.map(doc => new PageOrder(doc)));
+  }
+
+
+  /**
    * @constructor
    *
    * @param {PageOrderData} data

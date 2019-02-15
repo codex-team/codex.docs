@@ -24,6 +24,15 @@ class PagesOrder {
   }
 
   /**
+   * Returns all records about page's order
+   *
+   * @returns {Promise<PagesOrder[]>}
+   */
+  static async getAll() {
+    return Model.getAll();
+  }
+
+  /**
    * Pushes the child page to the parent's order list
    *
    * @param {string} parentId - parent page's id
