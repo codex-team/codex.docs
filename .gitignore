@@ -71,3 +71,4 @@ typings/
 .cache/
 .eslintcache
 .DS_Store
+.codexdocsrc
