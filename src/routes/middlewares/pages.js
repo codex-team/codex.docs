@@ -14,7 +14,7 @@ const asyncMiddleware = require('../../utils/asyncMiddleware');
  * @return {Page[]}
  */
 function createMenuTree(parentPageId, pages, pagesOrder, level = 1, currentLevel = 1) {
-  let childrenOrder = pagesOrder.find(order => order.data.page === parentPageId);
+  const childrenOrder = pagesOrder.find(order => order.data.page === parentPageId);
 
   /**
    * branch is a page children in tree
