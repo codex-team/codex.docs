@@ -21,14 +21,15 @@ function createMenuTree(parentPageId, pages, pagesOrder, level = 1, currentLevel
    * if we got some children order on parents tree, then we push found pages in order sequence
    * otherwise just find all pages includes parent tree
    */
-  let branch = [];
+  let ordered = [];
   if (childrenOrder) {
-    branch = childrenOrder.order.map( pageId => {
+    ordered = childrenOrder.order.map( pageId => {
       return pages.find( page => page._id === pageId);
     });
-  } else {
-    branch = pages.filter( page => page._parent === parentPageId);
   }
+
+  const unordered = pages.filter( page => page._parent === parentPageId);
+  const branch = [...new Set([...ordered, ...unordered])];
 
   /**
    * stop recursion when we got the passed max level

@@ -74,10 +74,14 @@ class PagesOrder {
    * @return {Page[]}
    */
   static async getOrderedChildren(pages, currentPageId, parentPageId, ignoreSelf = false) {
-    const children = await PagesOrder.get(parentPageId);
-    const result = [];
+    const children = await Model.get(parentPageId);
+    const unordered = pages.filter(page => page._parent === parentPageId).map(page => page._id);
 
-    children.order.forEach(pageId => {
+    // Create unique array with ordered and unordered pages id
+    const ordered = [...new Set([...children.order, ...unordered])];
+
+    const result = [];
+    ordered.forEach(pageId => {
       pages.forEach(page => {
         if (page._id === pageId && (pageId !== currentPageId || !ignoreSelf)) {
           result.push(page);
@@ -89,13 +93,16 @@ class PagesOrder {
   }
 
   /**
+   * @param {string[]} unordered
    * @param {string} currentPageId - page's id that changes the order
    * @param {string} parentPageId - parent page's id that contains both two pages
    * @param {string} putAbovePageId - page's id above which we put the target page
    */
-  static async update(currentPageId, parentPageId, putAbovePageId) {
+  static async update(unordered, currentPageId, parentPageId, putAbovePageId) {
     const pageOrder = await Model.get(parentPageId);
 
+    // Create unique array with ordered and unordered pages id
+    pageOrder.order = [...new Set([...pageOrder.order, ...unordered])];
     pageOrder.putAbove(currentPageId, putAbovePageId);
     await pageOrder.save();
   }
