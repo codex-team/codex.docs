@@ -1,6 +1,7 @@
 import hljs from 'highlight.js/lib/highlight';
 import javascript from 'highlight.js/lib/languages/javascript';
 import xml from 'highlight.js/lib/languages/xml';
+import json from 'highlight.js/lib/languages/json';
 import style from 'highlight.js/styles/atom-one-dark.css';
 
 /**
@@ -12,12 +13,13 @@ export default class CodeStyler {
    * @param {string} selector - CSS selector for code blocks
    * @param {string[]} languages - list of languages to highlight, see hljs.listLanguages()
    */
-  constructor({selector, languages = [ 'javascript', 'xml' ]}) {
+  constructor({selector, languages = [ 'javascript', 'xml', 'json' ]}) {
     this.codeBlocksSelector = selector;
     this.languages = languages;
     this.langsAvailable = {
       javascript,
-      xml
+      xml,
+      json
     };
 
     this.init();
