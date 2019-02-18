@@ -46,7 +46,6 @@ class PageOrder {
     return Promise.all(docs.map(doc => new PageOrder(doc)));
   }
 
-
   /**
    * @constructor
    *
@@ -171,7 +170,7 @@ class PageOrder {
    * @param {string[]} order - define new order
    */
   set order(order) {
-    this._order = order
+    this._order = order;
   }
 
   /**
