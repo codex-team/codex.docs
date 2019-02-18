@@ -1,6 +1,7 @@
 import hljs from 'highlight.js/lib/highlight';
 import javascript from 'highlight.js/lib/languages/javascript';
-import style from 'highlight.js/styles/github-gist.css';
+import xml from 'highlight.js/lib/languages/xml';
+import style from 'highlight.js/styles/atom-one-dark.css';
 
 /**
  * @class CodeStyles
@@ -11,11 +12,12 @@ export default class CodeStyler {
    * @param {string} selector - CSS selector for code blocks
    * @param {string[]} languages - list of languages to highlight, see hljs.listLanguages()
    */
-  constructor({selector, languages = [ 'javascript' ]}) {
+  constructor({selector, languages = [ 'javascript', 'xml' ]}) {
     this.codeBlocksSelector = selector;
     this.languages = languages;
     this.langsAvailable = {
-      javascript
+      javascript,
+      xml
     };
 
     this.init();

@@ -57,20 +57,20 @@ export default class Editor {
           class: CodeTool,
           shortcut: 'CMD+SHIFT+D'
         },
-        inlineCode: {
-          class: InlineCode,
-          shortcut: 'CMD+SHIFT+C'
-        },
         rawTool: {
           class: RawTool,
           shortcut: 'CMD+SHIFT+R'
         },
+        delimiter: Delimiter,
+        embed: Embed,
+        inlineCode: {
+          class: InlineCode,
+          shortcut: 'CMD+SHIFT+C'
+        },
         marker: {
           class: Marker,
           shortcut: 'CMD+SHIFT+M'
-        },
-        delimiter: Delimiter,
-        embed: Embed
+        }
       },
       data: {
         blocks: [

@@ -1393,9 +1393,9 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
-codex.editor.code@^2.0.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/codex.editor.code/-/codex.editor.code-2.3.0.tgz#e3090c2940b2a8c2185bd32d735ac8c60213345f"
+codex.editor.code@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/codex.editor.code/-/codex.editor.code-2.3.1.tgz#9e304316b37d2464177b162d1b28650b104f3a01"
 
 codex.editor.delimiter@^1.0.2:
   version "1.0.2"
@@ -1433,9 +1433,9 @@ codex.editor.raw@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/codex.editor.raw/-/codex.editor.raw-2.0.2.tgz#3e5b01c9a2b5356c7709b13422f57c7852214b18"
 
-codex.editor@^2.1.3:
-  version "2.7.28"
-  resolved "https://registry.yarnpkg.com/codex.editor/-/codex.editor-2.7.28.tgz#c3a89136da335483d2f752157c78a710c7d83504"
+codex.editor@^2.8.1:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/codex.editor/-/codex.editor-2.8.1.tgz#98abab33f3c084ba264b2f547ae56196ae577830"
 
 collection-visit@^1.0.0:
   version "1.0.0"
@@ -3828,9 +3828,9 @@ mocha@^5.2.0:
     mkdirp "0.5.1"
     supports-color "5.4.0"
 
-module-dispatcher@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/module-dispatcher/-/module-dispatcher-1.0.2.tgz#791669395f33a04f335eda1b6211b79ab1a9a946"
+module-dispatcher@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/module-dispatcher/-/module-dispatcher-2.0.0.tgz#67701ff90cca9b51d500be4782abb1014ccb2b10"
 
 morgan@~1.9.0:
   version "1.9.1"
