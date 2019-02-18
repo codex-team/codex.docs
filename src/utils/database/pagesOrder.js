@@ -1,6 +1,5 @@
 const Datastore = require('nedb');
 const config = require('../../../config');
-
 const db = new Datastore({filename: `./${config.database}/pagesOrder.db`, autoload: true});
 
 /**
@@ -22,11 +21,25 @@ const db = new Datastore({filename: `./${config.database}/pagesOrder.db`, autolo
   });
 
   if (!order) {
-    const initialData = {
-      page: '0',
-      order: []
-    };
-    await db.insert(initialData);
+    const Pages = require('../../controllers/pages');
+
+    // Converter
+    const pages = await Pages.getAll();
+
+    async function convert(pages, parentId) {
+      const children = pages.filter(page => page._parent === parentId);
+      const initialData = {
+        page: parentId,
+        order: children.map(page => page._id)
+      };
+      await db.insert(initialData);
+
+      children.forEach(async page => {
+        await convert(pages, page._id);
+      });
+    }
+
+    await convert(pages, parentIdOfRootPages);
   }
 
 }());

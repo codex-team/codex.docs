@@ -168,6 +168,13 @@ class PageOrder {
   }
 
   /**
+   * @param {string[]} order - define new order
+   */
+  set order(order) {
+    this._order = order
+  }
+
+  /**
    * Returns ordered list
    *
    * @return {string[]}
