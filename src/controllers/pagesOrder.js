@@ -78,9 +78,10 @@ class PagesOrder {
     const unordered = pages.filter(page => page._parent === parentPageId).map(page => page._id);
 
     // Create unique array with ordered and unordered pages id
-    const ordered = [...new Set([...children.order, ...unordered])];
+    const ordered = [ ...new Set([...children.order, ...unordered]) ];
 
     const result = [];
+
     ordered.forEach(pageId => {
       pages.forEach(page => {
         if (page._id === pageId && (pageId !== currentPageId || !ignoreSelf)) {
@@ -102,7 +103,7 @@ class PagesOrder {
     const pageOrder = await Model.get(parentPageId);
 
     // Create unique array with ordered and unordered pages id
-    pageOrder.order = [...new Set([...pageOrder.order, ...unordered])];
+    pageOrder.order = [ ...new Set([...pageOrder.order, ...unordered]) ];
     pageOrder.putAbove(currentPageId, putAbovePageId);
     await pageOrder.save();
   }
