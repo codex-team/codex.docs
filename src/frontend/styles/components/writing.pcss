@@ -7,11 +7,12 @@
   background: #fff;
   box-shadow: 0 3px 10px #fff;
   z-index: 2;
+  font-size: 14px;
 
   &__save {
     @apply --button;
     @apply --button-primary;
-    margin-left: auto;
+    margin: auto;
   }
 
   &__left {
@@ -21,6 +22,10 @@
     & span {
       margin-right: 10px;
     }
+  }
+
+  select {
+    max-width: 100px
   }
 }
 
@@ -39,4 +44,14 @@
   border: 1px solid rgba(201, 201, 204, 0.48);
   box-shadow: inset 0 1px 2px 0 rgba(35, 44, 72, 0.06);
   outline: none;
+}
+
+.writing-editor {
+  @media (--desktop) {
+    margin: 0 -100px;
+  }
+}
+
+.codex-editor__redactor .ce-block:first-of-type .ce-header {
+  font-size: 32px;
 }

@@ -58,6 +58,21 @@
     background: rgba(245,235,111,0.33);
     padding: 3px 0;
   }
+
+  &__content {
+    a {
+      text-decoration: none;
+      border-bottom: 1px solid #000;
+      padding-bottom: 1px;
+      color: inherit;
+
+      &:hover {
+        color: var(--color-link-active);
+        border-bottom-color: var(--color-link-active);
+      }
+    }
+  }
+
 }
 
 /**
