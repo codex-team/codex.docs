@@ -1,10 +1,18 @@
 import CodeXEditor from 'codex.editor';
+
+/**
+ * Tools for the Editor
+ */
 import Header from 'codex.editor.header';
+import Quote from 'codex.editor.quote';
 import CodeTool from 'codex.editor.code';
+import Delimiter from 'codex.editor.delimiter';
 import InlineCode from 'codex.editor.inline-code';
 import Marker from 'codex.editor.marker';
 import ListTool from 'codex.editor.list';
+import RawTool from 'codex.editor.raw';
 import ImageTool from 'codex.editor.image';
+import Embed from 'codex.editor.embed';
 
 /**
  * Class for working with Editor.js
@@ -12,23 +20,40 @@ import ImageTool from 'codex.editor.image';
 export default class Editor {
   /**
    * Creates Editor instance
-   * @property {object} initialData - data to start with
+   * @param {object} editorConfig - configuration object for Editor.js
+   * @param {object} data.blocks - data to start with
+   * @param {object} options
+   * @param {string} options.headerPlaceholder - placeholder for Header tool
    */
-  constructor({ initialData }) {
-    this.editor = new CodeXEditor({
+  constructor(editorConfig = {}, options = {}) {
+    const defaultConfig = {
       tools: {
         header: {
           class: Header,
+          inlineToolbar: ['link', 'marker'],
           config: {
-            placeholder: 'Enter a title'
+            placeholder: options.headerPlaceholder || ''
           }
         },
-        code: CodeTool,
+        quote: {
+          class: Quote,
+          inlineToolbar: true
+        },
+        code: {
+          class: CodeTool,
+          shortcut: 'CMD+SHIFT+D'
+        },
+        rawTool: {
+          class: RawTool,
+          shortcut: 'CMD+SHIFT+R'
+        },
+        delimiter: Delimiter,
+        embed: Embed,
         inlineCode: {
           class: InlineCode,
-          shortcut: 'CMD+SHIFT+I'
+          shortcut: 'CMD+SHIFT+C'
         },
-        Marker: {
+        marker: {
           class: Marker,
           shortcut: 'CMD+SHIFT+M'
         },
@@ -38,6 +63,7 @@ export default class Editor {
         },
         image: {
           class: ImageTool,
+          inlineToolbar: true,
           config: {
             endpoints: {
               byFile: '/api/transport/image',
@@ -53,7 +79,7 @@ export default class Editor {
           }
         }
       },
-      data: initialData || {
+      data: {
         blocks: [
           {
             type: 'header',
@@ -64,7 +90,9 @@ export default class Editor {
           }
         ]
       }
-    });
+    };
+
+    this.editor = new CodeXEditor(Object.assign(defaultConfig, editorConfig));
   }
 
   /**

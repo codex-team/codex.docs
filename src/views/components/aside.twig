@@ -1,3 +1,6 @@
+<div class="docs-aside-toggler" onclick="document.querySelector('.docs-aside').classList.toggle('docs-aside--toggled')">
+  {{ svg('menu') }} Table of contents
+</div>
 <div class="docs-aside">
     {% for firstLevelPage in menu %}
       <section class="docs-aside__section">
