@@ -64,7 +64,7 @@ export default class Writing {
 
     if (this.nodes.removeButton) {
       this.nodes.removeButton.addEventListener('click', () => {
-        const isUserAgree = confirm('Are you sure?');
+        const isUserAgree = window.confirm('Are you sure?');
 
         if (!isUserAgree) {
           return;
@@ -84,7 +84,7 @@ export default class Writing {
    * @return {Promise<Editor>}
    */
   async loadEditor() {
-    const {default: Editor} = await import(/* webpackChunkName: "editor" */ './../classes/editor');
+    const { default: Editor } = await import(/* webpackChunkName: "editor" */ './../classes/editor');
 
     return new Editor({
       initialData: this.page ? this.page.body : null

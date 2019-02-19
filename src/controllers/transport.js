@@ -3,8 +3,8 @@ const fetch = require('node-fetch');
 const fs = require('fs');
 
 const Model = require('../models/file');
-const {random16} = require('../utils/crypto');
-const {deepMerge} = require('../utils/objects');
+const { random16 } = require('../utils/crypto');
+const { deepMerge } = require('../utils/objects');
 
 /**
  * @class Transport
@@ -26,9 +26,9 @@ class Transport {
    * @return {Promise<FileData>}
    */
   static async save(multerData, map) {
-    const {originalname: name, filename, path, size, mimetype} = multerData;
+    const { originalname: name, filename, path, size, mimetype } = multerData;
 
-    const file = new Model({name, filename, path, size, mimetype});
+    const file = new Model({ name, filename, path, size, mimetype });
 
     await file.save();
 
@@ -84,7 +84,7 @@ class Transport {
    */
   static composeResponse(file, map) {
     const response = {};
-    const {data} = file;
+    const { data } = file;
 
     Object.entries(map).forEach(([name, path]) => {
       const fields = path.split(':');

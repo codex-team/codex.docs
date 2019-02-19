@@ -1,4 +1,4 @@
-const {files: filesDb} = require('../utils/database/index');
+const { files: filesDb } = require('../utils/database/index');
 
 /**
  * @typedef {Object} FileData
@@ -29,7 +29,7 @@ class File {
    * @returns {Promise<File>}
    */
   static async get(_id) {
-    const data = await filesDb.findOne({_id});
+    const data = await filesDb.findOne({ _id });
 
     return new File(data);
   }
@@ -40,7 +40,7 @@ class File {
    * @returns {Promise<File>}
    */
   static async getByFilename(filename) {
-    const data = await filesDb.findOne({filename});
+    const data = await filesDb.findOne({ filename });
 
     return new File(data);
   }
@@ -80,7 +80,7 @@ class File {
    * @param {FileData} fileData
    */
   set data(fileData) {
-    const {name, filename, path, mimetype, size} = fileData;
+    const { name, filename, path, mimetype, size } = fileData;
 
     this.name = name || this.name;
     this.filename = filename || this.filename;
@@ -116,7 +116,7 @@ class File {
 
       this._id = insertedRow._id;
     } else {
-      await filesDb.update({_id: this._id}, this.data);
+      await filesDb.update({ _id: this._id }, this.data);
     }
 
     return this;
@@ -128,7 +128,7 @@ class File {
    * @returns {Promise<File>}
    */
   async destroy() {
-    await filesDb.remove({_id: this._id});
+    await filesDb.remove({ _id: this._id });
 
     delete this._id;
 

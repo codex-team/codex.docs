@@ -16,20 +16,20 @@ const imageUploader = multer({
 
     cb(null, true);
   }
-}).fields([ {name: 'image', maxCount: 1} ]);
+}).fields([ { name: 'image', maxCount: 1 } ]);
 
 /**
  * Multer middleware for file uploading
  */
 const fileUploader = multer({
   dest: 'public/uploads/'
-}).fields([ {name: 'file', maxCount: 1} ]);
+}).fields([ { name: 'file', maxCount: 1 } ]);
 
 /**
  * Accepts images to upload
  */
 router.post('/transport/image', imageUploader, async (req, res) => {
-  let response = {success: 0};
+  let response = { success: 0 };
 
   if (!req.files || !req.files.image) {
     res.status(400).json(response);
@@ -53,7 +53,7 @@ router.post('/transport/image', imageUploader, async (req, res) => {
  * Accepts files to upload
  */
 router.post('/transport/file', fileUploader, async (req, res) => {
-  let response = {success: 0};
+  let response = { success: 0 };
 
   if (!req.files || !req.files.file) {
     res.status(400).json(response);
@@ -77,7 +77,7 @@ router.post('/transport/file', fileUploader, async (req, res) => {
  * Accept file url to fetch
  */
 router.post('/transport/fetch', multer().none(), async (req, res) => {
-  let response = {success: 0};
+  let response = { success: 0 };
 
   if (!req.body.url) {
     res.status(400).json(response);

@@ -11,7 +11,7 @@ const asyncMiddleware = require('../../utils/asyncMiddleware');
  * @return {Page[]}
  */
 async function createMenuTree(pages, level = 1, currentLevel = 1) {
-  return await Promise.all(pages.map(async pageId => {
+  return Promise.all(pages.map(async pageId => {
     const parent = await Pages.get(pageId);
 
     /**
@@ -51,7 +51,7 @@ async function createMenuTree(pages, level = 1, currentLevel = 1) {
  * @param res
  * @param next
  */
-module.exports = asyncMiddleware(async function (req, res, next) {
+module.exports = asyncMiddleware(async (req, res, next) => {
   /**
    * Pages without parent
    * @type {string}

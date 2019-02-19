@@ -3,13 +3,12 @@ const router = express.Router();
 const multer = require('multer')();
 const Pages = require('../../controllers/pages');
 const PagesOrder = require('../../controllers/pagesOrder');
-const Aliases = require('../../controllers/aliases');
+
 /**
  * GET /page/:id
  *
  * Return PageData of page with given id
  */
-
 router.get('/page/:id', async (req, res) => {
   try {
     const page = await Pages.get(req.params.id);
@@ -54,8 +53,8 @@ router.get('/pages', async (req, res) => {
  */
 router.put('/page', multer.none(), async (req, res) => {
   try {
-    const {title, body, parent} = req.body;
-    const page = await Pages.insert({title, body, parent});
+    const { title, body, parent } = req.body;
+    const page = await Pages.insert({ title, body, parent });
 
     /** push to the orders array */
     await PagesOrder.push(parent, page._id);
@@ -78,10 +77,10 @@ router.put('/page', multer.none(), async (req, res) => {
  * Update page data in the database
  */
 router.post('/page/:id', multer.none(), async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
 
   try {
-    const {title, body, parent, putAbovePageId, uri} = req.body;
+    const { title, body, parent, putAbovePageId, uri } = req.body;
     let page = await Pages.get(id);
 
     if (page._parent !== parent) {
@@ -92,7 +91,7 @@ router.post('/page/:id', multer.none(), async (req, res) => {
       }
     }
 
-    page = await Pages.update(id, {title, body, parent, uri});
+    page = await Pages.update(id, { title, body, parent, uri });
     res.json({
       success: true,
       result: page
@@ -134,7 +133,7 @@ router.delete('/page/:id', async (req, res) => {
      * @param startFrom
      * @returns {Promise<void>}
      */
-    async function deleteRecursively(startFrom) {
+    const deleteRecursively = async (startFrom) => {
       let order = [];
 
       try {
@@ -151,7 +150,7 @@ router.delete('/page/:id', async (req, res) => {
       try {
         await PagesOrder.remove(startFrom);
       } catch (e) {}
-    }
+    };
 
     await deleteRecursively(req.params.id);
 

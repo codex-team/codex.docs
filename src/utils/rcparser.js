@@ -40,7 +40,7 @@ module.exports = class RCParser {
       return RCParser.DEFAULTS;
     }
 
-    const file = fs.readFileSync(rcPath, {encoding: 'UTF-8'});
+    const file = fs.readFileSync(rcPath, { encoding: 'UTF-8' });
     const rConfig = {};
     let userConfig;
 
@@ -70,7 +70,7 @@ module.exports = class RCParser {
         return false;
       }
 
-      const {title, uri} = option;
+      const { title, uri } = option;
 
       if (!title || typeof title !== 'string') {
         console.log(`Menu option #${i} title must be a string.`);

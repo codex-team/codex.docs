@@ -1,6 +1,6 @@
 import hljs from 'highlight.js/lib/highlight';
 import javascript from 'highlight.js/lib/languages/javascript';
-import style from 'highlight.js/styles/github-gist.css';
+import style from 'highlight.js/styles/github-gist.css'; //eslint-disable-line no-unused-vars
 
 /**
  * @class CodeStyles
@@ -11,7 +11,7 @@ export default class CodeStyler {
    * @param {string} selector - CSS selector for code blocks
    * @param {string[]} languages - list of languages to highlight, see hljs.listLanguages()
    */
-  constructor({selector, languages = [ 'javascript' ]}) {
+  constructor({ selector, languages = [ 'javascript' ] }) {
     this.codeBlocksSelector = selector;
     this.languages = languages;
     this.langsAvailable = {

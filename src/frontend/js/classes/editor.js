@@ -14,7 +14,7 @@ export default class Editor {
    * Creates Editor instance
    * @property {object} initialData - data to start with
    */
-  constructor({initialData}) {
+  constructor({ initialData }) {
     this.editor = new CodeXEditor({
       tools: {
         header: {

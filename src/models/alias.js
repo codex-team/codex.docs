@@ -1,5 +1,5 @@
-const {aliases: aliasesDb} = require('../utils/database/index');
-const {binaryMD5} = require('../utils/crypto');
+const { aliases: aliasesDb } = require('../utils/database/index');
+const { binaryMD5 } = require('../utils/crypto');
 
 /**
  * @typedef {Object} AliasData
@@ -40,10 +40,10 @@ class Alias {
    */
   static async get(aliasName) {
     const hash = binaryMD5(aliasName);
-    let data = await aliasesDb.findOne({hash: hash, deprecated: false});
+    let data = await aliasesDb.findOne({ hash: hash, deprecated: false });
 
     if (!data) {
-      data = await aliasesDb.findOne({hash: hash});
+      data = await aliasesDb.findOne({ hash: hash });
     }
 
     return new Alias(data);
@@ -79,7 +79,7 @@ class Alias {
 
       this._id = insertedRow._id;
     } else {
-      await aliasesDb.update({_id: this._id}, this.data);
+      await aliasesDb.update({ _id: this._id }, this.data);
     }
 
     return this;
@@ -91,7 +91,7 @@ class Alias {
    * @param {AliasData} aliasData
    */
   set data(aliasData) {
-    const {id, type, hash, deprecated} = aliasData;
+    const { id, type, hash, deprecated } = aliasData;
 
     this.id = id || this.id;
     this.type = type || this.type;
@@ -131,7 +131,7 @@ class Alias {
    * @returns {Promise<Alias>}
    */
   async destroy() {
-    await aliasesDb.remove({_id: this._id});
+    await aliasesDb.remove({ _id: this._id });
 
     delete this._id;
 
