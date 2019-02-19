@@ -7,7 +7,7 @@
     "start:dev": "cross-env NODE_ENV=development nodemon ./bin/www",
     "test": "cross-env NODE_ENV=testing mocha --recursive ./test",
     "lint": "eslint --fix --cache ./src/**/*.js",
-    "build": "webpack ./src/frontend/js/app.js --o='./public/dist/[name].bundle.js' --output-library=Docs --output-public-path=/dist/ -p --watch",
+    "build": "webpack ./src/frontend/js/app.js -o ./public/dist/[name].bundle.js --output-library=Docs --output-public-path=/dist/ -p --watch",
     "precommit": "yarn lint && yarn test --exit"
   },
   "dependencies": {

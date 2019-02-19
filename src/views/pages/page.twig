@@ -30,7 +30,7 @@
       {% for block in page.body.blocks %}
         {# Skip first header, because it is already showed as a Title #}
         {% if not (loop.first and block.type == 'header') %}
-          {% if block.type in ['paragraph', 'header', 'list', 'code'] %}
+          {% if block.type in ['paragraph', 'header', 'list', 'code', 'image'] %}
             {% include './blocks/' ~ block.type ~ '.twig' with block.data %}
           {% endif %}
         {% endif %}
