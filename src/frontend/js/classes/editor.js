@@ -47,9 +47,9 @@ export default class Editor {
               map: JSON.stringify({
                 path: 'file:url',
                 size: 'file:size',
-                mimetype: 'file:mime',
+                mimetype: 'file:mime'
               })
-            },
+            }
           }
         }
       },

@@ -31,7 +31,8 @@ async function createMenuTree(pages, level = 1, currentLevel = 1) {
        */
       if (currentLevel !== level) {
         const children = await PagesOrder.get(pageId);
-        deepestChildren = await createMenuTree(children.order, level, currentLevel + 1)
+
+        deepestChildren = await createMenuTree(children.order, level, currentLevel + 1);
       }
     } catch (e) {}
 
@@ -56,8 +57,10 @@ module.exports = asyncMiddleware(async function (req, res, next) {
    * @type {string}
    */
   const parentIdOfRootPages = '0';
+
   try {
     const rootPages = await PagesOrder.get(parentIdOfRootPages);
+
     res.locals.menu = await createMenuTree(rootPages.order, 2);
   } catch (error) {
     console.log('Can not load menu:', error);

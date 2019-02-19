@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const rcParser = require('./utils/rcparser');
+const FileModel = require('./models/file');
 
 const routes = require('./routes');
 
@@ -21,7 +22,19 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(
+  path.join(__dirname, '../public'),
+  {
+    setHeaders: async (res, pathToFile) => {
+      const filename = path.basename(pathToFile);
+      const file = await FileModel.getByFilename(filename);
+
+      if (file._id && file.mimetype) {
+        res.setHeader('content-type', file.mimetype);
+      }
+    }
+  }
+));
 
 app.use('/', routes);
 // catch 404 and forward to error handler

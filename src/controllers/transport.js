@@ -49,18 +49,19 @@ class Transport {
    */
   static async fetch(url, map) {
     const fetchedFile = await fetch(url);
-
     const buffer = await fetchedFile.buffer();
     const filename = await random16();
 
     fs.writeFileSync(`public/uploads/${filename}`, buffer);
 
+    const type = fileType(buffer);
+
     const file = new Model({
       name: url,
       filename,
       path: `/uploads/${filename}`,
-      size: buffer.size,
-      mimetype: fileType(buffer)
+      size: buffer.length,
+      mimetype: type ? type.mime : fetchedFile.headers.get('content-type')
     });
 
     await file.save();

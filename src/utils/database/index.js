@@ -148,5 +148,5 @@ module.exports = {
   pages: new Database(pages),
   aliases: new Database(aliases),
   pagesOrder: new Database(pagesOrder),
-  files: new Database(files),
+  files: new Database(files)
 };

@@ -171,6 +171,33 @@ describe('File model', () => {
     await file.destroy();
   });
 
+  it('Static getByFilename method', async () => {
+    const initialData = {
+      name: 'filename',
+      filename: 'randomname',
+      path: '/uploads/randomname',
+      size: 1024,
+      mimetype: 'image/png'
+    };
+
+    const file = new File(initialData);
+
+    const savedFile = await file.save();
+
+    const foundFile = await File.getByFilename(savedFile.filename);
+
+    const {data} = foundFile;
+
+    expect(data._id).to.equal(savedFile._id);
+    expect(data.name).to.equal(savedFile.name);
+    expect(data.filename).to.equal(savedFile.filename);
+    expect(data.path).to.equal(savedFile.path);
+    expect(data.size).to.equal(savedFile.size);
+    expect(data.mimetype).to.equal(savedFile.mimetype);
+
+    await file.destroy();
+  });
+
   it('Static getAll method', async () => {
     const filesToSave = [
       new File({

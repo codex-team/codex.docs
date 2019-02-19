@@ -35,6 +35,17 @@ class File {
   }
 
   /**
+   * Find and return model of file with given id
+   * @param {string} filename - uploaded filename
+   * @returns {Promise<File>}
+   */
+  static async getByFilename(filename) {
+    const data = await filesDb.findOne({filename});
+
+    return new File(data);
+  }
+
+  /**
    * Find all files which match passed query object
    *
    * @param {Object} query

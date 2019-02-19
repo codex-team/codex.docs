@@ -7,7 +7,7 @@ const db = new Datastore({filename: `./${config.database}/pagesOrder.db`, autolo
  * Current DataStore preparation
  * Add initial row for RootPage
  */
-(async function() {
+(async function () {
   const parentIdOfRootPages = '0';
   const cbk = (resolve, reject) => (err, doc) => {
     if (err) {
@@ -26,9 +26,9 @@ const db = new Datastore({filename: `./${config.database}/pagesOrder.db`, autolo
       page: '0',
       order: []
     };
+
     await db.insert(initialData);
   }
-
 }());
 
 module.exports = db;

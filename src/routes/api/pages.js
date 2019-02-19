@@ -3,12 +3,13 @@ const router = express.Router();
 const multer = require('multer')();
 const Pages = require('../../controllers/pages');
 const PagesOrder = require('../../controllers/pagesOrder');
-const Aliases = require("../../controllers/aliases");
+const Aliases = require('../../controllers/aliases');
 /**
  * GET /page/:id
  *
  * Return PageData of page with given id
  */
+
 router.get('/page/:id', async (req, res) => {
   try {
     const page = await Pages.get(req.params.id);
@@ -118,12 +119,13 @@ router.delete('/page/:id', async (req, res) => {
     const pageAfterId = parentPageOrder.getPageAfter(page._id);
 
     let pageToRedirect;
+
     if (pageBeforeId) {
       pageToRedirect = await Pages.get(pageBeforeId);
     } else if (pageAfterId) {
       pageToRedirect = await Pages.get(pageAfterId);
     } else {
-      pageToRedirect = page._parent !== "0" ? await Pages.get(page._parent) : null;
+      pageToRedirect = page._parent !== '0' ? await Pages.get(page._parent) : null;
     }
 
     /**
@@ -134,8 +136,10 @@ router.delete('/page/:id', async (req, res) => {
      */
     async function deleteRecursively(startFrom) {
       let order = [];
+
       try {
         const children = await PagesOrder.get(startFrom);
+
         order = children.order;
       } catch (e) {}
 

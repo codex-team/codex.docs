@@ -64,9 +64,10 @@ export default class Writing {
 
     if (this.nodes.removeButton) {
       this.nodes.removeButton.addEventListener('click', () => {
-        const isUserAgree = confirm("Are you sure?");
+        const isUserAgree = confirm('Are you sure?');
+
         if (!isUserAgree) {
-          return
+          return;
         }
 
         this.removeButtonClicked();
@@ -115,6 +116,7 @@ export default class Writing {
 
     /** get ordering selector value */
     let putAbovePageId = null;
+
     if (this.nodes.putAboveIdSelector) {
       putAbovePageId = this.nodes.putAboveIdSelector.value;
     }
