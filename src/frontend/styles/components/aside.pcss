@@ -2,6 +2,16 @@
   font-size: 15px;
   color: var(--color-text-second);
 
+  @media (--mobile) {
+    font-size: 13px;
+    display: none;
+    margin-top: 20px;
+  }
+
+  &--toggled {
+    display: block !important;
+  }
+
   a {
     text-decoration: none;
   }
@@ -9,9 +19,21 @@
   &__section {
     margin-bottom: 30px;
 
+    @media (--mobile) {
+      margin-bottom: 20px;
+    }
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
     &-title {
       margin-bottom: 15px;
       color: var(--color-link-active);
+
+      @media (--mobile) {
+        margin-bottom: 10px;
+      }
     }
 
     &-list {
@@ -24,5 +46,20 @@
         padding: 8px 0;
       }
     }
+  }
+}
+
+.docs-aside-toggler {
+  display: none;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--color-text-second);
+
+  @media (--mobile) {
+    display: block;
+  }
+
+  svg {
+    margin-right: 10px;
   }
 }

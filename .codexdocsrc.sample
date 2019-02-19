@@ -1,9 +1,10 @@
 {
-  "title": "CodeX Editor &nbsp; 🤩🧦🤨",
+  "title": "CodeX Docs",
   "menu": [
     "Guides",
     "API",
     "Plugins",
     {"title": "Support Project", "uri": "/support"}
-  ]
+  ],
+  "landingFrameSrc": "https://codex.so/editor?frame=1"
 }
