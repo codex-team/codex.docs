@@ -3,7 +3,6 @@ const router = express.Router();
 const multer = require('multer')();
 const Pages = require('../../controllers/pages');
 const PagesOrder = require('../../controllers/pagesOrder');
-const Aliases = require("../../controllers/aliases");
 /**
  * GET /page/:id
  *
@@ -81,13 +80,15 @@ router.post('/page/:id', multer.any(), async (req, res) => {
 
   try {
     const {title, body, parent, putAbovePageId, uri} = req.body;
+    const pages = await Pages.getAll();
     let page = await Pages.get(id);
 
     if (page._parent !== parent) {
       await PagesOrder.move(page._parent, parent, id);
     } else {
       if (putAbovePageId && putAbovePageId !== '0') {
-        await PagesOrder.update(page._id, page._parent, putAbovePageId);
+        const unordered = pages.filter( _page => _page._parent === page._parent).map(_page => _page._id);
+        await PagesOrder.update(unordered, page._id, page._parent, putAbovePageId);
       }
     }
 
