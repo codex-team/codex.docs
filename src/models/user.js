@@ -14,7 +14,7 @@ class User {
    * @returns {Promise<User>}
    */
   static async get(passHash) {
-    const data = await db.findOne({ passHash: passHash });
+    const data = await db.findOne({ passHash });
 
     if (!data) {
       return null;

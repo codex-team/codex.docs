@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Pages = require('../controllers/pages');
+
 const verifyToken = require('./middlewares/token');
 const allowEdit = require('./middlewares/locals');
 
@@ -48,7 +49,7 @@ router.get('/page/:id', verifyToken, async (req, res, next) => {
     let pageParent = await page.parent;
 
     res.render('pages/page', {
-      page, pageParent, isAuthorized: res.locals.isAuthorized
+      page, pageParent
     });
   } catch (error) {
     res.status(404);
