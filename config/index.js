@@ -15,7 +15,8 @@ if (fs.existsSync(path.resolve(__dirname, configPath))) {
 } else {
   config = {
     database: '.db',
-    port: 3000
+    port: 3000,
+    uploads: 'public/uploads'
   };
 }
 

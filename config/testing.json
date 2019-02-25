@@ -1,5 +1,6 @@
 {
   "port": 3001,
   "database": ".testdb",
-  "rcFile": "./test/.codexdocsrc"
+  "rcFile": "./test/.codexdocsrc",
+  "uploads": "public/uploads_test"
 }

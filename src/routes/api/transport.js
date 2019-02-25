@@ -1,13 +1,31 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const mime = require('mime')
 const Transport = require('../../controllers/transport');
+const { random16 } = require('../../utils/crypto');
+const config = require('../../../config');
+
+/**
+ * Multer storage for uploaded files and images
+ * @type {DiskStorage|DiskStorage}
+ */
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, config.uploads || 'public/uploads');
+  },
+  filename: async (req, file, cb) => {
+    const filename = await random16();
+
+    cb(null, `${filename}.${mime.getExtension(file.mimetype)}`);
+  }
+})
 
 /**
  * Multer middleware for image uploading
  */
 const imageUploader = multer({
-  dest: 'public/uploads/',
+  storage,
   fileFilter: (req, file, cb) => {
     if (!/image/.test(file.mimetype)) {
       cb(null, false);
@@ -22,7 +40,7 @@ const imageUploader = multer({
  * Multer middleware for file uploading
  */
 const fileUploader = multer({
-  dest: 'public/uploads/'
+  storage
 }).fields([ { name: 'file', maxCount: 1 } ]);
 
 /**

@@ -3,6 +3,7 @@ const path = require('path');
 const fileType = require('file-type');
 const chai = require('chai');
 const chaiHTTP = require('chai-http');
+const rimraf = require('rimraf');
 const {expect} = chai;
 
 const {app} = require('../../bin/www');
@@ -17,6 +18,10 @@ describe('Transport routes: ', () => {
 
   before(async () => {
     agent = chai.request.agent(app);
+
+    if (!fs.existsSync('./' + config.uploads)) {
+      fs.mkdirSync('./' + config.uploads);
+    }
   });
 
   after(async () => {
@@ -24,6 +29,10 @@ describe('Transport routes: ', () => {
 
     if (fs.existsSync(pathToDB)) {
       fs.unlinkSync(pathToDB);
+    }
+
+    if (fs.existsSync('./' + config.uploads)) {
+      rimraf.sync('./' + config.uploads);
     }
   });
 
@@ -102,7 +111,7 @@ describe('Transport routes: ', () => {
       .get(file.path);
 
     expect(getRes).to.have.status(200);
-    expect(getRes).to.have.header('content-type', file.mimetype);
+    expect(getRes).to.have.header('content-type', new RegExp(`^${file.mimetype}`));
   });
 
   it('Uploading a file with map option', async () => {

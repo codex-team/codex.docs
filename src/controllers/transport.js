@@ -1,10 +1,12 @@
 const fileType = require('file-type');
 const fetch = require('node-fetch');
 const fs = require('fs');
+const nodePath = require('path');
 
 const Model = require('../models/file');
 const { random16 } = require('../utils/crypto');
 const { deepMerge } = require('../utils/objects');
+const config = require('../../config');
 
 /**
  * @class Transport
@@ -26,7 +28,7 @@ class Transport {
    * @return {Promise<FileData>}
    */
   static async save(multerData, map) {
-    const { originalname: name, filename, path, size, mimetype } = multerData;
+    const { originalname: name, path, filename, size, mimetype } = multerData;
 
     const file = new Model({ name, filename, path, size, mimetype });
 
@@ -52,14 +54,15 @@ class Transport {
     const buffer = await fetchedFile.buffer();
     const filename = await random16();
 
-    fs.writeFileSync(`public/uploads/${filename}`, buffer);
-
     const type = fileType(buffer);
+    const ext = type ? type.ext : nodePath.extname(url).slice(1);
+
+    fs.writeFileSync(`${config.uploads}/${filename}.${ext}`, buffer);
 
     const file = new Model({
       name: url,
-      filename,
-      path: `/uploads/${filename}`,
+      filename: `${filename}.${ext}`,
+      path: `${config.uploads}/${filename}.${ext}`,
       size: buffer.length,
       mimetype: type ? type.mime : fetchedFile.headers.get('content-type')
     });
