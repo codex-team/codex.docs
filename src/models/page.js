@@ -75,7 +75,7 @@ class Page {
   /**
    * Return PageData object
    *
-   * @ {PageData}
+   * @return {PageData}
    */
   get data() {
     return {

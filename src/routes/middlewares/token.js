@@ -1,6 +1,7 @@
 require('dotenv').config();
 const config = require('../../../config/index');
 const jwt = require('jsonwebtoken');
+const Users = require('../../controllers/users');
 
 /**
  * Middleware for checking jwt token
@@ -10,9 +11,12 @@ const jwt = require('jsonwebtoken');
  */
 module.exports = async function verifyToken(req, res, next) {
   let token = req.cookies.authToken;
+  const userDoc = await Users.get();
 
-  jwt.verify(token, process.env.PASSHASH + config.secret, (err, decodedToken) => {
-    res.locals.isAuthorized = !(err || !decodedToken);
-    next();
-  });
+  if (userDoc) {
+    jwt.verify(token, userDoc.passHash + config.secret, (err, decodedToken) => {
+      res.locals.isAuthorized = !(err || !decodedToken);
+      next();
+    });
+  }
 };

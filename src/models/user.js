@@ -8,28 +8,19 @@ const {password: db} = require('../utils/database/index');
  */
 class User {
   /**
-   * Find and return model of user with given password hash
+   * Find and return model of user.
+   * User is only one.
    *
-   * @param {string} passHash - hashed password
    * @returns {Promise<User>}
    */
-  static async get(passHash) {
-    const data = await db.findOne({ passHash });
+  static async get() {
+    const data = await db.findOne({});
 
     if (!data) {
       return null;
     }
 
     return new User(data);
-  }
-
-  /**
-   *
-   */
-  static async getSalt() {
-    const saltDoc = await db.findOne({type: 'salt'});
-
-    return saltDoc.saltValue;
   }
 
   /**

@@ -7,26 +7,14 @@ const Model = require('../models/user');
 class Users {
   /**
    * @static
-   * Find and return user model with given password hash
+   * Find and return user model.
    *
-   * @param {string} passHash - hashed password
    * @returns {Promise<User>}
    */
-  static async get(passHash) {
-    const userDoc = await Model.get(passHash);
+  static async get() {
+    const userDoc = await Model.get();
 
     return userDoc;
-  }
-
-  /**
-   * Find and return salt
-   *
-   * @returns {Promise<string>}
-   */
-  static async getSalt() {
-    const salt = await Model.getSalt();
-
-    return salt;
   }
 }
 

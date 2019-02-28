@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
@@ -20,14 +22,14 @@ router.get('/auth', csrfProtection, function (req, res) {
  * Process given password
  */
 router.post('/auth', parseForm, csrfProtection, async (req, res) => {
-  let salt = await Users.getSalt();
+  let salt = process.env.SALT;
 
   bcrypt.hash(req.body.password, salt, async function (err, hash) {
     if (err) {
       res.status(500);
     }
 
-    const userDoc = await Users.get(hash);
+    const userDoc = await Users.get();
 
     if (userDoc) {
       const token = jwt.sign({

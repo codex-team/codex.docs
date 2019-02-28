@@ -1,6 +1,7 @@
 {
   "name": "codex.docs",
   "version": "0.0.0",
+  "bin": { "generatePassword": "bin/generatePassword.js"},
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=production nodemon ./bin/www",
