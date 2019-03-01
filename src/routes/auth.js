@@ -15,35 +15,39 @@ const parseForm = bodyParser.urlencoded({ extended: false });
  * Authorization page
  */
 router.get('/auth', csrfProtection, function (req, res) {
-  res.render('auth', { title: 'Login page ', header: 'Enter password', csrfToken: req.csrfToken() });
+  res.render('auth', {
+    title: 'Login page',
+    header: 'Enter password',
+    csrfToken: req.csrfToken()
+  });
 });
 
 /**
  * Process given password
  */
 router.post('/auth', parseForm, csrfProtection, async (req, res) => {
-  let salt = process.env.SALT;
+  let userDoc = await Users.get();
 
-  bcrypt.hash(req.body.password, salt, async function (err, hash) {
-    if (err) {
-      res.status(500);
+  const passHash = userDoc.passHash;
+
+  bcrypt.compare(req.body.password, passHash, async (err, result) => {
+    if (err || result === false) {
+      res.render('auth', {
+        title: 'Login page',
+        header: 'Wrong password',
+        csrfToken: req.csrfToken()
+      });
     }
 
-    const userDoc = await Users.get();
+    const token = jwt.sign({
+      'iss': 'Codex Team',
+      'sub': 'auth',
+      'iat': Date.now()
+    }, passHash + config.secret);
 
-    if (userDoc) {
-      const token = jwt.sign({
-        'iss': 'Codex Team',
-        'sub': 'auth',
-        'iat': Date.now()
-      }, userDoc.passHash + config.secret);
+    res.cookie('authToken', token, { httpOnly: true });
 
-      res.cookie('authToken', token);
-
-      res.redirect('/');
-    } else {
-      res.render('auth', { title: 'Login page', header: 'Wrong password', csrfToken: req.csrfToken() });
-    }
+    res.redirect('/');
   });
 });
 

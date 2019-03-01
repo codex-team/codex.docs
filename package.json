@@ -9,7 +9,8 @@
     "test": "cross-env NODE_ENV=testing mocha --recursive ./test",
     "lint": "eslint --fix --cache ./src/**/*.js",
     "build": "webpack ./src/frontend/js/app.js --o='./public/dist/[name].bundle.js' --output-library=Docs --output-public-path=/dist/ -p --watch",
-    "precommit": "yarn lint && yarn test --exit"
+    "precommit": "yarn lint && yarn test --exit",
+    "generatePassword": "node ./generatePassword.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
