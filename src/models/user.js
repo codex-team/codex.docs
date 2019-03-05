@@ -1,4 +1,4 @@
-const {password: db} = require('../utils/database/index');
+const { password: db } = require('../utils/database/index');
 
 /**
  * @class User

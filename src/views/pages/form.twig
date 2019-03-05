@@ -7,32 +7,55 @@
     }
   </style>
   <section data-module="writing">
-    <module-settings hidden>
+    <textarea name="module-settings" hidden>
       {
         "page": {{ page | json_encode }}
       }
-    </module-settings>
+    </textarea>
     <header class="writing-header">
       <span class="writing-header__left">
+        <span>
         New Page at the
         {% set currentPageId = 0 %}
         {% if page is not empty %}
           {% set currentPageId = page._id %}
         {% endif %}
-        <select name="parent">
-          <option value="0">Root</option>
-          {% for _page in pagesAvailable %}
-            {% if _page._id != currentPageId %}
-              <option value="{{ _page._id }}" {{ page is not empty and page._parent == _page._id ? 'selected' : ''}}>
+          <select name="parent">
+            <option value="0">Root</option>
+            {% for _page in pagesAvailable %}
+              {% if _page._id != currentPageId %}
+                <option value="{{ _page._id }}" {{ page is not empty and page._parent == _page._id ? 'selected' : ''}}>
                 {{ _page.title }}
               </option>
-            {% endif %}
-          {% endfor %}
-        </select>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </span>
+
+        {% if parentsChildrenOrdered is not empty %}
+          <span>
+            Put Above
+            <select name="above">
+              <option value="0">—</option>
+              {% for _page in parentsChildrenOrdered %}
+                <option value="{{ _page._id }}">{{ _page.title }}</option>
+              {% endfor %}
+            </select>
+          </span>
+        {% endif %}
       </span>
-      <span class="writing-header__save" name="js-submit">
-        Save
-      </span>
+      <span class="writing-header__save" name="js-submit-save">Save</span>
     </header>
+    <div class="writing-editor">
+      <div id="codex-editor"></div>
+    </div>
+    <div class="writing-buttons">
+      {% if page._id is not empty %}
+        <span class="writing-buttons__remove" name="js-submit-remove">Remove</span>
+      {% endif %}
+    </div>
+    {% if page is not empty %}
+      <p><input type="text" class="uri-input" name="uri-input" placeholder="URI(Optional)" value="{{ page.uri }}"></p>
+    {% endif %}
   </section>
 {% endblock %}

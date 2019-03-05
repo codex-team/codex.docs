@@ -1,20 +1,57 @@
 .writing-header {
   display: flex;
-  padding: 15px 0;
-  margin-top: calc(-1 * var(--layout-padding-vertical));
   position: sticky;
   top: 0;
+  padding: 15px 0;
+  margin-top: calc(-1 * var(--layout-padding-vertical));
   background: #fff;
-  z-index: 2;
   box-shadow: 0 3px 10px #fff;
+  z-index: 2;
+  font-size: 14px;
 
   &__save {
     @apply --button;
-    margin-left: auto;
+    @apply --button-primary;
+    margin: auto;
   }
 
   &__left {
     margin: auto 0;
     color: var(--color-text-second);
+
+    & span {
+      margin-right: 10px;
+    }
   }
+
+  select {
+    max-width: 100px
+  }
+}
+
+.writing-buttons {
+  &__remove {
+    @apply --button;
+    @apply --button-danger;
+  }
+}
+
+.uri-input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 3px;
+  border: 1px solid rgba(201, 201, 204, 0.48);
+  box-shadow: inset 0 1px 2px 0 rgba(35, 44, 72, 0.06);
+  outline: none;
+}
+
+.writing-editor {
+  @media (--desktop) {
+    margin: 0 -100px;
+  }
+}
+
+.codex-editor__redactor .ce-block:first-of-type .ce-header {
+  font-size: 32px;
 }

@@ -1,9 +1,10 @@
 {% set tag = 'ul' %}
 
-{% if type == 'orderd' %}
+{% if style == 'ordered' %}
   {% set tag = 'ol' %}
 {% endif %}
-<{{ tag }} class="block-list block-list--{{ type }}">
+
+<{{ tag }} class="block-list block-list--{{ style }}">
   {% for item in items %}
     <li>
       {{ item }}

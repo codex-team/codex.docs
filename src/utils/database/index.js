@@ -1,5 +1,7 @@
 const pages = require('./pages');
 const password = require('./password');
+const aliases = require('./aliases');
+const pagesOrder = require('./pagesOrder');
 
 /**
  * @class Database
@@ -144,5 +146,7 @@ class Database {
 module.exports = {
   class: Database,
   pages: new Database(pages),
-  password: new Database(password)
+  password: new Database(password),
+  aliases: new Database(aliases),
+  pagesOrder: new Database(pagesOrder)
 };

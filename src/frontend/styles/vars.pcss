@@ -3,6 +3,8 @@
   --color-text-second: #7B7E89;
   --color-line-gray: #E8E8EB;
   --color-link-active: #388AE5;
+  --color-button-danger: #ff1629;
+  --color-gray-border: rgba(var(--color-line-gray), 0.48);
 
   /**
    * Site layout sizes
@@ -12,22 +14,54 @@
   --layout-width-aside: 200px;
   --layout-width-main-col: 650px;
 
+  @media (--mobile) {
+    --layout-padding-horisontal: 15px;
+    --layout-padding-vertical: 15px;
+  }
+
   --button {
     display: inline-block;
-    background:  var(--color-link-active);
-    color: #fff;
-    border-radius: 3px;
     padding: 9px 15px;
+    border-radius: 3px;
+    color: #6c6375;
+    background: #fcfcff;
+    box-shadow: inset 0 0 0 1px rgba(184, 189, 206, 0.2);
     font-size: 14px;
     line-height: 1em;
     text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
 
     svg {
       margin: 0 0.3em 0 -0.05em;
     }
+  }
+
+  --button-danger {
+    background: var(--color-button-danger);
+    color: #fff;
+    box-shadow: none;
+
+    &:hover {
+      background: color-mod(var(--color-button-danger) blackness(+10%));
+    }
+  }
+
+  --button-primary {
+    background: var(--color-link-active);
+    color: #fff;
+    box-shadow: none;
 
     &:hover {
       background: color-mod(var(--color-link-active) blackness(+10%));
     }
   }
 }
+
+/**
+* Custom media queries
+*/
+@custom-media --desktop all and (min-width: 1050px);
+@custom-media --tablet all and (max-width: 1050px);
+@custom-media --mobile all and (max-width: 980px);
+@custom-media --retina all and (-webkit-min-device-pixel-ratio: 1.5);

@@ -2,7 +2,7 @@
   <a href="/" class="docs-header__logo">
     {{ config.title }}
   </a>
-  <ul class="docs-header__menu">
+  <ul class="docs-header__menu-add">
     <li>
       {% if isAuthorized == true %}
         <a class="docs-header__button" href="/page/new">
@@ -13,7 +13,12 @@
     </li>
     {% for option in config.menu %}
       <li>
-        <a href="{{option.uri}}">
+        <a
+          {% if child.uri %}
+            href="{{ option.uri }}"
+          {% else %}
+            href="/page/{{ option._id }}"
+          {% endif %}>
           {{ option.title }}
         </a>
       </li>
