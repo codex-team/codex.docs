@@ -1,4 +1,5 @@
 const Model = require('../models/page');
+const Alias = require('../models/alias');
 
 /**
  * @class Pages
@@ -85,7 +86,18 @@ class Pages {
 
       const page = new Model(data);
 
-      return page.save();
+      const insertedPage = await page.save();
+
+      if (insertedPage.uri) {
+        const alias = new Alias({
+          id: insertedPage._id,
+          type: Alias.types.PAGE
+        }, insertedPage.uri);
+
+        alias.save();
+      }
+
+      return insertedPage;
     } catch (validationError) {
       throw new Error(validationError);
     }
@@ -132,14 +144,33 @@ class Pages {
    */
   static async update(id, data) {
     const page = await Model.get(id);
+    const previousUri = page.uri;
 
     if (!page._id) {
       throw new Error('Page with given id does not exist');
     }
 
-    page.data = data;
+    if (data.uri && !data.uri.match(/^[a-z0-9'-]+$/i)) {
+      throw new Error('Uri has unexpected characters');
+    }
 
-    return page.save();
+    page.data = data;
+    const updatedPage = await page.save();
+
+    if (updatedPage.uri !== previousUri) {
+      if (updatedPage.uri) {
+        const alias = new Alias({
+          id: updatedPage._id,
+          type: Alias.types.PAGE
+        }, updatedPage.uri);
+
+        alias.save();
+      }
+
+      Alias.markAsDeprecated(previousUri);
+    }
+
+    return updatedPage;
   }
 
   /**
@@ -154,6 +185,10 @@ class Pages {
     if (!page._id) {
       throw new Error('Page with given id does not exist');
     }
+
+    const alias = await Alias.get(page.uri);
+
+    await alias.destroy();
 
     return page.destroy();
   }

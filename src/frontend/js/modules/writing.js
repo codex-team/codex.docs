@@ -27,7 +27,10 @@ export default class Writing {
     this.nodes = {
       editorWrapper: null,
       saveButton: null,
-      parentIdSelector: null
+      removeButton: null,
+      parentIdSelector: null,
+      putAboveIdSelector: null,
+      uriInput: null
     };
   }
 
@@ -40,11 +43,7 @@ export default class Writing {
     /**
      * Create Editor
      */
-    this.nodes.editorWrapper = document.createElement('div');
-    this.nodes.editorWrapper.id = 'codex-editor';
-
-    moduleEl.appendChild(this.nodes.editorWrapper);
-
+    this.nodes.editorWrapper = document.getElementById('codex-editor');
     if (settings.page) {
       this.page = settings.page;
     }
@@ -56,11 +55,28 @@ export default class Writing {
     /**
      * Activate form elements
      */
-    this.nodes.saveButton = moduleEl.querySelector('[name="js-submit"]');
+    this.nodes.saveButton = moduleEl.querySelector('[name="js-submit-save"]');
     this.nodes.saveButton.addEventListener('click', () => {
       this.saveButtonClicked();
     });
+
+    this.nodes.removeButton = moduleEl.querySelector('[name="js-submit-remove"]');
+
+    if (this.nodes.removeButton) {
+      this.nodes.removeButton.addEventListener('click', () => {
+        const isUserAgree = window.confirm('Are you sure?');
+
+        if (!isUserAgree) {
+          return;
+        }
+
+        this.removeButtonClicked();
+      });
+    }
+
     this.nodes.parentIdSelector = moduleEl.querySelector('[name="parent"]');
+    this.nodes.putAboveIdSelector = moduleEl.querySelector('[name="above"]');
+    this.nodes.uriInput = moduleEl.querySelector('[name="uri-input"]');
   };
 
   /**
@@ -68,10 +84,14 @@ export default class Writing {
    * @return {Promise<Editor>}
    */
   async loadEditor() {
-    const {default: Editor} = await import(/* webpackChunkName: "editor" */ './../classes/editor');
+    const { default: Editor } = await import(/* webpackChunkName: "editor" */ './../classes/editor');
 
-    return new Editor({
-      initialData: this.page ? this.page.body : null
+    const editorConfig = this.page ? {
+      data: this.page.body
+    } : {};
+
+    return new Editor(editorConfig, {
+      headerPlaceholder: 'Enter a title'
     });
   }
 
@@ -84,13 +104,31 @@ export default class Writing {
     const editorData = await this.editor.save();
     const firstBlock = editorData.blocks.length ? editorData.blocks[0] : null;
     const title = firstBlock && firstBlock.type === 'header' ? firstBlock.data.text : null;
+    let uri = '';
+
+    if (this.nodes.uriInput && this.nodes.uriInput.value) {
+      if (this.nodes.uriInput.value.match(/^[a-z0-9'-]+$/i)) {
+        uri = this.nodes.uriInput.value;
+      } else {
+        throw new Error('Uri has unexpected characters');
+      }
+    }
 
     if (!title) {
       throw new Error('Entry should start with Header');
     }
 
+    /** get ordering selector value */
+    let putAbovePageId = null;
+
+    if (this.nodes.putAboveIdSelector) {
+      putAbovePageId = this.nodes.putAboveIdSelector.value;
+    }
+
     return {
       parent: this.nodes.parentIdSelector.value,
+      putAbovePageId: putAbovePageId,
+      uri: uri,
       body: editorData
     };
   }
@@ -115,7 +153,7 @@ export default class Writing {
         response = await response.json();
 
         if (response.success) {
-          document.location = '/page/' + response.result._id;
+          window.location.pathname = response.result.uri ? response.result.uri : '/page/' + response.result._id;
         } else {
           alert(response.error);
           console.log('Validation failed:', response.error);
@@ -126,6 +164,33 @@ export default class Writing {
     } catch (savingError) {
       alert(savingError);
       console.log('Saving error: ', savingError);
+    }
+  }
+
+  /**
+   * @returns {Promise<void>}
+   */
+  async removeButtonClicked() {
+    try {
+      const endpoint = this.page ? '/api/page/' + this.page._id : '';
+
+      let response = await fetch(endpoint, {
+        method: 'DELETE'
+      });
+
+      response = await response.json();
+      if (response.success) {
+        if (response.result && response.result._id) {
+          document.location = '/page/' + response.result._id;
+        } else {
+          document.location = '/';
+        }
+      } else {
+        alert(response.error);
+        console.log('Server fetch failed:', response.error);
+      }
+    } catch (e) {
+      console.log('Server fetch failed due to the:', e);
     }
   }
 }

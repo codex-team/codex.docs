@@ -1,13 +1,20 @@
 .docs-header {
-  font-size: 15.8px;
-  border-bottom: 1px solid var(--color-line-gray);
-  line-height: 50px;
   display: flex;
+  flex-shrink: 0;
   padding: 0 var(--layout-padding-horisontal);
+  border-bottom: 1px solid var(--color-line-gray);
+  font-size: 15.8px;
+  line-height: 50px;
+  flex-wrap: wrap;
+  position: relative;
+
+  @media (--mobile){
+    line-height: 40px;
+  }
 
   a {
-    text-decoration: none;
     display: inline-block;
+    text-decoration: none;
   }
 
   &__logo {
@@ -18,10 +25,40 @@
   &__menu {
     display: flex;
     margin: 0 0 0 auto;
+    padding-left: 0;
+
+    @media (--mobile) {
+      flex-basis: 100%;
+      font-size: 12px;
+    }
 
     li {
+      display: inline-flex;
+      align-items: center;
       list-style: none;
       margin-left: 20px;
+
+      @media (--mobile) {
+        margin-left: 0;
+        margin-right: 15px;
+      }
+    }
+
+    &-add {
+      @media (--mobile) {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        line-height: 1em;
+        margin: 0 !important;
+      }
+      a {
+        @media (--mobile) {
+          font-size: 0;
+          padding: 8px;
+          margin-right: 0;
+        }
+      }
     }
 
     a:not(.docs-header__button) {
@@ -35,6 +72,7 @@
 
   &__button {
     @apply --button;
+    @apply --button-primary;
     margin: auto 30px auto auto;
   }
 }

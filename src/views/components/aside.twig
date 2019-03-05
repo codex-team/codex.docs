@@ -1,14 +1,27 @@
+<div class="docs-aside-toggler" onclick="document.querySelector('.docs-aside').classList.toggle('docs-aside--toggled')">
+  {{ svg('menu') }} Table of contents
+</div>
 <div class="docs-aside">
     {% for firstLevelPage in menu %}
       <section class="docs-aside__section">
-        <a class="docs-aside__section-title" href="/page/{{ firstLevelPage._id }}">
+        <a class="docs-aside__section-title"
+          {% if firstLevelPage.uri %}
+            href="/{{ firstLevelPage.uri }}"
+          {% else %}
+            href="/page/{{ firstLevelPage._id }}"
+          {% endif %}>
           {{ firstLevelPage.title }}
         </a>
         {% if firstLevelPage.children is not empty %}
           <ul class="docs-aside__section-list">
             {% for child in firstLevelPage.children %}
               <li>
-                <a href="/page/{{ child._id }}">
+                <a
+                {% if child.uri %}
+                  href="/{{ child.uri }}"
+                {% else %}
+                  href="/page/{{ child._id }}"
+                {% endif %}>
                   {{ child.title }}
                 </a>
               </li>
