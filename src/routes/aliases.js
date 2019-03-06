@@ -3,13 +3,14 @@ const router = express.Router();
 const Aliases = require('../controllers/aliases');
 const Pages = require('../controllers/pages');
 const Alias = require('../models/alias');
+const verifyToken = require('./middlewares/token');
 
 /**
  * GET /*
  *
  * Return document with given alias
  */
-router.get('*', async (req, res) => {
+router.get('*', verifyToken, async (req, res) => {
   try {
     const alias = await Aliases.get(req.originalUrl.slice(1)); // Cuts first '/' character
 
