@@ -14,7 +14,7 @@
     {% for option in config.menu %}
       <li>
         <a
-          {% if child.uri %}
+          {% if option.uri %}
             href="{{ option.uri }}"
           {% else %}
             href="/page/{{ option._id }}"
