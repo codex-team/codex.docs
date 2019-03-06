@@ -29,7 +29,11 @@ router.post('/auth', parseForm, csrfProtection, async (req, res) => {
   let userDoc = await Users.get();
 
   if (!userDoc) {
-    throw new Error('Password not set');
+    res.render('auth', {
+      title: 'Login page',
+      header: 'Password not set',
+      csrfToken: req.csrfToken()
+    });
   }
 
   const passHash = userDoc.passHash;
