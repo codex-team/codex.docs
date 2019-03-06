@@ -13,10 +13,13 @@ module.exports = async function verifyToken(req, res, next) {
   let token = req.cookies.authToken;
   const userDoc = await Users.get();
 
-  if (userDoc) {
-    jwt.verify(token, userDoc.passHash + config.secret, (err, decodedToken) => {
-      res.locals.isAuthorized = !(err || !decodedToken);
-      next();
-    });
+  if (!userDoc) {
+    res.locals.isAuthorized = false;
+    next()
   }
+
+  jwt.verify(token, userDoc.passHash + config.secret, (err, decodedToken) => {
+    res.locals.isAuthorized = !(err || !decodedToken);
+    next();
+  });
 };

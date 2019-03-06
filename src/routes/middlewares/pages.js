@@ -55,7 +55,7 @@ function createMenuTree(parentPageId, pages, pagesOrder, level = 1, currentLevel
  * @param res
  * @param next
  */
-module.exports = asyncMiddleware(async function (req, res, next) {
+module.exports = asyncMiddleware(async (req, res, next) => {
   /**
    * Pages without parent
    * @type {string}
