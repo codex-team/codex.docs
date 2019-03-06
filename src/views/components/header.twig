@@ -2,19 +2,19 @@
   <a href="/" class="docs-header__logo">
     {{ config.title }}
   </a>
-  <ul class="docs-header__menu-add">
-    <li>
-      {% if isAuthorized == true %}
-        <a class="docs-header__button" href="/page/new">
-          {{ svg('plus') }}
-          Add Page
-        </a>
-      {% endif %}
-    </li>
+  <ul class="docs-header__menu">
+    {% if isAuthorized == true %}
+      <li class="docs-header__menu-add">
+          <a class="docs-header__button" href="/page/new">
+            {{ svg('plus') }}
+            Add Page
+          </a>
+      </li>
+    {% endif %}
     {% for option in config.menu %}
       <li>
         <a
-          {% if child.uri %}
+          {% if option.uri %}
             href="{{ option.uri }}"
           {% else %}
             href="/page/{{ option._id }}"

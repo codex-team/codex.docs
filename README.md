@@ -42,3 +42,9 @@ $ yarn lint
 ```
 $ yarn test
 ```
+
+### Authentication
+
+To manage pages you need to authorize (available on `/auth`).
+
+To generate password use `yarn generatePassword [password]` command.
