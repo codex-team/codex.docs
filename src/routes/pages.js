@@ -26,7 +26,7 @@ router.get('/page/edit/:id', verifyToken, allowEdit, async (req, res, next) => {
 
   try {
     const page = await Pages.get(pageId);
-    const pagesAvailable = await Pages.getAllExceptChildrens(pageId);
+    const pagesAvailable = await Pages.getAllExceptChildren(pageId);
     const parentsChildrenOrdered = await PagesOrder.getOrderedChildren(pagesAvailable, pageId, page._parent, true);
 
     res.render('pages/form', {
