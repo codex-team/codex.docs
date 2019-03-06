@@ -27,7 +27,7 @@ export default class Writing {
    * Init code highlighting
    */
   async createCodeStyling() {
-    const {default: CodeStyler} = await import(/* webpackChunkName: "code-styling" */ './../classes/codeStyler');
+    const { default: CodeStyler } = await import(/* webpackChunkName: "code-styling" */ './../classes/codeStyler');
 
     return new CodeStyler({
       selector: '.block-code'

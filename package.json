@@ -1,6 +1,7 @@
 {
   "name": "codex.docs",
   "version": "0.0.0",
+  "bin": { "generatePassword": "bin/generatePassword.js"},
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=production nodemon ./bin/www",
@@ -8,20 +9,26 @@
     "test": "cross-env NODE_ENV=testing mocha --recursive ./test",
     "lint": "eslint --fix --cache ./src/**/*.js",
     "build": "webpack ./src/frontend/js/app.js --o='./public/dist/[name].bundle.js' --output-library=Docs --output-public-path=/dist/ -p --watch",
-    "precommit": "yarn lint && yarn test --exit"
+    "precommit": "yarn lint && yarn test --exit",
+    "generatePassword": "node ./generatePassword.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
+    "bcrypt": "^3.0.3",
     "body-parser": "latest",
     "codex.editor": "^2.8.1",
     "codex.editor.delimiter": "^1.0.2",
     "codex.editor.embed": "^2.1.2",
     "codex.editor.header": "^2.0.5",
+    "commander": "^2.19.0",
     "codex.editor.image": "^2.0.3",
     "codex.editor.quote": "^2.1.5",
     "codex.editor.raw": "^2.0.2",
     "cookie-parser": "~1.4.3",
+    "csurf": "^1.9.0",
     "debug": "~4.1.0",
+    "dotenv": "^6.2.0",
+    "jsonwebtoken": "^8.4.0",
     "eslint-plugin-standard": "^4.0.0",
     "express": "~4.16.0",
     "http-errors": "~1.7.1",

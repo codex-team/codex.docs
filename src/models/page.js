@@ -89,7 +89,7 @@ class Page {
   /**
    * Return PageData object
    *
-   * @returns {PageData}
+   * @return {PageData}
    */
   get data() {
     return {

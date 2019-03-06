@@ -22,14 +22,15 @@ function createMenuTree(parentPageId, pages, pagesOrder, level = 1, currentLevel
    * otherwise just find all pages includes parent tree
    */
   let ordered = [];
+
   if (childrenOrder) {
-    ordered = childrenOrder.order.map( pageId => {
-      return pages.find( page => page._id === pageId);
+    ordered = childrenOrder.order.map(pageId => {
+      return pages.find(page => page._id === pageId);
     });
   }
 
-  const unordered = pages.filter( page => page._parent === parentPageId);
-  const branch = [...new Set([...ordered, ...unordered])];
+  const unordered = pages.filter(page => page._parent === parentPageId);
+  const branch = [ ...new Set([...ordered, ...unordered]) ];
 
   /**
    * stop recursion when we got the passed max level
@@ -41,12 +42,11 @@ function createMenuTree(parentPageId, pages, pagesOrder, level = 1, currentLevel
   /**
    * Each parents children can have subbranches
    */
-  return branch.filter(page => page && page._id).map( page => {
+  return branch.filter(page => page && page._id).map(page => {
     return Object.assign({
       children: createMenuTree(page._id, pages, pagesOrder, level, currentLevel + 1)
     }, page.data);
   });
-
 }
 
 /**
@@ -55,15 +55,17 @@ function createMenuTree(parentPageId, pages, pagesOrder, level = 1, currentLevel
  * @param res
  * @param next
  */
-module.exports = asyncMiddleware(async function (req, res, next) {
+module.exports = asyncMiddleware(async (req, res, next) => {
   /**
    * Pages without parent
    * @type {string}
    */
   const parentIdOfRootPages = '0';
+
   try {
     const pages = await Pages.getAll();
     const pagesOrder = await PagesOrder.getAll();
+
     res.locals.menu = createMenuTree(parentIdOfRootPages, pages, pagesOrder, 2);
   } catch (error) {
     console.log('Can not load menu:', error);

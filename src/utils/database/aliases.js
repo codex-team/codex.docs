@@ -1,6 +1,6 @@
 const Datastore = require('nedb');
 const config = require('../../../config');
 
-const db = new Datastore({filename: `./${config.database}/aliases.db`, autoload: true});
+const db = new Datastore({ filename: `./${config.database}/aliases.db`, autoload: true });
 
 module.exports = db;

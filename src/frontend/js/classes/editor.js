@@ -11,7 +11,6 @@ import Delimiter from 'codex.editor.delimiter';
 import InlineCode from 'codex.editor.inline-code';
 import List from 'codex.editor.list';
 import RawTool from 'codex.editor.raw';
-import ImageTool from 'codex.editor.image';
 import Embed from 'codex.editor.embed';
 
 /**
