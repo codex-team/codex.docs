@@ -28,6 +28,14 @@ router.get('/auth', csrfProtection, function (req, res) {
 router.post('/auth', parseForm, csrfProtection, async (req, res) => {
   let userDoc = await Users.get();
 
+  if (!userDoc) {
+    res.render('auth', {
+      title: 'Login page',
+      header: 'Password not set',
+      csrfToken: req.csrfToken()
+    });
+  }
+
   const passHash = userDoc.passHash;
 
   bcrypt.compare(req.body.password, passHash, async (err, result) => {

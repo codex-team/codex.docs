@@ -15,7 +15,7 @@ module.exports = async function verifyToken(req, res, next) {
 
   if (!userDoc) {
     res.locals.isAuthorized = false;
-    next()
+    next();
   }
 
   jwt.verify(token, userDoc.passHash + config.secret, (err, decodedToken) => {
