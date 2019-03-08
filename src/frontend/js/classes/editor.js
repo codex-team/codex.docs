@@ -1,17 +1,17 @@
-import CodeXEditor from 'codex.editor';
+import EditorJS from '@editorjs/editorjs';
 
 /**
  * Tools for the Editor
  */
-import Header from 'codex.editor.header';
-import Quote from 'codex.editor.quote';
-import Marker from 'codex.editor.marker';
-import CodeTool from 'codex.editor.code';
-import Delimiter from 'codex.editor.delimiter';
-import InlineCode from 'codex.editor.inline-code';
-import List from 'codex.editor.list';
-import RawTool from 'codex.editor.raw';
-import Embed from 'codex.editor.embed';
+import Header from '@editorjs/header';
+import Quote from '@editorjs/quote';
+import Marker from '@editorjs/marker';
+import CodeTool from '@editorjs/code';
+import Delimiter from '@editorjs/delimiter';
+import InlineCode from '@editorjs/inline-code';
+import List from '@editorjs/list';
+import RawTool from '@editorjs/raw';
+import Embed from '@editorjs/embed';
 
 /**
  * Class for working with Editor.js
@@ -84,7 +84,7 @@ export default class Editor {
       }
     };
 
-    this.editor = new CodeXEditor(Object.assign(defaultConfig, editorConfig));
+    this.editor = new EditorJS(Object.assign(defaultConfig, editorConfig));
   }
 
   /**
