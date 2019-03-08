@@ -1,0 +1,9 @@
+<figure class="block-image {% if withBorder %}block-image--bordered{% endif %} {% if stretched %}block-image--stretched{% endif %} {% if withBackground %}block-image--backgrounded{% endif %}">
+  <img src="{{ file.url }}" alt="{{ caption }}">
+
+  {% if caption %}
+    <footer class="block-image-caption">
+      {{ caption }}
+    </footer>
+  {% endif %}
+</figure>

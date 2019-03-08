@@ -106,7 +106,6 @@
   line-height: 1.7em;
 }
 
-
 /**
  * List
  * ==================
@@ -117,3 +116,47 @@
   }
 }
 
+/**
+ * Image
+ * ==================
+ */
+.block-image {
+  margin: 40px auto;
+  text-align: center;
+
+  img {
+    vertical-align: bottom;
+    max-width: 100%;
+  }
+
+  &--stretched {
+    max-width: none !important;
+    width: 100% !important;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  &--bordered {
+    img {
+      border: 3px solid var(--color-text-second);
+      box-sizing: border-box;
+    }
+  }
+
+  &--backgrounded {
+    padding: 15px;
+    background: var(--color-line-gray);
+
+    &-picture {
+      max-width: 60%;
+      margin: 0 auto;
+    }
+  }
+
+  &-caption {
+    margin: 1em auto;
+    color: var(--color-text-second);
+  }
+}
