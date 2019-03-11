@@ -18,9 +18,11 @@
       {% endif %}
       <time class="page__header-time">
         Last edit {{ (page.body.time / 1000)  | date("M d Y") }}
-        <a href="/page/edit/{{ page._id }}" class="page__header-button">
-          Edit
-        </a>
+        {% if isAuthorized == true %}
+          <a href="/page/edit/{{ page._id }}" class="page__header-button">
+            Edit
+          </a>
+        {% endif %}
       </time>
     </header>
     <h1 class="page__title">

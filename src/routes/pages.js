@@ -3,10 +3,13 @@ const router = express.Router();
 const Pages = require('../controllers/pages');
 const PagesOrder = require('../controllers/pagesOrder');
 
+const verifyToken = require('./middlewares/token');
+const allowEdit = require('./middlewares/locals');
+
 /**
  * Create new page form
  */
-router.get('/page/new', async (req, res) => {
+router.get('/page/new', verifyToken, allowEdit, async (req, res, next) => {
   let pagesAvailable = await Pages.getAll();
 
   res.render('pages/form', {
@@ -18,12 +21,12 @@ router.get('/page/new', async (req, res) => {
 /**
  * Edit page form
  */
-router.get('/page/edit/:id', async (req, res, next) => {
+router.get('/page/edit/:id', verifyToken, allowEdit, async (req, res, next) => {
   const pageId = req.params.id;
 
   try {
     const page = await Pages.get(pageId);
-    const pagesAvailable = await Pages.getAllExceptChildrens(pageId);
+    const pagesAvailable = await Pages.getAllExceptChildren(pageId);
     const parentsChildrenOrdered = await PagesOrder.getOrderedChildren(pagesAvailable, pageId, page._parent, true);
 
     res.render('pages/form', {
@@ -40,7 +43,7 @@ router.get('/page/edit/:id', async (req, res, next) => {
 /**
  * View page
  */
-router.get('/page/:id', async (req, res, next) => {
+router.get('/page/:id', verifyToken, async (req, res, next) => {
   const pageId = req.params.id;
 
   try {

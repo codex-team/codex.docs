@@ -9,6 +9,7 @@ const PagesOrder = require('../../controllers/pagesOrder');
  *
  * Return PageData of page with given id
  */
+
 router.get('/page/:id', async (req, res) => {
   try {
     const page = await Pages.get(req.params.id);
