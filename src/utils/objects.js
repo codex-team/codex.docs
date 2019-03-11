@@ -1,7 +1,7 @@
 /**
  * Merge to objects recursively
  * @param {object} target
- * @param {objects[]} sources
+ * @param {object[]} sources
  * @return {object}
  */
 function deepMerge(target, ...sources) {
