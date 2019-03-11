@@ -10,6 +10,7 @@ import CodeTool from '@editorjs/code';
 import Delimiter from '@editorjs/delimiter';
 import InlineCode from '@editorjs/inline-code';
 import List from '@editorjs/list';
+import Image from '@editorjs/image';
 import RawTool from '@editorjs/raw';
 import Embed from '@editorjs/embed';
 
@@ -57,11 +58,11 @@ export default class Editor {
           shortcut: 'CMD+SHIFT+M'
         },
         list: {
-          class: ListTool,
+          class: List,
           inlineToolbar: true
         },
         image: {
-          class: ImageTool,
+          class: Image,
           inlineToolbar: true,
           config: {
             endpoints: {
