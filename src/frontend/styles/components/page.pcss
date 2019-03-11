@@ -106,7 +106,6 @@
   line-height: 1.7em;
 }
 
-
 /**
  * List
  * ==================
@@ -163,4 +162,23 @@
    margin: 1em auto;
    color: var(--color-text-second);
  }
+}
+
+/**
+ * Delimiter
+ * ==================
+ */
+.block-delimiter {
+  line-height: 1.6em;
+  width: 100%;
+  text-align: center;
+
+  &::before {
+    display: inline-block;
+    content: "***";
+    font-size: 30px;
+    line-height: 65px;
+    height: 30px;
+    letter-spacing: 0.2em;
+  }
 }
