@@ -2,5 +2,6 @@
   "port": 3001,
   "database": ".testdb",
   "rcFile": "./test/.codexdocsrc",
-  "uploads": "public/uploads_test"
+  "uploads": "public/uploads_test",
+  "secret": "iamasecretstring"
 }
