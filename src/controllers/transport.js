@@ -22,7 +22,7 @@ class Transport {
    * @param {string} multerData.filename - name of the uploaded file
    * @param {string} multerData.path - path to the uploaded file
    * @param {number} multerData.size - size of the uploaded file
-   * @paran {string} multerData.mimetype - MIME type of the uploaded file
+   * @param {string} multerData.mimetype - MIME type of the uploaded file
    *
    * @param {object} map - object that represents how should fields of File object should be mapped to response
    * @return {Promise<FileData>}
