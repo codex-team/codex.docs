@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer')();
 const Pages = require('../../controllers/pages');
 const PagesOrder = require('../../controllers/pagesOrder');
+
 /**
  * GET /page/:id
  *
@@ -51,7 +52,7 @@ router.get('/pages', async (req, res) => {
  *
  * Create new page in the database
  */
-router.put('/page', multer.any(), async (req, res) => {
+router.put('/page', multer.none(), async (req, res) => {
   try {
     const { title, body, parent } = req.body;
     const page = await Pages.insert({ title, body, parent });
@@ -76,7 +77,7 @@ router.put('/page', multer.any(), async (req, res) => {
  *
  * Update page data in the database
  */
-router.post('/page/:id', multer.any(), async (req, res) => {
+router.post('/page/:id', multer.none(), async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -136,7 +137,7 @@ router.delete('/page/:id', async (req, res) => {
      * @param startFrom
      * @returns {Promise<void>}
      */
-    const deleteRecursively = async function (startFrom) {
+    const deleteRecursively = async (startFrom) => {
       let order = [];
 
       try {

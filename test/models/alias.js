@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('../../config');
 const Alias = require('../../src/models/alias');
-const binaryMD5 = require('../../src/utils/crypto');
+const {binaryMD5} = require('../../src/utils/crypto');
 const {aliases} = require('../../src/utils/database');
 
 describe('Alias model', () => {

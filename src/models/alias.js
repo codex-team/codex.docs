@@ -1,5 +1,5 @@
 const { aliases: aliasesDb } = require('../utils/database/index');
-const binaryMD5 = require('../utils/crypto');
+const { binaryMD5 } = require('../utils/crypto');
 
 /**
  * @typedef {Object} AliasData

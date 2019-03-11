@@ -1,4 +1,6 @@
 {
   "port": 3000,
-  "database": ".db"
+  "database": ".db",
+  "uploads": "public/uploads",
+  "secret": "iamasecretstring"
 }

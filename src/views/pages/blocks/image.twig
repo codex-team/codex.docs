@@ -1,0 +1,24 @@
+{% set classes = ['block-image__content'] %}
+
+{% if withBorder %}
+  {% set classes = classes|merge(['block-image__content--bordered']) %}
+{% endif %}
+
+{% if stretched %}
+  {% set classes = classes|merge(['block-image__content--stretched']) %}
+{% endif %}
+
+{% if withBackground %}
+  {% set classes = classes|merge(['block-image__content--with-background']) %}
+{% endif %}
+
+<figure class="block-image">
+  <div class="{{classes.join(' ')}}">
+    <img src="{{file.url}}" alt="{{caption ? caption : ''}}">
+  </div>
+  {% if caption %}
+      <footer class="block-image__caption">
+          {{caption}}
+      </footer>
+  {% endif %}
+</figure>

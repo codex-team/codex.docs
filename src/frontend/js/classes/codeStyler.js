@@ -2,8 +2,7 @@ import hljs from 'highlight.js/lib/highlight';
 import javascript from 'highlight.js/lib/languages/javascript';
 import xml from 'highlight.js/lib/languages/xml';
 import json from 'highlight.js/lib/languages/json';
-// eslint-disable-next-line
-import style from 'highlight.js/styles/atom-one-dark.css';
+import style from 'highlight.js/styles/github-gist.css'; // eslint-disable-line no-unused-vars
 
 /**
  * @class CodeStyles

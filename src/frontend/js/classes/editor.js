@@ -10,6 +10,7 @@ import CodeTool from '@editorjs/code';
 import Delimiter from '@editorjs/delimiter';
 import InlineCode from '@editorjs/inline-code';
 import List from '@editorjs/list';
+import Image from '@editorjs/image';
 import RawTool from '@editorjs/raw';
 import Embed from '@editorjs/embed';
 
@@ -34,20 +35,6 @@ export default class Editor {
             placeholder: options.headerPlaceholder || ''
           }
         },
-        // image: {
-        //   class: ImageTool,
-        //   inlineToolbar: true,
-        //   config: {
-        //     endpoints: {
-        //       byFile: '/editor/transport',
-        //       byUrl: '/editor/transport'
-        //     }
-        //   }
-        // },
-        list: {
-          class: List,
-          inlineToolbar: true
-        },
         quote: {
           class: Quote,
           inlineToolbar: true
@@ -69,6 +56,28 @@ export default class Editor {
         marker: {
           class: Marker,
           shortcut: 'CMD+SHIFT+M'
+        },
+        list: {
+          class: List,
+          inlineToolbar: true
+        },
+        image: {
+          class: Image,
+          inlineToolbar: true,
+          config: {
+            types: 'image/*, video/mp4',
+            endpoints: {
+              byFile: '/api/transport/image',
+              byUrl: '/api/transport/fetch'
+            },
+            additionalRequestData: {
+              map: JSON.stringify({
+                path: 'file:url',
+                size: 'file:size',
+                mimetype: 'file:mime'
+              })
+            }
+          }
         }
       },
       data: {

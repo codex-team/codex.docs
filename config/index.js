@@ -16,6 +16,7 @@ if (fs.existsSync(path.resolve(__dirname, configPath))) {
   config = {
     database: '.db',
     port: 3000,
+    uploads: 'public/uploads',
     secret: 'secret'
   };
 }

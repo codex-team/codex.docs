@@ -56,6 +56,7 @@ typings/
 
 # dotenv environment variables file
 .env
+.codexdocsrc
 
 # next.js build output
 .next
@@ -71,4 +72,7 @@ typings/
 .cache/
 .eslintcache
 .DS_Store
-.codexdocsrc
+
+# Uploads
+/public/uploads
+/public/uploads_test
