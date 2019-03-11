@@ -30,7 +30,7 @@ const storage = multer.diskStorage({
 const imageUploader = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    if (!/image/.test(file.mimetype)) {
+    if (!/image/.test(file.mimetype) && !/video\/mp4/.test(file.mimetype)) {
       cb(null, false);
       return;
     }

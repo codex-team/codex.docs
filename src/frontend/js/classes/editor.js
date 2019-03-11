@@ -65,6 +65,7 @@ export default class Editor {
           class: Image,
           inlineToolbar: true,
           config: {
+            types: 'image/*, video/mp4',
             endpoints: {
               byFile: '/api/transport/image',
               byUrl: '/api/transport/fetch'
