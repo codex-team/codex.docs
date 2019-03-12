@@ -12,7 +12,8 @@
     "build": "webpack ./src/frontend/js/app.js --o='./public/dist/[name].bundle.js' --output-library=Docs --output-public-path=/dist/ -p --mode=production",
     "build:dev": "webpack ./src/frontend/js/app.js --o='./public/dist/[name].bundle.js' --output-library=Docs --output-public-path=/dist/ -p --mode=development --watch",
     "precommit": "yarn lint && yarn test --exit",
-    "generatePassword": "node ./generatePassword.js"
+    "generatePassword": "node ./generatePassword.js",
+    "editor-upgrade": "yarn add -D @editorjs/{editorjs,header,code,delimiter,list,image,inline-code,marker}@latest"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
@@ -46,15 +47,12 @@
     "@babel/preset-env": "^7.1.0",
     "@editorjs/code": "^2.4.0",
     "@editorjs/delimiter": "^1.1.0",
-    "@editorjs/editorjs": "^2.11.7",
-    "@editorjs/embed": "^2.2.0",
-    "@editorjs/header": "^2.2.0",
+    "@editorjs/editorjs": "^2.11.8",
+    "@editorjs/header": "^2.2.2",
     "@editorjs/image": "^2.1.0",
     "@editorjs/inline-code": "^1.3.0",
-    "@editorjs/list": "^1.3.0",
+    "@editorjs/list": "^1.3.1",
     "@editorjs/marker": "^1.2.0",
-    "@editorjs/quote": "^2.2.0",
-    "@editorjs/raw": "^2.1.1",
     "autoprefixer": "^9.1.3",
     "babel": "^6.23.0",
     "babel-eslint": "^10.0.1",

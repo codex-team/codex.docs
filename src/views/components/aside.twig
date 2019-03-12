@@ -10,7 +10,7 @@
           {% else %}
             href="/page/{{ firstLevelPage._id }}"
           {% endif %}>
-          {{ firstLevelPage.title }}
+          {{ firstLevelPage.title | striptags }}
         </a>
         {% if firstLevelPage.children is not empty %}
           <ul class="docs-aside__section-list">
@@ -22,7 +22,7 @@
                 {% else %}
                   href="/page/{{ child._id }}"
                 {% endif %}>
-                  {{ child.title }}
+                  {{ child.title | striptags }}
                 </a>
               </li>
             {% endfor %}

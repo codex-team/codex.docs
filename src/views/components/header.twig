@@ -1,6 +1,6 @@
 <header class="docs-header">
   <a href="/" class="docs-header__logo">
-    {{ config.title }}
+    {{ config.title | striptags }}
   </a>
   <ul class="docs-header__menu">
     {% if isAuthorized == true %}
@@ -19,7 +19,7 @@
           {% else %}
             href="/page/{{ option._id }}"
           {% endif %}>
-          {{ option.title }}
+          {{ option.title | striptags }}
         </a>
       </li>
     {% endfor %}
