@@ -14,7 +14,14 @@
 
 <figure class="block-image">
   <div class="{{classes.join(' ')}}">
-    <img src="{{file.url}}" alt="{{caption ? caption : ''}}">
+    {% if file.mime and file.mime == 'video/mp4' %}
+      <video autoplay loop muted playsinline>
+        <source src="{{file.url}}" type="video/mp4">
+      </video>
+    {% else %}
+      <img src="{{file.url}}" alt="{{caption ? caption : ''}}">
+    {% endif %}
+
   </div>
   {% if caption %}
       <footer class="block-image__caption">
