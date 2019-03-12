@@ -1,18 +1,22 @@
 import EditorJS from '@editorjs/editorjs';
 
 /**
- * Tools for the Editor
+ * Block Tools for the Editor
  */
 import Header from '@editorjs/header';
-import Quote from '@editorjs/quote';
-import Marker from '@editorjs/marker';
 import CodeTool from '@editorjs/code';
 import Delimiter from '@editorjs/delimiter';
-import InlineCode from '@editorjs/inline-code';
 import List from '@editorjs/list';
 import Image from '@editorjs/image';
-import RawTool from '@editorjs/raw';
-import Embed from '@editorjs/embed';
+// import RawTool from '@editorjs/raw';
+// import Embed from '@editorjs/embed';
+// import Quote from '@editorjs/quote';
+
+/**
+ * Inline Tools for the Editor
+ */
+import InlineCode from '@editorjs/inline-code';
+import Marker from '@editorjs/marker';
 
 /**
  * Class for working with Editor.js
@@ -30,37 +34,36 @@ export default class Editor {
       tools: {
         header: {
           class: Header,
-          inlineToolbar: ['link', 'marker'],
+          inlineToolbar: ['link', 'marker', 'inlineCode'],
           config: {
             placeholder: options.headerPlaceholder || ''
           }
         },
-        quote: {
-          class: Quote,
-          inlineToolbar: true
-        },
+
+        // quote: {
+        //   class: Quote,
+        //   inlineToolbar: true
+        // },
+
         code: {
           class: CodeTool,
           shortcut: 'CMD+SHIFT+D'
         },
-        rawTool: {
-          class: RawTool,
-          shortcut: 'CMD+SHIFT+R'
-        },
+
+        // rawTool: {
+        //   class: RawTool,
+        //   shortcut: 'CMD+SHIFT+R'
+        // },
+
         delimiter: Delimiter,
-        embed: Embed,
-        inlineCode: {
-          class: InlineCode,
-          shortcut: 'CMD+SHIFT+C'
-        },
-        marker: {
-          class: Marker,
-          shortcut: 'CMD+SHIFT+M'
-        },
+
+        // embed: Embed,
+
         list: {
           class: List,
           inlineToolbar: true
         },
+
         image: {
           class: Image,
           inlineToolbar: true,
@@ -78,6 +81,19 @@ export default class Editor {
               })
             }
           }
+        },
+
+        /**
+         * Inline Tools
+         */
+        inlineCode: {
+          class: InlineCode,
+          shortcut: 'CMD+SHIFT+C'
+        },
+
+        marker: {
+          class: Marker,
+          shortcut: 'CMD+SHIFT+M'
         }
       },
       data: {
