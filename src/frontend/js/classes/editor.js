@@ -4,13 +4,11 @@ import EditorJS from '@editorjs/editorjs';
  * Block Tools for the Editor
  */
 import Header from '@editorjs/header';
-import CodeTool from '@editorjs/code';
-import Delimiter from '@editorjs/delimiter';
-import List from '@editorjs/list';
 import Image from '@editorjs/image';
-// import RawTool from '@editorjs/raw';
-// import Embed from '@editorjs/embed';
-// import Quote from '@editorjs/quote';
+import CodeTool from '@editorjs/code';
+import List from '@editorjs/list';
+import Delimiter from '@editorjs/delimiter';
+import Table from '@editorjs/table';
 
 /**
  * Inline Tools for the Editor
@@ -40,30 +38,6 @@ export default class Editor {
           }
         },
 
-        // quote: {
-        //   class: Quote,
-        //   inlineToolbar: true
-        // },
-
-        code: {
-          class: CodeTool,
-          shortcut: 'CMD+SHIFT+D'
-        },
-
-        // rawTool: {
-        //   class: RawTool,
-        //   shortcut: 'CMD+SHIFT+R'
-        // },
-
-        delimiter: Delimiter,
-
-        // embed: Embed,
-
-        list: {
-          class: List,
-          inlineToolbar: true
-        },
-
         image: {
           class: Image,
           inlineToolbar: true,
@@ -81,6 +55,23 @@ export default class Editor {
               })
             }
           }
+        },
+
+        code: {
+          class: CodeTool,
+          shortcut: 'CMD+SHIFT+D'
+        },
+
+        list: {
+          class: List,
+          inlineToolbar: true
+        },
+
+        delimiter: Delimiter,
+
+        table: {
+          class: Table,
+          inlineToolbar: true
         },
 
         /**

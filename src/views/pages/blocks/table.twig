@@ -1,0 +1,11 @@
+<table class="block-table">
+  {% for row in content %}
+    <tr>
+      {% for cell in row %}
+        <td>
+          {{ cell }}
+        </td>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+</table>
