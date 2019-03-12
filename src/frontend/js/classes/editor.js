@@ -90,6 +90,7 @@ export default class Editor {
           class: InlineCode,
           shortcut: 'CMD+SHIFT+C'
         },
+
         marker: {
           class: Marker,
           shortcut: 'CMD+SHIFT+M'
