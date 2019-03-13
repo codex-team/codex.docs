@@ -8,6 +8,12 @@
     <meta property="article:modified_time" content="{{ (page.body.time / 1000) | date("c") }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   </head>
+    <script>
+      window.config = {
+        chatId: ''
+      };
+      window.config.chatId = Number("{{ config.chatId }}");
+    </script>
   <body>
     {% include "components/header.twig" with res.locals.isAuthorized %}
     <div class="docs">
