@@ -12,7 +12,7 @@ module.exports = function urlify(string) {
   string = string.replace(/(<([^>]+)>)/ig, '');
 
   // remove nbsp
-  string =string.replace(/&nbsp;/g, ' ');
+  string = string.replace(/&nbsp;/g, ' ');
 
   // remove all symbols except chars
   string = string.replace(/[^a-zA-Z0-9А-Яа-яЁё ]/g, ' ');
