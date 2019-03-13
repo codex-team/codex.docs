@@ -623,10 +623,10 @@
   resolved "https://registry.yarnpkg.com/@editorjs/header/-/header-2.2.2.tgz#47ce654032f7a094c0b40daa4545c61893033002"
   integrity sha512-r9lmDVdVSNjnSoYmEMOSLp7BARWEU2O79UJjWPkLWAwV7RIOYO+s9fF3IbTEaPaltANAZvIzOYNmryGOhL8biA==
 
-"@editorjs/image@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@editorjs/image/-/image-2.1.1.tgz#cf010435f16a63f113fa1125c594fcb010607dbd"
-  integrity sha512-CUwgg35Q7J5ImUBz+CQz5l8qcvji53qo+uZ2WVuPNFD5f59Zn3+4+b577i1pZA3d0yTUkb9U88YKGpvEk9qY8A==
+"@editorjs/image@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@editorjs/image/-/image-2.1.2.tgz#65d1967f3508a46dd1a5b942cac0752fe7d7e044"
+  integrity sha512-Q+IN04pyJQBFqUtejEUvbJQW26pkIEq6j6ApRqgNbWUjzVLHoBkuiL0eSvEAs+6uW//qt8AhNnnTokomDT7tBA==
 
 "@editorjs/inline-code@^1.3.0":
   version "1.3.0"
