@@ -1,3 +1,7 @@
-<h{{ level }} class="block-header block-header--{{ level }}">
-  {{ text }}
+<a name="{{ text | urlify  }}" style="display: inline-block; position: absolute; margin-top: -20px;"></a>
+<h{{ level }} class="block-header block-header--{{ level }} block-header--anchor">
+  <a href="#{{ text | urlify  }}">
+    {{ text }}
+  </a>
 </h{{ level }}>
+

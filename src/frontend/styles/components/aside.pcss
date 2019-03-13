@@ -1,8 +1,16 @@
 .docs-aside {
-  font-size: 15px;
-  color: var(--color-text-second);
+  position: sticky;
+  top: var(--layout-padding-vertical);
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  overflow-y: scroll;
+  max-height: 100vh;
+  //padding-right: 50px;
 
   @media (--mobile) {
+    position: static;
+    overflow: visible;
+    max-height: none;
     font-size: 13px;
     display: none;
     margin-top: 20px;
@@ -13,7 +21,12 @@
   }
 
   a {
+    color: inherit;
     text-decoration: none;
+
+    &:hover {
+      color: var(--color-link-active);
+    }
   }
 
   &__section {
@@ -28,8 +41,10 @@
     }
 
     &-title {
-      margin-bottom: 15px;
-      color: var(--color-link-active);
+      display: inline-block;
+      margin-bottom: 10px;
+      font-size: 1.18em;
+      font-weight: 600;
 
       @media (--mobile) {
         margin-bottom: 10px;
@@ -38,6 +53,7 @@
 
     &-list {
       padding-left: 0;
+      margin: 0;
       list-style: none;
 
       a {

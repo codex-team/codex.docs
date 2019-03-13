@@ -25,8 +25,12 @@
             {% for _page in pagesAvailable %}
               {% if _page._id != currentPageId %}
                 <option value="{{ _page._id }}" {{ page is not empty and page._parent == _page._id ? 'selected' : ''}}>
-                {{ _page.title }}
-              </option>
+                  {% if _page._parent != "0" %}
+                    &nbsp;
+                    &nbsp;
+                  {% endif %}
+                  {{ _page.title }}
+                </option>
               {% endif %}
             {% endfor %}
           </select>
