@@ -1,11 +1,16 @@
 {% extends 'layout.twig' %}
 
 {% block body %}
-  <h1>{{header}}</h1>
-  <form method="post" action="/auth">
+  <form class="auth-form" method="post" action="/auth">
+    <h1>
+      ┬┴┬┴┤ ͜ʖ ͡°) ├┬┴┬┴
+    </h1>
+    <p>
+      Enter a password to access pages editing
+    </p>
     <input type="hidden" name="_csrf" value={{csrfToken}}>
     <input type="password" name="password" placeholder="Password">
-    <input type="submit" value="login">
+    <input type="submit" value="Login">
   </form>
 {% endblock %}
 
