@@ -16,6 +16,7 @@
     "editor-upgrade": "yarn add -D @editorjs/{editorjs,header,code,delimiter,list,image,table,inline-code,marker}@latest"
   },
   "dependencies": {
+    "@codexteam/misprints": "^1.0.0",
     "bcrypt": "^3.0.3",
     "commander": "^2.19.0",
     "cookie-parser": "~1.4.3",
