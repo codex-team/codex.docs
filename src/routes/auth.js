@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const express = require('express');
-const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const Users = require('../controllers/users');
@@ -9,7 +8,7 @@ const config = require('../../config/index');
 const bcrypt = require('bcrypt');
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
-const parseForm = bodyParser.urlencoded({ extended: false });
+const parseForm = express.urlencoded({ extended: false });
 
 /**
  * Authorization page

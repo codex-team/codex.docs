@@ -126,7 +126,7 @@
  text-align: center;
 
  &__content {
-   img {
+   img, video {
      vertical-align: bottom;
      max-width: 100%;
    }
@@ -136,13 +136,13 @@
      width: calc(100% + 120px) !important;
      margin-left: -60px;
 
-     img {
+     img, video {
        width: 100%;
      }
    }
 
    &--bordered {
-     img {
+     img, video {
        border: 3px solid var(--color-line-gray);
        box-sizing: border-box;
      }
@@ -152,7 +152,7 @@
      padding: 15px;
      background: var(--color-line-gray);
 
-     img {
+     img, video {
        max-width: 60%;
        margin: 0 auto;
      }
@@ -181,5 +181,23 @@
     line-height: 65px;
     height: 30px;
     letter-spacing: 0.2em;
+  }
+}
+
+/**
+ * Table
+ * ==================
+ */
+.block-table {
+  margin: 20px 0;
+  table-layout: fixed;
+  width: 100%;
+  border-radius: 3px;
+  border-collapse: collapse;
+  border: 1px solid var(--color-line-gray);
+
+  td {
+    padding: 8px 10px;
+    border: 1px solid var(--color-line-gray);
   }
 }

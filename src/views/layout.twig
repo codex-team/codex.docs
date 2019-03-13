@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{ config.title }}</title>
+    <title>{{ (page.title ?: config.title) | striptags }}</title>
     <link rel="stylesheet" href="/dist/main.css" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="{{ page.title }}" />
-    <meta property="article:modified_time" content="{{ (page.body.time / 1000)  | date("c") }}" />
+    <meta property="og:title" content="{{ page.title | striptags }}" />
+    <meta property="article:modified_time" content="{{ (page.body.time / 1000) | date("c") }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   </head>
   <body>
