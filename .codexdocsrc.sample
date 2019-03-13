@@ -6,5 +6,6 @@
     "Plugins",
     {"title": "Support Project", "uri": "/support"}
   ],
-  "landingFrameSrc": "https://codex.so/editor?frame=1"
+  "landingFrameSrc": "https://codex.so/editor?frame=1",
+  "chatId": "12344564"
 }
