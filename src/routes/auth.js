@@ -16,7 +16,6 @@ const parseForm = express.urlencoded({ extended: false });
 router.get('/auth', csrfProtection, function (req, res) {
   res.render('auth', {
     title: 'Login page',
-    header: 'Enter password',
     csrfToken: req.csrfToken()
   });
 });
