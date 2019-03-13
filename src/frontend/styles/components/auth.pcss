@@ -1,0 +1,33 @@
+.auth-form {
+  font-size: 15px;
+  text-align: center;
+  margin-top: 30vh;
+
+  h1 {
+    @media (--mobile){
+      font-size: 20px;
+    }
+  }
+
+  p {
+    margin: 40px 0 20px;
+  }
+
+  input[type="password"] {
+    padding: 9px;
+    font-size: 15px;
+    outline: none;
+    border-radius: 3px;
+    -webkit-appearance: none;
+    border: 1px solid var(--color-line-gray);
+  }
+
+  input[type="submit"]{
+    @apply --button;
+    @apply --button-primary;
+    font-size: 15px;
+    padding: 10px 20px;
+    line-height: inherit;
+    vertical-align: top;
+  }
+}

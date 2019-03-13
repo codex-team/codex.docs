@@ -25,7 +25,8 @@
   }
 
   select {
-    max-width: 100px
+    max-width: 100px;
+    vertical-align: bottom;
   }
 }
 
@@ -47,8 +48,29 @@
 }
 
 .writing-editor {
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: 0.005em;
+
   @media (--desktop) {
     margin: 0 -100px;
+  }
+
+  .ce-code__textarea {
+    color: #41314e;
+    line-height: 1.6em;
+    font-size: 12px;
+    background: var(--color-bg-light);
+    border: 1px solid #f1f1f4;
+    box-shadow: none;
+  }
+
+  .ce-paragraph a {
+    color: inherit;
+  }
+
+  .ce-header {
+    @apply --font-serif;
   }
 }
 

@@ -1,5 +1,5 @@
+const urlify = require('../utils/urlify');
 const { pages: pagesDb } = require('../utils/database/index');
-const translateString = require('../utils/translation');
 
 /**
  * @typedef {Object} PageData
@@ -116,14 +116,7 @@ class Page {
    * @return {string}
    */
   transformTitleToUri() {
-    return translateString(this.title
-      .replace(/&nbsp;/g, ' ')
-      .replace(/[^a-zA-Z0-9А-Яа-яЁё ]/g, ' ')
-      .replace(/  +/g, ' ')
-      .trim()
-      .toLowerCase()
-      .split(' ')
-      .join('-'));
+    return urlify(this.title);
   }
 
   /**

@@ -32,7 +32,7 @@ export default class Editor {
       tools: {
         header: {
           class: Header,
-          inlineToolbar: ['link', 'marker', 'inlineCode'],
+          inlineToolbar: ['marker', 'inlineCode'],
           config: {
             placeholder: options.headerPlaceholder || ''
           }
