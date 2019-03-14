@@ -10,7 +10,12 @@
   </head>
     <script>
       window.config = {
-        misprintsChatId: "{{ config.misprintsChatId }}"
+        misprintsChatId: "{{ config.misprintsChatId }}",
+        reactions: {
+          parent: "{{ config.reactions.parent }}",
+          title: "{{ config.reactions.title }}",
+          reactions: "{{ config.reactions.reactions }}".split(",")
+        }
       };
     </script>
   <body>

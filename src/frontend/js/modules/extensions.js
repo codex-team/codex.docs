@@ -13,11 +13,6 @@ export default class Extensions {
     this.misprints = new Misprints({
       chatId: window.config.misprintsChatId
     });
-
-    this.reactions = new Reactions({
-      parent: '.page',
-      title: 'What do you think?',
-      reactions: ['👍', '👌', '👎']
-    });
+    this.reactions = new Reactions(window.config.reactions);
   }
 }
