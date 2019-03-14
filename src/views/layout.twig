@@ -12,7 +12,7 @@
       window.config = {
         chatId: ''
       };
-      window.config.chatId = Number("{{ config.chatId }}");
+      window.config.chatId = "{{ config.chatId }}";
     </script>
   <body>
     {% include "components/header.twig" with res.locals.isAuthorized %}

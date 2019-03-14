@@ -16,7 +16,6 @@
     "editor-upgrade": "yarn add -D @editorjs/{editorjs,header,code,delimiter,list,image,table,inline-code,marker}@latest"
   },
   "dependencies": {
-    "@codexteam/misprints": "^1.0.0",
     "bcrypt": "^3.0.3",
     "commander": "^2.19.0",
     "cookie-parser": "~1.4.3",
@@ -68,6 +67,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "highlight.js": "^9.13.1",
     "husky": "^1.1.2",
+    "@codexteam/misprints": "^1.0.0",
     "mini-css-extract-plugin": "^0.4.3",
     "mocha": "^5.2.0",
     "mocha-sinon": "^2.1.0",
