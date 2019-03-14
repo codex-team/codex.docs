@@ -10,9 +10,8 @@
   </head>
     <script>
       window.config = {
-        chatId: ''
+        misprintsChatId: "{{ config.misprintsChatId }}"
       };
-      window.config.chatId = Number("{{ config.chatId }}");
     </script>
   <body>
     {% include "components/header.twig" with res.locals.isAuthorized %}
