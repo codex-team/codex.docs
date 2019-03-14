@@ -14,6 +14,7 @@ import ModuleDispatcher from 'module-dispatcher';
  */
 import Writing from './modules/writing';
 import Page from './modules/page';
+import Extensions from './modules/extensions';
 
 /**
  * Main app class
@@ -25,6 +26,7 @@ class Docs {
   constructor() {
     this.writing = new Writing();
     this.page = new Page();
+    this.extensions = new Extensions();
 
     document.addEventListener('DOMContentLoaded', (event) => {
       this.docReady();

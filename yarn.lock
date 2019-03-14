@@ -598,6 +598,11 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@codexteam/misprints@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@codexteam/misprints/-/misprints-1.0.0.tgz#e5a7dec7389fe0f176cd51a040d6dc9bdc252086"
+  integrity sha512-R2IO1JmcaWCuWNPFVEAyar2HqQFuJwkeQUyVF0ovY4ip7z+VnVTYWxeYhCx7eZYEQCyXmcJooICQDihtn16lOA==
+
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
