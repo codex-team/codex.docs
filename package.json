@@ -16,6 +16,7 @@
     "editor-upgrade": "yarn add -D @editorjs/{editorjs,header,code,delimiter,list,image,table,inline-code,marker}@latest"
   },
   "dependencies": {
+    "@codexteam/reactions": "^1.0.2",
     "bcrypt": "^3.0.3",
     "commander": "^2.19.0",
     "cookie-parser": "~1.4.3",
@@ -42,6 +43,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.1.0",
+    "@codexteam/misprints": "^1.0.0",
     "@editorjs/code": "^2.4.0",
     "@editorjs/delimiter": "^1.1.0",
     "@editorjs/editorjs": "^2.11.8",
@@ -67,7 +69,6 @@
     "eslint-plugin-standard": "^4.0.0",
     "highlight.js": "^9.13.1",
     "husky": "^1.1.2",
-    "@codexteam/misprints": "^1.0.0",
     "mini-css-extract-plugin": "^0.4.3",
     "mocha": "^5.2.0",
     "mocha-sinon": "^2.1.0",
