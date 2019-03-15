@@ -9,8 +9,8 @@
   "landingFrameSrc": "https://codex.so/editor?frame=1",
   "misprintsChatId": "12344564",
   "reactions": {
-    "parent": '.page',
-    "title": 'What do you think?',
-    "reactions": ['👍', '👌', '👎']
+    "parent": ".page",
+    "title": "What do you think?",
+    "reactions": ["👍", "👌", "👎"]
   }
 }
