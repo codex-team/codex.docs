@@ -16,7 +16,6 @@
     "editor-upgrade": "yarn add -D @editorjs/{editorjs,header,code,delimiter,list,image,table,inline-code,marker}@latest"
   },
   "dependencies": {
-    "@codexteam/reactions": "^1.0.2",
     "bcrypt": "^3.0.3",
     "commander": "^2.19.0",
     "cookie-parser": "~1.4.3",
@@ -44,6 +43,7 @@
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.1.0",
     "@codexteam/misprints": "^1.0.0",
+    "@codexteam/reactions": "^1.0.2",
     "@editorjs/code": "^2.4.0",
     "@editorjs/delimiter": "^1.1.0",
     "@editorjs/editorjs": "^2.11.8",
