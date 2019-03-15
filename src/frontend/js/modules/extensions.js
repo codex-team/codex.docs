@@ -13,6 +13,9 @@ export default class Extensions {
     this.misprints = new Misprints({
       chatId: window.config.misprintsChatId
     });
-    this.reactions = new Reactions(window.config.reactions);
+
+    if (document.querySelector(window.config.reactions.parent)) {
+      this.reactions = new Reactions(window.config.reactions);
+    }
   }
 }
