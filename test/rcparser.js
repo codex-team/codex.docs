@@ -45,7 +45,13 @@ describe('RC file parser test', () => {
         {title: 'Option 1', uri: '/option1'},
         {title: 'Option 2', uri: '/option2'},
         {title: 'Option 3', uri: '/option3'}
-      ]
+      ],
+      misprintsChatId: 'Z50Y6LIC',
+      reactions: {
+        parent: '.page',
+        title: 'What do you think?',
+        reactions: ['👍', '👌', '👎']
+      }
     };
 
     fs.writeFileSync(rcPath, JSON.stringify(normalConfig), 'utf8');
@@ -61,7 +67,13 @@ describe('RC file parser test', () => {
         {title: 'Option 1', uri: '/option1'},
         {title: 'Option 2', uri: '/option2'},
         {title: 'Option 3', uri: '/option3'}
-      ]
+      ],
+      misprintsChatId: 'Z50Y6LIC',
+      reactions: {
+        parent: '.page',
+        title: 'What do you think?',
+        reactions: ['👍', '👌', '👎']
+      }
     };
 
     fs.writeFileSync(rcPath, JSON.stringify(normalConfig), 'utf8');
@@ -74,7 +86,13 @@ describe('RC file parser test', () => {
 
   it('Missed menu', () => {
     const normalConfig = {
-      title: 'Documentation'
+      title: 'Documentation',
+      misprintsChatId: 'Z50Y6LIC',
+      reactions: {
+        parent: '.page',
+        title: 'What do you think?',
+        reactions: ['👍', '👌', '👎']
+      }
     };
 
     fs.writeFileSync(rcPath, JSON.stringify(normalConfig), 'utf8');
@@ -92,6 +110,12 @@ describe('RC file parser test', () => {
         0: {title: 'Option 1', uri: '/option1'},
         1: {title: 'Option 2', uri: '/option2'},
         2: {title: 'Option 3', uri: '/option3'}
+      },
+      misprintsChatId: 'Z50Y6LIC',
+      reactions: {
+        parent: '.page',
+        title: 'What do you think?',
+        reactions: ['👍', '👌', '👎']
       }
     };
 
@@ -113,7 +137,13 @@ describe('RC file parser test', () => {
         'Option 1',
         {title: 'Option 2', uri: '/option2'},
         {title: 'Option 3', uri: '/option3'}
-      ]
+      ],
+      misprintsChatId: 'Z50Y6LIC',
+      reactions: {
+        parent: '.page',
+        title: 'What do you think?',
+        reactions: ['👍', '👌', '👎']
+      }
     };
 
     const expectedMenu = [
@@ -137,7 +167,13 @@ describe('RC file parser test', () => {
         [ {title: 'Option 1', uri: '/option1'} ],
         {title: 'Option 2', uri: '/option2'},
         {title: 'Option 3', uri: '/option3'}
-      ]
+      ],
+      misprintsChatId: 'Z50Y6LIC',
+      reactions: {
+        parent: '.page',
+        title: 'What do you think?',
+        reactions: ['👍', '👌', '👎']
+      }
     };
 
     const expectedMenu = [
@@ -163,7 +199,13 @@ describe('RC file parser test', () => {
         {uri: '/option1'},
         {title: 'Option 2', uri: '/option2'},
         {title: 'Option 3', uri: '/option3'}
-      ]
+      ],
+      misprintsChatId: 'Z50Y6LIC',
+      reactions: {
+        parent: '.page',
+        title: 'What do you think?',
+        reactions: ['👍', '👌', '👎']
+      }
     };
 
     const expectedMenu = [
@@ -189,7 +231,13 @@ describe('RC file parser test', () => {
         {title: [], uri: '/option1'},
         {title: 'Option 2', uri: '/option2'},
         {title: 'Option 3', uri: '/option3'}
-      ]
+      ],
+      misprintsChatId: 'Z50Y6LIC',
+      reactions: {
+        parent: '.page',
+        title: 'What do you think?',
+        reactions: ['👍', '👌', '👎']
+      }
     };
 
     const expectedMenu = [
@@ -215,7 +263,13 @@ describe('RC file parser test', () => {
         {title: 'Option 1'},
         {title: 'Option 2', uri: '/option2'},
         {title: 'Option 3', uri: '/option3'}
-      ]
+      ],
+      misprintsChatId: 'Z50Y6LIC',
+      reactions: {
+        parent: '.page',
+        title: 'What do you think?',
+        reactions: ['👍', '👌', '👎']
+      }
     };
 
     const expectedMenu = [
@@ -241,7 +295,13 @@ describe('RC file parser test', () => {
         {title: 'Option 1', uri: []},
         {title: 'Option 2', uri: '/option2'},
         {title: 'Option 3', uri: '/option3'}
-      ]
+      ],
+      misprintsChatId: 'Z50Y6LIC',
+      reactions: {
+        parent: '.page',
+        title: 'What do you think?',
+        reactions: ['👍', '👌', '👎']
+      }
     };
 
     const expectedMenu = [
