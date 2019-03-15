@@ -9,6 +9,11 @@ const rcPath = path.resolve(__dirname, '../../', config.rcFile || './.codexdocsr
  * @property {object[]} menu - options for website menu
  * @property {string} menu[].title - menu option title
  * @property {string} menu[].uri - menu option href
+ * @property {string} misprintsChatId - chatId for misprints package
+ * @property {object} reactions - config for reactions package
+ * @property {string} reactions.parent - element in which module should be inserted - selector or element instance
+ * @property {string} reactions.title - module title
+ * @property {string[]} reactions.reactions - array of emojis to be inserted in module options
  */
 
 /**
@@ -33,7 +38,7 @@ module.exports = class RCParser {
    * Find and parse runtime configuration file
    *
    * @static
-   * @return {{title: string, menu: []}}
+   * @return {RCData}
    */
   static getConfiguration() {
     if (!fs.existsSync(rcPath)) {
@@ -57,9 +62,40 @@ module.exports = class RCParser {
       }
     }
 
+    return RCParser.validateConfiguration(rConfig);
+  }
+
+  /**
+   * Validate configuration
+   *
+   * @static
+   * @param {RCData} rConfig - configuration to be validated
+   * @return {RCData}
+   */
+  static validateConfiguration(rConfig) {
     if (!(rConfig.menu instanceof Array)) {
       console.log('Menu section in the rc file must be an array.');
       rConfig.menu = RCParser.DEFAULTS.menu;
+    }
+
+    if (!rConfig.misprintsChatId) {
+      console.log('misprintsChatId is missing in the rc file');
+    }
+
+    if (!rConfig.reactions) {
+      console.log('reactions config is missing in the rc file');
+    }
+
+    if (!rConfig.reactions.parent) {
+      console.log('parent option for reactions config is missing in the rc file');
+    }
+
+    if (!rConfig.reactions.title) {
+      console.log('title option for reactions config is missing in the rc file');
+    }
+
+    if (!(rConfig.reactions.reactions instanceof Array)) {
+      console.log('reactions option for reactions config in the rc file must be an array');
     }
 
     rConfig.menu = rConfig.menu.filter((option, i) => {
