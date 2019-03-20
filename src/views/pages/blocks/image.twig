@@ -13,13 +13,13 @@
 {% endif %}
 
 <figure class="block-image">
-  <div class="{{classes.join(' ')}}">
+  <div class="{{ classes.join(' ') }}">
     {% if file.mime and file.mime == 'video/mp4' %}
       <video autoplay loop muted playsinline>
-        <source src="{{file.url}}" type="video/mp4">
+        <source src="{{ file.url }}" type="video/mp4">
       </video>
     {% else %}
-      <img src="{{file.url}}" alt="{{caption ? caption | striptags : ''}}">
+      <img src="{{ file.url }}" alt="{{ caption ? caption | striptags : '' }}">
     {% endif %}
 
   </div>
