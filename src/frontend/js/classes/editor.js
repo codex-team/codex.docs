@@ -9,6 +9,7 @@ import CodeTool from '@editorjs/code';
 import List from '@editorjs/list';
 import Delimiter from '@editorjs/delimiter';
 import Table from '@editorjs/table';
+import Warning from '@editorjs/warning';
 
 /**
  * Inline Tools for the Editor
@@ -72,6 +73,11 @@ export default class Editor {
         table: {
           class: Table,
           inlineToolbar: true
+        },
+
+        warning: {
+          class: Warning,
+          inlineToolbar: ['inlineCode', 'italic', 'bold']
         },
 
         /**
