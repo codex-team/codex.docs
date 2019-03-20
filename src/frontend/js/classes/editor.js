@@ -9,7 +9,7 @@ import CodeTool from '@editorjs/code';
 import List from '@editorjs/list';
 import Delimiter from '@editorjs/delimiter';
 import Table from '@editorjs/table';
-import Warning from 'codex.editor.warning';
+import Warning from '@editorjs/warning';
 
 /**
  * Inline Tools for the Editor
@@ -75,6 +75,11 @@ export default class Editor {
           inlineToolbar: true
         },
 
+        warning: {
+          class: Warning,
+          inlineToolbar: ['inlineCode', 'italic', 'bold']
+        },
+
         /**
          * Inline Tools
          */
@@ -86,11 +91,6 @@ export default class Editor {
         marker: {
           class: Marker,
           shortcut: 'CMD+SHIFT+M'
-        },
-
-        warning: {
-          class: Warning,
-          inlineToolbar: ['inlineCode', 'italic', 'bold']
         }
       },
       data: {
