@@ -77,7 +77,7 @@ export default class Editor {
 
         warning: {
           class: Warning,
-          inlineToolbar: ['inlineCode', 'italic', 'bold']
+          inlineToolbar: true
         },
 
         /**
