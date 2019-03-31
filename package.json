@@ -46,7 +46,7 @@
     "@editorjs/code": "^2.4.0",
     "@editorjs/delimiter": "^1.1.0",
     "@editorjs/editorjs": "^2.12.3",
-    "@editorjs/header": "^2.2.2",
+    "@editorjs/header": "^2.2.3",
     "@editorjs/image": "^2.1.2",
     "@editorjs/inline-code": "^1.3.0",
     "@editorjs/list": "^1.3.2",

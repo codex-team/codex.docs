@@ -551,9 +551,9 @@
   version "2.12.3"
   resolved "https://registry.yarnpkg.com/@editorjs/editorjs/-/editorjs-2.12.3.tgz#c3c1012d36a05fa4fb17454aad2284589e460e26"
 
-"@editorjs/header@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@editorjs/header/-/header-2.2.2.tgz#47ce654032f7a094c0b40daa4545c61893033002"
+"@editorjs/header@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@editorjs/header/-/header-2.2.3.tgz#801908f2aadda708aa09da544a5683448ca01be1"
 
 "@editorjs/image@^2.1.2":
   version "2.1.2"
