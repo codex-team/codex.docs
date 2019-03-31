@@ -5,7 +5,7 @@
     {% for firstLevelPage in menu %}
       <section class="docs-aside__section">
         <a
-          {% if page._id == firstLevelPage._id %}
+          {% if page._id == firstLevelPage._id%}
             class="current-page docs-aside__section-title "
           {% else %}
             class="docs-aside__section-title "
@@ -22,6 +22,9 @@
             {% for child in firstLevelPage.children %}
               <li>
                 <a
+                {% if page._id == child._id %}
+                  class="current-page"
+                {% endif %}
                 {% if child.uri %}
                   href="/{{ child.uri }}"
                 {% else %}
