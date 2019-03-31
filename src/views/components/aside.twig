@@ -4,7 +4,12 @@
 <div class="docs-aside">
     {% for firstLevelPage in menu %}
       <section class="docs-aside__section">
-        <a class="docs-aside__section-title"
+        <a
+          {% if page._id == firstLevelPage._id %}
+            class="current-page docs-aside__section-title "
+          {% else %}
+            class="docs-aside__section-title "
+          {% endif %}
           {% if firstLevelPage.uri %}
             href="/{{ firstLevelPage.uri }}"
           {% else %}
