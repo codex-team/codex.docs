@@ -49,9 +49,9 @@ export default class CodeStyler {
     Array.from(codeBlocks).forEach(block => {
       hljs.highlightBlock(block);
 
-      let temp = block.innerHTML.replace(/\n([+].*)/ig, '\n<span class="diff diff-plus">$1</span>');
+      let temp = block.innerHTML.replace(/\n([+].*)/ig, '\n<span class="diff diff--added">$1</span>');
 
-      temp = temp.replace(/\n([-].*)/ig, '\n<span class="diff diff-minus">$1</span>');
+      temp = temp.replace(/\n([-].*)/ig, '\n<span class="diff diff--removed">$1</span>');
       block.innerHTML = temp;
     });
   }
