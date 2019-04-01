@@ -193,14 +193,24 @@
   font-family: var(--font-mono);
   line-height: 1.7em;
   font-size: 13px;
+  overflow-x: auto;
+  margin: 15px 0;
 
   &__content {
+    display: inline-block !important;
     white-space: pre;
     word-wrap: normal;
-    overflow-x: auto;
     background: transparent !important;
     padding: 15px !important;
     color: #41314e !important;
+    min-width: 100%;
+    box-sizing: border-box;
+
+    .diff {
+      margin: 0 -15px;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
   }
 
   .hljs-name,
