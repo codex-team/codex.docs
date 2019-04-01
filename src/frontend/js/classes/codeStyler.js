@@ -48,31 +48,8 @@ export default class CodeStyler {
 
     Array.from(codeBlocks).forEach(block => {
       hljs.highlightBlock(block);
-      console.log(block);
-      this.addDiffHighlight(block);
-    });
-  }
 
-  /**
-   * Iterate through all children and add diff highlighting
-   * @param {HTMLElement} node - node to sort
-   */
-  addDiffHighlight(node) {
-    while (node) {
-      const diffPlusRegEx = /\n([+].*)/ig;
-
-      if (diffPlusRegEx.test(node.innerHTML)) {
-        node.innerHTML = node.innerHTML.replace(diffPlusRegEx, '\n<span class="diff diff-plus">$1</span>');
-      }
-
-      const diffMinusRegEx = /\n([-].*)/ig;
-
-      if (diffMinusRegEx.test(node.innerHTML)) {
-        node.innerHTML = node.innerHTML.replace(diffMinusRegEx, '\n<span class="diff diff-minus">$1</span>');
-      }
-
-      this.addDiffHighlight(node.firstElementChild);
-      node = node.nextSibling;
-    }
+      block.innerHTML = block.innerHTML.replace(/\n([+].*)/ig, '\n<span class="diff diff-plus">$1</span>');
+      block.innerHTML = block.innerHTML.replace(/\n([-].*)/ig, '\n<span class="diff diff-minus">$1</span>');    });
   }
 }
