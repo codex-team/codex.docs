@@ -1,11 +1,28 @@
 .diff {
+  display: inline-block;
+  width: 100%;
+
+  span {
+    color: inherit !important;
+  }
+
   &--added {
-    color: green !important;
-    background-color: rgba(0, 128, 0, 0.21);
+    color: #277030;
+    background-color: #e2fce7;
+
+    &::before {
+      content: '+';
+      opacity: 0.4;
+    }
   }
 
   &--removed {
-    color: red !important;
-    background-color: rgba(255, 0, 0, 0.21);
+    color: rgb(174, 54, 60);
+    background-color: rgba(255, 230, 230, 1);
+
+    &::before {
+      content: '-';
+      opacity: 0.4;
+    }
   }
 }

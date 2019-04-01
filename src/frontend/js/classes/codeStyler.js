@@ -48,12 +48,20 @@ export default class CodeStyler {
 
     Array.from(codeBlocks).forEach(block => {
       hljs.highlightBlock(block);
-
-      let temp = block.innerHTML.split('\n');
-
-      temp = temp.map(str => str.replace(/^(\+.*)$/ig, '<span class="diff diff--added">$1</span>'));
-      temp = temp.map(str => str.replace(/^(-.*)$/ig, '<span class="diff diff--removed">$1</span>'));
-      block.innerHTML = temp.join('\n');
+      this.highlightDiffs(block);
     });
+  }
+
+  /**
+   * Highlight lines started from + or -
+   * @param {Element} block
+   */
+  highlightDiffs(block){
+    let lines = block.innerHTML.split('\n').map((line, index) => {
+      return line.replace(/^\+(.*)$/ig, '<span class="diff diff--added">$1</span>')
+                 .replace(/^-(.*)$/ig, '<span class="diff diff--removed">$1</span>');
+    });
+
+    block.innerHTML = lines.join('\n');
   }
 }
