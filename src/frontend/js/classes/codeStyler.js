@@ -15,7 +15,7 @@ export default class CodeStyler {
    * @param {string} selector - CSS selector for code blocks
    * @param {string[]} languages - list of languages to highlight, see hljs.listLanguages()
    */
-  constructor({selector, languages = ['javascript', 'xml', 'json', 'css']}) {
+  constructor({ selector, languages = ['javascript', 'xml', 'json', 'css'] }) {
     this.codeBlocksSelector = selector;
     this.languages = languages;
     this.langsAvailable = {
@@ -50,6 +50,7 @@ export default class CodeStyler {
       hljs.highlightBlock(block);
 
       block.innerHTML = block.innerHTML.replace(/\n([+].*)/ig, '\n<span class="diff diff-plus">$1</span>');
-      block.innerHTML = block.innerHTML.replace(/\n([-].*)/ig, '\n<span class="diff diff-minus">$1</span>');    });
+      block.innerHTML = block.innerHTML.replace(/\n([-].*)/ig, '\n<span class="diff diff-minus">$1</span>');
+    });
   }
 }
