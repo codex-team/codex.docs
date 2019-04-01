@@ -15,7 +15,7 @@ export default class CodeStyler {
    * @param {string} selector - CSS selector for code blocks
    * @param {string[]} languages - list of languages to highlight, see hljs.listLanguages()
    */
-  constructor({selector, languages = ['javascript', 'xml', 'json', 'css']}) {
+  constructor({ selector, languages = ['javascript', 'xml', 'json', 'css'] }) {
     this.codeBlocksSelector = selector;
     this.languages = languages;
     this.langsAvailable = {
@@ -48,15 +48,16 @@ export default class CodeStyler {
 
     Array.from(codeBlocks).forEach(block => {
       hljs.highlightBlock(block);
-      this.enumNodes(block.firstElementChild)
+
+      this.addDiffHighlight(block.firstElementChild);
     });
   }
 
   /**
-   * kjn
-   * @param node
+   * Iterate through all children and add diff highlighting
+   * @param {HTMLElement} node - node to sort
    */
-  enumNodes(node) {
+  addDiffHighlight(node) {
     while (node) {
       const diffPlusRegEx = /\n([+].*)/ig;
 
@@ -70,7 +71,7 @@ export default class CodeStyler {
         node.innerHTML = node.innerHTML.replace(diffMinusRegEx, '\n<span class="diff diff-minus">$1</span>');
       }
 
-      this.enumNodes(node.firstElementChild);
+      this.addDiffHighlight(node.firstElementChild);
       node = node.nextSibling;
     }
   }
