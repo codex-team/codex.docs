@@ -4,6 +4,7 @@ import xml from 'highlight.js/lib/languages/xml';
 import json from 'highlight.js/lib/languages/json';
 import css from 'highlight.js/lib/languages/css';
 import style from 'highlight.js/styles/github-gist.css'; // eslint-disable-line no-unused-vars
+import diffStyles from '../../styles/diff.pcss'; // eslint-disable-line no-unused-vars
 
 /**
  * @class CodeStyles
@@ -47,6 +48,20 @@ export default class CodeStyler {
 
     Array.from(codeBlocks).forEach(block => {
       hljs.highlightBlock(block);
+      this.highlightDiffs(block);
     });
+  }
+
+  /**
+   * Highlight lines started from + or -
+   * @param {Element} block
+   */
+  highlightDiffs(block){
+    let lines = block.innerHTML.split('\n').map((line, index) => {
+      return line.replace(/^\+(.*)$/ig, '<span class="diff diff--added">$1</span>')
+                 .replace(/^-(.*)$/ig, '<span class="diff diff--removed">$1</span>');
+    });
+
+    block.innerHTML = lines.join('\n');
   }
 }
