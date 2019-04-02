@@ -4,8 +4,11 @@
   <title>{{ config.title }}</title>
   <link rel="stylesheet" href="/dist/main.css" />
   <link rel="preload" href="{{ config.landingFrameSrc }}" as="document">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <link rel="icon" type="image/png" href="/favicon.png?v=2">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta property="og:title" content="{{ config.title }}" />
+  <meta property="og:site_name" content="{{ config.title }}" />
+  <meta name="description" property="og:description" content="{{ config.description }}">
 </head>
 <body class="landing-body">
   {% include "components/header.twig" %}
