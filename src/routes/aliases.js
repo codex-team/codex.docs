@@ -12,7 +12,14 @@ const verifyToken = require('./middlewares/token');
  */
 router.get('*', verifyToken, async (req, res) => {
   try {
-    const alias = await Aliases.get(req.originalUrl.slice(1)); // Cuts first '/' character
+    let url = req.originalUrl.slice(1); // Cuts first '/' character
+    const queryParamsIndex = url.indexOf('?');
+
+    if (queryParamsIndex !== -1) {
+      url = url.slice(0, queryParamsIndex); // Cuts off query params
+    }
+
+    const alias = await Aliases.get(url);
 
     switch (alias.type) {
       case Alias.types.PAGE: {
