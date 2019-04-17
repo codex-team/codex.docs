@@ -1,11 +1,6 @@
 .docs-aside {
-  position: sticky;
-  top: var(--layout-padding-vertical);
   font-size: 14px;
   letter-spacing: 0.01em;
-  overflow-y: scroll;
-  max-height: 100vh;
-  //padding-right: 50px;
 
   @media (--mobile) {
     position: static;
@@ -62,6 +57,10 @@
         padding: 8px 0;
       }
     }
+  }
+
+  &__current {
+    color: var(--color-page-active) !important;
   }
 }
 

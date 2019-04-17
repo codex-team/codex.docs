@@ -9,7 +9,7 @@
   <section data-module="writing">
     <textarea name="module-settings" hidden>
       {
-        "page": {{ page | json_encode }}
+        "page": {{ page | json_encode | escape }}
       }
     </textarea>
     <header class="writing-header">

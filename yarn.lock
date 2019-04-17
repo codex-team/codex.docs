@@ -546,40 +546,40 @@
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
 
-"@editorjs/code@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@editorjs/code/-/code-2.4.0.tgz#91919f30d50fcde221b6f5192590fade938e2df1"
-  integrity sha512-S9MKHpQrDhXOK2CsU3dmbqfDHS7KlSLb5+gI2u9jYrDf5IcfMxSTsuV+ZM1tWaU9Jbd/Z/OOpt7iyNDZdOcNwA==
+"@editorjs/code@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@editorjs/code/-/code-2.4.1.tgz#a1851c781c9ead9a84bd921f04df172a2383f550"
+  integrity sha512-R4UUApkm6FLuxrQoqISg6GL73t0WWOdoPdAmAa36xarmtmBRkxu4AfxIwzW2CtUD1CqG1T7Be6jnv4ZeUoMNYQ==
 
 "@editorjs/delimiter@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@editorjs/delimiter/-/delimiter-1.1.0.tgz#f61808ea92e4e289607d54441964f1cb8605410a"
   integrity sha512-0G36vEvvb94g6nu/qs2rVjC/qjxLnY20OfOgxROKSOOXzS7xnkTij5raeIxRiYueeLL5fMrzrvtFH7wclfxF+g==
 
-"@editorjs/editorjs@^2.12.0":
-  version "2.12.0"
-  resolved "https://registry.yarnpkg.com/@editorjs/editorjs/-/editorjs-2.12.0.tgz#e16faf0c1277c5adbca15a7cf661e2783cccada0"
-  integrity sha512-2FFlf8igXojdWz5SfHIH9fvPZZDr46QXXQZY09gprRN25aqZ43w6eygZlSIntknEmrsqtJXVmvrUrMQYjuo/eA==
+"@editorjs/editorjs@^2.12.4":
+  version "2.12.4"
+  resolved "https://registry.yarnpkg.com/@editorjs/editorjs/-/editorjs-2.12.4.tgz#3a98c907c0c0ff96bd667e5dd45e109ceb4d6a1a"
+  integrity sha512-5xevUVL+OvrhnVjaQARW7FlTtJhYPaUbs3Bft6+2PQ7Fvx5SquyrPPJomCdQA7+5uPAWQ8MtjxTVvSDPhujkYw==
 
-"@editorjs/header@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@editorjs/header/-/header-2.2.2.tgz#47ce654032f7a094c0b40daa4545c61893033002"
-  integrity sha512-r9lmDVdVSNjnSoYmEMOSLp7BARWEU2O79UJjWPkLWAwV7RIOYO+s9fF3IbTEaPaltANAZvIzOYNmryGOhL8biA==
+"@editorjs/header@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@editorjs/header/-/header-2.2.3.tgz#801908f2aadda708aa09da544a5683448ca01be1"
+  integrity sha512-eFPgsT/OJA7HxCl4idrH1ccZEkmVZWfEmwo7DysOAb2DI+5/IcBIVZbPv6EapjL6MOEHKzON8lCI4jQOaBJlLw==
 
-"@editorjs/image@^2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@editorjs/image/-/image-2.1.2.tgz#65d1967f3508a46dd1a5b942cac0752fe7d7e044"
-  integrity sha512-Q+IN04pyJQBFqUtejEUvbJQW26pkIEq6j6ApRqgNbWUjzVLHoBkuiL0eSvEAs+6uW//qt8AhNnnTokomDT7tBA==
+"@editorjs/image@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/image/-/image-2.2.0.tgz#ede7bb52544cb6fd06a3dae5ed975173bf4f2f25"
+  integrity sha512-dPtHGOo/0KXwT5PtCLweg1xF719weYorK1sIwmM9y5TYRyHbMBb1mOuh9knkzwc2SEjtRMAgVkzPI6hmRd7JEw==
 
 "@editorjs/inline-code@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@editorjs/inline-code/-/inline-code-1.3.0.tgz#66b915d2c128ba520ba4b245067d40851d78355a"
   integrity sha512-pKvBYvPyaNZKiRd+jK8X2HDgAq8kDaOPXxUTB33He2L53OqbAJ8Cmt+8F4EQ3i0EyQYOrtT2uXnDQkjvVg41tg==
 
-"@editorjs/list@^1.3.2":
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/@editorjs/list/-/list-1.3.2.tgz#2c1939715e91a74fdb8561ba9d7d9ad933497ec2"
-  integrity sha512-Bv59LHkDG+q9yUtvJKxUTmnlNS+bH6p2KLPxH2W2DD52XIIMdudezmXrUO4Rv8HwLW5GA5hZrEXZyKJ4McG5og==
+"@editorjs/list@^1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@editorjs/list/-/list-1.3.3.tgz#26aab3a23d1a022375b16a1ef2130b3615aa5850"
+  integrity sha512-2kZm0a3bFKbIUDPn8qcS02sIhVx+ipEEGd7g1PaOlSa8Z4XyzBhcDn48NipWx1WSix/0GS4Eu05rl3K/0/3rvg==
 
 "@editorjs/marker@^1.2.0":
   version "1.2.0"

@@ -1,5 +1,6 @@
 {
   "title": "CodeX Docs",
+  "description": "A block-styled editor with clean JSON output",
   "menu": [
     "Guides",
     "API",
@@ -13,4 +14,5 @@
     "title": "What do you think?",
     "reactions": ["👍", "👌", "👎"]
   }
+  "yandexMetrikaId": ""
 }
