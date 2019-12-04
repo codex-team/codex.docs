@@ -542,52 +542,44 @@
 "@editorjs/code@^2.4.1":
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/@editorjs/code/-/code-2.4.1.tgz#a1851c781c9ead9a84bd921f04df172a2383f550"
-  integrity sha512-R4UUApkm6FLuxrQoqISg6GL73t0WWOdoPdAmAa36xarmtmBRkxu4AfxIwzW2CtUD1CqG1T7Be6jnv4ZeUoMNYQ==
 
 "@editorjs/delimiter@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@editorjs/delimiter/-/delimiter-1.1.0.tgz#f61808ea92e4e289607d54441964f1cb8605410a"
-  integrity sha512-0G36vEvvb94g6nu/qs2rVjC/qjxLnY20OfOgxROKSOOXzS7xnkTij5raeIxRiYueeLL5fMrzrvtFH7wclfxF+g==
 
-"@editorjs/editorjs@^2.12.4":
-  version "2.12.4"
-  resolved "https://registry.yarnpkg.com/@editorjs/editorjs/-/editorjs-2.12.4.tgz#3a98c907c0c0ff96bd667e5dd45e109ceb4d6a1a"
-  integrity sha512-5xevUVL+OvrhnVjaQARW7FlTtJhYPaUbs3Bft6+2PQ7Fvx5SquyrPPJomCdQA7+5uPAWQ8MtjxTVvSDPhujkYw==
+"@editorjs/editorjs@^2.16.0":
+  version "2.16.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/editorjs/-/editorjs-2.16.0.tgz#b71384dd834b9242bf0ffc0d5e0e1d772163d282"
+  dependencies:
+    codex-notifier "^1.1.2"
 
-"@editorjs/header@^2.2.3":
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/@editorjs/header/-/header-2.2.3.tgz#801908f2aadda708aa09da544a5683448ca01be1"
-  integrity sha512-eFPgsT/OJA7HxCl4idrH1ccZEkmVZWfEmwo7DysOAb2DI+5/IcBIVZbPv6EapjL6MOEHKzON8lCI4jQOaBJlLw==
+"@editorjs/header@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@editorjs/header/-/header-2.3.2.tgz#419b24196ce7142c0ae8bac837e6b5f68977dc8f"
 
-"@editorjs/image@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@editorjs/image/-/image-2.2.0.tgz#ede7bb52544cb6fd06a3dae5ed975173bf4f2f25"
-  integrity sha512-dPtHGOo/0KXwT5PtCLweg1xF719weYorK1sIwmM9y5TYRyHbMBb1mOuh9knkzwc2SEjtRMAgVkzPI6hmRd7JEw==
+"@editorjs/image@^2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@editorjs/image/-/image-2.3.3.tgz#5bd0e46ab038853948c5e5df9b049cce53f2d998"
 
-"@editorjs/inline-code@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@editorjs/inline-code/-/inline-code-1.3.0.tgz#66b915d2c128ba520ba4b245067d40851d78355a"
-  integrity sha512-pKvBYvPyaNZKiRd+jK8X2HDgAq8kDaOPXxUTB33He2L53OqbAJ8Cmt+8F4EQ3i0EyQYOrtT2uXnDQkjvVg41tg==
+"@editorjs/inline-code@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@editorjs/inline-code/-/inline-code-1.3.1.tgz#4890e30d00dcaeacafbcb30459309dfd740b0d4b"
 
-"@editorjs/list@^1.3.3":
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/@editorjs/list/-/list-1.3.3.tgz#26aab3a23d1a022375b16a1ef2130b3615aa5850"
-  integrity sha512-2kZm0a3bFKbIUDPn8qcS02sIhVx+ipEEGd7g1PaOlSa8Z4XyzBhcDn48NipWx1WSix/0GS4Eu05rl3K/0/3rvg==
+"@editorjs/list@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/list/-/list-1.4.0.tgz#e92459a8ac2305bc4385245e329c8b5c8437456a"
 
-"@editorjs/marker@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@editorjs/marker/-/marker-1.2.0.tgz#4e3130870c2ca4b3ac5b05405b4e49add55893cb"
-  integrity sha512-BkAvAvf2B0xsUbMPoht7g1oWaxw79NeqJM//+wM3VnEruj908qw7AluDBVy1gwOe2fhhryaDXQ3kbqU6HC8o1g==
+"@editorjs/marker@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@editorjs/marker/-/marker-1.2.2.tgz#d9261a257436bf70179c0fa1e766ab85c823c96b"
 
 "@editorjs/table@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@editorjs/table/-/table-1.2.0.tgz#547d7b28c96f8a37605bea10bd4f016e8bfc344d"
-  integrity sha512-pCcNf/9JzVWQw6TsqUHew73UoVSYTftXviKVqsnVazx4/D8eH5g5fsEY5L0LEl9KC0mJMJij+h6I1ge70kDlgg==
 
-"@editorjs/warning@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@editorjs/warning/-/warning-1.1.0.tgz#192123567a59fd36328c753199f1739c2920d5d8"
-  integrity sha512-ARl+ZEyUVdb6QUC/FcGXCUILdGcdGytvZHmFg6SVm8dWFvswqmpjuIgjN/vhLQrOLanp2wlAfKlQnOs4n07WPA==
+"@editorjs/warning@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@editorjs/warning/-/warning-1.1.1.tgz#8981f36f2316ae87e5204e808d22a0d9aa072468"
 
 "@sinonjs/commons@^1.0.2", "@sinonjs/commons@^1.2.0":
   version "1.3.0"
@@ -1457,6 +1449,10 @@ coa@~2.0.1:
 code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
+
+codex-notifier@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/codex-notifier/-/codex-notifier-1.1.2.tgz#a733079185f4c927fa296f1d71eb8753fe080895"
 
 collection-visit@^1.0.0:
   version "1.0.0"
