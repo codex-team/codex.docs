@@ -1,0 +1,14 @@
+version: "3.2"
+services:
+  docs:
+    build:
+      dockerfile: "docker/Dockerfile.dev"
+      context: .
+    user: "node"
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true

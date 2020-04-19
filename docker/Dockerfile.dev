@@ -1,0 +1,16 @@
+FROM node:10-alpine as builder
+
+WORKDIR /usr/src/app
+RUN apk add --no-cache git gcc g++ python make musl-dev
+
+COPY package.json yarn.lock ./
+
+RUN yarn install
+
+FROM node:10-alpine
+
+WORKDIR /usr/src/app
+
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+
+CMD ["yarn", "start:dev"]
