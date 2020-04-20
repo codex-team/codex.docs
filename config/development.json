@@ -2,5 +2,6 @@
   "port": 3000,
   "database": ".db",
   "uploads": "public/uploads",
-  "secret": "iamasecretstring"
+  "secret": "iamasecretstring",
+  "startPage": "codex"
 }
