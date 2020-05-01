@@ -10,6 +10,7 @@ import List from '@editorjs/list';
 import Delimiter from '@editorjs/delimiter';
 import Table from '@editorjs/table';
 import Warning from '@editorjs/warning';
+import Checklist from '@editorjs/checklist';
 
 /**
  * Inline Tools for the Editor
@@ -78,6 +79,11 @@ export default class Editor {
         warning: {
           class: Warning,
           inlineToolbar: true
+        },
+
+        checklist: {
+          class: Checklist,
+          inlineToolbar: true,
         },
 
         /**
