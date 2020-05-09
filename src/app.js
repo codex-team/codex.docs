@@ -22,11 +22,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 
-// global middleware to define required local variables
-app.use('/', function (req, res, next) {
-  res.locals.startPage = app.locals.config.startPage;
-  next();
-});
 app.use('/', routes);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
