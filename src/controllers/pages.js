@@ -47,7 +47,7 @@ class Pages {
    * @returns {Promise<Page[]>}
    */
   static async getAllExceptChildren(parent) {
-    let pagesAvailable = this.removeChildren(await Pages.getAll(), parent);
+    const pagesAvailable = this.removeChildren(await Pages.getAll(), parent);
 
     return pagesAvailable.filter((item) => item !== null);
   }
@@ -88,7 +88,7 @@ class Pages {
       if (insertedPage.uri) {
         const alias = new Alias({
           id: insertedPage._id,
-          type: Alias.types.PAGE
+          type: Alias.types.PAGE,
         }, insertedPage.uri);
 
         alias.save();
@@ -158,7 +158,7 @@ class Pages {
       if (updatedPage.uri) {
         const alias = new Alias({
           id: updatedPage._id,
-          type: Alias.types.PAGE
+          type: Alias.types.PAGE,
         }, updatedPage.uri);
 
         alias.save();
