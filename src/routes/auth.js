@@ -16,7 +16,7 @@ const parseForm = express.urlencoded({ extended: false });
 router.get('/auth', csrfProtection, function (req, res) {
   res.render('auth', {
     title: 'Login page',
-    csrfToken: req.csrfToken()
+    csrfToken: req.csrfToken(),
   });
 });
 
@@ -24,13 +24,13 @@ router.get('/auth', csrfProtection, function (req, res) {
  * Process given password
  */
 router.post('/auth', parseForm, csrfProtection, async (req, res) => {
-  let userDoc = await Users.get();
+  const userDoc = await Users.get();
 
   if (!userDoc) {
     res.render('auth', {
       title: 'Login page',
       header: 'Password not set',
-      csrfToken: req.csrfToken()
+      csrfToken: req.csrfToken(),
     });
   }
 
@@ -41,14 +41,14 @@ router.post('/auth', parseForm, csrfProtection, async (req, res) => {
       res.render('auth', {
         title: 'Login page',
         header: 'Wrong password',
-        csrfToken: req.csrfToken()
+        csrfToken: req.csrfToken(),
       });
     }
 
     const token = jwt.sign({
-      'iss': 'Codex Team',
-      'sub': 'auth',
-      'iat': Date.now()
+      iss: 'Codex Team',
+      sub: 'auth',
+      iat: Date.now(),
     }, passHash + config.secret);
 
     res.cookie('authToken', token, { httpOnly: true });

@@ -1,13 +1,16 @@
 /**
  * Merge to objects recursively
+ *
  * @param {object} target
  * @param {object[]} sources
- * @return {object}
+ * @returns {object}
  */
 function deepMerge(target, ...sources) {
   const isObject = item => item && typeof item === 'object' && !Array.isArray(item);
 
-  if (!sources.length) return target;
+  if (!sources.length) {
+    return target;
+  }
   const source = sources.shift();
 
   if (isObject(target) && isObject(source)) {
@@ -28,5 +31,5 @@ function deepMerge(target, ...sources) {
 }
 
 module.exports = {
-  deepMerge
+  deepMerge,
 };

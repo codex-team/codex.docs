@@ -10,11 +10,11 @@ const allowEdit = require('./middlewares/locals');
  * Create new page form
  */
 router.get('/page/new', verifyToken, allowEdit, async (req, res, next) => {
-  let pagesAvailable = await Pages.getAll();
+  const pagesAvailable = await Pages.getAll();
 
   res.render('pages/form', {
     pagesAvailable,
-    page: null
+    page: null,
   });
 });
 
@@ -32,7 +32,7 @@ router.get('/page/edit/:id', verifyToken, allowEdit, async (req, res, next) => {
     res.render('pages/form', {
       page,
       parentsChildrenOrdered,
-      pagesAvailable
+      pagesAvailable,
     });
   } catch (error) {
     res.status(404);
@@ -47,12 +47,13 @@ router.get('/page/:id', verifyToken, async (req, res, next) => {
   const pageId = req.params.id;
 
   try {
-    let page = await Pages.get(pageId);
+    const page = await Pages.get(pageId);
 
-    let pageParent = await page.parent;
+    const pageParent = await page.parent;
 
     res.render('pages/page', {
-      page, pageParent
+      page,
+      pageParent,
     });
   } catch (error) {
     res.status(404);

@@ -1,7 +1,7 @@
 const { pagesOrder: db } = require('../utils/database/index');
 
 /**
- * @typedef {Object} PageOrderData
+ * @typedef {object} PageOrderData
  * @property {string} _id - row unique id
  * @property {string} page - page id
  * @property {Array<string>} order - list of ordered pages
@@ -37,7 +37,7 @@ class PageOrder {
   /**
    * Find all pages which match passed query object
    *
-   * @param {Object} query
+   * @param {object} query
    * @returns {Promise<Page[]>}
    */
   static async getAll(query = {}) {
@@ -47,7 +47,7 @@ class PageOrder {
   }
 
   /**
-   * @constructor
+   * @class
    *
    * @param {PageOrderData} data
    */
@@ -65,6 +65,7 @@ class PageOrder {
 
   /**
    * constructor data setter
+   *
    * @param {PageOrderData} pageOrderData
    */
   set data(pageOrderData) {
@@ -74,13 +75,14 @@ class PageOrder {
 
   /**
    * Return Page Children order
+   *
    * @returns {PageOrderData}
    */
   get data() {
     return {
       _id: this._id,
       page: '' + this._page,
-      order: this._order
+      order: this._order,
     };
   }
 
@@ -176,7 +178,7 @@ class PageOrder {
   /**
    * Returns ordered list
    *
-   * @return {string[]}
+   * @returns {string[]}
    */
   get order() {
     return this._order;

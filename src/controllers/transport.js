@@ -17,6 +17,7 @@ const config = require('../../config');
 class Transport {
   /**
    * Saves file passed from client
+   *
    * @param {object} multerData - file data from multer
    * @param {string} multerData.originalname - original name of the file
    * @param {string} multerData.filename - name of the uploaded file
@@ -25,12 +26,18 @@ class Transport {
    * @param {string} multerData.mimetype - MIME type of the uploaded file
    *
    * @param {object} map - object that represents how should fields of File object should be mapped to response
-   * @return {Promise<FileData>}
+   * @returns {Promise<FileData>}
    */
   static async save(multerData, map) {
     const { originalname: name, path, filename, size, mimetype } = multerData;
 
-    const file = new Model({ name, filename, path, size, mimetype });
+    const file = new Model({
+      name,
+      filename,
+      path,
+      size,
+      mimetype,
+    });
 
     await file.save();
 
@@ -45,9 +52,10 @@ class Transport {
 
   /**
    * Fetches file by passed URL
+   *
    * @param {string} url - URL of the file
    * @param {object} map - object that represents how should fields of File object should be mapped to response
-   * @return {Promise<FileData>}
+   * @returns {Promise<FileData>}
    */
   static async fetch(url, map) {
     const fetchedFile = await fetch(url);
@@ -64,7 +72,7 @@ class Transport {
       filename: `${filename}.${ext}`,
       path: `${config.uploads}/${filename}.${ext}`,
       size: buffer.length,
-      mimetype: type ? type.mime : fetchedFile.headers.get('content-type')
+      mimetype: type ? type.mime : fetchedFile.headers.get('content-type'),
     });
 
     await file.save();
@@ -94,11 +102,12 @@ class Transport {
 
       if (fields.length > 1) {
         let object = {};
-        let result = object;
+        const result = object;
 
         fields.forEach((field, i) => {
           if (i === fields.length - 1) {
             object[field] = data[name];
+
             return;
           }
 
