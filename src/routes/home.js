@@ -4,7 +4,6 @@ const router = express.Router();
 
 /* GET home page. */
 router.get('/', verifyToken, async (req, res) => {
-  console.log(res.locals);
   if (res.locals.startPage) {
     return res.redirect(res.locals.startPage);
   }
