@@ -8,6 +8,7 @@
     {"title": "Support Project", "uri": "/support"}
   ],
   "landingFrameSrc": "https://codex.so/editor?frame=1",
+  "startPage": "codex",
   "misprintsChatId": "12344564",
   "yandexMetrikaId": ""
 }
