@@ -7,7 +7,6 @@ const Alias = require('../models/alias');
  */
 class Pages {
   /**
-   * @static
    * Fields required for page model creation
    *
    * @returns {['title', 'body']}
@@ -17,7 +16,6 @@ class Pages {
   }
 
   /**
-   * @static
    * Find and return page model with passed id
    *
    * @param {string} id - page id
@@ -43,7 +41,6 @@ class Pages {
   }
 
   /**
-   * @static
    * Return all pages without children of passed page
    *
    * @param {string} parent - id of current page
@@ -56,7 +53,6 @@ class Pages {
   }
 
   /**
-   * @static
    * Set all children elements to null
    *
    * @param {Page[]} [pagesAvailable] - Array of all pages
@@ -71,6 +67,7 @@ class Pages {
       pagesAvailable[index] = null;
       pagesAvailable = Pages.removeChildren(pagesAvailable, item._id);
     });
+
     return pagesAvailable;
   }
 

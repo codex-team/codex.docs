@@ -1,7 +1,7 @@
 const { files: filesDb } = require('../utils/database/index');
 
 /**
- * @typedef {Object} FileData
+ * @typedef {object} FileData
  *
  * @property {string} _id - file id
  * @property {string} name - original file name
@@ -25,6 +25,7 @@ const { files: filesDb } = require('../utils/database/index');
 class File {
   /**
    * Find and return model of file with given id
+   *
    * @param {string} _id - file id
    * @returns {Promise<File>}
    */
@@ -36,6 +37,7 @@ class File {
 
   /**
    * Find and return model of file with given id
+   *
    * @param {string} filename - uploaded filename
    * @returns {Promise<File>}
    */
@@ -48,7 +50,7 @@ class File {
   /**
    * Find all files which match passed query object
    *
-   * @param {Object} query
+   * @param {object} query
    * @returns {Promise<File[]>}
    */
   static async getAll(query = {}) {
@@ -58,7 +60,7 @@ class File {
   }
 
   /**
-   * @constructor
+   * @class
    *
    * @param {FileData} data
    */
@@ -101,7 +103,7 @@ class File {
       filename: this.filename,
       path: this.path,
       mimetype: this.mimetype,
-      size: this.size
+      size: this.size,
     };
   }
 
@@ -137,8 +139,9 @@ class File {
 
   /**
    * Removes unnecessary public folder prefix
+   *
    * @param {string} path
-   * @return {string}
+   * @returns {string}
    */
   processPath(path) {
     return path.replace(/^public/, '');

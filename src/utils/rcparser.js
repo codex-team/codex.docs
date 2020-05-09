@@ -4,7 +4,7 @@ const config = require('../../config');
 const rcPath = path.resolve(__dirname, '../../', config.rcFile || './.codexdocsrc');
 
 /**
- * @typedef {Object} RCData
+ * @typedef {object} RCData
  * @property {string} title - website title
  * @property {object[]} menu - options for website menu
  * @property {string} menu[].title - menu option title
@@ -20,12 +20,12 @@ module.exports = class RCParser {
    *  Default CodeX Docs configuration
    *
    * @static
-   * @return {{title: string, menu: Array}}
+   * @returns {{title: string, menu: Array}}
    */
   static get DEFAULTS() {
     return {
       title: 'CodeX Docs',
-      menu: []
+      menu: [],
     };
   }
 
@@ -33,7 +33,7 @@ module.exports = class RCParser {
    * Find and parse runtime configuration file
    *
    * @static
-   * @return {{title: string, menu: []}}
+   * @returns {{title: string, menu: []}}
    */
   static getConfiguration() {
     if (!fs.existsSync(rcPath)) {
@@ -48,11 +48,12 @@ module.exports = class RCParser {
       userConfig = JSON.parse(file);
     } catch (e) {
       console.log('CodeX Docs rc file should be in JSON format.');
+
       return RCParser.DEFAULTS;
     }
 
-    for (let option in userConfig) {
-      if (userConfig.hasOwnProperty(option)) {
+    for (const option in userConfig) {
+      if (Object.prototype.hasOwnProperty.call(userConfig, option)) {
         rConfig[option] = userConfig[option] || RCParser.DEFAULTS[option] || undefined;
       }
     }
@@ -70,6 +71,7 @@ module.exports = class RCParser {
 
       if (!option || option instanceof Array || typeof option !== 'object') {
         console.log(`Menu option #${i} in rc file must be a string or an object`);
+
         return false;
       }
 
@@ -77,11 +79,13 @@ module.exports = class RCParser {
 
       if (!title || typeof title !== 'string') {
         console.log(`Menu option #${i} title must be a string.`);
+
         return false;
       }
 
       if (!uri || typeof uri !== 'string') {
         console.log(`Menu option #${i} uri must be a string.`);
+
         return false;
       }
 
@@ -93,7 +97,7 @@ module.exports = class RCParser {
         return {
           title: option,
           /* Replace all non alpha- and numeric-symbols with '-' */
-          uri: '/' + option.toLowerCase().replace(/[ -/:-@[-`{-~]+/, '-')
+          uri: '/' + option.toLowerCase().replace(/[ -/:-@[-`{-~]+/, '-'),
         };
       }
 
