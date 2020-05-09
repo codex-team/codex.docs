@@ -70,8 +70,8 @@ class PagesOrder {
    * @param {Page[]} pages - list of all available pages
    * @param {string} currentPageId - page's id around which we are ordering
    * @param {string} parentPageId - parent page's id that contains page above
-   * @param {Boolean} ignoreSelf - should we ignore current page in list or not
-   * @return {Page[]}
+   * @param {boolean} ignoreSelf - should we ignore current page in list or not
+   * @returns {Page[]}
    */
   static async getOrderedChildren(pages, currentPageId, parentPageId, ignoreSelf = false) {
     const children = await Model.get(parentPageId);

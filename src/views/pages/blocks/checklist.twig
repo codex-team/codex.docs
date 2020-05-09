@@ -1,0 +1,12 @@
+<div class="block-checklist">
+  {% for item in items %}
+    <div class="block-checklist__item">
+      {% if item.checked %}
+        <span class="block-checklist__item-checkbox block-checklist__item-checkbox--checked"></span>
+      {% else %}
+        <span class="block-checklist__item-checkbox"></span>
+      {% endif %}
+      <div class="block-checklist__item-text">{{ item.text }}</div>
+    </div>
+  {% endfor %}
+</div>

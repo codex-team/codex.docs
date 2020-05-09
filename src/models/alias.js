@@ -2,7 +2,7 @@ const { aliases: aliasesDb } = require('../utils/database/index');
 const { binaryMD5 } = require('../utils/crypto');
 
 /**
- * @typedef {Object} AliasData
+ * @typedef {object} AliasData
  * @property {string} _id - alias id
  * @property {string} hash - alias binary hash
  * @property {string} type - entity type
@@ -25,22 +25,26 @@ class Alias {
   /**
    * Return Alias types
    *
-   * @returns {Object}
+   * @returns {object}
    */
   static get types() {
     return {
-      PAGE: 'page'
+      PAGE: 'page',
     };
   };
 
   /**
    * Find and return alias with given alias
+   *
    * @param {string} aliasName - alias of entity
    * @returns {Promise<Alias>}
    */
   static async get(aliasName) {
     const hash = binaryMD5(aliasName);
-    let data = await aliasesDb.findOne({ hash: hash, deprecated: false });
+    let data = await aliasesDb.findOne({
+      hash: hash,
+      deprecated: false,
+    });
 
     if (!data) {
       data = await aliasesDb.findOne({ hash: hash });
@@ -50,7 +54,7 @@ class Alias {
   }
 
   /**
-   * @constructor
+   * @class
    *
    * @param {AliasData} data
    * @param {string} aliasName - alias of entity
@@ -110,12 +114,13 @@ class Alias {
       id: this.id,
       type: this.type,
       hash: this.hash,
-      deprecated: this.deprecated
+      deprecated: this.deprecated,
     };
   }
 
   /**
    * Mark alias as deprecated
+   *
    * @param {string} aliasName - alias of entity
    * @returns {Promise<Alias>}
    */

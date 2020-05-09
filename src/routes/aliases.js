@@ -23,19 +23,20 @@ router.get('*', verifyToken, async (req, res) => {
 
     switch (alias.type) {
       case Alias.types.PAGE: {
-        let page = await Pages.get(alias.id);
+        const page = await Pages.get(alias.id);
 
-        let pageParent = await page.parent;
+        const pageParent = await page.parent;
 
         res.render('pages/page', {
-          page, pageParent
+          page,
+          pageParent,
         });
       }
     }
   } catch (err) {
     res.status(400).json({
       success: false,
-      error: err.message
+      error: err.message,
     });
   }
 });

@@ -7,7 +7,6 @@ const Alias = require('../models/alias');
  */
 class Pages {
   /**
-   * @static
    * Fields required for page model creation
    *
    * @returns {['title', 'body']}
@@ -17,7 +16,6 @@ class Pages {
   }
 
   /**
-   * @static
    * Find and return page model with passed id
    *
    * @param {string} id - page id
@@ -43,20 +41,18 @@ class Pages {
   }
 
   /**
-   * @static
    * Return all pages without children of passed page
    *
    * @param {string} parent - id of current page
    * @returns {Promise<Page[]>}
    */
   static async getAllExceptChildren(parent) {
-    let pagesAvailable = this.removeChildren(await Pages.getAll(), parent);
+    const pagesAvailable = this.removeChildren(await Pages.getAll(), parent);
 
     return pagesAvailable.filter((item) => item !== null);
   }
 
   /**
-   * @static
    * Set all children elements to null
    *
    * @param {Page[]} [pagesAvailable] - Array of all pages
@@ -71,6 +67,7 @@ class Pages {
       pagesAvailable[index] = null;
       pagesAvailable = Pages.removeChildren(pagesAvailable, item._id);
     });
+
     return pagesAvailable;
   }
 
@@ -91,7 +88,7 @@ class Pages {
       if (insertedPage.uri) {
         const alias = new Alias({
           id: insertedPage._id,
-          type: Alias.types.PAGE
+          type: Alias.types.PAGE,
         }, insertedPage.uri);
 
         alias.save();
@@ -161,7 +158,7 @@ class Pages {
       if (updatedPage.uri) {
         const alias = new Alias({
           id: updatedPage._id,
-          type: Alias.types.PAGE
+          type: Alias.types.PAGE,
         }, updatedPage.uri);
 
         alias.save();

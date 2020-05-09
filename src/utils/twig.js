@@ -13,7 +13,7 @@ module.exports = (function () {
    *
    * @example svg('path/from/root/dir')
    * @param filename - name of icon
-   * @returns {String} - svg code
+   * @returns {string} - svg code
    */
   twig.extendFunction('svg', function (filename) {
     return fs.readFileSync(`${__dirname}/../frontend/svg/${filename}.svg`, 'utf-8');

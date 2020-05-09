@@ -24,9 +24,9 @@ class User {
   }
 
   /**
-   * @constructor
+   * @class
    *
-   * @param {Object} userData
+   * @param {object} userData
    */
   constructor(userData) {
     this.passHash = userData.passHash;

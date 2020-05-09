@@ -362,3 +362,59 @@
     padding-left: 15px;
   }
 }
+
+/**
+ * Checklist
+ * ==================
+ */
+.block-checklist {
+  margin: 20px 0;
+
+  &__item {
+    display: flex;
+    box-sizing: content-box;
+    align-items: center;
+
+    &-checkbox {
+      display: inline-block;
+      flex-shrink: 0;
+      position: relative;
+      width: 20px;
+      height: 20px;
+      margin: 0 10px 0 0;
+      border-radius: 50%;
+      border: 1px solid #d0d0d0;
+      background: #fff;
+      user-select: none;
+
+      &::after {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        width: 8px;
+        height: 5px;
+        border: 2px solid #fcfff4;
+        border-top: none;
+        border-right: none;
+        background: transparent;
+        content: '';
+        opacity: 0;
+        transform: rotate(-45deg);
+      }
+
+      &--checked {
+        background: #388ae5;
+        border-color: #388ae5;
+      }
+    }
+
+    &-text {
+      outline: none;
+      flex-grow: 1;
+      padding: 5px 0;
+    }
+  }
+}
+.block-checklist__item-checkbox--checked, .block-checklist__item-checkbox::after {
+  opacity: 1;
+}
