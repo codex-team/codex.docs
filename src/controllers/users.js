@@ -6,7 +6,6 @@ const Model = require('../models/user');
  */
 class Users {
   /**
-   * @static
    * Find and return user model.
    *
    * @returns {Promise<User>}

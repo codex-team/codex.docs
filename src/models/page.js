@@ -2,7 +2,7 @@ const urlify = require('../utils/urlify');
 const { pages: pagesDb } = require('../utils/database/index');
 
 /**
- * @typedef {Object} PageData
+ * @typedef {object} PageData
  * @property {string} _id - page id
  * @property {string} title - page title
  * @property {string} uri - page uri
@@ -23,6 +23,7 @@ const { pages: pagesDb } = require('../utils/database/index');
 class Page {
   /**
    * Find and return model of page with given id
+   *
    * @param {string} _id - page id
    * @returns {Promise<Page>}
    */
@@ -34,6 +35,7 @@ class Page {
 
   /**
    * Find and return model of page with given uri
+   *
    * @param {string} uri - page uri
    * @returns {Promise<Page>}
    */
@@ -46,7 +48,7 @@ class Page {
   /**
    * Find all pages which match passed query object
    *
-   * @param {Object} query
+   * @param {object} query
    * @returns {Promise<Page[]>}
    */
   static async getAll(query = {}) {
@@ -56,7 +58,7 @@ class Page {
   }
 
   /**
-   * @constructor
+   * @class
    *
    * @param {PageData} data
    */
@@ -89,7 +91,7 @@ class Page {
   /**
    * Return PageData object
    *
-   * @return {PageData}
+   * @returns {PageData}
    */
   get data() {
     return {
@@ -97,13 +99,14 @@ class Page {
       title: this.title,
       uri: this.uri,
       body: this.body,
-      parent: this._parent
+      parent: this._parent,
     };
   }
 
   /**
    * Extract first header from editor data
-   * @return {string}
+   *
+   * @returns {string}
    */
   extractTitleFromBody() {
     const headerBlock = this.body ? this.body.blocks.find(block => block.type === 'header') : '';
@@ -113,7 +116,8 @@ class Page {
 
   /**
    * Transform title for uri
-   * @return {string}
+   *
+   * @returns {string}
    */
   transformTitleToUri() {
     return urlify(this.title);
@@ -184,6 +188,7 @@ class Page {
    * Find and return available uri
    *
    * @returns {Promise<string>}
+   * @param uri
    */
   async composeUri(uri) {
     let pageWithSameUriCount = 0;

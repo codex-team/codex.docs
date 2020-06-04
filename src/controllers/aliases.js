@@ -6,7 +6,6 @@ const Alias = require('../models/alias');
  */
 class Aliases {
   /**
-   * @static
    * Find and return entity with given alias
    *
    * @param {string} aliasName - alias name of entity

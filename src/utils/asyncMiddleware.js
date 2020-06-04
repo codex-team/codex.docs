@@ -1,7 +1,8 @@
 /**
  * Helper for making async middlewares for express router
+ *
  * @param fn
- * @return {function(*=, *=, *=)}
+ * @returns {function(*=, *=, *=)}
  */
 module.exports = function asyncMiddleware(fn) {
   return (req, res, next) => {

@@ -2,6 +2,7 @@ const crypto = require('crypto');
 
 /**
  * Create binary md5
+ *
  * @param stringToHash - string to hash
  * @returns {string} - binary hash of argument
  */
@@ -13,7 +14,8 @@ function binaryMD5(stringToHash) {
 
 /**
  * Returns 16 random bytes in hex format
- * @return {Promise<string>}
+ *
+ * @returns {Promise<string>}
  */
 function random16() {
   return new Promise((resolve, reject) => {
@@ -29,5 +31,5 @@ function random16() {
 
 module.exports = {
   binaryMD5,
-  random16
+  random16,
 };
