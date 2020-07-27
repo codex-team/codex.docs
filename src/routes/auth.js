@@ -51,7 +51,10 @@ router.post('/auth', parseForm, csrfProtection, async (req, res) => {
       iat: Date.now(),
     }, passHash + config.secret);
 
-    res.cookie('authToken', token, { httpOnly: true });
+    res.cookie('authToken', token, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) // 1 year
+    });
 
     res.redirect('/');
   });
