@@ -29,4 +29,18 @@ module.exports = (function () {
   twig.extendFilter('urlify', function (string) {
     return urlify(string);
   });
+
+  /**
+   * Parse link as URL object
+   *
+   * @param {string} linkUrl - link to be processed
+   * @returns {UrlWithStringQuery} — url data
+   */
+  twig.extendFunction('parseLink', function (linkUrl) {
+    try {
+      return new URL(linkUrl);
+    } catch (e) {
+      console.log(e);
+    }
+  });
 }());

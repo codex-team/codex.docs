@@ -1,0 +1,17 @@
+<a class="block-link" href="{{ link }}" target="_blank" rel="nofollow">
+    {% if meta.image.url %}
+        <img class="block-link__image" src="{{ meta.image.url }}">
+    {% endif %}
+
+    <div class="block-link__title">
+        {{ meta.title }}
+    </div>
+
+    <div class="block-link__description">
+        {{ meta.description }}
+    </div>
+
+    <span class="block-link__domain">
+        {{ parseLink(link).hostname }}
+    </span>
+</a>
