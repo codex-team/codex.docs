@@ -4,6 +4,7 @@
 const twig = require('twig');
 const fs = require('fs');
 const urlify = require('./urlify');
+const url = require('url');
 
 module.exports = (function () {
   'use strict';
@@ -28,5 +29,19 @@ module.exports = (function () {
    */
   twig.extendFilter('urlify', function (string) {
     return urlify(string);
+  });
+
+  /**
+   * Parse link as URL object
+   *
+   * @param {string} linkUrl - link to be processed
+   * @returns {UrlWithStringQuery} — url data
+   */
+  twig.extendFunction('parseLink', function (linkUrl) {
+    try {
+      return url.parse(linkUrl);
+    } catch (e) {
+      console.log(e);
+    }
   });
 }());

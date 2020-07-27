@@ -11,6 +11,7 @@ import Delimiter from '@editorjs/delimiter';
 import Table from '@editorjs/table';
 import Warning from '@editorjs/warning';
 import Checklist from '@editorjs/checklist';
+import LinkTool from '@editorjs/link';
 
 /**
  * Inline Tools for the Editor
@@ -56,6 +57,13 @@ export default class Editor {
                 mimetype: 'file:mime'
               })
             }
+          }
+        },
+
+        linkTool: {
+          class: LinkTool,
+          config: {
+            endpoint: '/api/fetchUrl',
           }
         },
 
