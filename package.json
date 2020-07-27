@@ -34,6 +34,7 @@
     "nedb": "^1.8.0",
     "node-fetch": "^2.3.0",
     "nodemon": "^1.18.3",
+    "open-graph-scraper": "^4.5.0",
     "twig": "~1.12.0",
     "typescript-eslint": "^0.0.1-alpha.0",
     "uuid4": "^1.0.0"
@@ -78,7 +79,6 @@
     "module-dispatcher": "^2.0.0",
     "normalize.css": "^8.0.1",
     "nyc": "^13.1.0",
-    "open-graph-scraper": "^4.5.0",
     "postcss": "^7.0.2",
     "postcss-apply": "^0.11.0",
     "postcss-color-hex-alpha": "^5.0.2",
