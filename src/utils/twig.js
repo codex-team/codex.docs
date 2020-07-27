@@ -4,7 +4,6 @@
 const twig = require('twig');
 const fs = require('fs');
 const urlify = require('./urlify');
-const url = require('url');
 
 module.exports = (function () {
   'use strict';
@@ -39,7 +38,7 @@ module.exports = (function () {
    */
   twig.extendFunction('parseLink', function (linkUrl) {
     try {
-      return url.parse(linkUrl);
+      return new URL(linkUrl);
     } catch (e) {
       console.log(e);
     }
