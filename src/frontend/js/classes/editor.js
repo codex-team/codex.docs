@@ -12,6 +12,7 @@ import Table from '@editorjs/table';
 import Warning from '@editorjs/warning';
 import Checklist from '@editorjs/checklist';
 import LinkTool from '@editorjs/link';
+import RawTool from '@editorjs/raw';
 
 /**
  * Inline Tools for the Editor
@@ -25,6 +26,7 @@ import Marker from '@editorjs/marker';
 export default class Editor {
   /**
    * Creates Editor instance
+   *
    * @param {object} editorConfig - configuration object for Editor.js
    * @param {object} data.blocks - data to start with
    * @param {object} options
@@ -37,8 +39,8 @@ export default class Editor {
           class: Header,
           inlineToolbar: ['marker', 'inlineCode'],
           config: {
-            placeholder: options.headerPlaceholder || ''
-          }
+            placeholder: options.headerPlaceholder || '',
+          },
         },
 
         image: {
@@ -48,45 +50,45 @@ export default class Editor {
             types: 'image/*, video/mp4',
             endpoints: {
               byFile: '/api/transport/image',
-              byUrl: '/api/transport/fetch'
+              byUrl: '/api/transport/fetch',
             },
             additionalRequestData: {
               map: JSON.stringify({
                 path: 'file:url',
                 size: 'file:size',
-                mimetype: 'file:mime'
-              })
-            }
-          }
+                mimetype: 'file:mime',
+              }),
+            },
+          },
         },
 
         linkTool: {
           class: LinkTool,
           config: {
             endpoint: '/api/fetchUrl',
-          }
+          },
         },
 
         code: {
           class: CodeTool,
-          shortcut: 'CMD+SHIFT+D'
+          shortcut: 'CMD+SHIFT+D',
         },
 
         list: {
           class: List,
-          inlineToolbar: true
+          inlineToolbar: true,
         },
 
         delimiter: Delimiter,
 
         table: {
           class: Table,
-          inlineToolbar: true
+          inlineToolbar: true,
         },
 
         warning: {
           class: Warning,
-          inlineToolbar: true
+          inlineToolbar: true,
         },
 
         checklist: {
@@ -99,13 +101,15 @@ export default class Editor {
          */
         inlineCode: {
           class: InlineCode,
-          shortcut: 'CMD+SHIFT+C'
+          shortcut: 'CMD+SHIFT+C',
         },
 
         marker: {
           class: Marker,
-          shortcut: 'CMD+SHIFT+M'
-        }
+          shortcut: 'CMD+SHIFT+M',
+        },
+
+        raw: RawTool,
       },
       data: {
         blocks: [
@@ -113,11 +117,11 @@ export default class Editor {
             type: 'header',
             data: {
               text: '',
-              level: 2
-            }
-          }
-        ]
-      }
+              level: 2,
+            },
+          },
+        ],
+      },
     };
 
     this.editor = new EditorJS(Object.assign(defaultConfig, editorConfig));
@@ -125,7 +129,8 @@ export default class Editor {
 
   /**
    * Return Editor data
-   * @return {Promise.<{}>}
+   *
+   * @returns {Promise.<{}>}
    */
   save() {
     return this.editor.saver.save();
