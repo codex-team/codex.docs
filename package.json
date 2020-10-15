@@ -16,7 +16,7 @@
     "editor-upgrade": "yarn add -D @editorjs/{editorjs,header,code,delimiter,list,link,image,table,inline-code,marker,warning,checklist,raw}@latest"
   },
   "dependencies": {
-    "bcrypt": "^3.0.3",
+    "bcrypt": "^5.0.0",
     "commander": "^2.19.0",
     "cookie-parser": "~1.4.3",
     "cross-env": "^5.2.0",
