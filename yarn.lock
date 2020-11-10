@@ -751,17 +751,17 @@
   dependencies:
     "@babel/runtime" "^7.10.2"
 
-"@editorjs/list@^1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@editorjs/list/-/list-1.6.0.tgz#6e59030ec577b3a0e88b37db118992a8f405eb9a"
+"@editorjs/list@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@editorjs/list/-/list-1.6.1.tgz#1ca397bb687457ecc50c98a473338470a58d8df8"
 
 "@editorjs/marker@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@editorjs/marker/-/marker-1.2.2.tgz#d9261a257436bf70179c0fa1e766ab85c823c96b"
 
-"@editorjs/raw@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@editorjs/raw/-/raw-2.2.0.tgz#24de427ce6fad1077d8984c3b8b20bf819920cc1"
+"@editorjs/raw@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/raw/-/raw-2.3.0.tgz#d0c3daa1144e38b4d92bc5eca2faebba337bfae7"
 
 "@editorjs/table@^1.3.0":
   version "1.3.0"
