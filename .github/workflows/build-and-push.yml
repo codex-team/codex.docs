@@ -1,0 +1,23 @@
+name: Build and deploy
+
+on: [push]
+
+env:
+  DOCKER_REPO: ${{ secrets.DOCKER_USERNAME }}/codex-docs
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build and push docker image
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: ${{ env.DOCKER_REPO }}
+          tag_with_ref: true
+          dockerfile: docker/Dockerfile.prod
+          push: ${{ endsWith(github.ref, '/stage') || endsWith(github.ref, '/prod') }}
