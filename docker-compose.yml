@@ -1,0 +1,13 @@
+version: "3.2"
+services:
+  docs:
+    build:
+      dockerfile: docker/Dockerfile.prod
+      context: .
+    ports:
+      - 5000:3000
+    volumes:
+      - ./.codexdocsrc:/usr/src/app/.codexdocsrc:ro
+      - ./config/production.json:/usr/src/app/config/production.json:ro
+      - ./public/uploads:/usr/src/app/public/uploads
+      - ./.db:/usr/src/app/.db
