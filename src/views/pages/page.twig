@@ -28,6 +28,9 @@
     <h1 class="page__title">
       {{ page.title }}
     </h1>
+    {% if (config.carbon and config.carbon.placement and config.carbon.serve) %}
+      <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve={{ config.carbon.serve }}&placement={{ config.carbon.placement }}" id="_carbonads_js"></script>
+    {% endif %}
     <section class="page__content">
       {% for block in page.body.blocks %}
         {# Skip first header, because it is already showed as a Title #}

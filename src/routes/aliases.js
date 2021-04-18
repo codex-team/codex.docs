@@ -30,6 +30,7 @@ router.get('*', verifyToken, async (req, res) => {
         res.render('pages/page', {
           page,
           pageParent,
+          config: req.app.locals.config,
         });
       }
     }
