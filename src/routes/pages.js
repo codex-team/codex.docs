@@ -54,6 +54,7 @@ router.get('/page/:id', verifyToken, async (req, res, next) => {
     res.render('pages/page', {
       page,
       pageParent,
+      config: req.app.locals.config,
     });
   } catch (error) {
     res.status(404);

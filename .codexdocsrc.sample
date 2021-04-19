@@ -10,5 +10,9 @@
   "landingFrameSrc": "https://codex.so/editor?frame=1",
   "startPage": "codex",
   "misprintsChatId": "12344564",
-  "yandexMetrikaId": ""
+  "yandexMetrikaId": "",
+  "carbon": {
+    "serve": "",
+    "placement": ""
+  }
 }
