@@ -4261,8 +4261,8 @@ locate-path@^3.0.0:
     path-exists "^3.0.0"
 
 locutus@^2.0.5:
-  version "2.0.11"
-  resolved "https://registry.yarnpkg.com/locutus/-/locutus-2.0.11.tgz#83f85109971fd3dd620482a04381916e4a31d4f0"
+  version "2.0.14"
+  resolved "https://registry.yarnpkg.com/locutus/-/locutus-2.0.14.tgz#53d259ac7200b0621ed4e5604b6c49993415a455"
   dependencies:
     es6-promise "^4.2.5"
 
