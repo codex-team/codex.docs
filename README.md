@@ -2,7 +2,7 @@
 
 Engine for documentation website using [Editor.js](//editorjs.io)
 
-![](https://capella.pics/36fed553-6cf0-4a14-abdf-ffad70ba9c26.jpg)
+![](https://capella.pics/e3b8a441-53dc-4da6-a7a9-76b12629983b.jpg)
 
 ## Development
 
