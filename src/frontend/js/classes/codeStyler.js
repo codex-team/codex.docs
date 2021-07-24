@@ -1,9 +1,9 @@
-import hljs from 'highlight.js/lib/highlight';
+import hljs from 'highlight.js/lib/common';
 import javascript from 'highlight.js/lib/languages/javascript';
 import xml from 'highlight.js/lib/languages/xml';
 import json from 'highlight.js/lib/languages/json';
 import css from 'highlight.js/lib/languages/css';
-import style from 'highlight.js/styles/github-gist.css'; // eslint-disable-line no-unused-vars
+import style from 'highlight.js/styles/github.css'; // eslint-disable-line no-unused-vars
 import diffStyles from '../../styles/diff.pcss'; // eslint-disable-line no-unused-vars
 
 /**
@@ -22,7 +22,7 @@ export default class CodeStyler {
       javascript,
       xml,
       json,
-      css
+      css,
     };
 
     this.init();
@@ -43,7 +43,7 @@ export default class CodeStyler {
     });
 
     hljs.configure({
-      languages: this.languages
+      languages: this.languages,
     });
 
     Array.from(codeBlocks).forEach(block => {
@@ -56,10 +56,10 @@ export default class CodeStyler {
    * Highlight lines started from + or -
    * @param {Element} block
    */
-  highlightDiffs(block){
-    let lines = block.innerHTML.split('\n').map((line, index) => {
+  highlightDiffs(block) {
+    const lines = block.innerHTML.split('\n').map((line, index) => {
       return line.replace(/^\+(.*)$/ig, '<span class="diff diff--added">$1</span>')
-                 .replace(/^-(.*)$/ig, '<span class="diff diff--removed">$1</span>');
+        .replace(/^-(.*)$/ig, '<span class="diff diff--removed">$1</span>');
     });
 
     block.innerHTML = lines.join('\n');
