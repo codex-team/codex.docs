@@ -1,18 +1,19 @@
-const express = require('express');
-const router = express.Router();
-
-const home = require('./home');
-const pages = require('./pages');
-const auth = require('./auth');
-const aliases = require('./aliases');
-const api = require('./api');
-
-const pagesMiddleware = require('./middlewares/pages');
-
-router.use('/', pagesMiddleware, home);
-router.use('/', pagesMiddleware, pages);
-router.use('/', pagesMiddleware, auth);
-router.use('/api', api);
-router.use('/', aliases);
-
-module.exports = router;
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const router = express_1.default.Router();
+const home_1 = __importDefault(require("./home"));
+const pages_1 = __importDefault(require("./pages"));
+const auth_1 = __importDefault(require("./auth"));
+const aliases_1 = __importDefault(require("./aliases"));
+const api_1 = __importDefault(require("./api"));
+const pages_2 = __importDefault(require("./middlewares/pages"));
+router.use('/', pages_2.default, home_1.default);
+router.use('/', pages_2.default, pages_1.default);
+router.use('/', pages_2.default, auth_1.default);
+router.use('/api', api_1.default);
+router.use('/', aliases_1.default);
+exports.default = router;
