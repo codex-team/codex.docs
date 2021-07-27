@@ -10,8 +10,7 @@ export default class Extensions {
    */
   constructor() {
     this.misprints = new Misprints({
-      chatId: window.config.misprintsChatId
+      chatId: window.config.misprintsChatId,
     });
   }
-
 }
