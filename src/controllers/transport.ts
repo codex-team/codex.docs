@@ -34,7 +34,7 @@ class Transport {
    * @param {object} map - object that represents how should fields of File object should be mapped to response
    * @returns {Promise<FileData>}
    */
-  static async save(multerData: Dict, map: Dict): Promise<FileData> {
+  public static async save(multerData: Dict, map: Dict): Promise<FileData> {
     const { originalname: name, path, filename, size, mimetype } = multerData;
 
     const file = new Model({
@@ -63,7 +63,7 @@ class Transport {
    * @param {object} map - object that represents how should fields of File object should be mapped to response
    * @returns {Promise<FileData>}
    */
-  static async fetch(url: string, map: Dict): Promise<FileData> {
+  public static async fetch(url: string, map: Dict): Promise<FileData> {
     const fetchedFile = await fetch(url);
     const buffer = await fetchedFile.buffer();
     const filename = await random16();
@@ -99,7 +99,7 @@ class Transport {
    * @param {object} map - object that represents how should fields of File object should be mapped to response
    *
    */
-  static composeResponse(file: Model, map: Dict): Dict {
+  public static composeResponse(file: Model, map: Dict): Dict {
     const response: Dict = {};
     const { data } = file;
 

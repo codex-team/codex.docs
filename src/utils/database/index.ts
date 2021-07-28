@@ -1,9 +1,9 @@
-import pages from "./pages";
-import files from "./files";
-import password from "./password";
-import aliases from "./aliases";
-import pagesOrder from "./pagesOrder";
-import Datastore from "nedb";
+import pages from './pages';
+import files from './files';
+import password from './password';
+import aliases from './aliases';
+import pagesOrder from './pagesOrder';
+import Datastore from 'nedb';
 
 interface Options {
   upsert?: boolean;
@@ -18,9 +18,9 @@ interface Options {
  * @property db - nedb Datastore object
  */
 export class Database {
-  db: Datastore;
+  private db: Datastore;
   /**
-   * @constructor
+   * @class
    *
    * @param {Object} nedbInstance - nedb Datastore object
    */
@@ -30,12 +30,13 @@ export class Database {
 
   /**
    * Insert new document into the database
+   *
    * @see https://github.com/louischatriot/nedb#inserting-documents
    *
    * @param {Object} doc - object to insert
    * @returns {Promise<Object|Error>} - inserted doc or Error object
    */
-  async insert(doc: object): Promise<object | Error> {
+  public async insert(doc: object): Promise<object | Error> {
     return new Promise((resolve, reject) => this.db.insert(doc, (err, newDoc) => {
       if (err) {
         reject(err);
@@ -47,13 +48,14 @@ export class Database {
 
   /**
    * Find documents that match passed query
+   *
    * @see https://github.com/louischatriot/nedb#finding-documents
    *
    * @param {Object} query - query object
    * @param {Object} projection - projection object
    * @returns {Promise<Array<Object>|Error>} - found docs or Error object
    */
-  async find(query: object, projection?: object): Promise<Array<object> | Error> {
+  public async find(query: object, projection?: object): Promise<Array<object> | Error> {
     const cbk = (resolve: Function, reject: Function) => (err: Error | null, docs: any[]) => {
       if (err) {
         reject(err);
@@ -73,13 +75,14 @@ export class Database {
 
   /**
    * Find one document matches passed query
+   *
    * @see https://github.com/louischatriot/nedb#finding-documents
    *
    * @param {Object} query - query object
    * @param {Object} projection - projection object
    * @returns {Promise<Object|Error>} - found doc or Error object
    */
-  async findOne(query: object, projection?: object): Promise<object | Error> {
+  public async findOne(query: object, projection?: object): Promise<object | Error> {
     const cbk = (resolve: Function, reject: Function) => (err: Error | null, doc: any) => {
       if (err) {
         reject(err);
@@ -99,18 +102,19 @@ export class Database {
 
   /**
    * Update document matches query
+   *
    * @see https://github.com/louischatriot/nedb#updating-documents
    *
    * @param {Object} query - query object
    * @param {Object} update - fields to update
    * @param {Object} options
-   * @param {Boolean} options.multi - (false) allows update several documents
-   * @param {Boolean} options.upsert - (false) if true, upsert document with update fields.
+   * @param {boolean} options.multi - (false) allows update several documents
+   * @param {boolean} options.upsert - (false) if true, upsert document with update fields.
    *                                    Method will return inserted doc or number of affected docs if doc hasn't been inserted
-   * @param {Boolean} options.returnUpdatedDocs - (false) if true, returns affected docs
+   * @param {boolean} options.returnUpdatedDocs - (false) if true, returns affected docs
    * @returns {Promise<number|Object|Object[]|Error>} - number of updated rows or affected docs or Error object
    */
-  async update(query: object, update: object, options: Options = {}) {
+  public async update(query: object, update: object, options: Options = {}): Promise<any> {
     return new Promise((resolve, reject) => this.db.update(query, update, options, (err, result, affectedDocs) => {
       if (err) {
         reject(err);
@@ -134,14 +138,15 @@ export class Database {
 
   /**
    * Remove document matches passed query
+   *
    * @see https://github.com/louischatriot/nedb#removing-documents
    *
    * @param {Object} query - query object
    * @param {Object} options
-   * @param {Boolean} options.multi - (false) if true, remove several docs
+   * @param {boolean} options.multi - (false) if true, remove several docs
    * @returns {Promise<number|Error>} - number of removed rows or Error object
    */
-  async remove(query: object, options = {}) {
+  public async remove(query: object, options = {}): Promise<number|Error> {
     return new Promise((resolve, reject) => this.db.remove(query, options, (err, result) => {
       if (err) {
         reject(err);
@@ -157,5 +162,5 @@ export default {
   password: new Database(password),
   aliases: new Database(aliases),
   pagesOrder: new Database(pagesOrder),
-  files: new Database(files)
+  files: new Database(files),
 };

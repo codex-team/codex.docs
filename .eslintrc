@@ -1,5 +1,6 @@
 {
   "extends": [
+    "codex/ts",
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
@@ -14,7 +15,8 @@
   "rules": {
     "no-unused-expressions": 0,
     "chai-friendly/no-unused-expressions": 2,
-    "@typescript-eslint/ban-types": 1
+    "@typescript-eslint/ban-types": 1,
+    "@typescript-eslint/no-magic-numbers": 0
   },
   "parser": "@typescript-eslint/parser",
   "globals": {

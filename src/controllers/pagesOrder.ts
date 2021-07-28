@@ -15,7 +15,7 @@ class PagesOrder {
    * @param {string} parentId - of which page we want to get children order
    * @returns {Promise<PageOrder>}
    */
-  static async get(parentId: string): Promise<PageOrder> {
+  public static async get(parentId: string): Promise<PageOrder> {
     const order = await Model.get(parentId);
 
     if (!order._id) {
@@ -30,7 +30,7 @@ class PagesOrder {
    *
    * @returns {Promise<PageOrder[]>}
    */
-  static async getAll(): Promise<PageOrder[]> {
+  public static async getAll(): Promise<PageOrder[]> {
     return Model.getAll();
   }
 
@@ -40,7 +40,7 @@ class PagesOrder {
    * @param {string} parentId - parent page's id
    * @param {string} childId - new page pushed to the order
    */
-  static async push(parentId: string, childId: string): Promise<void> {
+  public static async push(parentId: string, childId: string): Promise<void> {
     const order = await Model.get(parentId);
 
     order.push(childId);
@@ -54,7 +54,7 @@ class PagesOrder {
    * @param {string} newParentId - new parent page's id
    * @param {string} targetPageId - page's id which is changing the parent page
    */
-  static async move(oldParentId: string, newParentId: string, targetPageId: string): Promise<void> {
+  public static async move(oldParentId: string, newParentId: string, targetPageId: string): Promise<void> {
     const oldParentOrder = await Model.get(oldParentId);
 
     oldParentOrder.remove(targetPageId);
@@ -75,7 +75,7 @@ class PagesOrder {
    * @param {boolean} ignoreSelf - should we ignore current page in list or not
    * @returns {Page[]}
    */
-  static async getOrderedChildren(pages: Page[], currentPageId: string, parentPageId: string, ignoreSelf = false): Promise<Page[]> {
+  public static async getOrderedChildren(pages: Page[], currentPageId: string, parentPageId: string, ignoreSelf = false): Promise<Page[]> {
     const children = await Model.get(parentPageId);
     const unordered = pages.filter(page => page._parent === parentPageId).map(page => page._id);
 
@@ -101,7 +101,7 @@ class PagesOrder {
    * @param {string} parentPageId - parent page's id that contains both two pages
    * @param {string} putAbovePageId - page's id above which we put the target page
    */
-  static async update(unordered: string[], currentPageId: string, parentPageId: string, putAbovePageId: string): Promise<void> {
+  public static async update(unordered: string[], currentPageId: string, parentPageId: string, putAbovePageId: string): Promise<void> {
     const pageOrder = await Model.get(parentPageId);
 
     // Create unique array with ordered and unordered pages id
@@ -114,7 +114,7 @@ class PagesOrder {
    * @param {string} parentId
    * @returns {Promise<void>}
    */
-  static async remove(parentId: string): Promise<void> {
+  public static async remove(parentId: string): Promise<void> {
     const order = await Model.get(parentId);
 
     if (!order._id) {

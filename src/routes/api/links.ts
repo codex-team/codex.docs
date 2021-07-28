@@ -1,5 +1,5 @@
-import express, { Request, Response } from "express";
-import ogs from "open-graph-scraper";
+import express, { Request, Response } from 'express';
+import ogs from 'open-graph-scraper';
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ interface ResponseData {
   meta?: {
     title: string | undefined;
     description: string | undefined;
-    site_name: string | undefined;
+    siteName: string | undefined;
     image: { url: string | undefined }
   }
 }
@@ -18,11 +18,12 @@ interface ResponseData {
  */
 router.get('/fetchUrl', async (req: Request, res: Response) => {
   const response: ResponseData = {
-    success: 0
+    success: 0,
   };
 
   if (!req.query.url) {
     res.status(400).json(response);
+
     return;
   }
 
@@ -41,14 +42,14 @@ router.get('/fetchUrl', async (req: Request, res: Response) => {
     response.meta = {
       title: linkData.ogTitle,
       description: linkData.ogDescription,
-      site_name: linkData.ogSiteName,
+      siteName: linkData.ogSiteName,
       image: {
-        url: undefined
-      }
+        url: undefined,
+      },
     };
 
     if (linkData.ogImage !== undefined) {
-      response.meta.image = { url: linkData.ogImage.toString()}
+      response.meta.image = { url: linkData.ogImage.toString() };
     }
 
     res.status(200).json(response);

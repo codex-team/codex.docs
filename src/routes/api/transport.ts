@@ -1,15 +1,16 @@
-import { Request, Response, Router } from "express";
-import multer, { StorageEngine } from "multer";
-import mime from "mime";
-import mkdirp from "mkdirp";
-import Transport from "../../controllers/transport";
-import { random16 } from "../../utils/crypto";
-import config from "config";
+import { Request, Response, Router } from 'express';
+import multer, { StorageEngine } from 'multer';
+import mime from 'mime';
+import mkdirp from 'mkdirp';
+import Transport from '../../controllers/transport';
+import { random16 } from '../../utils/crypto';
+import config from 'config';
 
 const router = Router();
 
 /**
  * Multer storage for uploaded files and images
+ *
  * @type {StorageEngine}
  */
 const storage: StorageEngine = multer.diskStorage({
@@ -21,9 +22,9 @@ const storage: StorageEngine = multer.diskStorage({
   },
   filename: async (req, file, cb) => {
     const filename = await random16();
-    
+
     cb(null, `${filename}.${mime.getExtension(file.mimetype)}`);
-  }
+  },
 });
 
 /**
@@ -34,33 +35,45 @@ const imageUploader = multer({
   fileFilter: (req, file, cb) => {
     if (!/image/.test(file.mimetype) && !/video\/mp4/.test(file.mimetype)) {
       cb(null, false);
+
       return;
     }
 
     cb(null, true);
-  }
-}).fields([ { name: 'image', maxCount: 1 } ]);
+  },
+}).fields([ {
+  name: 'image',
+  maxCount: 1,
+} ]);
 
 /**
  * Multer middleware for file uploading
  */
 const fileUploader = multer({
-  storage: storage
-}).fields([ { name: 'file', maxCount: 1 } ]);
+  storage: storage,
+}).fields([ {
+  name: 'file',
+  maxCount: 1,
+} ]);
 
 /**
  * Accepts images to upload
  */
 router.post('/transport/image', imageUploader, async (req: Request, res: Response) => {
-  const response = { success: 0, message: ''};
+  const response = {
+    success: 0,
+    message: '',
+  };
 
   if (req.files === undefined) {
     response.message = 'No files found';
     res.status(400).json(response);
+
     return;
   }
   if (!('image' in req.files)) {
     res.status(400).json(response);
+
     return;
   }
 
@@ -85,10 +98,12 @@ router.post('/transport/file', fileUploader, async (req: Request, res: Response)
 
   if (req.files === undefined) {
     res.status(400).json(response);
+
     return;
   }
   if (!('file' in req.files)) {
     res.status(400).json(response);
+
     return;
   }
 
@@ -113,6 +128,7 @@ router.post('/transport/fetch', multer().none(), async (req: Request, res: Respo
 
   if (!req.body.url) {
     res.status(400).json(response);
+
     return;
   }
 

@@ -22,44 +22,10 @@ export interface PageOrderData {
  * Creates order for Pages with children
  */
 class PageOrder {
-  _id?: string;
-  page?: string;
-  _order?: string[];
-  /**
-   * Returns current Page's children order
-   *
-   * @param {string} pageId - page's id
-   * @returns {Promise<PageOrder>}
-   */
-  static async get(pageId: string): Promise<PageOrder> {
-    const order = await db.findOne({ page: pageId });
+  public _id?: string;
+  public page?: string;
+  private _order?: string[];
 
-    let data = {} as PageOrderData;
-
-    if (order instanceof Error || order === null) {
-      data.page = pageId;
-    } else {
-      data = order;
-    }
-
-    return new PageOrder(data);
-  }
-
-  /**
-   * Find all pages which match passed query object
-   *
-   * @param {object} query
-   * @returns {Promise<PageOrder[]>}
-   */
-  static async getAll(query: object = {}): Promise<PageOrder[]> {
-    const docs = await db.find(query);
-
-    if (docs === null || docs instanceof Error) {
-      return [];
-    }
-
-    return Promise.all(docs.map(doc => new PageOrder(doc)));
-  }
 
   /**
    * @class
@@ -79,11 +45,47 @@ class PageOrder {
   }
 
   /**
+   * Returns current Page's children order
+   *
+   * @param {string} pageId - page's id
+   * @returns {Promise<PageOrder>}
+   */
+  public static async get(pageId: string): Promise<PageOrder> {
+    const order = await db.findOne({ page: pageId });
+
+    let data = {} as PageOrderData;
+
+    if (order instanceof Error || order === null) {
+      data.page = pageId;
+    } else {
+      data = order;
+    }
+
+    return new PageOrder(data);
+  }
+
+  /**
+   * Find all pages which match passed query object
+   *
+   * @param {object} query
+   * @returns {Promise<PageOrder[]>}
+   */
+  public static async getAll(query: object = {}): Promise<PageOrder[]> {
+    const docs = await db.find(query);
+
+    if (docs === null || docs instanceof Error) {
+      return [];
+    }
+
+    return Promise.all(docs.map(doc => new PageOrder(doc)));
+  }
+
+  /**
    * constructor data setter
    *
    * @param {PageOrderData} pageOrderData
    */
-  set data(pageOrderData: PageOrderData) {
+  public set data(pageOrderData: PageOrderData) {
     this.page = pageOrderData.page || '0';
     this.order = pageOrderData.order || [];
   }
@@ -93,7 +95,7 @@ class PageOrder {
    *
    * @returns {PageOrderData}
    */
-  get data(): PageOrderData {
+  public get data(): PageOrderData {
     return {
       _id: this._id,
       page: '' + this.page,
@@ -106,7 +108,7 @@ class PageOrder {
    *
    * @param {string} pageId - page's id
    */
-  push(pageId: string): void {
+  public push(pageId: string): void {
     if (typeof pageId === 'string') {
       if (this.order === undefined) {
         this.order = [];
@@ -122,7 +124,7 @@ class PageOrder {
    *
    * @param {string} pageId - page's id
    */
-  remove(pageId: string): void {
+  public remove(pageId: string): void {
     if (this.order === undefined) {
       return;
     }
@@ -138,9 +140,9 @@ class PageOrder {
    * @param {string} currentPageId - page's id that changes the order
    * @param {string} putAbovePageId - page's id above which we put the target page
    *
-   * @returns void
+   * @returns {void}
    */
-  putAbove(currentPageId: string, putAbovePageId: string): void {
+  public putAbove(currentPageId: string, putAbovePageId: string): void {
     if (this.order === undefined) {
       return;
     }
@@ -163,7 +165,7 @@ class PageOrder {
    *
    * @param {string} pageId
    */
-  getPageBefore(pageId: string): string | null {
+  public getPageBefore(pageId: string): string | null {
     if (this.order === undefined) {
       return null;
     }
@@ -185,7 +187,7 @@ class PageOrder {
    *
    * @param pageId
    */
-  getPageAfter(pageId: string): string | null {
+  public getPageAfter(pageId: string): string | null {
     if (this.order === undefined) {
       return null;
     }
@@ -205,7 +207,7 @@ class PageOrder {
   /**
    * @param {string[]} order - define new order
    */
-  set order(order: string[]) {
+  public set order(order: string[]) {
     this._order = order;
   }
 
@@ -214,15 +216,16 @@ class PageOrder {
    *
    * @returns {string[]}
    */
-  get order(): string[] {
+  public get order(): string[] {
     return this._order || [];
   }
 
   /**
    * Save or update page data in the database
+   *
    * @returns {Promise<PageOrder>}
    */
-  async save(): Promise<PageOrder> {
+  public async save(): Promise<PageOrder> {
     if (!this._id) {
       const insertedRow = await db.insert(this.data) as { _id: string};
 
@@ -238,9 +241,10 @@ class PageOrder {
 
   /**
    * Remove page data from the database
+   *
    * @returns {Promise<void>}
    */
-  async destroy(): Promise<void> {
+  public async destroy(): Promise<void> {
     await db.remove({ _id: this._id });
 
     delete this._id;

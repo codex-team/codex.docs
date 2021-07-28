@@ -10,16 +10,17 @@
   ],
   "scripts": {
     "start": "cross-env NODE_ENV=production nodemon --config nodemon.json ./bin/server.js",
+    "start:ts": "cross-env NODE_ENV=production nodemon --config nodemon.json ./bin/server.ts",
     "start:dev": "cross-env NODE_ENV=development nodemon --config nodemon.json ./bin/server.ts",
-    "test": "cross-env NODE_ENV=testing mocha --recursive ./test",
+    "test": "cross-env NODE_ENV=testing mocha --recursive ./test --exit",
+    "test:ts": "cross-env NODE_ENV=testing ts-mocha ./test/*.ts ./test/**/*.ts --exit",
     "lint": "eslint --fix --cache --ext .ts ./src",
     "build": "webpack ./src/frontend/js/app.js --o='./public/dist/[name].bundle.js' --output-library=Docs --output-public-path=/dist/ -p --mode=production",
     "build:dev": "webpack ./src/frontend/js/app.js --o='./public/dist/[name].bundle.js' --output-library=Docs --output-public-path=/dist/ -p --mode=development --watch",
-    "precommit": "yarn lint && yarn test --exit",
-    "generatePassword": "node ./generatePassword.js",
+    "precommit": "yarn lint && yarn test:ts",
+    "generatePassword": "ts-node ./generatePassword.ts",
     "editor-upgrade": "yarn add -D @editorjs/{editorjs,header,code,delimiter,list,link,image,table,inline-code,marker,warning,checklist,raw}@latest",
-    "test:ts": "cross-env NODE_ENV=testing ts-mocha --recursive ./test",
-    "build:ts": "npx tsc"
+    "compile": "npx tsc"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -42,6 +43,7 @@
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.12",
     "open-graph-scraper": "^4.9.0",
+    "ts-node": "^10.1.0",
     "twig": "^1.15.4",
     "typescript-eslint": "^0.0.1-alpha.0",
     "uuid4": "^2.0.2"
@@ -128,7 +130,6 @@
     "rimraf": "^3.0.2",
     "sinon": "^11.1.2",
     "ts-mocha": "^8.0.0",
-    "ts-node": "^10.1.0",
     "typescript": "^4.3.5",
     "webpack": "^4.17.1",
     "webpack-cli": "^3.1.0"

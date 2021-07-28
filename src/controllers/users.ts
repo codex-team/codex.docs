@@ -11,7 +11,7 @@ class Users {
    *
    * @returns {Promise<User>}
    */
-  static async get(): Promise<User|Error> {
+  public static async get(): Promise<User|Error> {
     const userDoc = await Model.get();
 
     return userDoc;

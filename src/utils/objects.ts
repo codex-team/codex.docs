@@ -6,8 +6,12 @@
  * @returns {object}
  */
 
+/**
+ * @param target
+ * @param {...any} sources
+ */
 function deepMerge(target: any, ...sources: any[]): object {
-  const isObject = (item: any) => item && typeof item === 'object' && !Array.isArray(item);
+  const isObject = (item: any): boolean => item && typeof item === 'object' && !Array.isArray(item);
 
   if (!sources.length) {
     return target;

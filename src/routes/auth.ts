@@ -5,7 +5,7 @@ import config from 'config';
 import bcrypt from 'bcrypt';
 import csrf from 'csurf';
 
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 dotenv.config();
 
 const router = express.Router();

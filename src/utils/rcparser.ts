@@ -27,7 +27,7 @@ export default class RCParser {
    * @static
    * @returns {{title: string, menu: Array}}
    */
-  static get DEFAULTS():RConfig {
+  public static get DEFAULTS():RConfig {
     return {
       title: 'CodeX Docs',
       menu: [],
@@ -40,7 +40,7 @@ export default class RCParser {
    * @static
    * @returns {{title: string, menu: []}}
    */
-  static getConfiguration(): RConfig {
+  public static getConfiguration(): RConfig {
     if (!fs.existsSync(rcPath)) {
       return RCParser.DEFAULTS;
     }

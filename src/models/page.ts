@@ -31,58 +31,11 @@ export interface PageData {
  * @property {string} _parent - id of parent page
  */
 class Page {
-  _id?: string;
-  body: any;
-  title: any;
-  uri: any;
-  _parent: any;
-  /**
-   * Find and return model of page with given id
-   *
-   * @param {string} _id - page id
-   * @returns {Promise<Page>}
-   */
-  static async get(_id: string): Promise<Page> {
-    const data = await pagesDb.findOne({ _id });
-
-    if (data instanceof Error) {
-      return new Page();
-    }
-
-    return new Page(data);
-  }
-
-  /**
-   * Find and return model of page with given uri
-   *
-   * @param {string} uri - page uri
-   * @returns {Promise<Page>}
-   */
-  static async getByUri(uri: string): Promise<Page> {
-    const data = await pagesDb.findOne({ uri });
-
-    if (data instanceof Error) {
-      return new Page();
-    }
-
-    return new Page(data);
-  }
-
-  /**
-   * Find all pages which match passed query object
-   *
-   * @param {object} query
-   * @returns {Promise<Page[]>}
-   */
-  static async getAll(query: object = {}): Promise<Page[]> {
-    const docs = await pagesDb.find(query);
-
-    if (docs instanceof Error) {
-      return [];
-    }
-
-    return Promise.all(docs.map(doc => new Page(doc)));
-  }
+  public _id?: string;
+  public body: any;
+  public title: any;
+  public uri: any;
+  public _parent: any;
 
   /**
    * @class
@@ -102,11 +55,59 @@ class Page {
   }
 
   /**
+   * Find and return model of page with given id
+   *
+   * @param {string} _id - page id
+   * @returns {Promise<Page>}
+   */
+  public static async get(_id: string): Promise<Page> {
+    const data = await pagesDb.findOne({ _id });
+
+    if (data instanceof Error) {
+      return new Page();
+    }
+
+    return new Page(data);
+  }
+
+  /**
+   * Find and return model of page with given uri
+   *
+   * @param {string} uri - page uri
+   * @returns {Promise<Page>}
+   */
+  public static async getByUri(uri: string): Promise<Page> {
+    const data = await pagesDb.findOne({ uri });
+
+    if (data instanceof Error) {
+      return new Page();
+    }
+
+    return new Page(data);
+  }
+
+  /**
+   * Find all pages which match passed query object
+   *
+   * @param {object} query
+   * @returns {Promise<Page[]>}
+   */
+  public static async getAll(query: object = {}): Promise<Page[]> {
+    const docs = await pagesDb.find(query);
+
+    if (docs instanceof Error) {
+      return [];
+    }
+
+    return Promise.all(docs.map(doc => new Page(doc)));
+  }
+
+  /**
    * Set PageData object fields to internal model fields
    *
    * @param {PageData} pageData
    */
-  set data(pageData: PageData) {
+  public set data(pageData: PageData) {
     const { body, parent, uri } = pageData;
 
     this.body = body || this.body;
@@ -120,7 +121,7 @@ class Page {
    *
    * @returns {PageData}
    */
-  get data(): PageData {
+  public get data(): PageData {
     return {
       _id: this._id,
       title: this.title,
@@ -131,31 +132,11 @@ class Page {
   }
 
   /**
-   * Extract first header from editor data
-   *
-   * @returns {string}
-   */
-  extractTitleFromBody(): string {
-    const headerBlock = this.body ? this.body.blocks.find((block: any) => block.type === 'header') : '';
-
-    return headerBlock ? headerBlock.data.text : '';
-  }
-
-  /**
-   * Transform title for uri
-   *
-   * @returns {string}
-   */
-  transformTitleToUri(): string {
-    return urlify(this.title);
-  }
-
-  /**
    * Link given page as parent
    *
    * @param {Page} parentPage
    */
-  set parent(parentPage: Page) {
+  public set parent(parentPage: Page) {
     this._parent = parentPage._id;
   }
 
@@ -164,8 +145,7 @@ class Page {
    *
    * @returns {Promise<Page>}
    */
-
-  async getParent(): Promise<Page|null> {
+  public async getParent(): Promise<Page|null> {
     const data = await pagesDb.findOne({ _id: this._parent });
 
     if (data instanceof Error) {
@@ -180,7 +160,7 @@ class Page {
    *
    * @returns {Promise<Page[]>}
    */
-  get children(): Promise<Page[]> {
+  public get children(): Promise<Page[]> {
     return pagesDb.find({ parent: this._id })
       .then(data => {
         if (data instanceof Error) {
@@ -196,7 +176,7 @@ class Page {
    *
    * @returns {Promise<Page>}
    */
-  async save(): Promise<Page> {
+  public async save(): Promise<Page> {
     this.uri = await this.composeUri(this.uri);
 
     if (!this._id) {
@@ -215,7 +195,7 @@ class Page {
    *
    * @returns {Promise<Page>}
    */
-  async destroy(): Promise<Page> {
+  public async destroy(): Promise<Page> {
     await pagesDb.remove({ _id: this._id });
 
     delete this._id;
@@ -224,12 +204,21 @@ class Page {
   }
 
   /**
+   * Return readable page data
+   *
+   * @returns {PageData}
+   */
+  public toJSON(): PageData {
+    return this.data;
+  }
+
+  /**
    * Find and return available uri
    *
    * @returns {Promise<string>}
    * @param uri
    */
-  async composeUri(uri: string): Promise<string> {
+  private async composeUri(uri: string): Promise<string> {
     let pageWithSameUriCount = 0;
 
     if (!this._id) {
@@ -249,12 +238,23 @@ class Page {
   }
 
   /**
-   * Return readable page data
+   * Extract first header from editor data
    *
-   * @returns {PageData}
+   * @returns {string}
    */
-  toJSON(): PageData {
-    return this.data;
+  private extractTitleFromBody(): string {
+    const headerBlock = this.body ? this.body.blocks.find((block: any) => block.type === 'header') : '';
+
+    return headerBlock ? headerBlock.data.text : '';
+  }
+
+  /**
+   * Transform title for uri
+   *
+   * @returns {string}
+   */
+  private transformTitleToUri(): string {
+    return urlify(this.title);
   }
 }
 

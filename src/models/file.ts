@@ -35,51 +35,12 @@ export interface FileData {
  * @property {number} size - size of the file in
  */
 class File {
-  _id: string | undefined;
-  name: string | undefined;
-  filename: string | undefined;
-  path: string | undefined;
-  mimetype: string | undefined;
-  size: number | undefined;
-  /**
-   * Find and return model of file with given id
-   *
-   * @param {string} _id - file id
-   * @returns {Promise<File>}
-   */
-  static async get(_id: string): Promise<File> {
-    const data = await filesDb.findOne({ _id });
-
-    return new File(data);
-  }
-
-  /**
-   * Find and return model of file with given id
-   *
-   * @param {string} filename - uploaded filename
-   * @returns {Promise<File>}
-   */
-  static async getByFilename(filename: string): Promise<File> {
-    const data = await filesDb.findOne({ filename });
-
-    return new File(data);
-  }
-
-  /**
-   * Find all files which match passed query object
-   *
-   * @param {object} query
-   * @returns {Promise<File[]>}
-   */
-  static async getAll(query: object = {}): Promise<File[]> {
-    const docs = await filesDb.find(query);
-
-    if (docs instanceof Error) {
-      return [];
-    }
-
-    return Promise.all(docs.map(doc => new File(doc)));
-  }
+  public _id: string | undefined;
+  public name: string | undefined;
+  public filename: string | undefined;
+  public path: string | undefined;
+  public mimetype: string | undefined;
+  public size: number | undefined;
 
   /**
    * @class
@@ -97,13 +58,52 @@ class File {
 
     this.data = data;
   }
+  /**
+   * Find and return model of file with given id
+   *
+   * @param {string} _id - file id
+   * @returns {Promise<File>}
+   */
+  public static async get(_id: string): Promise<File> {
+    const data = await filesDb.findOne({ _id });
+
+    return new File(data);
+  }
+
+  /**
+   * Find and return model of file with given id
+   *
+   * @param {string} filename - uploaded filename
+   * @returns {Promise<File>}
+   */
+  public static async getByFilename(filename: string): Promise<File> {
+    const data = await filesDb.findOne({ filename });
+
+    return new File(data);
+  }
+
+  /**
+   * Find all files which match passed query object
+   *
+   * @param {object} query
+   * @returns {Promise<File[]>}
+   */
+  public static async getAll(query: object = {}): Promise<File[]> {
+    const docs = await filesDb.find(query);
+
+    if (docs instanceof Error) {
+      return [];
+    }
+
+    return Promise.all(docs.map(doc => new File(doc)));
+  }
 
   /**
    * Set FileData object fields to internal model fields
    *
    * @param {FileData} fileData
    */
-  set data(fileData: FileData) {
+  public set data(fileData: FileData) {
     const { name, filename, path, mimetype, size } = fileData;
 
     this.name = name || this.name;
@@ -118,7 +118,7 @@ class File {
    *
    * @returns {FileData}
    */
-  get data(): FileData {
+  public get data(): FileData {
     return {
       _id: this._id,
       name: this.name,
@@ -134,7 +134,7 @@ class File {
    *
    * @returns {Promise<File>}
    */
-  async save(): Promise<File> {
+  public async save(): Promise<File> {
     if (!this._id) {
       const insertedRow = await filesDb.insert(this.data) as { _id: string };
 
@@ -151,7 +151,7 @@ class File {
    *
    * @returns {Promise<File>}
    */
-  async destroy(): Promise<File> {
+  public async destroy(): Promise<File> {
     await filesDb.remove({ _id: this._id });
 
     delete this._id;
@@ -160,22 +160,22 @@ class File {
   }
 
   /**
+   * Return readable file data
+   *
+   * @returns {FileData}
+   */
+  public toJSON(): FileData {
+    return this.data;
+  }
+
+  /**
    * Removes unnecessary public folder prefix
    *
    * @param {string} path
    * @returns {string}
    */
-  processPath(path: string): string {
+  private processPath(path: string): string {
     return path.replace(/^public/, '');
-  }
-
-  /**
-   * Return readable file data
-   *
-   * @returns {FileData}
-   */
-  toJSON(): FileData {
-    return this.data;
   }
 }
 

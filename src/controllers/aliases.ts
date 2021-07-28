@@ -11,7 +11,7 @@ class Aliases {
    * @param {string} aliasName - alias name of entity
    * @returns {Promise<Alias>}
    */
-  static async get(aliasName: string): Promise<Alias> {
+  public static async get(aliasName: string): Promise<Alias> {
     const alias = await Alias.get(aliasName);
 
     if (!alias.id) {

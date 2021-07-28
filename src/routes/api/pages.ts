@@ -1,7 +1,7 @@
-import express, { Request, Response } from "express";
-import Pages from "../../controllers/pages";
-import PagesOrder from "../../controllers/pagesOrder";
-import multerFunc from "multer";
+import express, { Request, Response } from 'express';
+import Pages from '../../controllers/pages';
+import PagesOrder from '../../controllers/pagesOrder';
+import multerFunc from 'multer';
 
 const router = express.Router();
 const multer = multerFunc();
@@ -18,12 +18,12 @@ router.get('/page/:id', async (req: Request, res: Response) => {
 
     res.json({
       success: true,
-      result: page.data
+      result: page.data,
     });
   } catch (err) {
     res.status(400).json({
       success: false,
-      error: err.message
+      error: err.message,
     });
   }
 });
@@ -39,12 +39,12 @@ router.get('/pages', async (req: Request, res: Response) => {
 
     res.json({
       success: true,
-      result: pages
+      result: pages,
     });
   } catch (err) {
     res.status(400).json({
       success: false,
-      error: err.message
+      error: err.message,
     });
   }
 });
@@ -57,10 +57,14 @@ router.get('/pages', async (req: Request, res: Response) => {
 router.put('/page', multer.none(), async (req: Request, res: Response) => {
   try {
     const { title, body, parent } = req.body;
-    const page = await Pages.insert({ title, body, parent });
+    const page = await Pages.insert({
+      title,
+      body,
+      parent,
+    });
 
     if (page._id === undefined) {
-      throw new Error("Page not found");
+      throw new Error('Page not found');
     }
 
     /** push to the orders array */
@@ -68,12 +72,12 @@ router.put('/page', multer.none(), async (req: Request, res: Response) => {
 
     res.json({
       success: true,
-      result: page
+      result: page,
     });
   } catch (err) {
     res.status(400).json({
       success: false,
-      error: err.message
+      error: err.message,
     });
   }
 });
@@ -92,7 +96,7 @@ router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
     let page = await Pages.get(id);
 
     if (page._id === undefined) {
-      throw new Error("Page not found");
+      throw new Error('Page not found');
     }
 
     if (page._parent !== parent) {
@@ -107,21 +111,26 @@ router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
           if (typeof item === 'string') {
             unOrdered.push(item);
           }
-        })
+        });
 
         await PagesOrder.update(unOrdered, page._id, page._parent, putAbovePageId);
       }
     }
 
-    page = await Pages.update(id, { title, body, parent, uri });
+    page = await Pages.update(id, {
+      title,
+      body,
+      parent,
+      uri,
+    });
     res.json({
       success: true,
-      result: page
+      result: page,
     });
   } catch (err) {
     res.status(400).json({
       success: false,
-      error: err.message
+      error: err.message,
     });
   }
 });
@@ -137,7 +146,7 @@ router.delete('/page/:id', async (req: Request, res: Response) => {
     const page = await Pages.get(pageId);
 
     if (page._id === undefined) {
-      throw new Error("Page not found");
+      throw new Error('Page not found');
     }
 
     const parentPageOrder = await PagesOrder.get(page._parent);
@@ -166,7 +175,7 @@ router.delete('/page/:id', async (req: Request, res: Response) => {
       try {
         const children = await PagesOrder.get(startFrom);
 
-        order = children.order; 
+        order = children.order;
       } catch (e) {
         order = [];
       }
@@ -179,7 +188,7 @@ router.delete('/page/:id', async (req: Request, res: Response) => {
       try {
         await PagesOrder.remove(startFrom);
       } catch (e) {
-        order = []
+        order = [];
       }
     };
 
@@ -191,12 +200,12 @@ router.delete('/page/:id', async (req: Request, res: Response) => {
 
     res.json({
       success: true,
-      result: pageToRedirect
+      result: pageToRedirect,
     });
   } catch (err) {
     res.status(400).json({
       success: false,
-      error: err.message
+      error: err.message,
     });
   }
 });

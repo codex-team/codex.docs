@@ -2,8 +2,8 @@
  *
  */
 class HttpException extends Error {
-    status: number;
-    message: string;
+    public status: number;
+    public message: string;
     /**
      * @param status
      * @param message

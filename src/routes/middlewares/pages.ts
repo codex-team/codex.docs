@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express";
-import Pages from "../../controllers/pages";
-import PagesOrder from "../../controllers/pagesOrder";
-import Page from "../../models/page";
-import asyncMiddleware from "../../utils/asyncMiddleware";
-import PageOrder from "../../models/pageOrder";
+import { NextFunction, Request, Response } from 'express';
+import Pages from '../../controllers/pages';
+import PagesOrder from '../../controllers/pagesOrder';
+import Page from '../../models/page';
+import asyncMiddleware from '../../utils/asyncMiddleware';
+import PageOrder from '../../models/pageOrder';
 
 /**
  * Process one-level pages list to parent-children list
@@ -14,7 +14,7 @@ import PageOrder from "../../models/pageOrder";
  * @param {number} level
  * @param {number} currentLevel
  *
- * @return {Page[]}
+ * @returns {Page[]}
  */
 function createMenuTree(parentPageId: string, pages: Page[], pagesOrder: PageOrder[], level = 1, currentLevel = 1): Page[] {
   const childrenOrder = pagesOrder.find(order => order.data.page === parentPageId);
@@ -47,13 +47,14 @@ function createMenuTree(parentPageId: string, pages: Page[], pagesOrder: PageOrd
    */
   return branch.filter(page => page && page._id).map(page => {
     return Object.assign({
-      children: createMenuTree(page._id, pages, pagesOrder, level, currentLevel + 1)
+      children: createMenuTree(page._id, pages, pagesOrder, level, currentLevel + 1),
     }, page.data);
   });
 }
 
 /**
  * Middleware for all /page/... routes
+ *
  * @param {Request} req
  * @param {Response} res
  * @param {NextFunction} next
@@ -61,6 +62,7 @@ function createMenuTree(parentPageId: string, pages: Page[], pagesOrder: PageOrd
 export default asyncMiddleware(async (req: Request, res: Response, next: NextFunction) => {
   /**
    * Pages without parent
+   *
    * @type {string}
    */
   const parentIdOfRootPages = '0';

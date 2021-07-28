@@ -12,7 +12,7 @@ const router = express.Router();
 router.get('/page/new', verifyToken, allowEdit, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const pagesAvailable = await Pages.getAll();
-  
+
     res.render('pages/form', {
       pagesAvailable,
       page: null,

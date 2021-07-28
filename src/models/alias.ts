@@ -32,45 +32,11 @@ interface AliasData {
  * @property {string} id - entity title
  */
 class Alias {
-  _id: string | undefined;
-  hash: string | undefined;
-  type: string | undefined;
-  deprecated: boolean | undefined;
-  id: string | undefined;
-  /**
-   * Return Alias types
-   *
-   * @returns {object}
-   */
-  static get types(): { PAGE: string } {
-    return {
-      PAGE: 'page',
-    };
-  }
-
-  /**
-   * Find and return alias with given alias
-   *
-   * @param {string} aliasName - alias of entity
-   * @returns {Promise<Alias>}
-   */
-  static async get(aliasName: string): Promise<Alias> {
-    const hash = binaryMD5(aliasName);
-    let data = await aliasesDb.findOne({
-      hash: hash,
-      deprecated: false,
-    });
-
-    if (!data) {
-      data = await aliasesDb.findOne({ hash: hash });
-    }
-
-    if (data instanceof Error) {
-      return new Alias();
-    }
-
-    return new Alias(data);
-  }
+  public _id: string | undefined;
+  public hash: string | undefined;
+  public type: string | undefined;
+  public deprecated: boolean | undefined;
+  public id: string | undefined;
 
   /**
    * @class
@@ -90,13 +56,61 @@ class Alias {
     }
     this.data = data;
   }
+  /**
+   * Return Alias types
+   *
+   * @returns {object}
+   */
+  public static get types(): { PAGE: string } {
+    return {
+      PAGE: 'page',
+    };
+  }
+
+  /**
+   * Find and return alias with given alias
+   *
+   * @param {string} aliasName - alias of entity
+   * @returns {Promise<Alias>}
+   */
+  public static async get(aliasName: string): Promise<Alias> {
+    const hash = binaryMD5(aliasName);
+    let data = await aliasesDb.findOne({
+      hash: hash,
+      deprecated: false,
+    });
+
+    if (!data) {
+      data = await aliasesDb.findOne({ hash: hash });
+    }
+
+    if (data instanceof Error) {
+      return new Alias();
+    }
+
+    return new Alias(data);
+  }
+
+  /**
+   * Mark alias as deprecated
+   *
+   * @param {string} aliasName - alias of entity
+   * @returns {Promise<Alias>}
+   */
+  public static async markAsDeprecated(aliasName: string): Promise<Alias> {
+    const alias = await Alias.get(aliasName);
+
+    alias.deprecated = true;
+
+    return alias.save();
+  }
 
   /**
    * Save or update alias data in the database
    *
    * @returns {Promise<Alias>}
    */
-  async save(): Promise<Alias> {
+  public async save(): Promise<Alias> {
     if (!this._id) {
       const insertedRow = await aliasesDb.insert(this.data) as { _id: string };
 
@@ -113,7 +127,7 @@ class Alias {
    *
    * @param {AliasData} aliasData
    */
-  set data(aliasData: AliasData) {
+  public set data(aliasData: AliasData) {
     const { id, type, hash, deprecated } = aliasData;
 
     this.id = id || this.id;
@@ -127,7 +141,7 @@ class Alias {
    *
    * @returns {AliasData}
    */
-  get data(): AliasData {
+  public get data(): AliasData {
     return {
       _id: this._id,
       id: this.id,
@@ -138,23 +152,9 @@ class Alias {
   }
 
   /**
-   * Mark alias as deprecated
-   *
-   * @param {string} aliasName - alias of entity
    * @returns {Promise<Alias>}
    */
-  static async markAsDeprecated(aliasName: string): Promise<Alias> {
-    const alias = await Alias.get(aliasName);
-
-    alias.deprecated = true;
-
-    return alias.save();
-  }
-
-  /**
-   * @returns {Promise<Alias>}
-   */
-  async destroy(): Promise<Alias> {
+  public async destroy(): Promise<Alias> {
     await aliasesDb.remove({ _id: this._id });
 
     delete this._id;
