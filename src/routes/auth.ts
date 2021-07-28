@@ -1,11 +1,12 @@
-require('dotenv').config();
-
 import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import Users from '../controllers/users';
 import config from 'config';
 import bcrypt from 'bcrypt';
 import csrf from 'csurf';
+
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const router = express.Router();
 const csrfProtection = csrf({ cookie: true });
@@ -33,6 +34,7 @@ router.post('/auth', parseForm, csrfProtection, async (req: Request, res: Respon
       header: 'Password not set',
       csrfToken: req.csrfToken(),
     });
+
     return;
   }
 

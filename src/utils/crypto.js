@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.random16 = exports.binaryMD5 = void 0;
 const crypto_1 = __importDefault(require("crypto"));
 /**
  *
@@ -10,7 +11,8 @@ const crypto_1 = __importDefault(require("crypto"));
  * @returns {string} - output binary string
  */
 function hexToBinary(hexStr) {
-    return (parseInt(hexStr, 16).toString(2)).padStart(8, '0');
+    return (parseInt(hexStr, 16).toString(2))
+        .padStart(8, '0');
 }
 /**
  * Create binary md5
@@ -23,6 +25,7 @@ function binaryMD5(stringToHash) {
         .update(stringToHash)
         .digest('hex'));
 }
+exports.binaryMD5 = binaryMD5;
 /**
  * Returns 16 random bytes in hex format
  *
@@ -38,6 +41,7 @@ function random16() {
         });
     });
 }
+exports.random16 = random16;
 exports.default = {
     binaryMD5,
     random16,

@@ -12,4 +12,4 @@ export default function allowEdit(req: Request, res: Response, next: NextFunctio
   } else {
     res.redirect('/auth');
   }
-};
+}

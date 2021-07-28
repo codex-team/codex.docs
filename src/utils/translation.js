@@ -74,8 +74,10 @@ const translationTable = {
  * @param string - string to translate
  * @returns {string} - translated string
  */
+/**
+ * @param string
+ */
 function translateString(string) {
     return string.replace(/[А-яёЁ]/g, (char) => translationTable[char] || char);
 }
 exports.default = translateString;
-;

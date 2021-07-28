@@ -1,7 +1,7 @@
-import express, { Request, Response } from 'express';
-import Pages from '../../controllers/pages';
-import PagesOrder from '../../controllers/pagesOrder';
-import multerFunc from 'multer';
+import express, { Request, Response } from "express";
+import Pages from "../../controllers/pages";
+import PagesOrder from "../../controllers/pagesOrder";
+import multerFunc from "multer";
 
 const router = express.Router();
 const multer = multerFunc();
@@ -160,14 +160,16 @@ router.delete('/page/:id', async (req: Request, res: Response) => {
      * @param {string} startFrom
      * @returns {Promise<void>}
      */
-    const deleteRecursively = async (startFrom: string) => {
+    const deleteRecursively = async (startFrom: string): Promise<void> => {
       let order: string[] = [];
 
       try {
         const children = await PagesOrder.get(startFrom);
 
-        order = children.order;
-      } catch (e) {}
+        order = children.order; 
+      } catch (e) {
+        order = [];
+      }
 
       order.forEach(async id => {
         await deleteRecursively(id);
@@ -176,7 +178,9 @@ router.delete('/page/:id', async (req: Request, res: Response) => {
       await Pages.remove(startFrom);
       try {
         await PagesOrder.remove(startFrom);
-      } catch (e) {}
+      } catch (e) {
+        order = []
+      }
     };
 
     await deleteRecursively(req.params.id);

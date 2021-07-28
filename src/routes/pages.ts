@@ -10,12 +10,17 @@ const router = express.Router();
  * Create new page form
  */
 router.get('/page/new', verifyToken, allowEdit, async (req: Request, res: Response, next: NextFunction) => {
-  const pagesAvailable = await Pages.getAll();
-
-  res.render('pages/form', {
-    pagesAvailable,
-    page: null,
-  });
+  try {
+    const pagesAvailable = await Pages.getAll();
+  
+    res.render('pages/form', {
+      pagesAvailable,
+      page: null,
+    });
+  } catch (error) {
+    res.status(404);
+    next(error);
+  }
 });
 
 /**

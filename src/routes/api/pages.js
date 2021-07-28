@@ -163,7 +163,9 @@ router.delete('/page/:id', (req, res) => __awaiter(void 0, void 0, void 0, funct
                 const children = yield pagesOrder_1.default.get(startFrom);
                 order = children.order;
             }
-            catch (e) { }
+            catch (e) {
+                order = [];
+            }
             order.forEach((id) => __awaiter(void 0, void 0, void 0, function* () {
                 yield deleteRecursively(id);
             }));
@@ -171,7 +173,9 @@ router.delete('/page/:id', (req, res) => __awaiter(void 0, void 0, void 0, funct
             try {
                 yield pagesOrder_1.default.remove(startFrom);
             }
-            catch (e) { }
+            catch (e) {
+                order = [];
+            }
         });
         yield deleteRecursively(req.params.id);
         // remove also from parent's order

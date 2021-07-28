@@ -1,9 +1,9 @@
-import pages from './pages';
-import files from './files';
-import password from './password';
-import aliases from './aliases';
-import pagesOrder from './pagesOrder';
-import Datastore from 'nedb';
+import pages from "./pages";
+import files from "./files";
+import password from "./password";
+import aliases from "./aliases";
+import pagesOrder from "./pagesOrder";
+import Datastore from "nedb";
 
 interface Options {
   upsert?: boolean;
@@ -17,7 +17,7 @@ interface Options {
  *
  * @property db - nedb Datastore object
  */
-class Database {
+export class Database {
   db: Datastore;
   /**
    * @constructor
@@ -153,7 +153,6 @@ class Database {
 }
 
 export default {
-  class: Database,
   pages: new Database(pages),
   password: new Database(password),
   aliases: new Database(aliases),

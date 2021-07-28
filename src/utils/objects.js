@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Merge to objects recursively
  *
@@ -7,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @param {object[]} sources
  * @returns {object}
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 function deepMerge(target, ...sources) {
     const isObject = (item) => item && typeof item === 'object' && !Array.isArray(item);
     if (!sources.length) {

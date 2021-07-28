@@ -15,4 +15,3 @@ function allowEdit(req, res, next) {
     }
 }
 exports.default = allowEdit;
-;

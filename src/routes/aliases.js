@@ -32,7 +32,7 @@ router.get('*', token_1.default, (req, res) => __awaiter(void 0, void 0, void 0,
         }
         const alias = yield aliases_1.default.get(url);
         if (alias.id === undefined) {
-            throw new Error("Alias not found");
+            throw new Error('Alias not found');
         }
         switch (alias.type) {
             case alias_1.default.types.PAGE: {

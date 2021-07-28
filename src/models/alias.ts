@@ -4,7 +4,6 @@ import database from '../utils/database/index';
 const binaryMD5 = crypto.binaryMD5;
 const aliasesDb = database['aliases'];
 
-
 /**
  * @typedef {object} AliasData
  * @property {string} _id - alias id
@@ -47,7 +46,7 @@ class Alias {
     return {
       PAGE: 'page',
     };
-  };
+  }
 
   /**
    * Find and return alias with given alias
@@ -79,7 +78,7 @@ class Alias {
    * @param {AliasData} data
    * @param {string} aliasName - alias of entity
    */
-  constructor(data: AliasData = {}, aliasName: string = '') {
+  constructor(data: AliasData = {}, aliasName = '') {
     if (data === null) {
       data = {};
     }
@@ -144,7 +143,7 @@ class Alias {
    * @param {string} aliasName - alias of entity
    * @returns {Promise<Alias>}
    */
-  static async markAsDeprecated(aliasName: string) {
+  static async markAsDeprecated(aliasName: string): Promise<Alias> {
     const alias = await Alias.get(aliasName);
 
     alias.deprecated = true;
@@ -155,7 +154,7 @@ class Alias {
   /**
    * @returns {Promise<Alias>}
    */
-  async destroy() {
+  async destroy(): Promise<Alias> {
     await aliasesDb.remove({ _id: this._id });
 
     delete this._id;

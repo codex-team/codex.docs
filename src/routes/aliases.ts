@@ -22,8 +22,8 @@ router.get('*', verifyToken, async (req: Request, res: Response) => {
 
     const alias = await Aliases.get(url);
 
-    if (alias.id === undefined){
-      throw new Error("Alias not found");
+    if (alias.id === undefined) {
+      throw new Error('Alias not found');
     }
 
     switch (alias.type) {

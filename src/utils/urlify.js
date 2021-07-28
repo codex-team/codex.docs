@@ -29,4 +29,3 @@ function urlify(string) {
     return string;
 }
 exports.default = urlify;
-;

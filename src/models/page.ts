@@ -64,7 +64,7 @@ class Page {
     if (data instanceof Error) {
       return new Page();
     }
-    
+
     return new Page(data);
   }
 
@@ -135,7 +135,7 @@ class Page {
    *
    * @returns {string}
    */
-  extractTitleFromBody() {
+  extractTitleFromBody(): string {
     const headerBlock = this.body ? this.body.blocks.find((block: any) => block.type === 'header') : '';
 
     return headerBlock ? headerBlock.data.text : '';
@@ -146,7 +146,7 @@ class Page {
    *
    * @returns {string}
    */
-  transformTitleToUri() {
+  transformTitleToUri(): string {
     return urlify(this.title);
   }
 
@@ -164,13 +164,15 @@ class Page {
    *
    * @returns {Promise<Page>}
    */
-  get parent(): Page {
-    const data = pagesDb.findOne({ _id: this._parent });
-    
+
+  async getParent(): Promise<Page|null> {
+    const data = await pagesDb.findOne({ _id: this._parent });
+
     if (data instanceof Error) {
-      return new Page();
+      return null;
     }
-    return new Page(data as PageData);
+
+    return new Page(data);
   }
 
   /**
@@ -184,7 +186,8 @@ class Page {
         if (data instanceof Error) {
           return [];
         }
-        return data.map(page => new Page(page))
+
+        return data.map(page => new Page(page));
       });
   }
 
@@ -226,7 +229,7 @@ class Page {
    * @returns {Promise<string>}
    * @param uri
    */
-  async composeUri(uri: string) {
+  async composeUri(uri: string): Promise<string> {
     let pageWithSameUriCount = 0;
 
     if (!this._id) {
@@ -250,7 +253,7 @@ class Page {
    *
    * @returns {PageData}
    */
-  toJSON() {
+  toJSON(): PageData {
     return this.data;
   }
 }

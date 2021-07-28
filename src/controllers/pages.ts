@@ -1,7 +1,6 @@
 import Model, { PageData } from '../models/page';
 import Page from '../models/page';
 import Alias from '../models/alias';
-import { deflate } from 'zlib';
 
 /**
  * @class Pages
@@ -13,7 +12,7 @@ class Pages {
    *
    * @returns {['title', 'body']}
    */
-  static get REQUIRED_FIELDS() {
+  static get REQUIRED_FIELDS(): Array<string> {
     return [ 'body' ];
   }
 
@@ -52,11 +51,14 @@ class Pages {
     const pagesAvailable = this.removeChildren(await Pages.getAll(), parent);
 
     const nullfilteredpages: Page[] = [];
-    pagesAvailable.forEach( async (item, index) => {
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    pagesAvailable.forEach(async (item, _index) => {
       if (item instanceof Page) {
         nullfilteredpages.push(item);
       }
-    })
+    });
+
     return nullfilteredpages;
   }
 
@@ -114,7 +116,7 @@ class Pages {
    * @param {PageData} data
    * @throws {Error} - validation error
    */
-  static validate(data: PageData) {
+  static validate(data: PageData): void {
     const allRequiredFields = Pages.REQUIRED_FIELDS.every(field => typeof data[field] !== 'undefined');
 
     if (!allRequiredFields) {

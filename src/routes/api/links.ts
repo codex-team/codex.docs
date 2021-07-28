@@ -1,5 +1,5 @@
-import express, { Request, Response } from 'express';
-import ogs from 'open-graph-scraper';
+import express, { Request, Response } from "express";
+import ogs from "open-graph-scraper";
 
 const router = express.Router();
 

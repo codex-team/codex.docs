@@ -22,7 +22,7 @@ class User {
    */
   static async get(): Promise<User|Error> {
     const data = await db.findOne({});
-    
+
     if (data instanceof Error || data === null) {
       return new Error('User not found');
     }

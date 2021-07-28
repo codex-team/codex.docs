@@ -41,7 +41,7 @@ class RCParser {
         if (!fs_1.default.existsSync(rcPath)) {
             return RCParser.DEFAULTS;
         }
-        const file = fs_1.default.readFileSync(rcPath, "utf-8");
+        const file = fs_1.default.readFileSync(rcPath, 'utf-8');
         const rConfig = RCParser.DEFAULTS;
         let userConfig;
         try {
@@ -94,4 +94,3 @@ class RCParser {
     }
 }
 exports.default = RCParser;
-;

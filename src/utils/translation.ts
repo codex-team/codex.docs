@@ -76,6 +76,9 @@ const translationTable: TransTable = {
  * @returns {string} - translated string
  */
 
+/**
+ * @param string
+ */
 export default function translateString(string: string): string {
   return string.replace(/[А-яёЁ]/g, (char) => translationTable[char] || char);
-};
+}

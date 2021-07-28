@@ -29,9 +29,9 @@ class PageOrder {
    * Returns current Page's children order
    *
    * @param {string} pageId - page's id
-   * @returns {PageOrder}
+   * @returns {Promise<PageOrder>}
    */
-  static async get(pageId: string) {
+  static async get(pageId: string): Promise<PageOrder> {
     const order = await db.findOne({ page: pageId });
 
     let data = {} as PageOrderData;
@@ -70,14 +70,14 @@ class PageOrder {
     if (data === null) {
       data = {};
     }
-    
+
     if (data._id) {
       this._id = data._id;
     }
-    
+
     this.data = data;
   }
-  
+
   /**
    * constructor data setter
    *
@@ -106,10 +106,10 @@ class PageOrder {
    *
    * @param {string} pageId - page's id
    */
-  push(pageId: string) {
+  push(pageId: string): void {
     if (typeof pageId === 'string') {
       if (this.order === undefined) {
-        this.order = []
+        this.order = [];
       }
       this.order.push(pageId);
     } else {
@@ -122,7 +122,7 @@ class PageOrder {
    *
    * @param {string} pageId - page's id
    */
-  remove(pageId: string) {
+  remove(pageId: string): void {
     if (this.order === undefined) {
       return;
     }
@@ -140,7 +140,7 @@ class PageOrder {
    *
    * @returns void
    */
-  putAbove(currentPageId: string, putAbovePageId: string) {
+  putAbove(currentPageId: string, putAbovePageId: string): void {
     if (this.order === undefined) {
       return;
     }
@@ -163,9 +163,9 @@ class PageOrder {
    *
    * @param {string} pageId
    */
-  getPageBefore(pageId: string) {
+  getPageBefore(pageId: string): string | null {
     if (this.order === undefined) {
-      return;
+      return null;
     }
 
     const currentPageInOrder = this.order.indexOf(pageId);
@@ -174,7 +174,7 @@ class PageOrder {
      * If page not found or first return nothing
      */
     if (currentPageInOrder <= 0) {
-      return;
+      return null;
     }
 
     return this.order[currentPageInOrder - 1];
@@ -185,9 +185,9 @@ class PageOrder {
    *
    * @param pageId
    */
-  getPageAfter(pageId: string) {
+  getPageAfter(pageId: string): string | null {
     if (this.order === undefined) {
-      return;
+      return null;
     }
 
     const currentPageInOrder = this.order.indexOf(pageId);
@@ -196,7 +196,7 @@ class PageOrder {
      * If page not found or is last
      */
     if (currentPageInOrder === -1 || currentPageInOrder === this.order.length - 1) {
-      return;
+      return null;
     }
 
     return this.order[currentPageInOrder + 1];
@@ -220,13 +220,14 @@ class PageOrder {
 
   /**
    * Save or update page data in the database
+   * @returns {Promise<PageOrder>}
    */
-  async save() {
+  async save(): Promise<PageOrder> {
     if (!this._id) {
       const insertedRow = await db.insert(this.data) as { _id: string};
 
       if (!(insertedRow instanceof Error)) {
-          this._id = insertedRow._id;
+        this._id = insertedRow._id;
       }
     } else {
       await db.update({ _id: this._id }, this.data);
@@ -237,13 +238,14 @@ class PageOrder {
 
   /**
    * Remove page data from the database
+   * @returns {Promise<void>}
    */
-  async destroy() {
+  async destroy(): Promise<void> {
     await db.remove({ _id: this._id });
 
     delete this._id;
 
-    return this;
+    // return this;
   }
 }
 

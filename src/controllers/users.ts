@@ -1,4 +1,5 @@
 import Model from '../models/user';
+import User from '../models/user';
 
 /**
  * @class Users
@@ -10,7 +11,7 @@ class Users {
    *
    * @returns {Promise<User>}
    */
-  static async get() {
+  static async get(): Promise<User|Error> {
     const userDoc = await Model.get();
 
     return userDoc;

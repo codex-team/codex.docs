@@ -1,4 +1,4 @@
-import translateString from "./translation";
+import translateString from './translation';
 
 /**
  * Convert text to URL-like string
@@ -7,7 +7,7 @@ import translateString from "./translation";
  * @param {string} string - source string with HTML
  * @returns {string} alias-like string
  */
-export default function urlify(string: string) {
+export default function urlify(string: string): string {
   // strip tags
   string = string.replace(/(<([^>]+)>)/ig, '');
 
@@ -30,4 +30,4 @@ export default function urlify(string: string) {
   string = translateString(string);
 
   return string;
-};
+}

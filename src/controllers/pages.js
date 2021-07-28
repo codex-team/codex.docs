@@ -63,7 +63,8 @@ class Pages {
         return __awaiter(this, void 0, void 0, function* () {
             const pagesAvailable = this.removeChildren(yield Pages.getAll(), parent);
             const nullfilteredpages = [];
-            pagesAvailable.forEach((item, index) => __awaiter(this, void 0, void 0, function* () {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            pagesAvailable.forEach((item, _index) => __awaiter(this, void 0, void 0, function* () {
                 if (item instanceof page_2.default) {
                     nullfilteredpages.push(item);
                 }

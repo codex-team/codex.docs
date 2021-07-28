@@ -1,18 +1,22 @@
 {
   "extends": [
-    "codex"
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "plugins": [
-    "chai-friendly"
+    "chai-friendly",
+    "@typescript-eslint"
   ],
   "env": {
     "mocha": true
   },
   "rules": {
     "no-unused-expressions": 0,
-    "chai-friendly/no-unused-expressions": 2
+    "chai-friendly/no-unused-expressions": 2,
+    "@typescript-eslint/ban-types": 1
   },
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "globals": {
     "fetch": true,
     "alert": true

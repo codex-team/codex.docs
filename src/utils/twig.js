@@ -43,7 +43,7 @@ exports.default = (function () {
         }
         catch (e) {
             console.log(e);
-            return "";
+            return '';
         }
     });
 }());

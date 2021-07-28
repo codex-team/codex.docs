@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @param fn
  * @returns {function(*=, *=, *=)}
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 function asyncMiddleware(fn) {
     return (req, res, next) => {
         Promise.resolve(fn(req, res, next))
@@ -13,4 +14,3 @@ function asyncMiddleware(fn) {
     };
 }
 exports.default = asyncMiddleware;
-;

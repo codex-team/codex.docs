@@ -141,12 +141,14 @@ class Page {
      *
      * @returns {Promise<Page>}
      */
-    get parent() {
-        const data = pagesDb.findOne({ _id: this._parent });
-        if (data instanceof Error) {
-            return new Page();
-        }
-        return new Page(data);
+    getParent() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield pagesDb.findOne({ _id: this._parent });
+            if (data instanceof Error) {
+                return null;
+            }
+            return new Page(data);
+        });
     }
     /**
      * Return child pages models

@@ -77,6 +77,7 @@ class File {
     if (docs instanceof Error) {
       return [];
     }
+
     return Promise.all(docs.map(doc => new File(doc)));
   }
 
@@ -150,7 +151,7 @@ class File {
    *
    * @returns {Promise<File>}
    */
-  async destroy() {
+  async destroy(): Promise<File> {
     await filesDb.remove({ _id: this._id });
 
     delete this._id;
@@ -164,7 +165,7 @@ class File {
    * @param {string} path
    * @returns {string}
    */
-  processPath(path: string) {
+  processPath(path: string): string {
     return path.replace(/^public/, '');
   }
 
@@ -173,7 +174,7 @@ class File {
    *
    * @returns {FileData}
    */
-  toJSON() {
+  toJSON(): FileData {
     return this.data;
   }
 }

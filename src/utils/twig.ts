@@ -1,9 +1,9 @@
 /**
  * Twig extensions
  */
-import twig from "twig";
-import fs from "fs";
-import urlify from "./urlify";
+import twig from 'twig';
+import fs from 'fs';
+import urlify from './urlify';
 
 export default (function () {
   'use strict';
@@ -36,12 +36,13 @@ export default (function () {
    * @param {string} linkUrl - link to be processed
    * @returns {UrlWithStringQuery} — url data
    */
-  twig.extendFunction('parseLink', function (linkUrl: string): string{
+  twig.extendFunction('parseLink', function (linkUrl: string): string {
     try {
       return new URL(linkUrl).toString();
     } catch (e) {
       console.log(e);
-      return "";
+
+      return '';
     }
   });
 }());

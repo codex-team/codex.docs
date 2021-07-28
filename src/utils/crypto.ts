@@ -1,12 +1,13 @@
-import crypto from "crypto";
+import crypto from 'crypto';
 
 /**
- * 
- * @param {string} hexStr - input hex string 
+ *
+ * @param {string} hexStr - input hex string
  * @returns {string} - output binary string
  */
 function hexToBinary(hexStr: string): string {
-  return (parseInt(hexStr, 16).toString(2)).padStart(8, '0');
+  return (parseInt(hexStr, 16).toString(2))
+    .padStart(8, '0');
 }
 
 /**
@@ -15,7 +16,7 @@ function hexToBinary(hexStr: string): string {
  * @param stringToHash - string to hash
  * @returns {string} - binary hash of argument
  */
-function binaryMD5(stringToHash: string): string {
+export function binaryMD5(stringToHash: string): string {
   return hexToBinary(crypto.createHash('md5')
     .update(stringToHash)
     .digest('hex'));
@@ -26,7 +27,7 @@ function binaryMD5(stringToHash: string): string {
  *
  * @returns {Promise<string>}
  */
-function random16(): Promise<string> {
+export function random16(): Promise<string> {
   return new Promise((resolve, reject) => {
     crypto.randomBytes(16, (err, raw) => {
       if (err) {

@@ -3,13 +3,16 @@ import fetch from 'node-fetch';
 import fs from 'fs';
 import nodePath from 'path';
 
-import Model from '../models/file';
+import Model, { FileData } from '../models/file';
 import crypto from '../utils/crypto';
 import deepMerge from '../utils/objects';
 import config from 'config';
-import { FileData } from '../models/file';
 
 const random16 = crypto.random16;
+
+interface Dict {
+  [key: string]: any;
+}
 
 /**
  * @class Transport
@@ -31,7 +34,7 @@ class Transport {
    * @param {object} map - object that represents how should fields of File object should be mapped to response
    * @returns {Promise<FileData>}
    */
-  static async save(multerData: any, map: object): Promise<FileData> {
+  static async save(multerData: Dict, map: Dict): Promise<FileData> {
     const { originalname: name, path, filename, size, mimetype } = multerData;
 
     const file = new Model({
@@ -60,7 +63,7 @@ class Transport {
    * @param {object} map - object that represents how should fields of File object should be mapped to response
    * @returns {Promise<FileData>}
    */
-  static async fetch(url: string, map: object): Promise<FileData> {
+  static async fetch(url: string, map: Dict): Promise<FileData> {
     const fetchedFile = await fetch(url);
     const buffer = await fetchedFile.buffer();
     const filename = await random16();
@@ -96,11 +99,8 @@ class Transport {
    * @param {object} map - object that represents how should fields of File object should be mapped to response
    *
    */
-  static composeResponse(file: Model, map: object) {
-    interface Dict {
-      [key: string]: any;
-    };
-    const response = {} as Dict;
+  static composeResponse(file: Model, map: Dict): Dict {
+    const response: Dict = {};
     const { data } = file;
 
     Object.entries(map).forEach(([name, path]) => {

@@ -97,7 +97,6 @@ class Transport {
      *
      */
     static composeResponse(file, map) {
-        ;
         const response = {};
         const { data } = file;
         Object.entries(map).forEach(([name, path]) => {

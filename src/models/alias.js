@@ -55,7 +55,6 @@ class Alias {
             PAGE: 'page',
         };
     }
-    ;
     /**
      * Find and return alias with given alias
      *

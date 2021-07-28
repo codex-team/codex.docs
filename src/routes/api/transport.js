@@ -12,35 +12,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
+const express_1 = require("express");
 const multer_1 = __importDefault(require("multer"));
 const mime_1 = __importDefault(require("mime"));
 const mkdirp_1 = __importDefault(require("mkdirp"));
 const transport_1 = __importDefault(require("../../controllers/transport"));
-const crypto_1 = __importDefault(require("../../utils/crypto"));
+const crypto_1 = require("../../utils/crypto");
 const config_1 = __importDefault(require("config"));
-const router = express_1.default.Router();
-const random16 = crypto_1.default.random16;
+const router = express_1.Router();
 /**
  * Multer storage for uploaded files and images
- * @type {DiskStorage|DiskStorage}
+ * @type {StorageEngine}
  */
 const storage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
         const dir = config_1.default.get('uploads') || 'public/uploads';
-        // mkdirp(dir, err => cb(err, dir));
         mkdirp_1.default(dir);
+        cb(null, dir);
     },
     filename: (req, file, cb) => __awaiter(void 0, void 0, void 0, function* () {
-        const filename = yield random16();
-        cb(null, `${filename}.${mime_1.default.extension(file.mimetype)}`);
+        const filename = yield crypto_1.random16();
+        cb(null, `${filename}.${mime_1.default.getExtension(file.mimetype)}`);
     })
 });
 /**
  * Multer middleware for image uploading
  */
 const imageUploader = multer_1.default({
-    storage,
+    storage: storage,
     fileFilter: (req, file, cb) => {
         if (!/image/.test(file.mimetype) && !/video\/mp4/.test(file.mimetype)) {
             cb(null, false);
@@ -53,14 +52,19 @@ const imageUploader = multer_1.default({
  * Multer middleware for file uploading
  */
 const fileUploader = multer_1.default({
-    storage
+    storage: storage
 }).fields([{ name: 'file', maxCount: 1 }]);
 /**
  * Accepts images to upload
  */
 router.post('/transport/image', imageUploader, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let response = { success: 0 };
-    if (!req.files || Array.isArray(req.files) || !req.files.image) {
+    const response = { success: 0, message: '' };
+    if (req.files === undefined) {
+        response.message = 'No files found';
+        res.status(400).json(response);
+        return;
+    }
+    if (!('image' in req.files)) {
         res.status(400).json(response);
         return;
     }
@@ -77,8 +81,12 @@ router.post('/transport/image', imageUploader, (req, res) => __awaiter(void 0, v
  * Accepts files to upload
  */
 router.post('/transport/file', fileUploader, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let response = { success: 0 };
-    if (!req.files || Array.isArray(req.files) || !req.files.file) {
+    const response = { success: 0 };
+    if (req.files === undefined) {
+        res.status(400).json(response);
+        return;
+    }
+    if (!('file' in req.files)) {
         res.status(400).json(response);
         return;
     }
@@ -95,7 +103,7 @@ router.post('/transport/file', fileUploader, (req, res) => __awaiter(void 0, voi
  * Accept file url to fetch
  */
 router.post('/transport/fetch', multer_1.default().none(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let response = { success: 0 };
+    const response = { success: 0 };
     if (!req.body.url) {
         res.status(400).json(response);
         return;

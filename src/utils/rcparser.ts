@@ -1,6 +1,6 @@
-import fs from "fs";
-import path from "path";
-import config from "config";
+import fs from 'fs';
+import path from 'path';
+import config from 'config';
 
 const rcPath = path.resolve(__dirname, '../../', config.get('rcFile') || './.codexdocsrc');
 
@@ -27,7 +27,7 @@ export default class RCParser {
    * @static
    * @returns {{title: string, menu: Array}}
    */
-  static get DEFAULTS() {
+  static get DEFAULTS():RConfig {
     return {
       title: 'CodeX Docs',
       menu: [],
@@ -40,12 +40,12 @@ export default class RCParser {
    * @static
    * @returns {{title: string, menu: []}}
    */
-  static getConfiguration() {
+  static getConfiguration(): RConfig {
     if (!fs.existsSync(rcPath)) {
       return RCParser.DEFAULTS;
     }
 
-    const file = fs.readFileSync(rcPath, "utf-8");
+    const file = fs.readFileSync(rcPath, 'utf-8');
     const rConfig = RCParser.DEFAULTS;
     let userConfig;
 
@@ -111,4 +111,4 @@ export default class RCParser {
 
     return rConfig;
   }
-};
+}

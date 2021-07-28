@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
-import Pages from '../../controllers/pages';
-import PagesOrder from '../../controllers/pagesOrder';
-import Page from '../../models/page';
-import asyncMiddleware from '../../utils/asyncMiddleware';
-import PageOrder from '../../models/pageOrder';
+import { NextFunction, Request, Response } from "express";
+import Pages from "../../controllers/pages";
+import PagesOrder from "../../controllers/pagesOrder";
+import Page from "../../models/page";
+import asyncMiddleware from "../../utils/asyncMiddleware";
+import PageOrder from "../../models/pageOrder";
 
 /**
  * Process one-level pages list to parent-children list
@@ -16,7 +16,7 @@ import PageOrder from '../../models/pageOrder';
  *
  * @return {Page[]}
  */
-function createMenuTree(parentPageId: string, pages: Page[], pagesOrder: PageOrder[], level: number = 1, currentLevel: number = 1): Page[] {
+function createMenuTree(parentPageId: string, pages: Page[], pagesOrder: PageOrder[], level = 1, currentLevel = 1): Page[] {
   const childrenOrder = pagesOrder.find(order => order.data.page === parentPageId);
 
   /**
@@ -63,7 +63,7 @@ export default asyncMiddleware(async (req: Request, res: Response, next: NextFun
    * Pages without parent
    * @type {string}
    */
-  const parentIdOfRootPages: string = '0';
+  const parentIdOfRootPages = '0';
 
   try {
     const pages = await Pages.getAll();

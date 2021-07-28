@@ -22,11 +22,17 @@ const router = express_1.default.Router();
  * Create new page form
  */
 router.get('/page/new', token_1.default, locals_1.default, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const pagesAvailable = yield pages_1.default.getAll();
-    res.render('pages/form', {
-        pagesAvailable,
-        page: null,
-    });
+    try {
+        const pagesAvailable = yield pages_1.default.getAll();
+        res.render('pages/form', {
+            pagesAvailable,
+            page: null,
+        });
+    }
+    catch (error) {
+        res.status(404);
+        next(error);
+    }
 }));
 /**
  * Edit page form

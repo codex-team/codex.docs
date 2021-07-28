@@ -39,7 +39,7 @@ class PageOrder {
      * Returns current Page's children order
      *
      * @param {string} pageId - page's id
-     * @returns {PageOrder}
+     * @returns {Promise<PageOrder>}
      */
     static get(pageId) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -146,14 +146,14 @@ class PageOrder {
      */
     getPageBefore(pageId) {
         if (this.order === undefined) {
-            return;
+            return null;
         }
         const currentPageInOrder = this.order.indexOf(pageId);
         /**
          * If page not found or first return nothing
          */
         if (currentPageInOrder <= 0) {
-            return;
+            return null;
         }
         return this.order[currentPageInOrder - 1];
     }
@@ -164,14 +164,14 @@ class PageOrder {
      */
     getPageAfter(pageId) {
         if (this.order === undefined) {
-            return;
+            return null;
         }
         const currentPageInOrder = this.order.indexOf(pageId);
         /**
          * If page not found or is last
          */
         if (currentPageInOrder === -1 || currentPageInOrder === this.order.length - 1) {
-            return;
+            return null;
         }
         return this.order[currentPageInOrder + 1];
     }
@@ -191,6 +191,7 @@ class PageOrder {
     }
     /**
      * Save or update page data in the database
+     * @returns {Promise<PageOrder>}
      */
     save() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -208,12 +209,13 @@ class PageOrder {
     }
     /**
      * Remove page data from the database
+     * @returns {Promise<void>}
      */
     destroy() {
         return __awaiter(this, void 0, void 0, function* () {
             yield db.remove({ _id: this._id });
             delete this._id;
-            return this;
+            // return this;
         });
     }
 }

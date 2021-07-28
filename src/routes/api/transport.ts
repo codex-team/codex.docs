@@ -1,29 +1,28 @@
-import express, { Request, Response, Express } from 'express';
-import multer from 'multer';
-import mime from 'mime';
-import mkdirp from 'mkdirp';
-import Transport from '../../controllers/transport';
-import crypto from '../../utils/crypto';
-import config from 'config';
+import { Request, Response, Router } from "express";
+import multer, { StorageEngine } from "multer";
+import mime from "mime";
+import mkdirp from "mkdirp";
+import Transport from "../../controllers/transport";
+import { random16 } from "../../utils/crypto";
+import config from "config";
 
-const router = express.Router();
-const random16 = crypto.random16;
+const router = Router();
 
 /**
  * Multer storage for uploaded files and images
- * @type {DiskStorage|DiskStorage}
+ * @type {StorageEngine}
  */
-const storage = multer.diskStorage({
+const storage: StorageEngine = multer.diskStorage({
   destination: (req, file, cb) => {
     const dir: string = config.get('uploads') || 'public/uploads';
 
-    // mkdirp(dir, err => cb(err, dir));
     mkdirp(dir);
+    cb(null, dir);
   },
   filename: async (req, file, cb) => {
     const filename = await random16();
-
-    cb(null, `${filename}.${mime.extension(file.mimetype)}`);
+    
+    cb(null, `${filename}.${mime.getExtension(file.mimetype)}`);
   }
 });
 
@@ -31,7 +30,7 @@ const storage = multer.diskStorage({
  * Multer middleware for image uploading
  */
 const imageUploader = multer({
-  storage,
+  storage: storage,
   fileFilter: (req, file, cb) => {
     if (!/image/.test(file.mimetype) && !/video\/mp4/.test(file.mimetype)) {
       cb(null, false);
@@ -46,16 +45,21 @@ const imageUploader = multer({
  * Multer middleware for file uploading
  */
 const fileUploader = multer({
-  storage
+  storage: storage
 }).fields([ { name: 'file', maxCount: 1 } ]);
 
 /**
  * Accepts images to upload
  */
 router.post('/transport/image', imageUploader, async (req: Request, res: Response) => {
-  let response = { success: 0 };
+  const response = { success: 0, message: ''};
 
-  if (!req.files || Array.isArray(req.files) ||!req.files.image) {
+  if (req.files === undefined) {
+    response.message = 'No files found';
+    res.status(400).json(response);
+    return;
+  }
+  if (!('image' in req.files)) {
     res.status(400).json(response);
     return;
   }
@@ -77,9 +81,13 @@ router.post('/transport/image', imageUploader, async (req: Request, res: Respons
  * Accepts files to upload
  */
 router.post('/transport/file', fileUploader, async (req: Request, res: Response) => {
-  let response = { success: 0 };
+  const response = { success: 0 };
 
-  if (!req.files || Array.isArray(req.files) || !req.files.file) {
+  if (req.files === undefined) {
+    res.status(400).json(response);
+    return;
+  }
+  if (!('file' in req.files)) {
     res.status(400).json(response);
     return;
   }
@@ -101,7 +109,7 @@ router.post('/transport/file', fileUploader, async (req: Request, res: Response)
  * Accept file url to fetch
  */
 router.post('/transport/fetch', multer().none(), async (req: Request, res: Response) => {
-  let response = { success: 0 };
+  const response = { success: 0 };
 
   if (!req.body.url) {
     res.status(400).json(response);

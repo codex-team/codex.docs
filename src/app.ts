@@ -1,10 +1,9 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import rcParser from "./utils/rcparser";
 import routes from "./routes";
-import { NextFunction } from "connect";
 import HttpException from "./exceptions/httpException";
 
 const app = express();
