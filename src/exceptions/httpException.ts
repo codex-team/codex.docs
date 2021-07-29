@@ -5,8 +5,8 @@ class HttpException extends Error {
     public status: number;
     public message: string;
     /**
-     * @param status
-     * @param message
+     * @param status - status of the exception
+     * @param message - message about the exception
      */
     constructor(status: number, message: string) {
       super(message);

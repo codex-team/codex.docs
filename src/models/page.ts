@@ -40,7 +40,7 @@ class Page {
   /**
    * @class
    *
-   * @param {PageData} data
+   * @param {PageData} data - page's data
    */
   constructor(data: PageData = {}) {
     if (data === null) {
@@ -89,7 +89,7 @@ class Page {
   /**
    * Find all pages which match passed query object
    *
-   * @param {object} query
+   * @param {object} query - input query
    * @returns {Promise<Page[]>}
    */
   public static async getAll(query: object = {}): Promise<Page[]> {
@@ -105,7 +105,7 @@ class Page {
   /**
    * Set PageData object fields to internal model fields
    *
-   * @param {PageData} pageData
+   * @param {PageData} pageData - page's data
    */
   public set data(pageData: PageData) {
     const { body, parent, uri } = pageData;
@@ -134,7 +134,7 @@ class Page {
   /**
    * Link given page as parent
    *
-   * @param {Page} parentPage
+   * @param {Page} parentPage - the page to be set as parent
    */
   public set parent(parentPage: Page) {
     this._parent = parentPage._id;
@@ -216,7 +216,7 @@ class Page {
    * Find and return available uri
    *
    * @returns {Promise<string>}
-   * @param uri
+   * @param uri - input uri to be composed
    */
   private async composeUri(uri: string): Promise<string> {
     let pageWithSameUriCount = 0;

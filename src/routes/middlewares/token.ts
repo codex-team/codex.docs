@@ -9,9 +9,9 @@ dotenv.config();
 /**
  * Middleware for checking jwt token
  *
- * @param req
- * @param res
- * @param next
+ * @param req - request object
+ * @param res - response object
+ * @param next - next function
  */
 export default async function verifyToken(req: Request, res: Response, next: NextFunction): Promise<void> {
   const token = req.cookies.authToken;

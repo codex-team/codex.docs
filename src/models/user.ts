@@ -18,7 +18,7 @@ class User {
   /**
    * @class
    *
-   * @param {UserData} userData
+   * @param {UserData} userData - user data for construct new object
    */
   constructor(userData: UserData) {
     this.passHash = userData.passHash;

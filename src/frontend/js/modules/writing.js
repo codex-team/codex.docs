@@ -52,11 +52,16 @@ export default class Writing {
       this.editor = editor;
     });
 
+    window.onbeforeunload = (e) => {
+      return '';
+    }
+
     /**
      * Activate form elements
      */
     this.nodes.saveButton = moduleEl.querySelector('[name="js-submit-save"]');
     this.nodes.saveButton.addEventListener('click', () => {
+      window.onbeforeunload = null;
       this.saveButtonClicked();
     });
 
@@ -69,7 +74,7 @@ export default class Writing {
         if (!isUserAgree) {
           return;
         }
-
+        window.onbeforeunload = null;
         this.removeButtonClicked();
       });
     }

@@ -77,7 +77,8 @@ const translationTable: TransTable = {
  */
 
 /**
- * @param string
+ * @param {string} string - input text to be translated
+ * @returns {string} text - translated text
  */
 export default function translateString(string: string): string {
   return string.replace(/[А-яёЁ]/g, (char) => translationTable[char] || char);

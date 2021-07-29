@@ -5,17 +5,24 @@ import aliases from './aliases';
 import pagesOrder from './pagesOrder';
 import Datastore from 'nedb';
 
+/**
+ * @typedef Options - optional params
+ * @param {boolean} multi - (false) allows to take action to several documents
+ * @param {boolean} upsert - (false) if true, upsert document with update fields.
+ *                           Method will return inserted doc or number of affected docs if doc hasn't been inserted
+ * @param {boolean} returnUpdatedDocs - (false) if true, returns affected docs
+ */
 interface Options {
+  multi?: boolean;
   upsert?: boolean;
   returnUpdatedDocs?: boolean;
-  multi?: boolean;
 }
 
 /**
  * @class Database
  * @classdesc Simple decorator class to work with nedb datastore
  *
- * @property db - nedb Datastore object
+ * @property {Datastore} db - nedb Datastore object
  */
 export class Database {
   private db: Datastore;
@@ -107,11 +114,7 @@ export class Database {
    *
    * @param {Object} query - query object
    * @param {Object} update - fields to update
-   * @param {Object} options
-   * @param {boolean} options.multi - (false) allows update several documents
-   * @param {boolean} options.upsert - (false) if true, upsert document with update fields.
-   *                                    Method will return inserted doc or number of affected docs if doc hasn't been inserted
-   * @param {boolean} options.returnUpdatedDocs - (false) if true, returns affected docs
+   * @param {Options} options - optional params
    * @returns {Promise<number|Object|Object[]|Error>} - number of updated rows or affected docs or Error object
    */
   public async update(query: object, update: object, options: Options = {}): Promise<any> {
@@ -142,11 +145,10 @@ export class Database {
    * @see https://github.com/louischatriot/nedb#removing-documents
    *
    * @param {Object} query - query object
-   * @param {Object} options
-   * @param {boolean} options.multi - (false) if true, remove several docs
+   * @param {Options} options - optional params
    * @returns {Promise<number|Error>} - number of removed rows or Error object
    */
-  public async remove(query: object, options = {}): Promise<number|Error> {
+  public async remove(query: object, options: Options = {}): Promise<number|Error> {
     return new Promise((resolve, reject) => this.db.remove(query, options, (err, result) => {
       if (err) {
         reject(err);

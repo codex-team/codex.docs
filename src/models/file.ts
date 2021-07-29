@@ -12,7 +12,6 @@ const filesDb = database['files'];
  * @property {string} mimetype - file MIME type
  * @property {number} size - size of the file in
  */
-
 export interface FileData {
   _id?: string;
   name?: string;
@@ -45,7 +44,7 @@ class File {
   /**
    * @class
    *
-   * @param {FileData} data
+   * @param {FileData} data - info about file
    */
   constructor(data: FileData = {}) {
     if (data === null) {
@@ -85,7 +84,7 @@ class File {
   /**
    * Find all files which match passed query object
    *
-   * @param {object} query
+   * @param {object} query - input query
    * @returns {Promise<File[]>}
    */
   public static async getAll(query: object = {}): Promise<File[]> {
@@ -101,7 +100,7 @@ class File {
   /**
    * Set FileData object fields to internal model fields
    *
-   * @param {FileData} fileData
+   * @param {FileData} fileData - info about file
    */
   public set data(fileData: FileData) {
     const { name, filename, path, mimetype, size } = fileData;
@@ -171,7 +170,7 @@ class File {
   /**
    * Removes unnecessary public folder prefix
    *
-   * @param {string} path
+   * @param {string} path - input path to be processed
    * @returns {string}
    */
   private processPath(path: string): string {

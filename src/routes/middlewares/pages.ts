@@ -11,8 +11,8 @@ import PageOrder from '../../models/pageOrder';
  * @param {string} parentPageId - parent page id
  * @param {Page[]} pages - list of all available pages
  * @param {PagesOrder[]} pagesOrder - list of pages order
- * @param {number} level
- * @param {number} currentLevel
+ * @param {number} level - max level recursion
+ * @param {number} currentLevel - current level of element
  *
  * @returns {Page[]}
  */

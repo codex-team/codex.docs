@@ -95,7 +95,7 @@ class Transport {
   /**
    * Map fields of File object to response by provided map object
    *
-   * @param {File} file
+   * @param {Model} file - file object
    * @param {object} map - object that represents how should fields of File object should be mapped to response
    *
    */

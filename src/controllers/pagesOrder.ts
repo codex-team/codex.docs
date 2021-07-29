@@ -96,7 +96,7 @@ class PagesOrder {
   }
 
   /**
-   * @param {string[]} unordered
+   * @param {string[]} unordered - list of pages
    * @param {string} currentPageId - page's id that changes the order
    * @param {string} parentPageId - parent page's id that contains both two pages
    * @param {string} putAbovePageId - page's id above which we put the target page
@@ -111,7 +111,7 @@ class PagesOrder {
   }
 
   /**
-   * @param {string} parentId
+   * @param {string} parentId - identity of parent page
    * @returns {Promise<void>}
    */
   public static async remove(parentId: string): Promise<void> {

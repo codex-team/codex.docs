@@ -41,7 +41,7 @@ class Alias {
   /**
    * @class
    *
-   * @param {AliasData} data
+   * @param {AliasData} data - info about alias
    * @param {string} aliasName - alias of entity
    */
   constructor(data: AliasData = {}, aliasName = '') {
@@ -125,7 +125,7 @@ class Alias {
   /**
    * Set AliasData object fields to internal model fields
    *
-   * @param {AliasData} aliasData
+   * @param {AliasData} aliasData - info about alias
    */
   public set data(aliasData: AliasData) {
     const { id, type, hash, deprecated } = aliasData;

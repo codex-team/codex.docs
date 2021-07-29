@@ -8,7 +8,6 @@ const db = database['pagesOrder'];
  * @property {string} page - page id
  * @property {Array<string>} order - list of ordered pages
  */
-
 export interface PageOrderData {
   _id?: string;
   page?: string;
@@ -30,7 +29,7 @@ class PageOrder {
   /**
    * @class
    *
-   * @param {PageOrderData} data
+   * @param {PageOrderData} data - info about pageOrder
    */
   constructor(data: PageOrderData = {}) {
     if (data === null) {
@@ -67,7 +66,7 @@ class PageOrder {
   /**
    * Find all pages which match passed query object
    *
-   * @param {object} query
+   * @param {object} query - input query
    * @returns {Promise<PageOrder[]>}
    */
   public static async getAll(query: object = {}): Promise<PageOrder[]> {
@@ -83,7 +82,7 @@ class PageOrder {
   /**
    * constructor data setter
    *
-   * @param {PageOrderData} pageOrderData
+   * @param {PageOrderData} pageOrderData - info about pageOrder
    */
   public set data(pageOrderData: PageOrderData) {
     this.page = pageOrderData.page || '0';
@@ -163,7 +162,7 @@ class PageOrder {
   /**
    * Returns page before passed page with id
    *
-   * @param {string} pageId
+   * @param {string} pageId - identity of page
    */
   public getPageBefore(pageId: string): string | null {
     if (this.order === undefined) {
@@ -185,7 +184,7 @@ class PageOrder {
   /**
    * Returns page before passed page with id
    *
-   * @param pageId
+   * @param pageId - identity of page
    */
   public getPageAfter(pageId: string): string | null {
     if (this.order === undefined) {

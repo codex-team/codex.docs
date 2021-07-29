@@ -84,7 +84,7 @@ class Pages {
   /**
    * Create new page model and save it in the database
    *
-   * @param {PageData} data
+   * @param {PageData} data - info about page
    * @returns {Promise<Page>}
    */
   public static async insert(data: PageData): Promise<Page> {
@@ -114,7 +114,7 @@ class Pages {
    * Update page with given id in the database
    *
    * @param {string} id - page id
-   * @param {PageData} data
+   * @param {PageData} data - info about page
    * @returns {Promise<Page>}
    */
   public static async update(id: string, data: PageData): Promise<Page> {
@@ -171,7 +171,7 @@ class Pages {
   /**
    * Check PageData object for required fields
    *
-   * @param {PageData} data
+   * @param {PageData} data - info about page
    * @throws {Error} - validation error
    */
   private static validate(data: PageData): void {

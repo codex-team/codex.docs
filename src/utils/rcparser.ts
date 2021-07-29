@@ -4,17 +4,27 @@ import config from 'config';
 
 const rcPath = path.resolve(__dirname, '../../', config.get('rcFile') || './.codexdocsrc');
 
-interface RConfig {
-  [key: string]: any;
+/**
+ * @typedef {object} menu
+ * @property {string} title - menu option title
+ * @property {string} uri - menu option href
+ */
+interface Menu {
+  title: string;
+  uri: string;
+  [key: string]: string;
 }
 
 /**
  * @typedef {object} RCData
  * @property {string} title - website title
- * @property {object[]} menu - options for website menu
- * @property {string} menu[].title - menu option title
- * @property {string} menu[].uri - menu option href
+ * @property {Menu[]} menu - options for website menu
  */
+interface RCData {
+  title: string;
+  menu: Menu[];
+  [key: string]: string | Menu[];
+}
 
 /**
  * @class RCParser
@@ -27,11 +37,11 @@ export default class RCParser {
    * @static
    * @returns {{title: string, menu: Array}}
    */
-  public static get DEFAULTS():RConfig {
+  public static get DEFAULTS():RCData {
     return {
       title: 'CodeX Docs',
       menu: [],
-    } as RConfig;
+    };
   }
 
   /**
@@ -40,7 +50,7 @@ export default class RCParser {
    * @static
    * @returns {{title: string, menu: []}}
    */
-  public static getConfiguration(): RConfig {
+  public static getConfiguration(): RCData {
     if (!fs.existsSync(rcPath)) {
       return RCParser.DEFAULTS;
     }

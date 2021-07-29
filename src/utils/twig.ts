@@ -34,7 +34,7 @@ export default (function () {
    * Parse link as URL object
    *
    * @param {string} linkUrl - link to be processed
-   * @returns {UrlWithStringQuery} — url data
+   * @returns {string} url — url data
    */
   twig.extendFunction('parseLink', function (linkUrl: string): string {
     try {

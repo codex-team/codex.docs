@@ -107,7 +107,7 @@ router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
 
         const unOrdered: string[] = [];
 
-        unordered.forEach((item, index) => {
+        unordered.forEach(item => {
           if (typeof item === 'string') {
             unOrdered.push(item);
           }
@@ -166,7 +166,7 @@ router.delete('/page/:id', async (req: Request, res: Response) => {
     /**
      * remove current page and go deeper to remove children with orders
      *
-     * @param {string} startFrom
+     * @param {string} startFrom - start point to delete
      * @returns {Promise<void>}
      */
     const deleteRecursively = async (startFrom: string): Promise<void> => {
