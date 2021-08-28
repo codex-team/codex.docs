@@ -4,7 +4,10 @@
   "bin": {
     "generatePassword": "bin/generatePassword.js"
   },
-  "browserslist": ["last 2 versions", "> 1%"],
+  "browserslist": [
+    "last 2 versions",
+    "> 1%"
+  ],
   "scripts": {
     "start": "cross-env NODE_ENV=production nodemon ./bin/www",
     "start:dev": "cross-env NODE_ENV=development nodemon ./bin/www",
@@ -17,7 +20,7 @@
     "editor-upgrade": "yarn add -D @editorjs/{editorjs,header,code,delimiter,list,link,image,table,inline-code,marker,warning,checklist,raw}@latest"
   },
   "dependencies": {
-    "bcrypt": "^5.0.0",
+    "bcrypt": "^5.0.1",
     "commander": "^2.19.0",
     "cookie-parser": "~1.4.3",
     "cross-env": "^5.2.0",

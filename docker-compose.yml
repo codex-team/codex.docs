@@ -11,3 +11,4 @@ services:
       - ./config/production.json:/usr/src/app/config/production.json:ro
       - ./public/uploads:/usr/src/app/public/uploads
       - ./.db:/usr/src/app/.db
+      - /usr/src/app/node_modules
