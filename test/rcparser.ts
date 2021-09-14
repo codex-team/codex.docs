@@ -1,18 +1,14 @@
 import { expect } from "chai";
-
 import fs from "fs";
 import path from "path";
 import config from "config";
-import rcParser from "../src/utils/rcparser";
 import sinon = require('sinon');
+
+import rcParser from "../src/utils/rcparser";
 
 const rcPath = path.resolve(process.cwd(), config.get('rcFile'));
 
 describe('RC file parser test', () => {
-  beforeEach(function () {
-    // spy = sinon.stub(console, 'log');
-  });
-
   afterEach(() => {
     if (fs.existsSync(rcPath)) {
       fs.unlinkSync(rcPath);

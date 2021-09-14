@@ -1,12 +1,11 @@
 import express from 'express';
-
 import home from './home';
 import pages from './pages';
 import auth from './auth';
 import aliases from './aliases';
 import api from './api';
-
 import pagesMiddleware from './middlewares/pages';
+
 const router = express.Router();
 
 router.use('/', pagesMiddleware, home);

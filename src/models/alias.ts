@@ -32,11 +32,11 @@ interface AliasData {
  * @property {string} id - entity title
  */
 class Alias {
-  public _id: string | undefined;
-  public hash: string | undefined;
-  public type: string | undefined;
-  public deprecated: boolean | undefined;
-  public id: string | undefined;
+  public _id?: string;
+  public hash?: string;
+  public type?: string;
+  public deprecated?: boolean;
+  public id?: string;
 
   /**
    * @class
@@ -82,10 +82,6 @@ class Alias {
 
     if (!data) {
       data = await aliasesDb.findOne({ hash: hash });
-    }
-
-    if (data instanceof Error) {
-      return new Alias();
     }
 
     return new Alias(data);

@@ -1,17 +1,16 @@
-import server from '../../bin/server';
-const app = server.app;
-
-import model from '../../src/models/page';
-import Page from '../../src/models/page';
-import PageOrder from '../../src/models/pageOrder';
-import translateString from '../../src/utils/translation';
-
 import fs from 'fs';
 import path from 'path';
 import config from 'config';
 import chai from 'chai';
 import chaiHTTP from 'chai-http';
+import server from '../../bin/server';
+import model from '../../src/models/page';
+import Page from '../../src/models/page';
+import PageOrder from '../../src/models/pageOrder';
+import translateString from '../../src/utils/translation';
+
 const {expect} = chai;
+const app = server.app;
 
 chai.use(chaiHTTP);
 

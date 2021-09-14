@@ -1,8 +1,3 @@
-// import pages from './pages';
-// import files from './files';
-// import password from './password';
-// import aliases from './aliases';
-// import pagesOrder from './pagesOrder';
 import Datastore from 'nedb';
 import initDb from './initDb';
 
@@ -18,7 +13,6 @@ interface Options {
   upsert?: boolean;
   returnUpdatedDocs?: boolean;
 }
-
 
 /**
  * @class Database

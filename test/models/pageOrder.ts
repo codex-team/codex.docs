@@ -110,10 +110,9 @@ describe('PageOrder model', () => {
     pageOrder.remove('2');
     expect(pageOrder.data.order).to.deep.equals(['1', '3']);
 
-    // Not allowed by TypeScript
-    // expect(() => {
-    //   pageOrder.push(3);
-    // }).to.throw('given id is not string');
+    expect(() => {
+      pageOrder.push(3);
+    }).to.throw('given id is not string');
 
     pageOrder.push('4');
     pageOrder.push('5');

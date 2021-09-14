@@ -53,8 +53,6 @@ describe('File model', () => {
 
     file = new File(initialData);
 
-    // const json = file.toJSON();
-
     data = file.data;
 
     expect(data._id).to.equal(initialData._id);

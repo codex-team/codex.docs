@@ -34,12 +34,12 @@ export interface FileData {
  * @property {number} size - size of the file in
  */
 class File {
-  public _id: string | undefined;
-  public name: string | undefined;
-  public filename: string | undefined;
-  public path: string | undefined;
-  public mimetype: string | undefined;
-  public size: number | undefined;
+  public _id?: string;
+  public name?: string;
+  public filename?: string;
+  public path?: string;
+  public mimetype?: string;
+  public size?: number;
 
   /**
    * @class
@@ -89,10 +89,6 @@ class File {
    */
   public static async getAll(query: object = {}): Promise<File[]> {
     const docs = await filesDb.find(query);
-
-    if (docs instanceof Error) {
-      return [];
-    }
 
     return Promise.all(docs.map(doc => new File(doc)));
   }

@@ -2,9 +2,9 @@ import { Request, Response, Router } from 'express';
 import multer, { StorageEngine } from 'multer';
 import mime from 'mime';
 import mkdirp from 'mkdirp';
+import config from 'config';
 import Transport from '../../controllers/transport';
 import { random16 } from '../../utils/crypto';
-import config from 'config';
 
 const router = Router();
 

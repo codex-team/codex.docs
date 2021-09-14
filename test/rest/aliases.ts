@@ -1,12 +1,12 @@
-import server from '../../bin/server';
-const app = server.app;
-
 import fs from 'fs';
 import path from 'path';
 import config from 'config';
 import chai from 'chai';
 import chaiHTTP from 'chai-http';
+import server from '../../bin/server';
+
 const {expect} = chai;
+const app = server.app;
 
 chai.use(chaiHTTP);
 

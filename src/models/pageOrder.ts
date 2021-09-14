@@ -52,9 +52,9 @@ class PageOrder {
   public static async get(pageId: string): Promise<PageOrder> {
     const order = await db.findOne({ page: pageId });
 
-    let data = {} as PageOrderData;
+    let data: PageOrderData = {};
 
-    if (order instanceof Error || order === null) {
+    if (order === null) {
       data.page = pageId;
     } else {
       data = order;
@@ -71,10 +71,6 @@ class PageOrder {
    */
   public static async getAll(query: object = {}): Promise<PageOrder[]> {
     const docs = await db.find(query);
-
-    if (docs === null || docs instanceof Error) {
-      return [];
-    }
 
     return Promise.all(docs.map(doc => new PageOrder(doc)));
   }
@@ -228,9 +224,7 @@ class PageOrder {
     if (!this._id) {
       const insertedRow = await db.insert(this.data) as { _id: string};
 
-      if (!(insertedRow instanceof Error)) {
-        this._id = insertedRow._id;
-      }
+      this._id = insertedRow._id;
     } else {
       await db.update({ _id: this._id }, this.data);
     }
@@ -247,8 +241,6 @@ class PageOrder {
     await db.remove({ _id: this._id });
 
     delete this._id;
-
-    // return this;
   }
 }
 

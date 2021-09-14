@@ -1,8 +1,8 @@
 import fs from "fs";
 import config from "config";
 import { expect } from "chai";
-
 import Datastore from "nedb";
+
 import { Database } from "../src/utils/database";
 
 interface Document {
@@ -166,8 +166,7 @@ describe('Database', () => {
     }
 
     try {
-      // await db.update({field: {$undefinedComparator: 1}});
-      throw new Error('Unknown comparison function $undefinedComparator');
+      await db.update({field: {$undefinedComparator: 1}});
     } catch (err) {
       expect(err.message).to.equal('Unknown comparison function $undefinedComparator');
     }

@@ -17,7 +17,6 @@ export interface PageData {
   uri?: string;
   body?: any;
   parent?: string;
-  [key: string]: any;
 }
 
 /**
@@ -63,10 +62,6 @@ class Page {
   public static async get(_id: string): Promise<Page> {
     const data = await pagesDb.findOne({ _id });
 
-    if (data instanceof Error) {
-      return new Page();
-    }
-
     return new Page(data);
   }
 
@@ -79,10 +74,6 @@ class Page {
   public static async getByUri(uri: string): Promise<Page> {
     const data = await pagesDb.findOne({ uri });
 
-    if (data instanceof Error) {
-      return new Page();
-    }
-
     return new Page(data);
   }
 
@@ -94,10 +85,6 @@ class Page {
    */
   public static async getAll(query: object = {}): Promise<Page[]> {
     const docs = await pagesDb.find(query);
-
-    if (docs instanceof Error) {
-      return [];
-    }
 
     return Promise.all(docs.map(doc => new Page(doc)));
   }
@@ -148,10 +135,6 @@ class Page {
   public async getParent(): Promise<Page|null> {
     const data = await pagesDb.findOne({ _id: this._parent });
 
-    if (data instanceof Error) {
-      return null;
-    }
-
     return new Page(data);
   }
 
@@ -163,10 +146,6 @@ class Page {
   public get children(): Promise<Page[]> {
     return pagesDb.find({ parent: this._id })
       .then(data => {
-        if (data instanceof Error) {
-          return [];
-        }
-
         return data.map(page => new Page(page));
       });
   }

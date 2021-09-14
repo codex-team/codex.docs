@@ -2,11 +2,10 @@ import fileType from 'file-type';
 import fetch from 'node-fetch';
 import fs from 'fs';
 import nodePath from 'path';
-
+import config from 'config';
 import Model, { FileData } from '../models/file';
 import crypto from '../utils/crypto';
 import deepMerge from '../utils/objects';
-import config from 'config';
 
 const random16 = crypto.random16;
 
@@ -107,7 +106,7 @@ class Transport {
       const fields: string[] = path.split(':');
 
       if (fields.length > 1) {
-        let object = {} as Dict;
+        let object: Dict = {};
         const result = object;
 
         fields.forEach((field, i) => {

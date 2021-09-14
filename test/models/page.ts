@@ -224,16 +224,20 @@ describe('Page model', () => {
 
     const savedPage = await page.save();
 
-    if (savedPage._id !== undefined) {
-      const foundPage = await Page.get(savedPage._id);
-  
-      const {data} = foundPage;
-  
-      expect(data._id).to.equal(savedPage._id);
-      expect(data.title).to.equal(initialData.body.blocks[0].data.text);
-      expect(data.uri).to.equal(transformToUri(initialData.body.blocks[0].data.text));
-      expect(data.body).to.deep.equal(initialData.body);
+    if (savedPage._id == undefined) {
+      await page.destroy();
+
+      return;
     }
+
+    const foundPage = await Page.get(savedPage._id);
+
+    const {data} = foundPage;
+
+    expect(data._id).to.equal(savedPage._id);
+    expect(data.title).to.equal(initialData.body.blocks[0].data.text);
+    expect(data.uri).to.equal(transformToUri(initialData.body.blocks[0].data.text));
+    expect(data.body).to.deep.equal(initialData.body);
 
     await page.destroy();
   });
@@ -311,8 +315,6 @@ describe('Page model', () => {
       }
     );
 
-    // child.parent = parent;
-
     const {_id: childId} = await child.save();
 
     const testedParent = await child.getParent();
@@ -329,7 +331,8 @@ describe('Page model', () => {
 
     expect(children.length).to.equal(1);
 
-    const testedChild = children.pop() as Page;
+    const temp: Page|undefined = children.pop();
+    const testedChild: Page = !temp ? new Page({}) : temp;
 
     expect(testedChild._id).to.equal(childId);
     expect(testedChild.title).to.equal(child.body.blocks[0].data.text);
@@ -380,7 +383,6 @@ describe('Page model', () => {
       }
 
       order.forEach(id => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         deleteRecursively(id);
       });
 

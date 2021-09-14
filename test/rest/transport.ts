@@ -4,14 +4,12 @@ import fileType from 'file-type';
 import chai from 'chai';
 import chaiHTTP from 'chai-http';
 import rimraf from 'rimraf';
-const {expect} = chai;
-
+import config from 'config';
 import server from '../../bin/server';
-const app = server.app;
-
 import model from '../../src/models/file';
 
-import config from 'config';
+const {expect} = chai;
+const app = server.app;
 
 chai.use(chaiHTTP);
 

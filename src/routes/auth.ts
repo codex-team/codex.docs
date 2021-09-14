@@ -1,11 +1,11 @@
 import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import Users from '../controllers/users';
 import config from 'config';
 import bcrypt from 'bcrypt';
 import csrf from 'csurf';
-
 import * as dotenv from 'dotenv';
+import Users from '../controllers/users';
+
 dotenv.config();
 
 const router = express.Router();

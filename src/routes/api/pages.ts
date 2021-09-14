@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
+import multerFunc from 'multer';
 import Pages from '../../controllers/pages';
 import PagesOrder from '../../controllers/pagesOrder';
-import multerFunc from 'multer';
 
 const router = express.Router();
 const multer = multerFunc();

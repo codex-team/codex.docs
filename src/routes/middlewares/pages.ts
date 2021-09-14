@@ -24,7 +24,7 @@ function createMenuTree(parentPageId: string, pages: Page[], pagesOrder: PageOrd
    * if we got some children order on parents tree, then we push found pages in order sequence
    * otherwise just find all pages includes parent tree
    */
-  let ordered: any = [];
+  let ordered: any[] = [];
 
   if (childrenOrder) {
     ordered = childrenOrder.order.map((pageId: string) => {

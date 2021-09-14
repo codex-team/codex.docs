@@ -3,6 +3,7 @@ import config from 'config';
 import path from 'path';
 
 /**
+ * Init function for nedb instance
  *
  * @param {string} name - name of the data file
  * @returns {Datastore} db - nedb instance
