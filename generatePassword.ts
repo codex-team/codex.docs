@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 
-import database from "./src/utils/database";
-let db = database['password'];
+import database from './src/utils/database';
+import commander from 'commander';
+import bcrypt from 'bcrypt';
 
-import commander from "commander";
+const db = database['password'];
 const program = commander.program;
-
-import bcrypt from "bcrypt";
 const saltRounds = 12;
 
 /**
  * Script for generating password, that will be used to create and edit pages in CodeX.Docs.
  * Hashes password with bcrypt and inserts it to the database.
+ *
  * @see {https://github.com/tj/commander.js | CommanderJS}
  */
 program
@@ -26,7 +26,7 @@ program
 
       const userDoc = { passHash: hash };
 
-      await db.remove({}, {multi: true});
+      await db.remove({}, { multi: true });
       await db.insert(userDoc);
 
       console.log('Password was successfully generated');

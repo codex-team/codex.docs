@@ -17,8 +17,8 @@ chai.use(chaiHTTP);
 
 describe('Pages REST: ', () => {
   let agent: ChaiHttp.Agent;
-  const transformToUri = (text: string) => {
-  return translateString(text
+  const transformToUri = (text: string):string => {
+    return translateString(text
       .replace(/&nbsp;/g, ' ')
       .replace(/[^a-zA-Z0-9А-Яа-яЁё ]/g, ' ')
       .replace(/  +/g, ' ')
@@ -103,7 +103,8 @@ describe('Pages REST: ', () => {
     const {success, error} = res.body;
 
     expect(success).to.be.false;
-    expect(error).to.equal('Error: Some of required fields is missed');
+    // expect(error).to.equal('Error: Some of required fields is missed');
+    expect(error).to.equal('validationError');
   });
 
   it('Finding page', async () => {

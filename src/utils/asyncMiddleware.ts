@@ -6,7 +6,7 @@ import { NextFunction, Request, Response } from 'express';
  * @param {Function} fn - input function
  * @returns {function(*=, *=, *=)}
  */
-export default function asyncMiddleware(fn: Function): (...params: any) => void {
+export default function asyncMiddleware(fn: Function): (req: Request, res: Response, next: NextFunction) => void {
   return (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next))
       .catch(next);

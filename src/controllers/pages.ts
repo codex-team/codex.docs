@@ -50,16 +50,15 @@ class Pages {
   public static async getAllExceptChildren(parent: string): Promise<Page[]> {
     const pagesAvailable = this.removeChildren(await Pages.getAll(), parent);
 
-    const nullfilteredpages: Page[] = [];
+    const nullFilteredPages: Page[] = [];
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    pagesAvailable.forEach(async (item, _index) => {
+    pagesAvailable.forEach(async item => {
       if (item instanceof Page) {
-        nullfilteredpages.push(item);
+        nullFilteredPages.push(item);
       }
     });
 
-    return nullfilteredpages;
+    return nullFilteredPages;
   }
 
   /**
@@ -105,8 +104,8 @@ class Pages {
       }
 
       return insertedPage;
-    } catch (validationError) {
-      throw new Error(validationError);
+    } catch (e) {
+      throw new Error('validationError');
     }
   }
 

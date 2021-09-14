@@ -13,23 +13,26 @@ dotenv.config();
  * @param res - response object
  * @param next - next function
  */
-export default async function verifyToken(req: Request, res: Response, next: NextFunction): Promise<void> {
+export default function verifyToken(req: Request, res: Response, next: NextFunction): void {
   const token = req.cookies.authToken;
-  const userDoc = await Users.get();
 
-  if (!userDoc || userDoc instanceof Error) {
-    res.locals.isAuthorized = false;
-    next();
+  Users.get()
+    .then( userDoc => {
+      if (!userDoc.passHash) {
+        res.locals.isAuthorized = false;
+        next();
 
-    return;
-  }
+        return;
+      }
 
-  try {
-    const decodedToken = jwt.verify(token, userDoc.passHash + config.get('secret'));
+      const decodedToken = jwt.verify(token, userDoc.passHash + config.get('secret'));
 
-    res.locals.isAuthorized = !!decodedToken;
-  } catch (e) {
-    res.locals.isAuthorized = false;
-  }
-  next();
+      res.locals.isAuthorized = !!decodedToken;
+
+      next();
+    })
+    .catch( () => {
+      res.locals.isAuthorized = false;
+      next();
+    });
 }

@@ -11,7 +11,7 @@
  * @param {...any} sources - sources to merge from
  */
 function deepMerge(target: any, ...sources: any[]): Record<string, unknown> {
-  const isObject = (item: any): boolean => item && typeof item === 'object' && !Array.isArray(item);
+  const isObject = (item: unknown): boolean => !!item && typeof item === 'object' && !Array.isArray(item);
 
   if (!sources.length) {
     return target;

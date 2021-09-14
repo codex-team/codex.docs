@@ -78,7 +78,7 @@ export default class RCParser {
       rConfig.menu = RCParser.DEFAULTS.menu;
     }
 
-    rConfig.menu = rConfig.menu.filter((option: any, i:number) => {
+    rConfig.menu = rConfig.menu.filter((option: string | Menu, i:number) => {
       i = i + 1;
       if (typeof option === 'string') {
         return true;
@@ -107,7 +107,7 @@ export default class RCParser {
       return true;
     });
 
-    rConfig.menu = rConfig.menu.map((option: any) => {
+    rConfig.menu = rConfig.menu.map((option: string | Menu) => {
       if (typeof option === 'string') {
         return {
           title: option,

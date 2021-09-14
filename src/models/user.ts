@@ -2,8 +2,8 @@ import database from '../utils/database/index';
 
 const db = database['password'];
 
-interface UserData {
-  passHash: string;
+export interface UserData {
+  passHash?: string;
 }
 
 /**
@@ -13,7 +13,7 @@ interface UserData {
  * @property {string} passHash - hashed password
  */
 class User {
-  public passHash: string;
+  public passHash?: string;
 
   /**
    * @class
@@ -30,14 +30,18 @@ class User {
    *
    * @returns {Promise<User>}
    */
-  public static async get(): Promise<User|Error> {
-    const data = await db.findOne({});
+  public static async get(): Promise<User> {
+    return new Promise((resolve, reject) => {
+      db.findOne({})
+        .then( data => {
+          const userData: UserData = data;
 
-    if (data instanceof Error || data === null) {
-      return new Error('User not found');
-    }
-
-    return new User(data as UserData);
+          resolve(new User(userData));
+        })
+        .catch( (e) => {
+          reject(e);
+        });
+    });
   }
 }
 

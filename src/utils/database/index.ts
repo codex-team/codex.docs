@@ -1,9 +1,10 @@
-import pages from './pages';
-import files from './files';
-import password from './password';
-import aliases from './aliases';
-import pagesOrder from './pagesOrder';
+// import pages from './pages';
+// import files from './files';
+// import password from './password';
+// import aliases from './aliases';
+// import pagesOrder from './pagesOrder';
 import Datastore from 'nedb';
+import initDb from './initDb';
 
 /**
  * @typedef Options - optional params
@@ -17,6 +18,7 @@ interface Options {
   upsert?: boolean;
   returnUpdatedDocs?: boolean;
 }
+
 
 /**
  * @class Database
@@ -43,7 +45,7 @@ export class Database {
    * @param {Object} doc - object to insert
    * @returns {Promise<Object|Error>} - inserted doc or Error object
    */
-  public async insert(doc: object): Promise<object | Error> {
+  public async insert(doc: object): Promise<object> {
     return new Promise((resolve, reject) => this.db.insert(doc, (err, newDoc) => {
       if (err) {
         reject(err);
@@ -62,7 +64,7 @@ export class Database {
    * @param {Object} projection - projection object
    * @returns {Promise<Array<Object>|Error>} - found docs or Error object
    */
-  public async find(query: object, projection?: object): Promise<Array<object> | Error> {
+  public async find(query: object, projection?: object): Promise<Array<object>> {
     const cbk = (resolve: Function, reject: Function) => (err: Error | null, docs: any[]) => {
       if (err) {
         reject(err);
@@ -89,7 +91,7 @@ export class Database {
    * @param {Object} projection - projection object
    * @returns {Promise<Object|Error>} - found doc or Error object
    */
-  public async findOne(query: object, projection?: object): Promise<object | Error> {
+  public async findOne(query: object, projection?: object): Promise<object> {
     const cbk = (resolve: Function, reject: Function) => (err: Error | null, doc: any) => {
       if (err) {
         reject(err);
@@ -148,7 +150,7 @@ export class Database {
    * @param {Options} options - optional params
    * @returns {Promise<number|Error>} - number of removed rows or Error object
    */
-  public async remove(query: object, options: Options = {}): Promise<number|Error> {
+  public async remove(query: object, options: Options = {}): Promise<number> {
     return new Promise((resolve, reject) => this.db.remove(query, options, (err, result) => {
       if (err) {
         reject(err);
@@ -160,9 +162,9 @@ export class Database {
 }
 
 export default {
-  pages: new Database(pages),
-  password: new Database(password),
-  aliases: new Database(aliases),
-  pagesOrder: new Database(pagesOrder),
-  files: new Database(files),
+  pages: new Database(initDb('pages')),
+  password: new Database(initDb('password')),
+  aliases: new Database(initDb('aliases')),
+  pagesOrder: new Database(initDb('pagesOrder')),
+  files: new Database(initDb('files')),
 };
