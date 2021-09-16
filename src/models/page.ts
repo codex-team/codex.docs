@@ -224,7 +224,7 @@ class Page {
    * @returns {string}
    */
   private extractTitleFromBody(): string {
-    const headerBlock = this.body ? this.body.blocks.find((block: any) => block.type === 'header') : '';
+    const headerBlock = this.body ? this.body.blocks.find((block: Record<string, unknown>) => block.type === 'header') : '';
 
     return headerBlock ? headerBlock.data.text : '';
   }

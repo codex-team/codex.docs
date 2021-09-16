@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import fs from 'fs';
 import nodePath from 'path';
 import config from 'config';
-import Model, { FileData } from '../models/file';
+import File, { FileData } from '../models/file';
 import crypto from '../utils/crypto';
 import deepMerge from '../utils/objects';
 
@@ -36,7 +36,7 @@ class Transport {
   public static async save(multerData: Dict, map: Dict): Promise<FileData> {
     const { originalname: name, path, filename, size, mimetype } = multerData;
 
-    const file = new Model({
+    const file = new File({
       name,
       filename,
       path,
@@ -83,7 +83,7 @@ class Transport {
 
     const mimeType = type ? type.mime : fetchedMimeType;
 
-    const file = new Model({
+    const file = new File({
       name: url,
       filename: `${filename}.${ext}`,
       path: `${config.get('uploads')}/${filename}.${ext}`,
@@ -105,11 +105,11 @@ class Transport {
   /**
    * Map fields of File object to response by provided map object
    *
-   * @param {Model} file - file object
+   * @param {File} file - file object
    * @param {object} map - object that represents how should fields of File object should be mapped to response
    *
    */
-  public static composeResponse(file: Model, map: Dict): Dict {
+  public static composeResponse(file: File, map: Dict): Dict {
     const response: Dict = {};
     const { data } = file;
 
