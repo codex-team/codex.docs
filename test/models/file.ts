@@ -103,7 +103,7 @@ describe('File model', () => {
     expect(savedFile.size).to.equal(initialData.size);
     expect(savedFile.mimetype).to.equal(initialData.mimetype);
 
-    const insertedFile = await files.findOne({_id: file._id}) as File;
+    const insertedFile = await files.findOne({_id: file._id});
 
     expect(insertedFile._id).to.equal(file._id);
     expect(insertedFile.name).to.equal(file.name);
@@ -126,7 +126,7 @@ describe('File model', () => {
 
     expect(file._id).to.equal(insertedFile._id);
 
-    const updatedFile = await files.findOne({_id: file._id}) as File;
+    const updatedFile = await files.findOne({_id: file._id});
 
     expect(updatedFile._id).to.equal(savedFile._id);
     expect(updatedFile.name).to.equal(updateData.name);

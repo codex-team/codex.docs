@@ -365,7 +365,7 @@ describe('Pages REST: ', () => {
     expect(error).to.equal('Page with given id does not exist');
   });
 
-  async function createPageTree() {
+  async function createPageTree():Promise<string[]> {
     /**
      * Creating page tree
      *

@@ -101,7 +101,7 @@ describe('PageOrder model', () => {
     expect(pageOrder.data.order).to.be.an('array').that.is.not.empty;
     if (pageOrder.data.order !== undefined){
       pageOrder.data.order.forEach((el) => {
-        expect(el).to.be.an('string')
+        expect(el).to.be.an('string');
       });
     }
 

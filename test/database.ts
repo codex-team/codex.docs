@@ -1,9 +1,9 @@
-import fs from "fs";
-import config from "config";
-import { expect } from "chai";
-import Datastore from "nedb";
+import fs from 'fs';
+import config from 'config';
+import { expect } from 'chai';
+import Datastore from 'nedb';
 
-import { Database } from "../src/utils/database";
+import { Database } from '../src/utils/database';
 
 interface Document {
   data?: any;

@@ -1,10 +1,10 @@
-import { expect } from "chai";
-import fs from "fs";
-import path from "path";
-import config from "config";
+import { expect } from 'chai';
+import fs from 'fs';
+import path from 'path';
+import config from 'config';
 import sinon = require('sinon');
 
-import rcParser from "../src/utils/rcparser";
+import rcParser from '../src/utils/rcparser';
 
 const rcPath = path.resolve(process.cwd(), config.get('rcFile'));
 
@@ -28,12 +28,12 @@ describe('RC file parser test', () => {
     fs.writeFileSync(rcPath, invalidJson, 'utf8');
 
     const parsedConfig = rcParser.getConfiguration();
-    
+
     expect(spy.calledOnce).to.be.true;
     expect(spy.calledWith('CodeX Docs rc file should be in JSON format.')).to.be.true;
 
     expect(parsedConfig).to.be.deep.equal(rcParser.DEFAULTS);
-    spy.restore()
+    spy.restore();
   });
 
   it('Normal config', () => {
@@ -95,15 +95,15 @@ describe('RC file parser test', () => {
 
     fs.writeFileSync(rcPath, JSON.stringify(normalConfig), 'utf8');
     const spy = sinon.spy(console, 'log');
-    
+
     const parsedConfig = rcParser.getConfiguration();
-    
+
     expect(spy.calledOnce).to.be.true;
     expect(spy.calledWith('Menu section in the rc file must be an array.')).to.be.true;
-    
+
     expect(parsedConfig.title).to.be.equal(normalConfig.title);
     expect(parsedConfig.menu).to.be.deep.equal(rcParser.DEFAULTS.menu);
-    spy.restore()
+    spy.restore();
   });
 
   it('Menu option is a string', () => {
@@ -155,7 +155,7 @@ describe('RC file parser test', () => {
     
     expect(parsedConfig.title).to.be.equal(normalConfig.title);
     expect(parsedConfig.menu).to.be.deep.equal(expectedMenu);
-    spy.restore()
+    spy.restore();
   });
 
   it('Menu option title is undefined', () => {
@@ -183,7 +183,7 @@ describe('RC file parser test', () => {
     
     expect(parsedConfig.title).to.be.equal(normalConfig.title);
     expect(parsedConfig.menu).to.be.deep.equal(expectedMenu);
-    spy.restore()
+    spy.restore();
   });
 
   it('Menu option title is not a string', () => {
@@ -211,7 +211,7 @@ describe('RC file parser test', () => {
     
     expect(parsedConfig.title).to.be.equal(normalConfig.title);
     expect(parsedConfig.menu).to.be.deep.equal(expectedMenu);
-    spy.restore()
+    spy.restore();
   });
 
   it('Menu option uri is undefined', () => {
@@ -239,7 +239,7 @@ describe('RC file parser test', () => {
     
     expect(parsedConfig.title).to.be.equal(normalConfig.title);
     expect(parsedConfig.menu).to.be.deep.equal(expectedMenu);
-    spy.restore()
+    spy.restore();
   });
 
   it('Menu option title is not a string', () => {
@@ -267,6 +267,6 @@ describe('RC file parser test', () => {
     
     expect(parsedConfig.title).to.be.equal(normalConfig.title);
     expect(parsedConfig.menu).to.be.deep.equal(expectedMenu);
-    spy.restore()
+    spy.restore();
   });
 });
