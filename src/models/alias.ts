@@ -13,7 +13,7 @@ const aliasesDb = database['aliases'];
  * @property {string} id - entity id
  *
  */
-interface AliasData {
+export interface AliasData {
   _id?: string;
   hash?: string;
   type?: string;

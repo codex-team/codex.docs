@@ -1,4 +1,3 @@
-import Model from '../models/pageOrder';
 import PageOrder from '../models/pageOrder';
 import Page from '../models/page';
 
@@ -16,7 +15,7 @@ class PagesOrder {
    * @returns {Promise<PageOrder>}
    */
   public static async get(parentId: string): Promise<PageOrder> {
-    const order = await Model.get(parentId);
+    const order = await PageOrder.get(parentId);
 
     if (!order._id) {
       throw new Error('Page with given id does not contain order');
@@ -31,7 +30,7 @@ class PagesOrder {
    * @returns {Promise<PageOrder[]>}
    */
   public static async getAll(): Promise<PageOrder[]> {
-    return Model.getAll();
+    return PageOrder.getAll();
   }
 
   /**
@@ -41,7 +40,7 @@ class PagesOrder {
    * @param {string} childId - new page pushed to the order
    */
   public static async push(parentId: string, childId: string): Promise<void> {
-    const order = await Model.get(parentId);
+    const order = await PageOrder.get(parentId);
 
     order.push(childId);
     await order.save();
@@ -55,12 +54,12 @@ class PagesOrder {
    * @param {string} targetPageId - page's id which is changing the parent page
    */
   public static async move(oldParentId: string, newParentId: string, targetPageId: string): Promise<void> {
-    const oldParentOrder = await Model.get(oldParentId);
+    const oldParentOrder = await PageOrder.get(oldParentId);
 
     oldParentOrder.remove(targetPageId);
     await oldParentOrder.save();
 
-    const newParentOrder = await Model.get(newParentId);
+    const newParentOrder = await PageOrder.get(newParentId);
 
     newParentOrder.push(targetPageId);
     await newParentOrder.save();
@@ -76,7 +75,7 @@ class PagesOrder {
    * @returns {Page[]}
    */
   public static async getOrderedChildren(pages: Page[], currentPageId: string, parentPageId: string, ignoreSelf = false): Promise<Page[]> {
-    const children = await Model.get(parentPageId);
+    const children = await PageOrder.get(parentPageId);
     const unordered = pages.filter(page => page._parent === parentPageId).map(page => page._id);
 
     // Create unique array with ordered and unordered pages id
@@ -102,7 +101,7 @@ class PagesOrder {
    * @param {string} putAbovePageId - page's id above which we put the target page
    */
   public static async update(unordered: string[], currentPageId: string, parentPageId: string, putAbovePageId: string): Promise<void> {
-    const pageOrder = await Model.get(parentPageId);
+    const pageOrder = await PageOrder.get(parentPageId);
 
     // Create unique array with ordered and unordered pages id
     pageOrder.order = Array.from(new Set([...pageOrder.order, ...unordered]));
@@ -115,7 +114,7 @@ class PagesOrder {
    * @returns {Promise<void>}
    */
   public static async remove(parentId: string): Promise<void> {
-    const order = await Model.get(parentId);
+    const order = await PageOrder.get(parentId);
 
     if (!order._id) {
       throw new Error('Page with given id does not contain order');

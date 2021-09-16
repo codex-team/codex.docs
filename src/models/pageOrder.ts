@@ -69,7 +69,7 @@ class PageOrder {
    * @param {object} query - input query
    * @returns {Promise<PageOrder[]>}
    */
-  public static async getAll(query: object = {}): Promise<PageOrder[]> {
+  public static async getAll(query: Record<string, unknown> = {}): Promise<PageOrder[]> {
     const docs = await db.find(query);
 
     return Promise.all(docs.map(doc => new PageOrder(doc)));

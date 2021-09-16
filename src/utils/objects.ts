@@ -7,10 +7,10 @@
  */
 
 /**
- * @param target - target to merge into
- * @param {...any} sources - sources to merge from
+ * @param {Record<string, any>} target - target to merge into
+ * @param {...any[]} sources - sources to merge from
  */
-function deepMerge(target: any, ...sources: any[]): Record<string, unknown> {
+function deepMerge(target: Record<string, any>, ...sources: any[]): Record<string, unknown> {
   const isObject = (item: unknown): boolean => !!item && typeof item === 'object' && !Array.isArray(item);
 
   if (!sources.length) {

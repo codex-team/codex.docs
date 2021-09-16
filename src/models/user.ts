@@ -31,17 +31,9 @@ class User {
    * @returns {Promise<User>}
    */
   public static async get(): Promise<User> {
-    return new Promise((resolve, reject) => {
-      db.findOne({})
-        .then( data => {
-          const userData: UserData = data;
+    const userData: UserData = await db.findOne({});
 
-          resolve(new User(userData));
-        })
-        .catch( (e) => {
-          reject(e);
-        });
-    });
+    return new User(userData);
   }
 }
 

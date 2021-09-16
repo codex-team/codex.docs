@@ -9,8 +9,7 @@ import database from '../../src/utils/database';
 const pages = database['pages'];
 
 describe('Page model', () => {
-
-  const transformToUri = (text: string) => {
+  const transformToUri = (text: string): string => {
     return translateString(text
       .replace(/&nbsp;/g, ' ')
       .replace(/[^a-zA-Z0-9А-Яа-яЁё ]/g, ' ')
@@ -132,7 +131,7 @@ describe('Page model', () => {
     expect(savedPage.body).to.equal(initialData.body);
     expect(page._id).not.be.undefined;
 
-    const insertedPage = await pages.findOne({_id: page._id}) as Page;
+    const insertedPage = await pages.findOne({_id: page._id});
 
     expect(insertedPage._id).to.equal(page._id);
     expect(insertedPage.title).to.equal(page.title);
@@ -158,7 +157,7 @@ describe('Page model', () => {
 
     expect(page._id).to.equal(insertedPage._id);
 
-    const updatedPage = await pages.findOne({_id: page._id}) as Page;
+    const updatedPage = await pages.findOne({_id: page._id});
 
     expect(updatedPage._id).to.equal(savedPage._id);
     expect(updatedPage.title).to.equal(updateData.body.blocks[0].data.text);
@@ -365,8 +364,7 @@ describe('Page model', () => {
   });
 
   it('test deletion', async () => {
-
-    const pages = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    const pageIndexes = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     const orders = {
       '0' : ['1', '2', '3'],
       '1' : ['4', '5'],
@@ -374,11 +372,14 @@ describe('Page model', () => {
       '3' : ['9'],
     } as { [key: string]: string[] };
 
-    function deleteRecursively(startFrom: string) {
+    function deleteRecursively(startFrom: string): void {
       const order: string[] = orders[startFrom];
+
       if (!order) {
-        const found = pages.indexOf(startFrom);
-        pages.splice(found, 1);
+        const found = pageIndexes.indexOf(startFrom);
+
+        pageIndexes.splice(found, 1);
+
         return;
       }
 
@@ -386,8 +387,8 @@ describe('Page model', () => {
         deleteRecursively(id);
       });
 
-      const found = pages.indexOf(startFrom);
-      pages.splice(found, 1);
+      const found = pageIndexes.indexOf(startFrom);
+      pageIndexes.splice(found, 1);
     }
   });
 });

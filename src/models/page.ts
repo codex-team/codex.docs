@@ -31,10 +31,10 @@ export interface PageData {
  */
 class Page {
   public _id?: string;
-  public body: any;
-  public title: any;
-  public uri: any;
-  public _parent: any;
+  public body?: any;
+  public title?: string;
+  public uri?: string;
+  public _parent?: string;
 
   /**
    * @class
@@ -83,7 +83,7 @@ class Page {
    * @param {object} query - input query
    * @returns {Promise<Page[]>}
    */
-  public static async getAll(query: object = {}): Promise<Page[]> {
+  public static async getAll(query: PageData = {}): Promise<Page[]> {
     const docs = await pagesDb.find(query);
 
     return Promise.all(docs.map(doc => new Page(doc)));
@@ -156,7 +156,9 @@ class Page {
    * @returns {Promise<Page>}
    */
   public async save(): Promise<Page> {
-    this.uri = await this.composeUri(this.uri);
+    if (this.uri !== undefined) {
+      this.uri = await this.composeUri(this.uri);
+    }
 
     if (!this._id) {
       const insertedRow = await pagesDb.insert(this.data) as { _id: string };
@@ -233,6 +235,10 @@ class Page {
    * @returns {string}
    */
   private transformTitleToUri(): string {
+    if (this.title === undefined) {
+      return '';
+    }
+
     return urlify(this.title);
   }
 }

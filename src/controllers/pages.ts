@@ -1,6 +1,7 @@
-import Model, { PageData } from '../models/page';
-import Page from '../models/page';
+import Page, { PageData } from '../models/page';
 import Alias from '../models/alias';
+
+type PageDataFields = keyof PageData;
 
 /**
  * @class Pages
@@ -12,7 +13,7 @@ class Pages {
    *
    * @returns {['title', 'body']}
    */
-  public static get REQUIRED_FIELDS(): Array<string> {
+  public static get REQUIRED_FIELDS(): Array<PageDataFields> {
     return [ 'body' ];
   }
 
@@ -23,7 +24,7 @@ class Pages {
    * @returns {Promise<Page>}
    */
   public static async get(id: string): Promise<Page> {
-    const page = await Model.get(id);
+    const page = await Page.get(id);
 
     if (!page._id) {
       throw new Error('Page with given id does not exist');
@@ -38,7 +39,7 @@ class Pages {
    * @returns {Promise<Page[]>}
    */
   public static async getAll(): Promise<Page[]> {
-    return Model.getAll();
+    return Page.getAll();
   }
 
   /**
@@ -90,7 +91,7 @@ class Pages {
     try {
       Pages.validate(data);
 
-      const page = new Model(data);
+      const page = new Page(data);
 
       const insertedPage = await page.save();
 
@@ -117,7 +118,7 @@ class Pages {
    * @returns {Promise<Page>}
    */
   public static async update(id: string, data: PageData): Promise<Page> {
-    const page = await Model.get(id);
+    const page = await Page.get(id);
     const previousUri = page.uri;
 
     if (!page._id) {
@@ -141,7 +142,9 @@ class Pages {
         alias.save();
       }
 
-      Alias.markAsDeprecated(previousUri);
+      if (previousUri) {
+        Alias.markAsDeprecated(previousUri);
+      }
     }
 
     return updatedPage;
@@ -154,15 +157,17 @@ class Pages {
    * @returns {Promise<Page>}
    */
   public static async remove(id: string): Promise<Page> {
-    const page = await Model.get(id);
+    const page = await Page.get(id);
 
     if (!page._id) {
       throw new Error('Page with given id does not exist');
     }
 
-    const alias = await Alias.get(page.uri);
+    if (page.uri) {
+      const alias = await Alias.get(page.uri);
 
-    await alias.destroy();
+      await alias.destroy();
+    }
 
     return page.destroy();
   }

@@ -1,5 +1,6 @@
 /**
  * HttpException class for middleware
+ *
  * @property {number} status - exception status code
  * @property {string} message - detail about the exception
  */

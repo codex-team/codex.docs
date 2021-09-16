@@ -1,4 +1,9 @@
 import Datastore from 'nedb';
+import { AliasData } from '../../models/alias';
+import { FileData } from '../../models/file';
+import { PageData } from '../../models/page';
+import { PageOrderData } from '../../models/pageOrder';
+import { UserData } from '../../models/user';
 import initDb from './initDb';
 
 /**
@@ -14,13 +19,21 @@ interface Options {
   returnUpdatedDocs?: boolean;
 }
 
+interface ResolveFunction {
+  (value: any): void;
+}
+
+interface RejectFunction {
+  (reason?: unknown): void;
+}
+
 /**
  * @class Database
  * @classdesc Simple decorator class to work with nedb datastore
  *
  * @property {Datastore} db - nedb Datastore object
  */
-export class Database {
+export class Database<DocType> {
   private db: Datastore;
   /**
    * @class
@@ -39,7 +52,7 @@ export class Database {
    * @param {Object} doc - object to insert
    * @returns {Promise<Object|Error>} - inserted doc or Error object
    */
-  public async insert(doc: object): Promise<object> {
+  public async insert(doc: DocType): Promise<DocType> {
     return new Promise((resolve, reject) => this.db.insert(doc, (err, newDoc) => {
       if (err) {
         reject(err);
@@ -58,8 +71,8 @@ export class Database {
    * @param {Object} projection - projection object
    * @returns {Promise<Array<Object>|Error>} - found docs or Error object
    */
-  public async find(query: object, projection?: object): Promise<Array<object>> {
-    const cbk = (resolve: Function, reject: Function) => (err: Error | null, docs: any[]) => {
+  public async find(query: DocType, projection?: DocType): Promise<Array<DocType>> {
+    const cbk = (resolve: ResolveFunction, reject: RejectFunction) => (err: Error | null, docs: DocType[]) => {
       if (err) {
         reject(err);
       }
@@ -85,8 +98,8 @@ export class Database {
    * @param {Object} projection - projection object
    * @returns {Promise<Object|Error>} - found doc or Error object
    */
-  public async findOne(query: object, projection?: object): Promise<object> {
-    const cbk = (resolve: Function, reject: Function) => (err: Error | null, doc: any) => {
+  public async findOne(query: DocType, projection?: DocType): Promise<DocType> {
+    const cbk = (resolve: ResolveFunction, reject: RejectFunction) => (err: Error | null, doc: DocType) => {
       if (err) {
         reject(err);
       }
@@ -113,7 +126,7 @@ export class Database {
    * @param {Options} options - optional params
    * @returns {Promise<number|Object|Object[]|Error>} - number of updated rows or affected docs or Error object
    */
-  public async update(query: object, update: object, options: Options = {}): Promise<any> {
+  public async update(query: DocType, update: DocType, options: Options = {}): Promise<number|boolean> {
     return new Promise((resolve, reject) => this.db.update(query, update, options, (err, result, affectedDocs) => {
       if (err) {
         reject(err);
@@ -144,7 +157,7 @@ export class Database {
    * @param {Options} options - optional params
    * @returns {Promise<number|Error>} - number of removed rows or Error object
    */
-  public async remove(query: object, options: Options = {}): Promise<number> {
+  public async remove(query: DocType, options: Options = {}): Promise<number> {
     return new Promise((resolve, reject) => this.db.remove(query, options, (err, result) => {
       if (err) {
         reject(err);
@@ -156,9 +169,9 @@ export class Database {
 }
 
 export default {
-  pages: new Database(initDb('pages')),
-  password: new Database(initDb('password')),
-  aliases: new Database(initDb('aliases')),
-  pagesOrder: new Database(initDb('pagesOrder')),
-  files: new Database(initDb('files')),
+  pages: new Database<PageData>(initDb('pages')),
+  password: new Database<UserData>(initDb('password')),
+  aliases: new Database<AliasData>(initDb('aliases')),
+  pagesOrder: new Database<PageOrderData>(initDb('pagesOrder')),
+  files: new Database<FileData>(initDb('files')),
 };

@@ -72,12 +72,23 @@ class Transport {
 
     fs.writeFileSync(`${config.get('uploads')}/${filename}.${ext}`, buffer);
 
+    const fetchedContentType: string | null = fetchedFile.headers.get('content-type');
+    let fetchedMimeType: string|undefined;
+
+    if (fetchedContentType === null) {
+      fetchedMimeType = undefined;
+    }else{
+      fetchedMimeType = fetchedContentType;
+    }
+
+    const mimeType = type ? type.mime : fetchedMimeType;
+
     const file = new Model({
       name: url,
       filename: `${filename}.${ext}`,
       path: `${config.get('uploads')}/${filename}.${ext}`,
       size: buffer.length,
-      mimetype: type ? type.mime : fetchedFile.headers.get('content-type'),
+      mimetype: mimeType,
     });
 
     await file.save();

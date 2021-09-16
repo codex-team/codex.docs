@@ -1,5 +1,4 @@
-import Model from '../models/user';
-import UserData from '../models/user';
+import User from '../models/user';
 
 /**
  * @class Users
@@ -9,18 +8,12 @@ class Users {
   /**
    * Find and return user model.
    *
-   * @returns {Promise<UserData>}
+   * @returns {Promise<User>}
    */
-  public static get(): Promise<UserData> {
-    return new Promise((resolve, reject) => {
-      Model.get()
-        .then( userDoc => {
-          resolve(userDoc);
-        })
-        .catch( (e) => {
-          reject(e);
-        });
-    });
+  public static async get(): Promise<User> {
+    const userData: User = await User.get();
+
+    return userData;
   }
 }
 

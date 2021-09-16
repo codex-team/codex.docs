@@ -17,9 +17,9 @@ export interface FileData {
   name?: string;
   filename?: string;
   path?: string;
-  mimetype?: string | null;
+  mimetype?: string;
   size?: number;
-  [key: string]: any;
+  [key: string]: string | number | undefined;
 }
 
 /**
@@ -64,7 +64,7 @@ class File {
    * @returns {Promise<File>}
    */
   public static async get(_id: string): Promise<File> {
-    const data = await filesDb.findOne({ _id });
+    const data: FileData = await filesDb.findOne({ _id });
 
     return new File(data);
   }
@@ -87,7 +87,7 @@ class File {
    * @param {object} query - input query
    * @returns {Promise<File[]>}
    */
-  public static async getAll(query: object = {}): Promise<File[]> {
+  public static async getAll(query: FileData = {}): Promise<File[]> {
     const docs = await filesDb.find(query);
 
     return Promise.all(docs.map(doc => new File(doc)));

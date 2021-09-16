@@ -26,46 +26,11 @@ router.get('/auth', csrfProtection, function (req: Request, res: Response) {
  * Process given password
  */
 router.post('/auth', parseForm, csrfProtection, async (req: Request, res: Response) => {
-  Users.get()
-    .then( userDoc => {
-      const passHash = userDoc.passHash;
+  try {
+    const userDoc = await Users.get();
+    const passHash = userDoc.passHash;
 
-      if (!passHash) {
-        res.render('auth', {
-          title: 'Login page',
-          header: 'Password not set',
-          csrfToken: req.csrfToken(),
-        });
-
-        return;
-      }
-
-      bcrypt.compare(req.body.password, passHash, async (err, result) => {
-        if (err || result === false) {
-          res.render('auth', {
-            title: 'Login page',
-            header: 'Wrong password',
-            csrfToken: req.csrfToken(),
-          });
-
-          return;
-        }
-
-        const token = jwt.sign({
-          iss: 'Codex Team',
-          sub: 'auth',
-          iat: Date.now(),
-        }, passHash + config.get('secret'));
-
-        res.cookie('authToken', token, {
-          httpOnly: true,
-          expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year
-        });
-
-        res.redirect('/');
-      });
-    })
-    .catch( () => {
+    if (!passHash) {
       res.render('auth', {
         title: 'Login page',
         header: 'Password not set',
@@ -73,7 +38,41 @@ router.post('/auth', parseForm, csrfProtection, async (req: Request, res: Respon
       });
 
       return;
+    }
+
+    bcrypt.compare(req.body.password, passHash, async (err, result) => {
+      if (err || result === false) {
+        res.render('auth', {
+          title: 'Login page',
+          header: 'Wrong password',
+          csrfToken: req.csrfToken(),
+        });
+
+        return;
+      }
+
+      const token = jwt.sign({
+        iss: 'Codex Team',
+        sub: 'auth',
+        iat: Date.now(),
+      }, passHash + config.get('secret'));
+
+      res.cookie('authToken', token, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year
+      });
+
+      res.redirect('/');
     });
+  } catch (err) {
+    res.render('auth', {
+      title: 'Login page',
+      header: 'Password not set',
+      csrfToken: req.csrfToken(),
+    });
+
+    return;
+  }
 });
 
 export default router;

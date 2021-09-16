@@ -99,6 +99,10 @@ router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
       throw new Error('Page not found');
     }
 
+    if (!page._parent) {
+      throw new Error('Parent not found');
+    }
+
     if (page._parent !== parent) {
       await PagesOrder.move(page._parent, parent, id);
     } else {
@@ -147,6 +151,10 @@ router.delete('/page/:id', async (req: Request, res: Response) => {
 
     if (page._id === undefined) {
       throw new Error('Page not found');
+    }
+
+    if (!page._parent) {
+      throw new Error('Parent not found');
     }
 
     const parentPageOrder = await PagesOrder.get(page._parent);
