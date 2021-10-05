@@ -10,7 +10,7 @@ const files = database['files'];
 describe('File model', () => {
 
   after(() => {
-    const pathToDB = path.resolve(__dirname, '../../', config.get('database'), './files.db');
+    const pathToDB = path.resolve(__dirname, '../../../', config.get('database'), './files.db');
 
     if (fs.existsSync(pathToDB)) {
       fs.unlinkSync(pathToDB);
@@ -22,7 +22,7 @@ describe('File model', () => {
 
     expect(file.data).to.be.a('object');
 
-    let {data} = file;
+    let { data } = file;
 
     expect(data._id).to.be.undefined;
     expect(data.name).to.be.undefined;
@@ -103,7 +103,7 @@ describe('File model', () => {
     expect(savedFile.size).to.equal(initialData.size);
     expect(savedFile.mimetype).to.equal(initialData.mimetype);
 
-    const insertedFile = await files.findOne({_id: file._id});
+    const insertedFile = await files.findOne({ _id: file._id });
 
     expect(insertedFile._id).to.equal(file._id);
     expect(insertedFile.name).to.equal(file.name);
@@ -126,7 +126,7 @@ describe('File model', () => {
 
     expect(file._id).to.equal(insertedFile._id);
 
-    const updatedFile = await files.findOne({_id: file._id});
+    const updatedFile = await files.findOne({ _id: file._id });
 
     expect(updatedFile._id).to.equal(savedFile._id);
     expect(updatedFile.name).to.equal(updateData.name);
@@ -139,7 +139,7 @@ describe('File model', () => {
 
     expect(file._id).to.be.undefined;
 
-    const removedFile = await files.findOne({_id: updatedFile._id});
+    const removedFile = await files.findOne({ _id: updatedFile._id });
 
     expect(removedFile).to.be.null;
   });
@@ -160,7 +160,7 @@ describe('File model', () => {
     if (savedFile._id !== undefined){
       const foundFile = await File.get(savedFile._id);
   
-      const {data} = foundFile;
+      const { data } = foundFile;
   
       expect(data._id).to.equal(savedFile._id);
       expect(data.name).to.equal(savedFile.name);
@@ -189,7 +189,7 @@ describe('File model', () => {
     if (savedFile.filename !== undefined){
       const foundFile = await File.getByFilename(savedFile.filename);
   
-      const {data} = foundFile;
+      const { data } = foundFile;
   
       expect(data._id).to.equal(savedFile._id);
       expect(data.name).to.equal(savedFile.name);
@@ -222,7 +222,7 @@ describe('File model', () => {
 
     const savedFiles = await Promise.all(filesToSave.map(file => file.save()));
 
-    const foundFiles = await File.getAll({_id: {$in: savedFiles.map(file => file._id)}});
+    const foundFiles = await File.getAll({ _id: { $in: savedFiles.map(file => file._id) } });
 
     expect(foundFiles.length).to.equal(2);
 

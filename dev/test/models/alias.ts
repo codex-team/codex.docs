@@ -10,7 +10,7 @@ const aliases = database['aliases'];
 
 describe('Alias model', () => {
   after(() => {
-    const pathToDB = path.resolve(__dirname, '../../', config.get('database'), './aliases.db');
+    const pathToDB = path.resolve(__dirname, '../../../', config.get('database'), './aliases.db');
 
     if (fs.existsSync(pathToDB)) {
       fs.unlinkSync(pathToDB);

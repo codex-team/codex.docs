@@ -23,7 +23,7 @@ router.get('/page/:id', async (req: Request, res: Response) => {
   } catch (err) {
     res.status(400).json({
       success: false,
-      error: err.message,
+      error: (err as Error).message,
     });
   }
 });
@@ -44,7 +44,7 @@ router.get('/pages', async (req: Request, res: Response) => {
   } catch (err) {
     res.status(400).json({
       success: false,
-      error: err.message,
+      error: (err as Error).message,
     });
   }
 });
@@ -77,7 +77,7 @@ router.put('/page', multer.none(), async (req: Request, res: Response) => {
   } catch (err) {
     res.status(400).json({
       success: false,
-      error: err.message,
+      error: (err as Error).message,
     });
   }
 });
@@ -134,7 +134,7 @@ router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
   } catch (err) {
     res.status(400).json({
       success: false,
-      error: err.message,
+      error: (err as Error).message,
     });
   }
 });
@@ -213,7 +213,7 @@ router.delete('/page/:id', async (req: Request, res: Response) => {
   } catch (err) {
     res.status(400).json({
       success: false,
-      error: err.message,
+      error: (err as Error).message,
     });
   }
 });

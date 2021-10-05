@@ -103,7 +103,7 @@ class PageOrder {
    *
    * @param {string} pageId - page's id
    */
-  public push(pageId: string): void {
+  public push(pageId: string | number): void {
     if (typeof pageId === 'string') {
       if (this.order === undefined) {
         this.order = [];

@@ -42,7 +42,7 @@ router.get('*', verifyToken, async (req: Request, res: Response) => {
   } catch (err) {
     res.status(400).json({
       success: false,
-      error: err.message,
+      error: err,
     });
   }
 });

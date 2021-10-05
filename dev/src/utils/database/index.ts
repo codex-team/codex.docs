@@ -126,7 +126,7 @@ export class Database<DocType> {
    * @param {Options} options - optional params
    * @returns {Promise<number|Object|Object[]|Error>} - number of updated rows or affected docs or Error object
    */
-  public async update(query: DocType, update: DocType, options: Options = {}): Promise<number|boolean> {
+  public async update(query: DocType, update: DocType, options: Options = {}): Promise<number|boolean|Array<DocType>> {
     return new Promise((resolve, reject) => this.db.update(query, update, options, (err, result, affectedDocs) => {
       if (err) {
         reject(err);

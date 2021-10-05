@@ -32,9 +32,9 @@ describe('Pages REST: ', () => {
   });
 
   after(async () => {
-    const pathToPagesDB = path.resolve(__dirname, '../../', config.get('database'), './pages.db');
-    const pathToPagesOrderDB = path.resolve(__dirname, '../../', config.get('database'), './pagesOrder.db');
-    const pathToAliasesDB = path.resolve(__dirname, '../../', config.get('database'), './aliases.db');
+    const pathToPagesDB = path.resolve(__dirname, '../../../', config.get('database'), './pages.db');
+    const pathToPagesOrderDB = path.resolve(__dirname, '../../../', config.get('database'), './pagesOrder.db');
+    const pathToAliasesDB = path.resolve(__dirname, '../../../', config.get('database'), './aliases.db');
 
     if (fs.existsSync(pathToPagesDB)) {
       fs.unlinkSync(pathToPagesDB);
@@ -94,15 +94,14 @@ describe('Pages REST: ', () => {
   it('Page data validation on create', async () => {
     const res = await agent
       .put('/api/page')
-      .send({someField: 'Some text'});
+      .send({ someField: 'Some text' });
 
     expect(res).to.have.status(400);
     expect(res).to.be.json;
 
-    const {success, error} = res.body;
+    const { success, error } = res.body;
 
     expect(success).to.be.false;
-    // expect(error).to.equal('Error: Some of required fields is missed');
     expect(error).to.equal('validationError');
   });
 

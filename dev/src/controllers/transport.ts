@@ -77,7 +77,7 @@ class Transport {
 
     if (fetchedContentType === null) {
       fetchedMimeType = undefined;
-    }else{
+    } else {
       fetchedMimeType = fetchedContentType;
     }
 

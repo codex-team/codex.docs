@@ -25,7 +25,7 @@ describe('Transport routes: ', () => {
   });
 
   after(async () => {
-    const pathToDB = path.resolve(__dirname, '../../', config.get('database'), './files.db');
+    const pathToDB = path.resolve(__dirname, '../../../', config.get('database'), './files.db');
 
     if (fs.existsSync(pathToDB)) {
       fs.unlinkSync(pathToDB);
@@ -38,7 +38,7 @@ describe('Transport routes: ', () => {
 
   it('Uploading an image', async () => {
     const name = 'test_image.png';
-    const image = fs.readFileSync(path.resolve(`./test/rest/${name}`));
+    const image = fs.readFileSync(path.resolve(`./dev/test/rest/${name}`));
     const res = await agent
       .post('/api/transport/image')
       .attach('image', image, name);
@@ -61,12 +61,12 @@ describe('Transport routes: ', () => {
     if (type !== undefined) {
       expect(file.mimetype).to.equal(type.mime);
       expect(file.size).to.equal(image.byteLength);
-  
+
       expect(file.path).to.be.not.undefined;
-      if (file.path !== undefined){
+      if (file.path !== undefined) {
         const getRes = await agent
           .get(file.path);
-    
+
         expect(getRes).to.have.status(200);
         expect(getRes).to.have.header('content-type', type.mime);
       }
@@ -75,7 +75,7 @@ describe('Transport routes: ', () => {
 
   it('Uploading an image with map option', async () => {
     const name = 'test_image.png';
-    const image = fs.readFileSync(path.resolve(`./test/rest/${name}`));
+    const image = fs.readFileSync(path.resolve(`./dev/test/rest/${name}`));
     const res = await agent
       .post('/api/transport/image')
       .attach('image', image, name)
@@ -96,7 +96,7 @@ describe('Transport routes: ', () => {
 
   it('Uploading a file', async () => {
     const name = 'test_file.json';
-    const json = fs.readFileSync(path.resolve(`./test/rest/${name}`));
+    const json = fs.readFileSync(path.resolve(`./dev/test/rest/${name}`));
     const res = await agent
       .post('/api/transport/file')
       .attach('file', json, name);
@@ -127,7 +127,7 @@ describe('Transport routes: ', () => {
 
   it('Uploading a file with map option', async () => {
     const name = 'test_file.json';
-    const json = fs.readFileSync(path.resolve(`./test/rest/${name}`));
+    const json = fs.readFileSync(path.resolve(`./dev/test/rest/${name}`));
     const res = await agent
       .post('/api/transport/file')
       .attach('file', json, name)
@@ -207,7 +207,7 @@ describe('Transport routes: ', () => {
     expect(body.success).to.equal(0);
 
     const name = 'test_file.json';
-    const json = fs.readFileSync(path.resolve(`./test/rest/${name}`));
+    const json = fs.readFileSync(path.resolve(`./dev/test/rest/${name}`));
     res = await agent
       .post('/api/transport/file')
       .attach('file', json, name)
@@ -230,7 +230,7 @@ describe('Transport routes: ', () => {
     expect(body.success).to.equal(0);
 
     let name = 'test_file.json';
-    const json = fs.readFileSync(path.resolve(`./test/rest/${name}`));
+    const json = fs.readFileSync(path.resolve(`./dev/test/rest/${name}`));
     res = await agent
       .post('/api/transport/image')
       .attach('image', json, name);
@@ -238,7 +238,7 @@ describe('Transport routes: ', () => {
     expect(res).to.have.status(400);
 
     name = 'test_image.png';
-    const image = fs.readFileSync(path.resolve(`./test/rest/${name}`));
+    const image = fs.readFileSync(path.resolve(`./dev/test/rest/${name}`));
     res = await agent
       .post('/api/transport/image')
       .attach('image', image, name)

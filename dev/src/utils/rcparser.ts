@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import config from 'config';
 
-const rcPath = path.resolve(__dirname, '../../', config.get('rcFile') || './.codexdocsrc');
+const rcPath = path.resolve(__dirname, '../../../', config.get('rcFile') || './.codexdocsrc');
 
 /**
  * @typedef {object} menu

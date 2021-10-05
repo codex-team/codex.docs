@@ -21,7 +21,7 @@ describe('Page model', () => {
   };
 
   after(() => {
-    const pathToDB = path.resolve(__dirname, '../../', config.get('database'), './pages.db');
+    const pathToDB = path.resolve(__dirname, '../../../', config.get('database'), './pages.db');
 
     if (fs.existsSync(pathToDB)) {
       fs.unlinkSync(pathToDB);

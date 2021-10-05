@@ -40,10 +40,10 @@ describe('RC file parser test', () => {
     const normalConfig = {
       title: 'Documentation',
       menu: [
-        {title: 'Option 1', uri: '/option1'},
-        {title: 'Option 2', uri: '/option2'},
-        {title: 'Option 3', uri: '/option3'}
-      ]
+        { title: 'Option 1', uri: '/option1' },
+        { title: 'Option 2', uri: '/option2' },
+        { title: 'Option 3', uri: '/option3' },
+      ],
     };
 
     fs.writeFileSync(rcPath, JSON.stringify(normalConfig), 'utf8');
@@ -56,10 +56,10 @@ describe('RC file parser test', () => {
   it('Missed title', () => {
     const normalConfig = {
       menu: [
-        {title: 'Option 1', uri: '/option1'},
-        {title: 'Option 2', uri: '/option2'},
-        {title: 'Option 3', uri: '/option3'}
-      ]
+        { title: 'Option 1', uri: '/option1' },
+        { title: 'Option 2', uri: '/option2' },
+        { title: 'Option 3', uri: '/option3' },
+      ],
     };
 
     fs.writeFileSync(rcPath, JSON.stringify(normalConfig), 'utf8');
@@ -72,7 +72,7 @@ describe('RC file parser test', () => {
 
   it('Missed menu', () => {
     const normalConfig = {
-      title: 'Documentation'
+      title: 'Documentation',
     };
 
     fs.writeFileSync(rcPath, JSON.stringify(normalConfig), 'utf8');
@@ -87,10 +87,10 @@ describe('RC file parser test', () => {
     const normalConfig = {
       title: 'Documentation',
       menu: {
-        0: {title: 'Option 1', uri: '/option1'},
-        1: {title: 'Option 2', uri: '/option2'},
-        2: {title: 'Option 3', uri: '/option3'}
-      }
+        0: { title: 'Option 1', uri: '/option1' },
+        1: { title: 'Option 2', uri: '/option2' },
+        2: { title: 'Option 3', uri: '/option3' },
+      },
     };
 
     fs.writeFileSync(rcPath, JSON.stringify(normalConfig), 'utf8');
@@ -111,15 +111,15 @@ describe('RC file parser test', () => {
       title: 'Documentation',
       menu: [
         'Option 1',
-        {title: 'Option 2', uri: '/option2'},
-        {title: 'Option 3', uri: '/option3'}
-      ]
+        { title: 'Option 2', uri: '/option2' },
+        { title: 'Option 3', uri: '/option3' },
+      ],
     };
 
     const expectedMenu = [
-      {title: 'Option 1', uri: '/option-1'},
-      {title: 'Option 2', uri: '/option2'},
-      {title: 'Option 3', uri: '/option3'}
+      { title: 'Option 1', uri: '/option-1' },
+      { title: 'Option 2', uri: '/option2' },
+      { title: 'Option 3', uri: '/option3' },
     ];
 
     fs.writeFileSync(rcPath, JSON.stringify(normalConfig), 'utf8');
@@ -134,25 +134,25 @@ describe('RC file parser test', () => {
     const normalConfig = {
       title: 'Documentation',
       menu: [
-        [ {title: 'Option 1', uri: '/option1'} ],
-        {title: 'Option 2', uri: '/option2'},
-        {title: 'Option 3', uri: '/option3'}
-      ]
+        [ { title: 'Option 1', uri: '/option1' } ],
+        { title: 'Option 2', uri: '/option2' },
+        { title: 'Option 3', uri: '/option3' },
+      ],
     };
 
     const expectedMenu = [
-      {title: 'Option 2', uri: '/option2'},
-      {title: 'Option 3', uri: '/option3'}
+      { title: 'Option 2', uri: '/option2' },
+      { title: 'Option 3', uri: '/option3' },
     ];
     const spy = sinon.spy(console, 'log');
-    
+
     fs.writeFileSync(rcPath, JSON.stringify(normalConfig), 'utf8');
-    
+
     const parsedConfig = rcParser.getConfiguration();
-    
+
     expect(spy.calledOnce).to.be.true;
     expect(spy.calledWith('Menu option #1 in rc file must be a string or an object')).to.be.true;
-    
+
     expect(parsedConfig.title).to.be.equal(normalConfig.title);
     expect(parsedConfig.menu).to.be.deep.equal(expectedMenu);
     spy.restore();
@@ -162,25 +162,25 @@ describe('RC file parser test', () => {
     const normalConfig = {
       title: 'Documentation',
       menu: [
-        {uri: '/option1'},
-        {title: 'Option 2', uri: '/option2'},
-        {title: 'Option 3', uri: '/option3'}
-      ]
+        { uri: '/option1' },
+        { title: 'Option 2', uri: '/option2' },
+        { title: 'Option 3', uri: '/option3' },
+      ],
     };
 
     const expectedMenu = [
-      {title: 'Option 2', uri: '/option2'},
-      {title: 'Option 3', uri: '/option3'}
+      { title: 'Option 2', uri: '/option2' },
+      { title: 'Option 3', uri: '/option3' },
     ];
     const spy = sinon.spy(console, 'log');
-    
+
     fs.writeFileSync(rcPath, JSON.stringify(normalConfig), 'utf8');
-    
+
     const parsedConfig = rcParser.getConfiguration();
-    
+
     expect(spy.calledOnce).to.be.true;
     expect(spy.calledWith('Menu option #1 title must be a string.')).to.be.true;
-    
+
     expect(parsedConfig.title).to.be.equal(normalConfig.title);
     expect(parsedConfig.menu).to.be.deep.equal(expectedMenu);
     spy.restore();
@@ -190,25 +190,25 @@ describe('RC file parser test', () => {
     const normalConfig = {
       title: 'Documentation',
       menu: [
-        {title: [], uri: '/option1'},
-        {title: 'Option 2', uri: '/option2'},
-        {title: 'Option 3', uri: '/option3'}
-      ]
+        { title: [], uri: '/option1' },
+        { title: 'Option 2', uri: '/option2' },
+        { title: 'Option 3', uri: '/option3' },
+      ],
     };
 
     const expectedMenu = [
-      {title: 'Option 2', uri: '/option2'},
-      {title: 'Option 3', uri: '/option3'}
+      { title: 'Option 2', uri: '/option2' },
+      { title: 'Option 3', uri: '/option3' },
     ];
     const spy = sinon.spy(console, 'log');
-    
+
     fs.writeFileSync(rcPath, JSON.stringify(normalConfig), 'utf8');
-    
+
     const parsedConfig = rcParser.getConfiguration();
-    
+
     expect(spy.calledOnce).to.be.true;
     expect(spy.calledWith('Menu option #1 title must be a string.')).to.be.true;
-    
+
     expect(parsedConfig.title).to.be.equal(normalConfig.title);
     expect(parsedConfig.menu).to.be.deep.equal(expectedMenu);
     spy.restore();
@@ -218,25 +218,25 @@ describe('RC file parser test', () => {
     const normalConfig = {
       title: 'Documentation',
       menu: [
-        {title: 'Option 1'},
-        {title: 'Option 2', uri: '/option2'},
-        {title: 'Option 3', uri: '/option3'}
-      ]
+        { title: 'Option 1' },
+        { title: 'Option 2', uri: '/option2' },
+        { title: 'Option 3', uri: '/option3' },
+      ],
     };
 
     const expectedMenu = [
-      {title: 'Option 2', uri: '/option2'},
-      {title: 'Option 3', uri: '/option3'}
+      { title: 'Option 2', uri: '/option2' },
+      { title: 'Option 3', uri: '/option3' },
     ];
     const spy = sinon.spy(console, 'log');
-    
+
     fs.writeFileSync(rcPath, JSON.stringify(normalConfig), 'utf8');
-    
+
     const parsedConfig = rcParser.getConfiguration();
-    
+
     expect(spy.calledOnce).to.be.true;
     expect(spy.calledWith('Menu option #1 uri must be a string.')).to.be.true;
-    
+
     expect(parsedConfig.title).to.be.equal(normalConfig.title);
     expect(parsedConfig.menu).to.be.deep.equal(expectedMenu);
     spy.restore();
@@ -246,25 +246,25 @@ describe('RC file parser test', () => {
     const normalConfig = {
       title: 'Documentation',
       menu: [
-        {title: 'Option 1', uri: []},
-        {title: 'Option 2', uri: '/option2'},
-        {title: 'Option 3', uri: '/option3'}
-      ]
+        { title: 'Option 1', uri: [] },
+        { title: 'Option 2', uri: '/option2' },
+        { title: 'Option 3', uri: '/option3' },
+      ],
     };
 
     const expectedMenu = [
-      {title: 'Option 2', uri: '/option2'},
-      {title: 'Option 3', uri: '/option3'}
+      { title: 'Option 2', uri: '/option2' },
+      { title: 'Option 3', uri: '/option3' },
     ];
     const spy = sinon.spy(console, 'log');
-    
+
     fs.writeFileSync(rcPath, JSON.stringify(normalConfig), 'utf8');
-    
+
     const parsedConfig = rcParser.getConfiguration();
-    
+
     expect(spy.calledOnce).to.be.true;
     expect(spy.calledWith('Menu option #1 uri must be a string.')).to.be.true;
-    
+
     expect(parsedConfig.title).to.be.equal(normalConfig.title);
     expect(parsedConfig.menu).to.be.deep.equal(expectedMenu);
     spy.restore();

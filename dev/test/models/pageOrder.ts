@@ -9,7 +9,7 @@ const pagesOrder = database['pagesOrder'];
 
 describe('PageOrder model', () => {
   after(() => {
-    const pathToDB = path.resolve(__dirname, '../../', config.get('database'), './pagesOrder.db');
+    const pathToDB = path.resolve(__dirname, '../../../', config.get('database'), './pagesOrder.db');
 
     if (fs.existsSync(pathToDB)) {
       fs.unlinkSync(pathToDB);
@@ -99,7 +99,7 @@ describe('PageOrder model', () => {
     await pageOrder.save();
     pageOrder.push('3');
     expect(pageOrder.data.order).to.be.an('array').that.is.not.empty;
-    if (pageOrder.data.order !== undefined){
+    if (pageOrder.data.order !== undefined) {
       pageOrder.data.order.forEach((el) => {
         expect(el).to.be.an('string');
       });
