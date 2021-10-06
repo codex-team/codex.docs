@@ -4,10 +4,10 @@ import config from 'config';
 import chai from 'chai';
 import chaiHTTP from 'chai-http';
 import server from '../../bin/server';
-import model from '../../src/models/page';
-import Page from '../../src/models/page';
-import PageOrder from '../../src/models/pageOrder';
-import translateString from '../../src/utils/translation';
+import model from '../../backend/models/page';
+import Page from '../../backend/models/page';
+import PageOrder from '../../backend/models/pageOrder';
+import translateString from '../../backend/utils/translation';
 
 const {expect} = chai;
 const app = server.app;

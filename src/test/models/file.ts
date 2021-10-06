@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';
 import config from 'config';
-import File from '../../src/models/file';
-import database from '../../src/utils/database';
+import File from '../../backend/models/file';
+import database from '../../backend/utils/database';
 
 const files = database['files'];
 

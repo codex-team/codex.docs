@@ -83,7 +83,7 @@ class Page {
    * @param {object} query - input query
    * @returns {Promise<Page[]>}
    */
-  public static async getAll(query: PageData = {}): Promise<Page[]> {
+  public static async getAll(query: Record<string, unknown> = {}): Promise<Page[]> {
     const docs = await pagesDb.find(query);
 
     return Promise.all(docs.map(doc => new Page(doc)));

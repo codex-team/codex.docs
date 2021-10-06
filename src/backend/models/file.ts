@@ -87,7 +87,7 @@ class File {
    * @param {object} query - input query
    * @returns {Promise<File[]>}
    */
-  public static async getAll(query: FileData = {}): Promise<File[]> {
+  public static async getAll(query: Record<string, unknown> = {}): Promise<File[]> {
     const docs = await filesDb.find(query);
 
     return Promise.all(docs.map(doc => new File(doc)));

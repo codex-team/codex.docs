@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import database from './src/utils/database';
+import database from './backend/utils/database';
 import commander from 'commander';
 import bcrypt from 'bcrypt';
 

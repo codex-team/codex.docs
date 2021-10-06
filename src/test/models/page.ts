@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';
 import config from 'config';
-import Page from '../../src/models/page';
-import translateString from '../../src/utils/translation';
-import database from '../../src/utils/database';
+import Page from '../../backend/models/page';
+import translateString from '../../backend/utils/translation';
+import database from '../../backend/utils/database';
 
 const pages = database['pages'];
 

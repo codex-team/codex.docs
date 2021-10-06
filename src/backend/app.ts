@@ -12,7 +12,7 @@ const config = rcParser.getConfiguration();
 app.locals.config = config;
 
 // view engine setup
-app.set('views', path.join(__dirname, '../../', 'views'));
+app.set('views', path.join(__dirname, '../../src/backend/', 'views'));
 app.set('view engine', 'twig');
 require('./utils/twig');
 

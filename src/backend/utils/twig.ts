@@ -16,7 +16,7 @@ export default (function () {
    * @returns {string} - svg code
    */
   twig.extendFunction('svg', function (filename: string) {
-    return fs.readFileSync(`./frontend/svg/${filename}.svg`, 'utf-8');
+    return fs.readFileSync(`./src/frontend/svg/${filename}.svg`, 'utf-8');
   });
 
   /**

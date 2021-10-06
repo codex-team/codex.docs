@@ -1,7 +1,7 @@
 /**
  * Module dependencies.
  */
-import app from '../src/app';
+import app from '../backend/app';
 import http from 'http';
 import config from 'config';
 import Debug from 'debug';

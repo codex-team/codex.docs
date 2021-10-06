@@ -6,7 +6,7 @@ import chaiHTTP from 'chai-http';
 import rimraf from 'rimraf';
 import config from 'config';
 import server from '../../bin/server';
-import model from '../../src/models/file';
+import model from '../../backend/models/file';
 
 const {expect} = chai;
 const app = server.app;
@@ -38,7 +38,7 @@ describe('Transport routes: ', () => {
 
   it('Uploading an image', async () => {
     const name = 'test_image.png';
-    const image = fs.readFileSync(path.resolve(`./dev/test/rest/${name}`));
+    const image = fs.readFileSync(path.resolve(`./src/test/rest/${name}`));
     const res = await agent
       .post('/api/transport/image')
       .attach('image', image, name);
@@ -75,7 +75,7 @@ describe('Transport routes: ', () => {
 
   it('Uploading an image with map option', async () => {
     const name = 'test_image.png';
-    const image = fs.readFileSync(path.resolve(`./dev/test/rest/${name}`));
+    const image = fs.readFileSync(path.resolve(`./src/test/rest/${name}`));
     const res = await agent
       .post('/api/transport/image')
       .attach('image', image, name)
@@ -96,7 +96,7 @@ describe('Transport routes: ', () => {
 
   it('Uploading a file', async () => {
     const name = 'test_file.json';
-    const json = fs.readFileSync(path.resolve(`./dev/test/rest/${name}`));
+    const json = fs.readFileSync(path.resolve(`./src/test/rest/${name}`));
     const res = await agent
       .post('/api/transport/file')
       .attach('file', json, name);
@@ -127,7 +127,7 @@ describe('Transport routes: ', () => {
 
   it('Uploading a file with map option', async () => {
     const name = 'test_file.json';
-    const json = fs.readFileSync(path.resolve(`./dev/test/rest/${name}`));
+    const json = fs.readFileSync(path.resolve(`./src/test/rest/${name}`));
     const res = await agent
       .post('/api/transport/file')
       .attach('file', json, name)
@@ -207,7 +207,7 @@ describe('Transport routes: ', () => {
     expect(body.success).to.equal(0);
 
     const name = 'test_file.json';
-    const json = fs.readFileSync(path.resolve(`./dev/test/rest/${name}`));
+    const json = fs.readFileSync(path.resolve(`./src/test/rest/${name}`));
     res = await agent
       .post('/api/transport/file')
       .attach('file', json, name)
@@ -230,7 +230,7 @@ describe('Transport routes: ', () => {
     expect(body.success).to.equal(0);
 
     let name = 'test_file.json';
-    const json = fs.readFileSync(path.resolve(`./dev/test/rest/${name}`));
+    const json = fs.readFileSync(path.resolve(`./src/test/rest/${name}`));
     res = await agent
       .post('/api/transport/image')
       .attach('image', json, name);
@@ -238,7 +238,7 @@ describe('Transport routes: ', () => {
     expect(res).to.have.status(400);
 
     name = 'test_image.png';
-    const image = fs.readFileSync(path.resolve(`./dev/test/rest/${name}`));
+    const image = fs.readFileSync(path.resolve(`./src/test/rest/${name}`));
     res = await agent
       .post('/api/transport/image')
       .attach('image', image, name)

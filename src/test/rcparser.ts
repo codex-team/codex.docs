@@ -4,7 +4,7 @@ import path from 'path';
 import config from 'config';
 import sinon = require('sinon');
 
-import rcParser from '../src/utils/rcparser';
+import rcParser from '../backend/utils/rcparser';
 
 const rcPath = path.resolve(process.cwd(), config.get('rcFile'));
 

@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';
 import config from 'config';
-import PageOrder from '../../src/models/pageOrder';
-import database from '../../src/utils/database';
+import PageOrder from '../../backend/models/pageOrder';
+import database from '../../backend/utils/database';
 
 const pagesOrder = database['pagesOrder'];
 
