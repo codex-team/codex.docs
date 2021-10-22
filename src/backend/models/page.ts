@@ -132,7 +132,7 @@ class Page {
    *
    * @returns {Promise<Page>}
    */
-  public async getParent(): Promise<Page|null> {
+  public async getParent(): Promise<Page> {
     const data = await pagesDb.findOne({ _id: this._parent });
 
     return new Page(data);

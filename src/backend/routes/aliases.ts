@@ -30,7 +30,7 @@ router.get('*', verifyToken, async (req: Request, res: Response) => {
       case Alias.types.PAGE: {
         const page = await Pages.get(alias.id);
 
-        const pageParent = page.parent;
+        const pageParent = await page.getParent();
 
         res.render('pages/page', {
           page,
