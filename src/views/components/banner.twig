@@ -1,167 +1,44 @@
-<style>
-  .hawk-bnnr__body {
-    width: 95%;
-    padding: 0 1%;
-    margin: 5% auto;
-    position: relative;
-    color: #fff;
-    font-family: 'SFProDisplay', Roboto, 'Open Sans', sans-serif;
-  }
 
-  .hawk-bnnr__content {
-    position: absolute;
-    width: 30%;
-    font-size: 0.8vw;
-    margin-left: 3.5%;
-    top: 22%;
-  }
+{% set productHuntUrl = 'https://www.producthunt.com/posts/editor-js?utm_source=badge-featured&amp;utm_medium=badge&amp;utm_souce=badge-editor-js' %}
 
-  .hawk-bnnr__illustration {
-    width: 100%;
-    border-radius: 15px;
-  }
-
-  .hawk-bnnr__title {
-    font-size: 2.5em;
-    font-weight: bold;
-    margin-bottom: 3.5%;
-  }
-
-  .hawk-bnnr__text {
-    font-size: 1.25em;
-    line-height: 1.5;
-    margin-bottom: 7.5%;
-    letter-spacing: -0.15px;
-  }
-
-  .hawk-bnnr__second_title {
-    font-size: 2.5em;
-    font-weight: bold;
-    margin-bottom: 2%;
-  }
-
-  .hawk-bnnr__slogan {
-    font-size: 1.65em;
-    font-weight: 500;
-  }
-
-  .hawk-bnnr__garage {
-    position: absolute;
-    width: 28%;
-    border-radius: 9px;
-    left: 50%;
-    transform: translate(-50%);
-    top: -8.5%;
-    background: #30323d;
-    border: 1px solid #30323d;
-    box-shadow: 0 12px 44px 0 rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
-  }
-
-  .hawk-bnnr__right-content {
-    position: absolute;
-    width: 20%;
-    font-size: 0.8vw;
-    right: 11.3%;
-    top: 15%;
-  }
-
-  .hawk-bnnr__product-hunt {
-    margin-top: 5%;
-    width: 90%;
-  }
-
-  .hawk-bnnr__product-hunt--mobile {
-    display: none;
-  }
-
-  @media(max-width: 750px) {
-    .hawk-bnnr__body {
-      width: 75%;
-      background-image: url('https://capella.pics/7f81d43a-f2d0-4daf-884f-011d25a48ab7.jpg');
-      padding: 30px 25px;
-      border-radius: 10px;
-    }
-
-    .hawk-bnnr__content {
-      position: inherit;
-      font-size: 11px;
-      width: 95%;
-      margin: 0 0 0 10px;
-    }
-
-    .hawk-bnnr__break {
-      display: none;
-    }
-
-    .hawk-bnnr__illustration {
-      display: none;
-    }
-
-    .hawk-bnnr__title {
-      font-size: 2.4em;
-      margin-bottom: 15px;
-    }
-
-    .hawk-bnnr__text {
-      width: 100%;
-      margin-bottom: 23px;
-      line-height: 1.43;
-    }
-
-    .hawk-bnnr__second_title {
-      font-size: 2em;
-    }
-
-    .hawk-bnnr__slogan {
-      font-size: 1.2em;
-    }
-
-    .hawk-bnnr__garage {
-      position: inherit;
-      width: calc(112% + 40px);
-      top: auto;
-      right: auto;
-    }
-
-    .hawk-bnnr__product-hunt {
-      display: none;
-    }
-
-    .hawk-bnnr__product-hunt--mobile {
-      display: block;
-      width: 200px;
-      margin: 20px auto 0;
-    }
-
-    .hawk-bnnr__right-content {
-      position: inherit;
-      width: auto;
-      font-size: 0.7em;
-      right: auto;
-      top: auto;
-      margin-left: 10px;
-      margin-bottom: 20px;
-    }
-  }
-</style>
-<div class="hawk-bnnr__body">
-  <img class="hawk-bnnr__illustration" src="https://capella.pics/3b43621c-1d13-473c-bf6c-4ee5fd3de61d.jpg" alt="">
-
+<div class="hawk-bnnr">
   <div class="hawk-bnnr__content">
-    <div class="hawk-bnnr__title">What a day! 🥳🎈🎉
+    <div class="hawk-bnnr__title">
+      What a day!
+      <img src="/dist/hawk-smiles.png">
     </div>
-    <div class="hawk-bnnr__text">Today we are releasing our next big open-source project.<br class="hawk-bnnr__break">As big as Editor.js or bigger. It is the error tracking service<br class="hawk-bnnr__break">
-      called Hawk! Check it out.</div>
+    <div class="hawk-bnnr__text">
+      Today we are releasing our next big open-source project.
+      As big as Editor.js or bigger. It is the error tracking service
+      called Hawk! Check it out.
+    </div>
+
+    <div class="hawk-bnnr__show-only-for-mobile">
+      <div class="hawk-bnnr__second_title">
+        Hawk
+      </div>
+      <div class="hawk-bnnr__slogan">
+        Code problems resolved.
+      </div>
+    </div>
   </div>
+
+  <a
+    class="hawk-bnnr__center"
+    href="{{ productHuntUrl }}"
+  >
+    <img class="hawk-bnnr__garage" src="https://capella.pics/a7edc807-8421-412e-9489-80d1062dd02b.jpg" alt="Hawk.so Garage">
+  </a>
+
   <div class="hawk-bnnr__right-content">
-    <div class="hawk-bnnr__second_title">Hawk</div>
-    <div class="hawk-bnnr__slogan">Code problems. Resolved.</div>
-    <a href="https://www.producthunt.com/posts/editor-js?utm_source=badge-featured&amp;utm_medium=badge&amp;utm_souce=badge-editor-js" target="_blank">
+    <div class="hawk-bnnr__second_title hawk-bnnr__hide-in-mobile">
+      Hawk
+    </div>
+    <div class="hawk-bnnr__slogan hawk-bnnr__hide-in-mobile">
+      Code problems resolved.
+    </div>
+    <a href="{{ productHuntUrl }}" target="_blank">
       <img class="hawk-bnnr__product-hunt" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=150153&amp;theme=light">
     </a>
   </div>
-  <img class="hawk-bnnr__garage" src="https://capella.pics/ae86cbae-925b-453c-a89b-81334e39169d" alt="">
-  <a href="https://www.producthunt.com/posts/editor-js?utm_source=badge-featured&amp;utm_medium=badge&amp;utm_souce=badge-editor-js" target="_blank">
-    <img class="hawk-bnnr__product-hunt--mobile" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=150153&amp;theme=light">
-  </a>
 </div>

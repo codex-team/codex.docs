@@ -1,0 +1,115 @@
+.hawk-bnnr {
+  background-color: #121C3C;
+  background-image: url('https://capella.pics/3b43621c-1d13-473c-bf6c-4ee5fd3de61d.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 45px var(--layout-padding-horisontal);
+  color: #fff;
+  border-radius: 14px;
+
+  display: flex;
+
+  --padding: 40px;
+
+  padding: var(--padding);
+
+  @media (--mobile) {
+    --padding: 25px;
+    flex-direction: column;
+  }
+
+  &__center {
+    padding: 0 55px;
+
+    @media (--mobile) {
+      padding: 5px 0 20px;
+    }
+  }
+
+  &__garage {
+    display: block;
+    height: 231px;
+    margin: calc(-1 * var(--padding) - 17px) 0;
+    border-radius: 9px;
+    background: #30323d;
+    border: 1px solid #30323d;
+    box-shadow: 0 12px 44px 0 rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+
+    @media (max-width: 1214px){
+      height: 150px;
+      margin: 0;
+    }
+
+    @media (--mobile){
+      height: auto;
+      width: calc(100% + var(--padding) * 2 + 20px);
+      margin: 0 calc(-1 * var(--padding) - 10px) 0;
+    }
+  }
+
+  &__title {
+    font-size: 30px;
+    line-height: 36px;
+    font-weight: bold;
+
+    img {
+      height: 1em;
+      vertical-align: middle;
+      margin-left: 5px;
+    }
+  }
+
+  &__text {
+    font-size: 15px;
+    line-height: 22px;
+    max-width: 400px;
+    margin-top: 15px;
+  }
+
+  &__second_title {
+    font-size: 30px;
+    line-height: 36px;
+    font-weight: bold;
+
+    @media (--mobile){
+      margin-top: 20px;
+      font-size: 26px;
+    }
+  }
+
+  &__slogan {
+    font-size: 20px;
+    line-height: 24px;
+    margin-top: 3px;
+    margin-bottom: 14px;
+    font-weight: 500;
+
+    @media (--mobile){
+      font-size: 18px;
+    }
+  }
+
+  &__right-content {
+    margin: -7px 0 -5px;
+
+    @media (--mobile){
+      margin: 0;
+      text-align: center;
+    }
+  }
+
+  &__show-only-for-mobile {
+    display: none;
+
+    @media (--mobile){
+      display: block;
+    }
+  }
+
+  &__hide-in-mobile {
+    @media (--mobile){
+      display: none;
+    }
+  }
+}
+

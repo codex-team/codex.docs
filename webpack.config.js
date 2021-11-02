@@ -1,4 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
+const CopyPlugin = require("copy-webpack-plugin");
 
 /**
  * Options for the Babel
@@ -52,22 +54,30 @@ module.exports = (env) => {
                   path: './src/frontend/'
                 }
               }
-            }
+            },
           ]
-        }, {
+        },
+        {
           test: /\.js$/,
           exclude: /(node_modules|bower_components)/,
           use: [
             babelLoader
           ]
-        }
+        },
       ]
     },
     plugins: [
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         filename: '[name].css'
-      })
+      }),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.join(__dirname, 'src', 'frontend', 'images'),
+          },
+        ],
+      }),
     ],
     optimization: {
       splitChunks: false

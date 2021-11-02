@@ -6,7 +6,8 @@
     "chai-friendly"
   ],
   "env": {
-    "mocha": true
+    "mocha": true,
+    "es6": true
   },
   "rules": {
     "no-unused-expressions": 0,
@@ -16,5 +17,12 @@
   "globals": {
     "fetch": true,
     "alert": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 8,
+    "ecmaFeatures": {
+      "jsx": true
+    }
   }
 }
