@@ -6,7 +6,7 @@ import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import Image from '@editorjs/image';
 import CodeTool from '@editorjs/code';
-import List from '@editorjs/list';
+import List from '@editorjs/nested-list';
 import Delimiter from '@editorjs/delimiter';
 import Table from '@editorjs/table';
 import Warning from '@editorjs/warning';
