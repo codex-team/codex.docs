@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@editorjs/embed": "^2.5.0",
-    "@editorjs/nested-list": "^1.0.2",
     "bcrypt": "^5.0.1",
     "commander": "^2.19.0",
     "cookie-parser": "~1.4.3",

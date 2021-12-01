@@ -6,13 +6,14 @@ import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import Image from '@editorjs/image';
 import CodeTool from '@editorjs/code';
-import List from '@editorjs/nested-list';
+import List from '@editorjs/list';
 import Delimiter from '@editorjs/delimiter';
 import Table from '@editorjs/table';
 import Warning from '@editorjs/warning';
 import Checklist from '@editorjs/checklist';
 import LinkTool from '@editorjs/link';
 import RawTool from '@editorjs/raw';
+import Embed from '@editorjs/embed';
 
 /**
  * Inline Tools for the Editor
@@ -110,6 +111,8 @@ export default class Editor {
         },
 
         raw: RawTool,
+
+        embed: Embed,
       },
       data: {
         blocks: [
