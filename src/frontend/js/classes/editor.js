@@ -13,6 +13,7 @@ import Warning from '@editorjs/warning';
 import Checklist from '@editorjs/checklist';
 import LinkTool from '@editorjs/link';
 import RawTool from '@editorjs/raw';
+import Embed from '@editorjs/embed';
 
 /**
  * Inline Tools for the Editor
@@ -110,6 +111,8 @@ export default class Editor {
         },
 
         raw: RawTool,
+
+        embed: Embed,
       },
       data: {
         blocks: [
