@@ -726,21 +726,25 @@
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@editorjs/delimiter/-/delimiter-1.2.0.tgz#5075f1a3e68765cfb6aec8694b316d81e2b41607"
 
-"@editorjs/editorjs@^2.22.2":
-  version "2.22.2"
-  resolved "https://registry.yarnpkg.com/@editorjs/editorjs/-/editorjs-2.22.2.tgz#bf1d10c9fa9dd1dc574c18d8f4b77fef43d8e7f6"
+"@editorjs/editorjs@^2.23.0-rc.1":
+  version "2.23.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@editorjs/editorjs/-/editorjs-2.23.0-rc.1.tgz#4b5c8c72d7c948eff6354086f074126e89c0bcb2"
   dependencies:
     codex-notifier "^1.1.2"
-    codex-tooltip "^1.0.2"
+    codex-tooltip "^1.0.4"
     nanoid "^3.1.22"
 
-"@editorjs/header@^2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@editorjs/header/-/header-2.6.1.tgz#454a46e4dbb32ae3aa1db4d22b0ddf2cc36c3134"
+"@editorjs/embed@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/embed/-/embed-2.5.0.tgz#1f42277b8da91e84e9033b5d90b1615a117de456"
 
-"@editorjs/image@^2.6.0":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@editorjs/image/-/image-2.6.0.tgz#269d8dceebbb5fe667f9152188c425ba8b1c300f"
+"@editorjs/header@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@editorjs/header/-/header-2.6.2.tgz#523b6dda72ff882e53f64325840ee7bfc68ee6b7"
+
+"@editorjs/image@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@editorjs/image/-/image-2.6.2.tgz#2fc23666807ae20e937d08bf65589f0b1f424aed"
 
 "@editorjs/inline-code@^1.3.1":
   version "1.3.1"
@@ -1966,9 +1970,9 @@ codex-notifier@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/codex-notifier/-/codex-notifier-1.1.2.tgz#a733079185f4c927fa296f1d71eb8753fe080895"
 
-codex-tooltip@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/codex-tooltip/-/codex-tooltip-1.0.2.tgz#81a9d3e2937658c6e5312106b47b9f094ff7be63"
+codex-tooltip@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/codex-tooltip/-/codex-tooltip-1.0.4.tgz#bb8c6e0fe7accc68ce79cdcb7c71bf7b4bf1317a"
 
 collection-visit@^1.0.0:
   version "1.0.0"

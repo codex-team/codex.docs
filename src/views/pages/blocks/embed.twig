@@ -1,0 +1,12 @@
+<figure class="block-embed">
+  <iframe
+    class="block-embed__iframe"
+    src="{{ embed }}"
+    frameborder="0"
+  ></iframe>
+  {% if caption %}
+    <footer class="block-iframe__caption">
+      {{ caption }}
+    </footer>
+  {% endif %}
+</figure>
