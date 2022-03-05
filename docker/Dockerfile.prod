@@ -5,7 +5,7 @@ RUN apk add --no-cache git gcc g++ python3 make musl-dev
 
 COPY package.json yarn.lock ./
 
-RUN yarn install --prod
+RUN yarn install
 
 COPY . .
 
