@@ -1,4 +1,4 @@
-FROM node:12.14.1-alpine3.11
+FROM node:16.14.0-alpine3.15
 
 WORKDIR /usr/src/app
 RUN apk add --no-cache git gcc g++ python make musl-dev

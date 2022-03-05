@@ -9,7 +9,6 @@
     "> 1%"
   ],
   "scripts": {
-    "start": "cross-env NODE_ENV=production nodemon --config nodemon.json ./dist/bin/server.js",
     "start:ts": "cross-env NODE_ENV=production nodemon --config nodemon.json ./src/bin/server.ts",
     "start:dev": "cross-env NODE_ENV=development nodemon --config nodemon.json ./src/bin/server.ts",
     "test": "cross-env NODE_ENV=testing mocha --recursive ./dist/test --exit",
