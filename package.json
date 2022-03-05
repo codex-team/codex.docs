@@ -41,7 +41,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "nedb": "^1.8.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "nodemon": "^2.0.12",
     "open-graph-scraper": "^4.9.0",
     "ts-node": "^10.1.0",
