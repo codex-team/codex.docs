@@ -1053,64 +1053,78 @@
 "@editorjs/checklist@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@editorjs/checklist/-/checklist-1.3.0.tgz#98c08f0c6a8b62a2b1a0f181604c1a8c8edc15b1"
+  integrity sha512-087oW0oOIE5HX8llj4Eap/reFDFw8VCLlp6GU0E9GEp7f3zy2aV6KdFR+6dbYhZ50w7tSnkMpCAcSq1NXJeB4Q==
 
 "@editorjs/code@^2.7.0":
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/@editorjs/code/-/code-2.7.0.tgz#0a21de9ac15e4533605ffcc80969513ab2142ac5"
+  integrity sha512-gXtTce915fHp3H9i4IqhTxEDbbkT2heFfYiW/bhFHsCmZDpyGzfZxi94kmrEqDmbxXjV49ZZ6GZbR26If13KJw==
 
 "@editorjs/delimiter@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@editorjs/delimiter/-/delimiter-1.2.0.tgz#5075f1a3e68765cfb6aec8694b316d81e2b41607"
+  integrity sha512-GKsCFPk85vH5FuCuVQ48NTLc9hk0T3DsBH9zABaicTYIJayFcUa8N4/Y+L3i4tduzDqqyvoxkv+5n43GmC5gEA==
 
-"@editorjs/editorjs@^2.23.0-rc.1":
-  version "2.23.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@editorjs/editorjs/-/editorjs-2.23.0-rc.1.tgz#4b5c8c72d7c948eff6354086f074126e89c0bcb2"
+"@editorjs/editorjs@^2.23.2":
+  version "2.23.2"
+  resolved "https://registry.yarnpkg.com/@editorjs/editorjs/-/editorjs-2.23.2.tgz#a4d3e60de8052602233750eda353596c09131a90"
+  integrity sha512-SXWQjxE/ZO6zWvo83U+gfkM9LVJzYOtNkttyXkdfyYALVWiENyxtlej/Jmd1TZ4yWpKwQEICPXz0ceGkzKnJyQ==
   dependencies:
     codex-notifier "^1.1.2"
     codex-tooltip "^1.0.4"
     nanoid "^3.1.22"
 
-"@editorjs/embed@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@editorjs/embed/-/embed-2.5.0.tgz#1f42277b8da91e84e9033b5d90b1615a117de456"
+"@editorjs/embed@^2.5.1":
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/@editorjs/embed/-/embed-2.5.1.tgz#e03e56d880df7816e34f5419b4ed0e8059885173"
+  integrity sha512-QoBvC6upo5ubO0toGlt5b1Upcq15MC4eqejxcjcm291Ww5cO+lKhSFY6KNk3ldL9PnWKtORxFCd6pAawtkkijA==
 
 "@editorjs/header@^2.6.2":
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/@editorjs/header/-/header-2.6.2.tgz#523b6dda72ff882e53f64325840ee7bfc68ee6b7"
+  integrity sha512-U1dnT+KGjwFmpWneEEyR2Nqp42hn9iKwQDgRHWQM+y6qx82pg+eAyuIf0QWt2Mluu9uPD2CzNfvJ+pxIuwX8Lw==
 
 "@editorjs/image@^2.6.2":
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/@editorjs/image/-/image-2.6.2.tgz#2fc23666807ae20e937d08bf65589f0b1f424aed"
+  integrity sha512-lai6LFJ8m3qRmSjio66o0CX7/75OupC3FQ5JWrV/biRT6GvUHtRNWKaMowKcC2ndXtfs4w6WwRxcXlB4WhUAdg==
 
 "@editorjs/inline-code@^1.3.1":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@editorjs/inline-code/-/inline-code-1.3.1.tgz#4890e30d00dcaeacafbcb30459309dfd740b0d4b"
+  integrity sha512-iY6DeRmJo2Jl6sB2S9QEA9OoSp+KCHBztoY2fjPeiBcKCOKX8we5H3JQJTLxT0L/N8uJqCUiiPKgG6xvqaCn+g==
 
-"@editorjs/link@^2.3.1":
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/@editorjs/link/-/link-2.3.1.tgz#f4525192670429dd97a1fcc52e607deaa26dddef"
+"@editorjs/link@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/link/-/link-2.4.0.tgz#f54e41854e2453116999da985b745a182db14069"
+  integrity sha512-Dk5n4HkiXtZvhDIEBu7uiXhkPl2lhmMFW8FaUnOiERZHJzIZGQf/qe6GdFN6Bo51j/wVADVyq6m8ZylKwIiCVA==
   dependencies:
     "@babel/runtime" "^7.10.2"
 
 "@editorjs/list@^1.6.2":
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/@editorjs/list/-/list-1.6.2.tgz#38cb307d78ec8b6c55480c538805cdc2ff250ad1"
+  integrity sha512-OxowV0yuE11G01czYM1dEQlz1F37ehX0ak5vAbZ9ncSXrPh0fDRw/fBxTY654FlmrsQ40UFom3owSG++tLvVGw==
 
 "@editorjs/marker@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@editorjs/marker/-/marker-1.2.2.tgz#d9261a257436bf70179c0fa1e766ab85c823c96b"
+  integrity sha512-BN/IHbVKKahGnMAiBOV5U7XUjfF6JkIkTZ6qNLxtTr7PUPM8UsJV8G8pyll9CX+XRUYYZyokA2kEBHTS4vUyyw==
 
 "@editorjs/raw@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@editorjs/raw/-/raw-2.3.0.tgz#d0c3daa1144e38b4d92bc5eca2faebba337bfae7"
+  integrity sha512-wC+3pTQVB2hvDcF4mcMgOr7DhO432lGYqOam/CwfyyfG5BDqaPrwgZTiVyteZ25D5ZQD677IVYZ48oX33+2HgQ==
 
 "@editorjs/table@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@editorjs/table/-/table-2.0.1.tgz#ec7726b7b662ed4ddbcd023e9a4644fbb6ea73b8"
+  integrity sha512-PB8VM+GPRwGy7IlF+WrEQw2A2c36xEXBnYIvf2VGNJo8A7PjYHtuWrlyHHCnGpY4lHXYnavZ/U8pKAfXv86XjA==
 
 "@editorjs/warning@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@editorjs/warning/-/warning-1.2.0.tgz#245a2286a2e996512ac345275b64fa638e319f5e"
+  integrity sha512-CMIsB+b8Ti8/duOzYfKn1upFEEMxj821RDyBbDx8iku4DRql524VnAErvd00sYnFpKKbXNOF4oQnBo/7bDIzPQ==
 
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"

@@ -3,8 +3,8 @@ import javascript from 'highlight.js/lib/languages/javascript';
 import xml from 'highlight.js/lib/languages/xml';
 import json from 'highlight.js/lib/languages/json';
 import css from 'highlight.js/lib/languages/css';
-import style from 'highlight.js/styles/github.css'; // eslint-disable-line no-unused-vars
-import diffStyles from '../../styles/diff.pcss'; // eslint-disable-line no-unused-vars
+import 'highlight.js/styles/github.css';
+import '../../styles/diff.pcss';
 
 /**
  * @class CodeStyles

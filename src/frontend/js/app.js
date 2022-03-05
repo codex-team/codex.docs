@@ -1,9 +1,10 @@
 // No inspection for unused var `css` because it's used for css bundle
 // eslint-disable-next-line no-unused-vars
-import css from '../styles/main.pcss';
+import '../styles/main.pcss';
 
 /**
  * Module Dispatcher
+ *
  * @see {@link https://github.com/codex-team/moduleDispatcher}
  * @author CodeX
  */
@@ -21,7 +22,7 @@ import Extensions from './modules/extensions';
  */
 class Docs {
   /**
-   * @constructor
+   * @class
    */
   constructor() {
     this.writing = new Writing();
@@ -40,7 +41,7 @@ class Docs {
    */
   docReady() {
     this.moduleDispatcher = new ModuleDispatcher({
-      Library: window.Docs
+      Library: this,
     });
   }
 }
