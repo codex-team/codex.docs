@@ -1,4 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
 
 /**
  * Options for the Babel
@@ -11,20 +12,23 @@ const babelLoader = {
       [
         '@babel/preset-env',
         {
-          'useBuiltIns': 'usage'
-        }
-      ]
+          'useBuiltIns': 'usage',
+        },
+      ],
     ],
     plugins: [
-      '@babel/plugin-syntax-dynamic-import'
-    ]
-  }
+      '@babel/plugin-syntax-dynamic-import',
+    ],
+  },
 };
 
-module.exports = (env) => {
+module.exports = () => {
   return {
+    entry: './src/frontend/js/app.js',
     output: {
-      libraryExport: 'default' // uses to export .default field of app.js exported class instance
+      filename: '[name].bundle.js',
+      path: path.resolve(__dirname, './public/dist'),
+      libraryExport: 'default', // uses to export .default field of app.js exported class instance
     },
     module: {
       rules: [
@@ -36,41 +40,36 @@ module.exports = (env) => {
               options: {
                 // you can specify a publicPath here
                 // by default it use publicPath in webpackOptions.output
-                publicPath: '../'
-              }
+                publicPath: '../',
+              },
             },
             {
               loader: 'css-loader',
               options: {
-                importLoaders: 1
-              }
+                importLoaders: 1,
+              },
             },
             {
               loader: 'postcss-loader',
-              options: {
-                config: {
-                  path: './src/frontend/'
-                }
-              }
-            }
-          ]
+            },
+          ],
         }, {
           test: /\.js$/,
           exclude: /(node_modules|bower_components)/,
           use: [
-            babelLoader
-          ]
-        }
-      ]
+            babelLoader,
+          ],
+        },
+      ],
     },
     plugins: [
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
-        filename: '[name].css'
-      })
+        filename: '[name].css',
+      }),
     ],
     optimization: {
-      splitChunks: false
-    }
+      splitChunks: false,
+    },
   };
 };

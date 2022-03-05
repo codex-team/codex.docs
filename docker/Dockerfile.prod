@@ -11,4 +11,4 @@ COPY . .
 
 RUN yarn compile
 
-CMD ["yarn", "start"]
+CMD ["yarn", "start:ts"]

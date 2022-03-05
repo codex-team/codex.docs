@@ -1,4 +1,7 @@
 .db
+.testdb
+.codexdocsrc
+
 node_modules
 docker
 test
