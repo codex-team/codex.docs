@@ -76,3 +76,6 @@ typings/
 # Uploads
 /public/uploads
 /public/uploads_test
+
+# Compiled files
+/dist/*

@@ -1,11 +1,15 @@
 {
-  "ignore": [
-    "node_modules",
-    "src/frontend",
-    "public/dist"
-  ],
-  "events": {
-    "restart": "echo \"App restarted due to: '$FILENAME'\""
-  },
-  "ext": "js,twig"
+    "ignore": [
+        "node_modules",
+        "src/frontend",
+        "public/dist"
+    ],
+    "events": {
+        "restart": "echo \"App restarted due to: '$FILENAME'\""
+      },
+    "watch": ["src/"],
+    "execMap": {
+        "ts": "node -r ts-node/register"
+    },
+    "ext": "js,json,ts,twig"
 }
