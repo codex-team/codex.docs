@@ -33,6 +33,10 @@ $ yarn install --frozen-lockfile
 ```
 
 ### Available scripts
+#### Compile to Javascript
+```
+$ yarn compile
+```
 
 #### Start the server
 
