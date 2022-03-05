@@ -1,13 +1,9 @@
 {
   "extends": [
-    "codex/ts",
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
+    "codex/ts"
   ],
   "plugins": [
-    "chai-friendly",
-    "@typescript-eslint"
+    "chai-friendly"
   ],
   "env": {
     "mocha": true
