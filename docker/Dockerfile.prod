@@ -1,7 +1,7 @@
 FROM node:16.14.0-alpine3.15
 
 WORKDIR /usr/src/app
-RUN apk add --no-cache git gcc g++ python make musl-dev
+RUN apk add --no-cache git gcc g++ python3 make musl-dev
 
 COPY package.json yarn.lock ./
 
