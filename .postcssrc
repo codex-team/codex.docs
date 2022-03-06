@@ -6,8 +6,8 @@ plugins:
     postcss-media-minmax: {}
     postcss-custom-selectors: {}
     postcss-nested-ancestors: {}
-    postcss-nesting: {}
     postcss-nested: {}
+    postcss-nesting: {}
     postcss-color-mod-function: {}
     postcss-color-hex-alpha: {}
     postcss-font-family-system-ui: {}

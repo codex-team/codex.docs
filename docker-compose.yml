@@ -5,7 +5,7 @@ services:
       dockerfile: docker/Dockerfile.prod
       context: .
     ports:
-      - 5000:3000
+      - "5005:3000"
     volumes:
       - ./.codexdocsrc:/usr/src/app/.codexdocsrc:ro
       - ./config/production.json:/usr/src/app/config/production.json:ro
