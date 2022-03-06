@@ -4,6 +4,7 @@
 import twig from 'twig';
 import fs from 'fs';
 import urlify from './urlify';
+import path from 'path';
 
 export default (function () {
   'use strict';
@@ -16,7 +17,7 @@ export default (function () {
    * @returns {string} - svg code
    */
   twig.extendFunction('svg', function (filename: string) {
-    return fs.readFileSync(`./src/frontend/svg/${filename}.svg`, 'utf-8');
+    return fs.readFileSync(path.join(__dirname, `./../../frontend/svg/${filename}.svg`), 'utf-8');
   });
 
   /**

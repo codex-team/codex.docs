@@ -1,7 +1,7 @@
-FROM node:16.14.0-alpine3.15
+# Stage 1 - build
+FROM node:16.14.0-alpine3.15 as build
 
 WORKDIR /usr/src/app
-RUN apk add --no-cache git gcc g++ python3 make musl-dev
 
 COPY package.json yarn.lock ./
 
@@ -9,6 +9,22 @@ RUN yarn install
 
 COPY . .
 
+RUN yarn build
+
 RUN yarn compile
 
-CMD ["yarn", "start:ts"]
+# Stage 2 - make final image
+FROM node:16.14.0-alpine3.15
+
+WORKDIR /usr/src/app
+
+COPY package.json yarn.lock ./
+
+RUN yarn install --production
+
+COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/public ./public
+
+ENV NODE_ENV=production
+
+CMD ["node", "dist/bin/server.js"]

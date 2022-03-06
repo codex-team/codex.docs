@@ -79,3 +79,4 @@ typings/
 
 # Compiled files
 /dist/*
+/public/dist/*
