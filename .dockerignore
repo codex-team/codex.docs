@@ -1,7 +1,9 @@
 .db
 .testdb
-.codexdocsrc
-
+.cache
+.github
+.codexdocsrc*
 node_modules
 docker
-test
+src/test
+config

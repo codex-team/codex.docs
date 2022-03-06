@@ -9,7 +9,7 @@
     "> 1%"
   ],
   "scripts": {
-    "start:ts": "cross-env NODE_ENV=production nodemon --config nodemon.json ./src/bin/server.ts",
+    "start": "cross-env NODE_ENV=production nodemon --config nodemon.json ./src/bin/server.ts",
     "start:dev": "cross-env NODE_ENV=development nodemon --config nodemon.json ./src/bin/server.ts",
     "test": "cross-env NODE_ENV=testing mocha --recursive ./dist/test --exit",
     "test:ts": "cross-env NODE_ENV=testing ts-mocha ./src/test/*.ts ./src/test/**/*.ts --exit",
@@ -20,15 +20,13 @@
     "generatePassword:ts": "ts-node ./src/generatePassword.ts",
     "generatePassword": "node ./dist/generatePassword.js",
     "editor-upgrade": "yarn add -D @editorjs/{editorjs,header,code,delimiter,list,link,image,table,inline-code,marker,warning,checklist,raw}@latest",
-    "compile": "npx tsc"
+    "compile": "tsc && copyfiles -u 3 ./src/**/*.twig ./dist/backend/views && copyfiles -u 1 ./src/**/*.svg ./dist/"
   },
   "dependencies": {
-    "@editorjs/embed": "^2.5.1",
     "bcrypt": "^5.0.1",
     "commander": "^9.0.0",
     "config": "^3.3.6",
     "cookie-parser": "^1.4.5",
-    "cross-env": "^7.0.3",
     "csurf": "^1.11.0",
     "debug": "^4.3.2",
     "dotenv": "^16.0.0",
@@ -42,13 +40,14 @@
     "multer": "^1.4.2",
     "nedb": "^1.8.0",
     "node-fetch": "^2.6.1",
-    "nodemon": "^2.0.12",
     "open-graph-scraper": "^4.9.0",
-    "ts-node": "^10.1.0",
     "twig": "^1.15.4",
     "uuid4": "^2.0.2"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
+    "ts-node": "^10.1.0",
+    "@editorjs/embed": "^2.5.1",
     "@babel/core": "^7.17.5",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/polyfill": "^7.12.1",
@@ -94,6 +93,7 @@
     "babel-loader": "^8.2.3",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
+    "copyfiles": "^2.4.1",
     "css-loader": "^6.7.0",
     "cssnano": "^5.1.0",
     "eslint": "^7.31.0",
