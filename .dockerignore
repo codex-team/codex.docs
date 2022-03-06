@@ -1,9 +1,8 @@
-.db
-.testdb
-.cache
-.github
-.codexdocsrc*
-node_modules
-docker
-src/test
-config
+*
+!public
+!src
+!package.json
+!yarn.lock
+!webpack.config.js
+!tsconfig.json
+!.postcssrc
