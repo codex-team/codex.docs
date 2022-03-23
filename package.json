@@ -1,6 +1,6 @@
 {
   "name": "codex.docs",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "bin": {
     "generatePassword": "bin/generatePassword.js"
   },
