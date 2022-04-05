@@ -62,6 +62,14 @@ To manage pages you need to authorize (available on `/auth`).
 
 To generate password use `yarn generatePassword [password]` command.
 
+## Release process
+
+We use [release-drafter](https://github.com/release-drafter/release-drafter) to generate release notes and GitHub release.
+It will automatically generate draft release based pull requests data between current version and previous version.
+To make new release you need go to [releases](https://github.com/codex-team/codex.docs/releases) page find the latest draft release and mark it as ready.
+After creating new release, new git tag will be created and new version will be published.
+
+
 # About CodeX
 
 <img align="right" width="120" height="120" src="https://codex.so/public/app/img/codex-logo.svg" hspace="50">
