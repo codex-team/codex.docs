@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
-import config from 'config';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import rcParser from './utils/rcparser';
@@ -8,9 +7,9 @@ import routes from './routes';
 import HttpException from './exceptions/httpException';
 
 const app = express();
-const localConfig = rcParser.getConfiguration();
+const config = rcParser.getConfiguration();
 
-app.locals.config = localConfig;
+app.locals.config = config;
 // view engine setup
 app.set('views', path.join(__dirname, './', 'views'));
 app.set('view engine', 'twig');
@@ -20,7 +19,8 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(config.get('uploads')));
+app.use(express.static(path.join(__dirname, '../../public')));
+
 
 app.use('/', routes);
 

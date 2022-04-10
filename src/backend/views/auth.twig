@@ -8,6 +8,9 @@
     <p>
       Enter a password to access pages editing
     </p>
+    <p>
+      {{ header }}
+    </p>
     <input type="hidden" name="_csrf" value={{ csrfToken }}>
     <input type="password" name="password" placeholder="Password">
     <input type="submit" value="Login">
