@@ -16,7 +16,7 @@ RUN yarn install
 
 COPY . .
 
-RUN yarn build
+RUN yarn build-frontend
 
 RUN yarn compile
 
