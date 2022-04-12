@@ -86,7 +86,7 @@ yarn test
 
 To manage pages you need to authorize (available on `/auth`).
 
-To generate password use `yarn generatePassword [password]` command.
+To set password use `yarn generatePassword:ts [password]` command and restart the server.
 
 ## Release process
 
