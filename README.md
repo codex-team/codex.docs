@@ -1,59 +1,84 @@
 # CodeX Docs
 
-Engine for documentation website using [Editor.js](//editorjs.io)
+CodeX Docs is a simple but powerful documentation engine for CodeX powered with [Editor.js](//editorjs.io).
+
+You can use CodeX Docs for product documentation, for internal team docs, or for any other documentation.
 
 ![](https://capella.pics/e3b8a441-53dc-4da6-a7a9-76b12629983b.jpg)
 
 ## Development
 
-### Set up the environment
+### Prerequisites
 
-Install node version manager and required version of node js
-
-```
-$ chmod u+x ./bin/nvm.sh && ./bin/nvm.sh
-$ nvm install
-```
-
-> For windows use [nvm for windows](https://github.com/coreybutler/nvm-windows)
-
-Install Yarn package manager
-```
-$ brew install yarn --without-node
-```
-
-> Use `--without-node` flag  because nvm version of Node is used
-
-Or download it directly from the [website](https://yarnpkg.com/en/docs/install)
+- NodeJS (v16.x)
+- Yarn
 
 ### Install npm packages
 
+```shell
+yarn install --frozen-lockfile
 ```
-$ yarn install --frozen-lockfile
+
+### Create config file
+
+```shell
+cp .codexdocsrc.sample .codexdocsrc
 ```
+
+### Run application (both frontend and backend)
+
+```shell
+yarn dev
+```
+
+Then you can open browser and navigate to [http://localhost:3000](http://localhost:3000).
+
+Now you can [authenticate](https://github.com/codex-team/codex.docs/#authentication) in the application and start creating your documentation.
 
 ### Available scripts
-#### Compile to Javascript
-```
-$ yarn compile
+
+#### Start whole application (backend and frontend in watch mode)
+
+```shell
+yarn dev
 ```
 
-#### Start the server
+#### Start backend in development mode
 
+```shell
+yarn start-backend
 ```
-$ yarn start
+
+#### Compile TypeScript files
+
+```shell
+yarn compile
+```
+
+#### Build frontend
+
+To build frontend sources run the following command:
+
+```shell
+yarn build-frontend
+```
+
+To build frontend and watch for changes run the following command:
+
+```shell
+yarn build-frontend:dev
 ```
 
 #### Run ESLint with `--fix` option
 
-```
-$ yarn lint
+```shell
+yarn lint
 ```
 
 #### Run tests
 
-```
-$ yarn test
+```shell
+yarn test
 ```
 
 ### Authentication
