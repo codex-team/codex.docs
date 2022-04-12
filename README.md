@@ -11,6 +11,7 @@ You can use CodeX Docs for product documentation, for internal team docs, or for
 ### Prerequisites
 
 - NodeJS (v16.x)
+- npx (installed by default with npm)
 - Yarn
 
 ### Install npm packages
