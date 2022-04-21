@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
-    "commander": "^9.0.0",
     "config": "^3.3.6",
     "cookie-parser": "^1.4.5",
     "csurf": "^1.11.0",
