@@ -1,9 +1,8 @@
 import * as dotenv from 'dotenv';
 
 dotenv.config();
-
 export interface UserData {
-  passHash?: string;
+  password?: string;
 }
 
 /**
@@ -13,7 +12,7 @@ export interface UserData {
  * @property {string} passHash - hashed password
  */
 class User {
-  public passHash?: string;
+  public password?: string;
 
   /**
    * @class
@@ -21,7 +20,7 @@ class User {
    * @param {UserData} userData - user data for construct new object
    */
   constructor(userData: UserData) {
-    this.passHash = userData.passHash;
+    this.password = userData.password;
   }
 
   /**
@@ -32,7 +31,7 @@ class User {
    */
   public static async get(): Promise<User> {
     const userData: UserData = {
-      passHash: process.env.PASSHASH,
+      password: process.env.PASSWORD,
     };
 
     return new User(userData);
