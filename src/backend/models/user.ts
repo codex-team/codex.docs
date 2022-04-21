@@ -1,6 +1,6 @@
-import database from '../utils/database/index';
+import * as dotenv from 'dotenv';
 
-const db = database['password'];
+dotenv.config();
 
 export interface UserData {
   passHash?: string;
@@ -31,7 +31,9 @@ class User {
    * @returns {Promise<User>}
    */
   public static async get(): Promise<User> {
-    const userData: UserData = await db.findOne({});
+    const userData: UserData = {
+      passHash: process.env.PASSHASH,
+    };
 
     return new User(userData);
   }
