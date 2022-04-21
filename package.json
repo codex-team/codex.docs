@@ -17,8 +17,6 @@
     "test:js": "cross-env NODE_ENV=testing mocha --recursive ./dist/test --exit",
     "test": "cross-env NODE_ENV=testing ts-mocha ./src/test/*.ts ./src/test/**/*.ts --exit",
     "lint": "eslint --fix --ext .ts ./src/backend",
-    "generatePassword:ts": "ts-node ./src/generatePassword.ts",
-    "generatePassword": "node ./dist/generatePassword.js",
     "editor-upgrade": "yarn add -D @editorjs/{editorjs,header,code,delimiter,list,link,image,table,inline-code,marker,warning,checklist,raw}@latest"
   },
   "dependencies": {
