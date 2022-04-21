@@ -10,6 +10,7 @@ const filesDb = database['files'];
  * @property {string} filename - name of uploaded file
  * @property {string} path - path to uploaded file
  * @property {string} mimetype - file MIME type
+ * @property {string} url - file url
  * @property {number} size - size of the file in
  */
 export interface FileData {
@@ -18,6 +19,7 @@ export interface FileData {
   filename?: string;
   path?: string;
   mimetype?: string;
+  url?: string;
   size?: number;
   [key: string]: string | number | undefined;
 }
@@ -40,6 +42,7 @@ class File {
   public path?: string;
   public mimetype?: string;
   public size?: number;
+  public url?: string;
 
   /**
    * @class
@@ -99,13 +102,14 @@ class File {
    * @param {FileData} fileData - info about file
    */
   public set data(fileData: FileData) {
-    const { name, filename, path, mimetype, size } = fileData;
+    const { name, filename, path, mimetype, size, url } = fileData;
 
     this.name = name || this.name;
     this.filename = filename || this.filename;
     this.path = path ? this.processPath(path) : this.path;
     this.mimetype = mimetype || this.mimetype;
     this.size = size || this.size;
+    this.url = url || this.url;
   }
 
   /**
@@ -121,6 +125,7 @@ class File {
       path: this.path,
       mimetype: this.mimetype,
       size: this.size,
+      url: this.url,
     };
   }
 

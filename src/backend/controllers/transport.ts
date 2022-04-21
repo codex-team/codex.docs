@@ -34,7 +34,7 @@ class Transport {
    * @returns {Promise<FileData>}
    */
   public static async save(multerData: Dict, map: Dict): Promise<FileData> {
-    const { originalname: name, path, filename, size, mimetype } = multerData;
+    const { originalname: name, path, filename, size, mimetype, url } = multerData;
 
     const file = new File({
       name,
@@ -42,11 +42,14 @@ class Transport {
       path,
       size,
       mimetype,
+      url,
     });
 
     await file.save();
 
     let response = file.data;
+
+    console.log(file)
 
     if (map) {
       response = Transport.composeResponse(file, map);
@@ -94,6 +97,8 @@ class Transport {
     await file.save();
 
     let response = file.data;
+
+    console.log(response)
 
     if (map) {
       response = Transport.composeResponse(file, map);
