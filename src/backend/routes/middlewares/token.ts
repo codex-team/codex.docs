@@ -19,14 +19,14 @@ export default async function verifyToken(req: Request, res: Response, next: Nex
   try {
     const userDoc = await Users.get();
 
-    if (!userDoc.passHash) {
+    if (!userDoc.password) {
       res.locals.isAuthorized = false;
       next();
 
       return;
     }
 
-    const decodedToken = jwt.verify(token, userDoc.passHash + config.get('secret'));
+    const decodedToken = jwt.verify(token, userDoc.password + config.get('secret'));
 
     res.locals.isAuthorized = !!decodedToken;
 
