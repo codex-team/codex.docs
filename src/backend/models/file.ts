@@ -10,7 +10,7 @@ const filesDb = database['files'];
  * @property {string} filename - name of uploaded file
  * @property {string} path - path to uploaded file
  * @property {string} mimetype - file MIME type
- * @property {string} url - file url
+ * @property {string} url - file url to access it. Consists of uploads path and file name.
  * @property {number} size - size of the file in
  */
 export interface FileData {
