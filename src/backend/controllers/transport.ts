@@ -49,8 +49,6 @@ class Transport {
 
     let response = file.data;
 
-    console.log(file)
-
     if (map) {
       response = Transport.composeResponse(file, map);
     }
