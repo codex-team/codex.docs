@@ -77,10 +77,17 @@ router.post('/transport/image', imageUploader, async (req: Request, res: Respons
     return;
   }
 
+  const fileData = {
+    ...req.files.image[0],
+    url: '/uploads/' + req.files.image[0].filename,
+  };
+
+  console.log(fileData);
+
   try {
     Object.assign(
       response,
-      await Transport.save(req.files.image[0], req.body.map ? JSON.parse(req.body.map) : undefined)
+      await Transport.save(fileData, req.body.map ? JSON.parse(req.body.map) : undefined)
     );
 
     response.success = 1;
