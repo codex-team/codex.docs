@@ -5,7 +5,9 @@ import morgan from 'morgan';
 import rcParser from './utils/rcparser';
 import routes from './routes';
 import HttpException from './exceptions/httpException';
+import * as dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
 const config = rcParser.getConfiguration();
 

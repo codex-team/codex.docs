@@ -1,9 +1,7 @@
-import * as dotenv from 'dotenv';
 import config from 'config';
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
-dotenv.config();
 
 /**
  * Middleware for checking jwt token

@@ -2,9 +2,6 @@ import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import config from 'config';
 import csrf from 'csurf';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 const router = express.Router();
 const csrfProtection = csrf({ cookie: true });
@@ -25,8 +22,6 @@ router.get('/auth', csrfProtection, function (req: Request, res: Response) {
  */
 router.post('/auth', parseForm, csrfProtection, async (req: Request, res: Response) => {
   try {
-    const password = process.env.PASSWORD;
-
     if (!process.env.PASSWORD) {
       res.render('auth', {
         title: 'Login page',
@@ -37,7 +32,7 @@ router.post('/auth', parseForm, csrfProtection, async (req: Request, res: Respon
       return;
     }
 
-    if (req.body.password !== password) {
+    if (req.body.password !== process.env.PASSWORD) {
       res.render('auth', {
         title: 'Login page',
         header: 'Wrong password',
@@ -51,7 +46,7 @@ router.post('/auth', parseForm, csrfProtection, async (req: Request, res: Respon
       iss: 'Codex Team',
       sub: 'auth',
       iat: Date.now(),
-    }, password + config.get('secret'));
+    }, process.env.PASSWORD + config.get('secret'));
 
     res.cookie('authToken', token, {
       httpOnly: true,
