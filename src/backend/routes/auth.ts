@@ -1,10 +1,8 @@
 import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import config from 'config';
-import bcrypt from 'bcrypt';
 import csrf from 'csurf';
 import * as dotenv from 'dotenv';
-import Users from '../controllers/users';
 
 dotenv.config();
 
@@ -27,10 +25,9 @@ router.get('/auth', csrfProtection, function (req: Request, res: Response) {
  */
 router.post('/auth', parseForm, csrfProtection, async (req: Request, res: Response) => {
   try {
-    const userDoc = await Users.get();
-    const password = userDoc.password;
+    const password = process.env.PASSWORD;
 
-    if (!password) {
+    if (!process.env.PASSWORD) {
       res.render('auth', {
         title: 'Login page',
         header: 'Password not set',
