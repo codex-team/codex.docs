@@ -6,12 +6,13 @@ import rcParser from './utils/rcparser';
 import routes from './routes';
 import HttpException from './exceptions/httpException';
 import * as dotenv from 'dotenv';
+import config from 'config';
 
 dotenv.config();
 const app = express();
-const config = rcParser.getConfiguration();
+const localConfig = rcParser.getConfiguration();
 
-app.locals.config = config;
+app.locals.config = localConfig;
 // view engine setup
 app.set('views', path.join(__dirname, './', 'views'));
 app.set('view engine', 'twig');
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../public')));
+app.use('/uploads', express.static(config.get('uploads')));
 
 app.use('/', routes);
 

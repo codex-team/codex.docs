@@ -55,7 +55,7 @@ export default class Editor {
             },
             additionalRequestData: {
               map: JSON.stringify({
-                path: 'file:url',
+                url: 'file:url',
                 size: 'file:size',
                 mimetype: 'file:mime',
               }),

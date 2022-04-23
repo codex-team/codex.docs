@@ -10,7 +10,7 @@ import path from 'path';
  */
 export default function initDb(name: string): Datastore {
   return new Datastore({
-    filename: path.resolve(`./${config.get('database')}/${name}.db`),
+    filename: path.resolve(`${config.get('database')}/${name}.db`),
     autoload: true,
   });
 }
