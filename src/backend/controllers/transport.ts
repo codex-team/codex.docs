@@ -96,7 +96,7 @@ class Transport {
 
     let response = file.data;
 
-    console.log(response)
+    console.log(response);
 
     if (map) {
       response = Transport.composeResponse(file, map);
