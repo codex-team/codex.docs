@@ -1,10 +1,7 @@
-import * as dotenv from 'dotenv';
 import config from 'config';
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import Users from '../../controllers/users';
 
-dotenv.config();
 
 /**
  * Middleware for checking jwt token
@@ -17,16 +14,14 @@ export default async function verifyToken(req: Request, res: Response, next: Nex
   const token = req.cookies.authToken;
 
   try {
-    const userDoc = await Users.get();
-
-    if (!userDoc.passHash) {
+    if (!process.env.PASSWORD) {
       res.locals.isAuthorized = false;
       next();
 
       return;
     }
 
-    const decodedToken = jwt.verify(token, userDoc.passHash + config.get('secret'));
+    const decodedToken = jwt.verify(token, process.env.PASSWORD + config.get('secret'));
 
     res.locals.isAuthorized = !!decodedToken;
 

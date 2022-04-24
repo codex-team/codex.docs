@@ -5,8 +5,10 @@ import morgan from 'morgan';
 import rcParser from './utils/rcparser';
 import routes from './routes';
 import HttpException from './exceptions/httpException';
+import * as dotenv from 'dotenv';
 import config from 'config';
 
+dotenv.config();
 const app = express();
 const localConfig = rcParser.getConfiguration();
 

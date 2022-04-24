@@ -3,7 +3,6 @@ import { AliasData } from '../../models/alias';
 import { FileData } from '../../models/file';
 import { PageData } from '../../models/page';
 import { PageOrderData } from '../../models/pageOrder';
-import { UserData } from '../../models/user';
 import initDb from './initDb';
 
 /**
@@ -170,7 +169,6 @@ export class Database<DocType> {
 
 export default {
   pages: new Database<PageData>(initDb('pages')),
-  password: new Database<UserData>(initDb('password')),
   aliases: new Database<AliasData>(initDb('aliases')),
   pagesOrder: new Database<PageOrderData>(initDb('pagesOrder')),
   files: new Database<FileData>(initDb('files')),

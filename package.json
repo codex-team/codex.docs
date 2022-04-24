@@ -1,9 +1,6 @@
 {
   "name": "codex.docs",
   "license": "Apache-2.0",
-  "bin": {
-    "generatePassword": "bin/generatePassword.js"
-  },
   "browserslist": [
     "last 2 versions",
     "> 1%"
@@ -17,13 +14,9 @@
     "test:js": "cross-env NODE_ENV=testing mocha --recursive ./dist/test --exit",
     "test": "cross-env NODE_ENV=testing ts-mocha ./src/test/*.ts ./src/test/**/*.ts --exit",
     "lint": "eslint --fix --ext .ts ./src/backend",
-    "generatePassword:ts": "ts-node ./src/generatePassword.ts",
-    "generatePassword": "node ./dist/generatePassword.js",
     "editor-upgrade": "yarn add -D @editorjs/{editorjs,header,code,delimiter,list,link,image,table,inline-code,marker,warning,checklist,raw}@latest"
   },
   "dependencies": {
-    "bcrypt": "^5.0.1",
-    "commander": "^9.0.0",
     "config": "^3.3.6",
     "cookie-parser": "^1.4.5",
     "csurf": "^1.11.0",
