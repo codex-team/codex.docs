@@ -74,7 +74,7 @@ class Transport {
     fs.writeFileSync(`${config.get('uploads')}/${filename}.${ext}`, buffer);
 
     const fetchedContentType: string | null = fetchedFile.headers.get('content-type');
-    let fetchedMimeType: string|undefined;
+    let fetchedMimeType: string | undefined;
 
     if (fetchedContentType === null) {
       fetchedMimeType = undefined;
@@ -95,8 +95,6 @@ class Transport {
     await file.save();
 
     let response = file.data;
-
-    console.log(response);
 
     if (map) {
       response = Transport.composeResponse(file, map);
