@@ -1,25 +1,16 @@
 import crypto from 'crypto';
 
 /**
- *
- * @param {string} hexStr - input hex string
- * @returns {string} - output binary string
- */
-function hexToBinary(hexStr: string): string {
-  return (parseInt(hexStr, 16).toString(2))
-    .padStart(8, '0');
-}
-
-/**
  * Create binary md5
  *
  * @param stringToHash - string to hash
  * @returns {string} - binary hash of argument
  */
 export function binaryMD5(stringToHash: string): string {
-  return hexToBinary(crypto.createHash('md5')
+  return crypto.createHash('md5')
     .update(stringToHash)
-    .digest('hex'));
+    .digest()
+    .toString('binary');
 }
 
 /**
