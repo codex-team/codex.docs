@@ -63,6 +63,47 @@ class Pages {
   }
 
   /**
+   * Group given pages with descending order of creation time
+   *
+   * @param {pages[]} pages - pages to group
+   * @returns {Page[]}
+   */
+  public static group(pages: Page[]): Page[] {
+    const result: Page[] = [];
+    const obj:Record<string, Array<Page>> = {};
+
+    pages.sort((a, b) => {
+      if (a.body.time > b.body.time) {
+        return 1;
+      }
+
+      if (a.body.time < b.body.time) {
+        return -1;
+      }
+
+      return 0;
+    }).forEach(doc => {
+      if (doc._parent === '0' && typeof doc._id === 'string') {
+        obj[doc._id] = [];
+        obj[doc._id].push(doc);
+      } else if (doc._parent !== '0' && doc._parent && doc._id) {
+        obj[doc._id] = [];
+        obj[doc._parent].push(doc);
+      }
+    });
+
+    Object.entries(obj).forEach(([, value]) => {
+      if (value.length <=0) {
+        return;
+      } else {
+        result.push(...value);
+      }
+    });
+
+    return result;
+  }
+
+  /**
    * Set all children elements to null
    *
    * @param {Array<Page|null>} [pagesAvailable] - Array of all pages

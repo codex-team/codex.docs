@@ -84,45 +84,9 @@ class Page {
    * @returns {Promise<Page[]>}
    */
   public static async getAll(query: Record<string, unknown> = {}): Promise<Page[]> {
-    const result: PageData[] = [];
-    const obj = {};
-    let docs = await pagesDb.find(query);
+    const docs = await pagesDb.find(query);
 
-    docs = docs.sort((a, b) => {
-      if (a.body.time > b.body.time) {
-        return 1;
-      }
-
-      if (a.body.time < b.body.time) {
-        return -1;
-      }
-
-      return 0;
-    });
-    docs.forEach(doc => {
-      if(doc.parent === '0') {
-        // @ts-ignore
-        obj[doc._id] = [];
-        // @ts-ignore
-        obj[doc._id].push(doc);
-      } else {
-        // @ts-ignore
-        obj[doc._id] = [];
-        // @ts-ignore
-        obj[doc.parent].push(doc);
-      }
-    });
-    Object.entries(obj).forEach(([key, value]) => {
-      // @ts-ignore
-      if(!key || value.length <=0) {
-        return;
-      } else {
-        // @ts-ignore
-        result.push(...value);
-      }
-    });
-
-    return Promise.all(result.map(doc => new Page(doc)));
+    return Promise.all(docs.map(doc => new Page(doc)));
   }
 
   /**

@@ -12,9 +12,10 @@ const router = express.Router();
 router.get('/page/new', verifyToken, allowEdit, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const pagesAvailable = await Pages.getAll();
+    const groupedPagesAvailable = Pages.group(pagesAvailable);
 
     res.render('pages/form', {
-      pagesAvailable,
+      groupedPagesAvailable,
       page: null,
     });
   } catch (error) {
