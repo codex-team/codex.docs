@@ -12,11 +12,11 @@ const router = express.Router();
 router.get('/page/new', verifyToken, allowEdit, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const pagesAvailable = await Pages.getAll();
-    const sortedPagesAvailable = Pages.sortByTimeDesc(pagesAvailable);
-    const groupedPagesAvailable = Pages.groupByParent(sortedPagesAvailable);
+    const pagesAvailableSorted = Pages.sortByTimeDesc(pagesAvailable);
+    const pagesAvailableGrouped = Pages.groupByParent(pagesAvailableSorted);
 
     res.render('pages/form', {
-      groupedPagesAvailable,
+      pagesAvailableGrouped,
       page: null,
     });
   } catch (error) {
