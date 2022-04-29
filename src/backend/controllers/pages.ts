@@ -63,16 +63,13 @@ class Pages {
   }
 
   /**
-   * Group given pages with descending order of creation time
+   * Sort given pages with descending order of creation time
    *
-   * @param {pages[]} pages - pages to group
-   * @returns {Page[]}
+   * @param {pages[]} pages - pages to sort
+   * @returns {page[]}
    */
-  public static group(pages: Page[]): Page[] {
-    const result: Page[] = [];
-    const obj:Record<string, Array<Page>> = {};
-
-    pages.sort((a, b) => {
+  public static sortByTimeDesc(pages: Page[]): Page[] {
+    return pages.sort((a, b) => {
       if (a.body.time > b.body.time) {
         return 1;
       }
@@ -82,18 +79,36 @@ class Pages {
       }
 
       return 0;
-    }).forEach(doc => {
-      if (doc._parent === '0' && typeof doc._id === 'string') {
-        obj[doc._id] = [];
-        obj[doc._id].push(doc);
-      } else if (doc._parent !== '0' && doc._parent && doc._id) {
-        obj[doc._id] = [];
-        obj[doc._parent].push(doc);
+    });
+  }
+
+
+  /**
+   * Group given pages by their parents
+   *
+   * @param {pages[]} pages - pages to group
+   * @returns {Page[]}
+   */
+  public static groupByParent(pages: Page[]): Page[] {
+    const result: Page[] = [];
+    const pagesGroupedByParent:Record<string, Array<Page>> = {};
+
+    pages.forEach(page => {
+      pagesGroupedByParent[String(page._id)] = [];
+
+      if (this.isRootPage(page)) {
+        pagesGroupedByParent[String(page._id)].push(page);
+      } else {
+        pagesGroupedByParent[String(page._parent)].push(page);
       }
     });
 
-    Object.entries(obj).forEach(([, value]) => {
-      if (value.length <=0) {
+    /**
+     * It converts grouped object to array
+     * Also removes redundant keys when there is no children
+     */
+    Object.entries(pagesGroupedByParent).forEach(([, value]) => {
+      if (value.length <= 0) {
         return;
       } else {
         result.push(...value);
@@ -243,6 +258,16 @@ class Pages {
     if (!headerIsNotEmpty) {
       throw new Error('Please, fill page Header');
     }
+  }
+
+  /**
+   * Check if the given page is root
+   *
+   * @param {page} page - page to check
+   * @returns {boolean}
+   */
+  private static isRootPage(page:Page):boolean {
+    return page._parent === '0';
   }
 }
 
