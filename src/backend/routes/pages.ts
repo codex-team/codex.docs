@@ -11,9 +11,7 @@ const router = express.Router();
  */
 router.get('/page/new', verifyToken, allowEdit, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const pagesAvailable = await Pages.getAll();
-    const pagesAvailableSorted = Pages.sortByTimeDesc(pagesAvailable);
-    const pagesAvailableGrouped = Pages.groupByParent(pagesAvailableSorted);
+    const pagesAvailableGrouped = await Pages.groupByParent();
 
     res.render('pages/form', {
       pagesAvailableGrouped,
@@ -34,6 +32,7 @@ router.get('/page/edit/:id', verifyToken, allowEdit, async (req: Request, res: R
   try {
     const page = await Pages.get(pageId);
     const pagesAvailable = await Pages.getAllExceptChildren(pageId);
+    const pagesAvailableGrouped = await Pages.groupByParent(pageId);
 
     if (!page._parent) {
       throw new Error('Parent not found');
@@ -44,7 +43,7 @@ router.get('/page/edit/:id', verifyToken, allowEdit, async (req: Request, res: R
     res.render('pages/form', {
       page,
       parentsChildrenOrdered,
-      pagesAvailable,
+      pagesAvailableGrouped,
     });
   } catch (error) {
     res.status(404);

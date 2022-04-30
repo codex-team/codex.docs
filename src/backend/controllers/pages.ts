@@ -1,5 +1,7 @@
 import Page, { PageData } from '../models/page';
 import Alias from '../models/alias';
+import PagesOrder from './pagesOrder';
+import PageOrder from '../models/pageOrder';
 
 type PageDataFields = keyof PageData;
 
@@ -63,59 +65,99 @@ class Pages {
   }
 
   /**
-   * Sort given pages with descending order of creation time
+   * Group all pages by their parents
+   * If the pageId is passed, it excludes passed page from result pages
    *
-   * @param {pages[]} pages - pages to sort
-   * @returns {page[]}
-   */
-  public static sortByTimeDesc(pages: Page[]): Page[] {
-    return pages.sort((a, b) => {
-      if (a.body.time > b.body.time) {
-        return 1;
-      }
-
-      if (a.body.time < b.body.time) {
-        return -1;
-      }
-
-      return 0;
-    });
-  }
-
-
-  /**
-   * Group given pages by their parents
-   *
-   * @param {pages[]} pages - pages to group
+   * @param {string} pageId - pageId to exclude from result pages
    * @returns {Page[]}
    */
-  public static groupByParent(pages: Page[]): Page[] {
+  public static async groupByParent(pageId = ''): Promise<Page[]> {
     const result: Page[] = [];
-    const pagesGroupedByParent:Record<string, Array<Page>> = {};
-
-    pages.forEach(page => {
-      pagesGroupedByParent[String(page._id)] = [];
-
-      if (this.isRootPage(page)) {
-        pagesGroupedByParent[String(page._id)].push(page);
-      } else {
-        pagesGroupedByParent[String(page._parent)].push(page);
-      }
-    });
+    const orderGroupedByParent: Record<string, string[]> = {};
+    const rootPageOrder = await PagesOrder.getRootPageOrder();
+    const childPageOrder = await PagesOrder.getChildPageOrder();
+    const orphanPageOrder: PageOrder[] = [];
 
     /**
-     * It converts grouped object to array
-     * Also removes redundant keys when there is no children
+     * If there is no root nad child page order, then it returns empty array
      */
-    Object.entries(pagesGroupedByParent).forEach(([, value]) => {
-      if (value.length <= 0) {
-        return;
-      } else {
-        result.push(...value);
-      }
-    });
+    if (!rootPageOrder || (!rootPageOrder && childPageOrder.length <= 0)) {
+      return [];
+    }
 
-    return result;
+    const pages = (await this.getAll()).reduce((map, _page) => {
+      map.set(_page._id, _page);
+
+      return map;
+    }, new Map);
+    const rootPagesId = rootPageOrder.order;
+
+    /**
+     * It groups root pages and 1 level pages by its parent
+     */
+    rootPagesId.reduce((prev, curr, idx) => {
+      const childPages = childPageOrder.filter((child, _idx) => {
+        if (child.page === curr) {
+          childPageOrder.splice(_idx, 1);
+
+          return child;
+        }
+      });
+      const hasChildPage = childPages.length > 0;
+
+      if (hasChildPage) {
+        prev[curr] = [];
+        prev[curr].push(curr);
+        prev[curr].push(...childPages[0].order);
+      } else {
+        prev[curr] = [];
+        prev[curr].push(curr);
+      }
+
+      if (idx === rootPagesId.length - 1 && childPageOrder.length > 0) {
+        orphanPageOrder.push(...childPageOrder);
+      }
+
+      return prev;
+    }, orderGroupedByParent);
+
+    /**
+     * It groups remained ungrouped pages by its parent
+     */
+    while (orphanPageOrder.length > 0) {
+      orphanPageOrder.forEach((orphanOrder, idx) => {
+        Object.entries(orderGroupedByParent).forEach(([key, value]) => {
+          if (orphanOrder.page && orphanOrder.order && value.includes(orphanOrder.page)) {
+            orderGroupedByParent[key].splice(value.indexOf(orphanOrder.page) + 1, 0, ...orphanOrder.order);
+            orphanPageOrder.splice(idx, 1);
+          }
+        });
+      });
+    }
+
+    /**
+     * It converts grouped pages(object) to array
+     */
+    Object.values(orderGroupedByParent).flatMap(arr => [ ...arr ])
+      .forEach(arr => {
+        result.push(pages.get(arr));
+      });
+
+    /**
+     * If the pageId passed, it excludes itself from result pages
+     * Otherwise just returns result itself
+     */
+    if (pageId) {
+      return this.removeChildren(result, pageId).reduce((prev, curr) => {
+        if (curr instanceof Page) {
+          prev.push(curr);
+        }
+
+        return prev;
+      }, Array<Page>());
+    } else {
+      return result;
+    }
   }
 
   /**
@@ -125,7 +167,7 @@ class Pages {
    * @param {string} parent - id of parent page
    * @returns {Array<?Page>}
    */
-  public static removeChildren(pagesAvailable: Array<Page|null>, parent: string | undefined): Array<Page | null> {
+  public static removeChildren(pagesAvailable: Array<Page | null>, parent: string | undefined): Array<Page | null> {
     pagesAvailable.forEach(async (item, index) => {
       if (item === null || item._parent !== parent) {
         return;
@@ -258,16 +300,6 @@ class Pages {
     if (!headerIsNotEmpty) {
       throw new Error('Please, fill page Header');
     }
-  }
-
-  /**
-   * Check if the given page is root
-   *
-   * @param {page} page - page to check
-   * @returns {boolean}
-   */
-  private static isRootPage(page:Page):boolean {
-    return page._parent === '0';
   }
 }
 
