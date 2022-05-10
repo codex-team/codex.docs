@@ -1,0 +1,74 @@
+.docs-button {
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  height: var(--height);
+  padding-left: 12px;
+  padding-right: 12px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition-property: background-color;
+  transition-duration: 0.1s;
+
+  &--default {
+    --height: 40px;
+  }
+
+  &--small {
+    --height: 32px;
+  }
+
+  &--primary {
+    background: var(--color-button-primary);
+
+    &:hover {
+      background: var(--color-button-primary-hover);
+    }
+
+    &:active {
+      background: var(--color-button-primary-active);
+    }
+  }
+
+  &--secondary {
+    background: var(--color-button-secondary);
+    color: var(--color-text-main);
+
+    &:hover {
+      background: var(--color-button-secondary-hover);
+    }
+
+    &:active {
+      background: var(--color-button-secondary-active);
+    }
+  }
+
+  &--warning {
+    background: var(--color-button-warning);
+
+    &:hover {
+      background: var(--color-button-warning-hover);
+    }
+
+    &:active {
+      background: var(--color-button-warning-active);
+    }
+  }
+
+  &--with-icon {
+    padding-left: 8px;
+  }
+
+  &__icon {
+    margin-right: 4px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      display: block;
+    }
+  }
+}

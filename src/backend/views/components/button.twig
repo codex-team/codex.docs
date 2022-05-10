@@ -1,0 +1,25 @@
+{#
+  Reusable button component.
+  Available props:
+    - label
+    - icon
+    - name
+    - style: primary, secondary or warning
+    - size: small, default
+
+  Usage example:
+    {% include 'components/button.twig' with {label: 'Label', icon: 'checklist', style: 'secondary', size: 'default'} %}
+#}
+
+{% set mainClass = 'docs-button' %}
+
+<button name={{ name }} class="{{mainClass}} {{mainClass}}--{{style|default('primary')}} {{mainClass}}--{{size|default('default')}} {{icon ? mainClass ~ '--with-icon' : ''}}">
+  {% if icon %}
+    <div class="{{mainClass}}__icon">
+      {{ svg(icon) }}
+    </div>
+  {% endif %}
+  <span>
+    {{ label }}
+  </span>
+</button>
