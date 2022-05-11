@@ -81,9 +81,9 @@ class PageOrder {
    * @returns {Promise<PageOrder[]>}
    */
   public static async getRootPageOrder(): Promise<PageOrder> {
-    const docs = await this.getAll();
+    const docs = await db.findOne({ 'page': '0' });
 
-    return docs.filter(doc => doc.page === '0')[0];
+    return new PageOrder(docs);
   }
 
   /**
@@ -92,9 +92,9 @@ class PageOrder {
    * @returns {Promise<PageOrder[]>}
    */
   public static async getChildPageOrder(): Promise<PageOrder[]> {
-    const docs = await this.getAll();
+    const docs = await this.getAll({ 'page': { $ne: '0' } });
 
-    return docs.filter(doc => doc.page !== '0');
+    return Promise.all(docs.map(doc => new PageOrder(doc)));
   }
 
   /**
