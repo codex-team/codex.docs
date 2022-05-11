@@ -4,7 +4,7 @@
   padding: 0 var(--layout-padding-horisontal);
   border-bottom: 1px solid var(--color-line-gray);
   font-size: 15.8px;
-  line-height: 50px;
+  height: 50px;
   flex-wrap: wrap;
   position: relative;
 
@@ -15,6 +15,7 @@
   a {
     display: inline-block;
     text-decoration: none;
+    align-self: center;
   }
 
   &__logo {
@@ -63,9 +64,12 @@
 
     a:not(.docs-header__button) {
       color: inherit;
+      padding: 8px;
+      transition: background-color .3s;
 
       &:hover {
-        color: var(--color-link-active);
+        background-color: #F3F6F8;
+        border-radius: 8px;
       }
     }
   }
