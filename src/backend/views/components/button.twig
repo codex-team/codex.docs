@@ -13,7 +13,7 @@
 
 {% set mainClass = 'docs-button' %}
 
-<button name={{ name }} class="{{mainClass}} {{mainClass}}--{{style|default('primary')}} {{mainClass}}--{{size|default('default')}} {{icon ? mainClass ~ '--with-icon' : ''}}">
+<button name="{{ name }}" class="{{mainClass}} {{mainClass}}--{{style|default('primary')}} {{mainClass}}--{{size|default('default')}} {{icon ? mainClass ~ '--with-icon' : ''}}">
   {% if icon %}
     <div class="{{mainClass}}__icon">
       {{ svg(icon) }}
