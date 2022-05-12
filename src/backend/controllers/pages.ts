@@ -79,7 +79,7 @@ class Pages {
     const orphanPageOrder: PageOrder[] = [];
 
     /**
-     * If there is no root nad child page order, then it returns empty array
+     * If there is no root and child page order, then it returns an empty array
      */
     if (!rootPageOrder || (!rootPageOrder && childPageOrder.length <= 0)) {
       return [];
@@ -90,31 +90,38 @@ class Pages {
 
       return map;
     }, new Map);
-    const rootPagesId = rootPageOrder.order;
+    const idsOfRootPages = rootPageOrder.order;
 
     /**
      * It groups root pages and 1 level pages by its parent
      */
-    rootPagesId.reduce((prev, curr, idx) => {
-      const childPages = childPageOrder.filter((child, _idx) => {
-        if (child.page === curr) {
-          childPageOrder.splice(_idx, 1);
+    idsOfRootPages.reduce((prev, curr, idx) => {
+      const childPages:PageOrder[] = [];
 
-          return child;
+      childPageOrder.forEach((pageOrder, _idx) => {
+        if (pageOrder.page === curr) {
+          childPages.push(pageOrder);
+          childPageOrder.splice(_idx, 1);
         }
       });
+
       const hasChildPage = childPages.length > 0;
 
+      prev[curr] = [];
+      prev[curr].push(curr);
+
+      /**
+       * It attaches 1 level page id to its parent page id
+       */
       if (hasChildPage) {
-        prev[curr] = [];
-        prev[curr].push(curr);
         prev[curr].push(...childPages[0].order);
-      } else {
-        prev[curr] = [];
-        prev[curr].push(curr);
       }
 
-      if (idx === rootPagesId.length - 1 && childPageOrder.length > 0) {
+      /**
+       * If non-attached childPages which is not 1 level page still remains,
+       * It is stored as an orphan page so that it can be processed in the next statements
+       */
+      if (idx === idsOfRootPages.length - 1 && childPageOrder.length > 0) {
         orphanPageOrder.push(...childPageOrder);
       }
 
@@ -126,9 +133,13 @@ class Pages {
      */
     while (orphanPageOrder.length > 0) {
       orphanPageOrder.forEach((orphanOrder, idx) => {
-        Object.entries(orderGroupedByParent).forEach(([key, value]) => {
+        // It loops each of grouped orders formatted as [root page id(1): corresponding child pages id(2)]
+        Object.entries(orderGroupedByParent).forEach(([parentPageId, value]) => {
+          // If (2) contains orphanOrder's parent id(page)
           if (orphanOrder.page && orphanOrder.order && value.includes(orphanOrder.page)) {
-            orderGroupedByParent[key].splice(value.indexOf(orphanOrder.page) + 1, 0, ...orphanOrder.order);
+            // Append orphanOrder's id(order) into its parent id
+            orderGroupedByParent[parentPageId].splice(value.indexOf(orphanOrder.page) + 1, 0, ...orphanOrder.order);
+            // Finally, remove orphanOrder from orphanPageOrder
             orphanPageOrder.splice(idx, 1);
           }
         });
