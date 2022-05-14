@@ -1,10 +1,11 @@
 .docs-header {
   display: flex;
+  justify-content: space-between;
   flex-shrink: 0;
-  padding: 0 var(--layout-padding-horisontal);
+  padding: 8px 16px;
   border-bottom: 1px solid var(--color-line-gray);
-  font-size: 15.8px;
-  height: 50px;
+  font-size: 18px;
+  height: 57px;
   flex-wrap: wrap;
   position: relative;
 
@@ -25,8 +26,10 @@
 
   &__menu {
     display: flex;
-    margin: 0 0 0 auto;
+    margin: 0;
+    gap: 18px;
     padding-left: 0;
+    font-size: 16px;
 
     @media (--mobile) {
       flex-basis: 100%;
@@ -37,7 +40,6 @@
       display: inline-flex;
       align-items: center;
       list-style: none;
-      margin-left: 20px;
 
       @media (--mobile) {
         margin-left: 0;
@@ -69,7 +71,7 @@
       transition: background-color .3s;
 
       &:hover {
-        background-color: #F3F6F8;
+        background-color: var(--color-link-hover);
       }
     }
   }
