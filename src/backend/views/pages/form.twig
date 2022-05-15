@@ -58,9 +58,9 @@
     </div>
 
     <div class="writing-buttons">
-      {% include 'components/button.twig' with {label: 'Save changes', name: 'js-submit-save', icon: 'checklist'} %}
+      {% include 'components/button.twig' with {label: 'Save changes', name: 'js-submit-save', icon: 'check'} %}
       {% if page._id is not empty %}
-          {% include 'components/button.twig' with {label: 'Delete doc', name: 'js-submit-remove', icon: 'bin', style: 'warning'} %}
+          {% include 'components/button.twig' with {label: 'Delete doc', name: 'js-submit-remove', icon: 'trash', style: 'warning'} %}
       {% endif %}
     </div>
 
