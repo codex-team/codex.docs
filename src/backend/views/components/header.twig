@@ -5,9 +5,8 @@
   <ul class="docs-header__menu">
     {% if isAuthorized == true %}
       <li class="docs-header__menu-add">
-          <a class="docs-header__button" href="/page/new">
-            {{ svg('plus') }}
-            Add Page
+          <a href="/page/new">
+             {% include 'components/button.twig' with {label: 'Add page', icon: 'plus'} %}
           </a>
       </li>
     {% endif %}
