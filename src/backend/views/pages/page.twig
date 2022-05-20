@@ -20,9 +20,7 @@
         Last edit {{ (page.body.time / 1000)  | date("M d Y") }}
       </time>
       {% if isAuthorized == true %}
-        <a href="/page/edit/{{ page._id }}" class="page__header-button">
-          {% include 'components/button.twig' with {label: 'Edit', icon: 'pencil', size: 'small'} %}
-        </a>
+        {% include 'components/button.twig' with {label: 'Edit', icon: 'pencil', size: 'small', url: '/page/edit/' ~ page._id, class: 'page__header-button'} %}
       {% endif %}
     </header>
     <h1 class="page__title">

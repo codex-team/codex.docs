@@ -6,6 +6,8 @@
     - name
     - style: primary, secondary or warning
     - size: small, default
+    - url: URL to navigate in case if button is the navigation link
+    - class: additional class for the button
 
   Usage example:
     {% include 'components/button.twig' with {label: 'Label', icon: 'check', style: 'secondary', size: 'default'} %}
@@ -22,7 +24,7 @@
 
 <{{tag}}
   {{ name is not empty ? 'name="' ~ name ~ '"': '' }}
-  class="{{mainClass}} {{mainClass}}--{{style|default('primary')}} {{mainClass}}--{{size|default('default')}} {{icon ? mainClass ~ '--with-icon' : ''}}"
+  class="{{ mainClass }} {{ mainClass }}--{{ style|default('primary') }} {{ mainClass }}--{{ size|default('default') }} {{ icon ? mainClass ~ '--with-icon' : '' }} {{ class ?? '' }}"
   {{ url is not empty ? 'href="' ~ url ~ '"' : '' }}
 >
   {% if icon %}
