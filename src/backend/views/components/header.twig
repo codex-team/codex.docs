@@ -5,14 +5,12 @@
   <ul class="docs-header__menu">
     {% if isAuthorized == true %}
       <li class="docs-header__menu-add">
-          <a href="/page/new">
-             {% include 'components/button.twig' with {label: 'Add page', icon: 'plus', size: 'small'} %}
-          </a>
+        {% include 'components/button.twig' with {label: 'Add page', icon: 'plus', size: 'small', url: '/page/new'} %}
       </li>
     {% endif %}
     {% for option in config.menu %}
       <li>
-        <a
+        <a class="docs-header__menu-link"
           {% if option.uri %}
             href="{{ option.uri }}"
           {% else %}

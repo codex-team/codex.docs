@@ -13,13 +13,23 @@
 
 {% set mainClass = 'docs-button' %}
 
-<button name="{{ name }}" class="{{mainClass}} {{mainClass}}--{{style|default('primary')}} {{mainClass}}--{{size|default('default')}} {{icon ? mainClass ~ '--with-icon' : ''}}">
+
+{% set tag = 'button' %}
+
+{% if url is not empty %}
+  {% set tag = 'a' %}
+{% endif %}
+
+<{{tag}}
+  {{ name is not empty ? 'name="' ~ name ~ '"': '' }}
+  class="{{mainClass}} {{mainClass}}--{{style|default('primary')}} {{mainClass}}--{{size|default('default')}} {{icon ? mainClass ~ '--with-icon' : ''}}"
+  {{ url is not empty ? 'href="' ~ url ~ '"' : '' }}
+>
   {% if icon %}
     <div class="{{mainClass}}__icon">
       {{ svg(icon) }}
     </div>
   {% endif %}
-  <span>
-    {{ label }}
-  </span>
-</button>
+
+  {{ label }}
+</{{tag}}>

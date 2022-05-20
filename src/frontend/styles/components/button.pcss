@@ -1,6 +1,7 @@
 .docs-button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   height: var(--height);
   padding-left: 12px;
   padding-right: 12px;
@@ -19,11 +20,14 @@
   }
 
   &__icon {
-    margin-right: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
 
     svg {
-      width: 18px;
-      height: 18px;
+      width: 24px;
+      height: 24px;
       display: block;
     }
   }
@@ -34,13 +38,7 @@
 
   &--small {
     --height: 32px;
-
-    .docs-button__icon {
-      svg {
-        width: 16px;
-        height: 16px;
-      }
-    }
+    padding-right: 8px;
   }
 
   &--primary {
@@ -81,6 +79,6 @@
   }
 
   &--with-icon {
-    padding-left: 10px;
+    padding-left: 8px;
   }
 }
