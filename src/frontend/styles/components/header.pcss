@@ -13,7 +13,8 @@
     line-height: 40px;
   }
 
-  a {
+  &__menu-link,
+  &__logo {
     display: inline-block;
     text-decoration: none;
     align-self: center;
@@ -58,14 +59,19 @@
       a {
         @media (--mobile) {
           font-size: 0;
-          padding: 8px;
+          padding: 0 4px;
+          margin-right: 0;
+        }
+      }
+
+      .docs-button__icon {
+        @media (--mobile) {
           margin-right: 0;
         }
       }
     }
 
     a:not(.docs-header__button) {
-      color: inherit;
       padding: 8px;
       border-radius: 8px;
       transition: background-color .3s;
@@ -74,11 +80,5 @@
         background-color: var(--color-link-hover);
       }
     }
-  }
-
-  &__button {
-    @apply --button;
-    @apply --button-primary;
-    margin: auto 30px auto auto;
   }
 }
