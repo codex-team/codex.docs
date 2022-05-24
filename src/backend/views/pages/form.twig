@@ -2,7 +2,7 @@
 
 {% block body %}
   <style>
-    .docs-header__button {
+    .docs-header__menu-add {
       visibility: hidden;
     }
   </style>
@@ -56,12 +56,13 @@
     <div class="writing-editor">
       <div id="editorjs"></div>
     </div>
-    <div class="writing-buttons">
-      <span class="writing-header__save" name="js-submit-save">Save</span>
 
+    <div class="writing-buttons">
+      {% include 'components/button.twig' with {label: 'Save changes', name: 'js-submit-save', icon: 'check'} %}
       {% if page._id is not empty %}
-        <span class="writing-buttons__remove" name="js-submit-remove">Remove</span>
+          {% include 'components/button.twig' with {label: 'Delete doc', name: 'js-submit-remove', icon: 'trash', style: 'warning'} %}
       {% endif %}
     </div>
+
   </section>
 {% endblock %}

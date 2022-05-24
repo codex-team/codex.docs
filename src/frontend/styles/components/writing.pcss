@@ -31,9 +31,10 @@
 }
 
 .writing-buttons {
-  &__remove {
-    @apply --button;
-    @apply --button-danger;
+  display: flex;
+
+  button:not(:last-child) {
+    margin-right: 20px;
   }
 }
 
