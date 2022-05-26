@@ -19,7 +19,11 @@
           {% set currentPageId = page._id %}
         {% endif %}
         <div class="select-wrapper">
-          <label for="parent">New Page at the</label>
+          {% if parentsChildrenOrdered is not empty %}
+            <label for="parent">Parent Page</label>
+          {% else %}
+            <label for="parent">New Page at the</label>
+          {% endif %}
           <select id="parent" name="parent">
             <option value="0">Root</option>
             {% for _page in pagesAvailable %}
