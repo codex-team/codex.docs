@@ -23,7 +23,6 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-right: 4px;
 
     svg {
       width: 24px;
@@ -32,12 +31,22 @@
     }
   }
 
+  &--with-label &__icon {
+    margin-right: 4px;
+  }
+
+  
+
   &--default {
     --height: 40px;
   }
 
   &--small {
     --height: 32px;
+  }
+
+
+  &--small&--with-label {
     padding-right: 10px;
   }
 
@@ -77,7 +86,11 @@
     }
   }
 
-  &--with-icon {
+  &--with-icon&--with-label {
     padding-left: 8px;
+  }
+
+  &--small&--with-icon&--with-label {
+    padding-left: 6px;
   }
 }
