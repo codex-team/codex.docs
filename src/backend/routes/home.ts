@@ -7,9 +7,13 @@ const router = express.Router();
 router.get('/', verifyToken, async (req: Request, res: Response) => {
   const config = req.app.locals.config;
 
+  /**
+   * If start page is defined, redirect to it
+   */
   if (config.startPage) {
     return res.redirect(config.startPage);
   }
+
   res.render('pages/index', { isAuthorized: res.locals.isAuthorized });
 });
 

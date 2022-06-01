@@ -1,36 +1,9 @@
-<!DOCTYPE html>
-<html style="height: 100%">
-<head>
-  <title>{{ config.title }}</title>
-  <link rel="stylesheet" href="/dist/main.css" />
-  <link rel="preload" href="{{ config.landingFrameSrc }}" as="document">
-  <link rel="icon" type="image/png" href="/favicon.png?v=2">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta property="og:title" content="{{ config.title }}" />
-  <meta property="og:site_name" content="{{ config.title }}" />
-  <meta name="description" property="og:description" content="{{ config.description }}">
-</head>
-<body class="landing-body">
-  {% include "components/header.twig" %}
-  <div class="landing-loader" id="frame-loader">
-    {{ svg('loader') }}
+{% extends 'layout.twig' %}
+
+{% block body %}
+  <div class="page">
+    <h1>Index page</h1>
+
+    <p>Start page is not defined in <code class="inline-code">.codexdocsrc</code> file.</p>
   </div>
-  <iframe class="landing-frame" src="{{ config.landingFrameSrc }}" seamless frameborder="0" onload="this.style.opacity = 1; setTimeout(document.getElementById('frame-loader').remove(), 500)"></iframe>
-
-  {% if config.yandexMetrikaId is not empty %}
-    <script type="text/javascript" >
-      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-      ym({{ config.yandexMetrikaId }}, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true
-      });
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/{{ config.yandexMetrikaId }}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-  {% endif %}
-</body>
-</html>
-
+{% endblock %}
