@@ -17,19 +17,30 @@
     display: inline-block;
     text-decoration: none;
     align-self: center;
-    line-height: 21px;
   }
 
   &__logo {
     padding: 10px 0;
     font-weight: bold;
     color: inherit;
+    line-height: 21px;
+  }
+
+  &__menu-link {
+    padding: 4px 10px;
+    line-height: 24px;
+    border-radius: 8px;
+    transition: background-color .3s;
+
+    &:hover {
+      background-color: var(--color-link-hover);
+    }
   }
 
   &__menu {
     display: flex;
     margin: 0;
-    gap: 18px;
+    gap: 10px;
     padding-left: 0;
     font-size: 16px;
 
@@ -69,16 +80,6 @@
         @media (--mobile) {
           margin-right: 0;
         }
-      }
-    }
-
-    a:not(.docs-button) {
-      padding: 8px;
-      border-radius: 8px;
-      transition: background-color .3s;
-
-      &:hover {
-        background-color: var(--color-link-hover);
       }
     }
   }
