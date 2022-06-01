@@ -2,10 +2,9 @@
   display: flex;
   justify-content: space-between;
   flex-shrink: 0;
-  padding: 8px 16px;
+  padding: 8px var(--layout-padding-horisontal);
   border-bottom: 1px solid var(--color-line-gray);
   font-size: 18px;
-  height: 57px;
   flex-wrap: wrap;
   position: relative;
 
@@ -18,9 +17,11 @@
     display: inline-block;
     text-decoration: none;
     align-self: center;
+    line-height: 21px;
   }
 
   &__logo {
+    padding: 10px 0;
     font-weight: bold;
     color: inherit;
   }
