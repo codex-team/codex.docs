@@ -24,7 +24,7 @@
 
 <{{tag}}
   {{ name is not empty ? 'name="' ~ name ~ '"': '' }}
-  class="{{ mainClass }} {{ mainClass }}--{{ style|default('primary') }} {{ mainClass }}--{{ size|default('default') }} {{ icon ? mainClass ~ '--with-icon' : '' }} {{ class ?? '' }}"
+  class="{{ mainClass }} {{ mainClass }}--{{ style|default('primary') }} {{ mainClass }}--{{ size|default('default') }} {{ icon ? mainClass ~ '--with-icon' : '' }} {{label ? mainClass ~ '--with-label' : ''}} {{ class ?? '' }}"
   {{ url is not empty ? 'href="' ~ url ~ '"' : '' }}
 >
   {% if icon %}

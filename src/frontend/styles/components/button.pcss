@@ -23,7 +23,6 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-right: 4px;
 
     svg {
       width: 24px;
@@ -32,13 +31,16 @@
     }
   }
 
+  &--with-label &__icon {
+    margin-right: 4px;
+  }
+
   &--default {
     --height: 40px;
   }
 
   &--small {
     --height: 32px;
-    padding-right: 10px;
   }
 
   &--primary {
@@ -77,7 +79,27 @@
     }
   }
 
-  &--with-icon {
+  &--with-icon&--with-label {
     padding-left: 8px;
+  }
+
+  &--with-icon:not(&--with-label) {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  &--small&--with-icon&--with-label {
+    padding-left: 6px;
+    padding-right: 10px;
+  }
+
+  &--small&--with-icon:not(&--with-label) {
+    padding-right: 6px;
+    padding-left: 6px;
+  }
+
+  &--small&--with-label:not(&--with-icon) {
+    padding-right: 10px;
+    padding-left: 10px;
   }
 }
