@@ -1,0 +1,105 @@
+.docs-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--height);
+  padding-left: 12px;
+  padding-right: 12px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition-property: background-color;
+  transition-duration: 0.1s;
+  border-radius: 8px;
+
+  @supports(-webkit-mask-box-image: url('')){
+    border-radius: 0;
+    -webkit-mask-box-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10.3872C0 1.83334 1.83334 0 10.3872 0H13.6128C22.1667 0 24 1.83334 24 10.3872V13.6128C24 22.1667 22.1667 24 13.6128 24H10.3872C1.83334 24 0 22.1667 0 13.6128V10.3872Z' fill='black'/%3E%3C/svg%3E%0A") 48% 41% 37.9% 53.3%;;
+  }
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      display: block;
+    }
+  }
+
+  &--with-label &__icon {
+    margin-right: 4px;
+  }
+
+  &--default {
+    --height: 40px;
+  }
+
+  &--small {
+    --height: 32px;
+  }
+
+  &--primary {
+    background: var(--color-button-primary);
+
+    &:hover {
+      background: var(--color-button-primary-hover);
+    }
+
+    &:active {
+      background: var(--color-button-primary-active);
+    }
+  }
+
+  &--secondary {
+    background: var(--color-button-secondary);
+
+    &:hover {
+      background: var(--color-button-secondary-hover);
+    }
+
+    &:active {
+      background: var(--color-button-secondary-active);
+    }
+  }
+
+  &--warning {
+    background: var(--color-button-warning);
+
+    &:hover {
+      background: var(--color-button-warning-hover);
+    }
+
+    &:active {
+      background: var(--color-button-warning-active);
+    }
+  }
+
+  &--with-icon&--with-label {
+    padding-left: 8px;
+  }
+
+  &--with-icon:not(&--with-label) {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  &--small&--with-icon&--with-label {
+    padding-left: 6px;
+    padding-right: 10px;
+  }
+
+  &--small&--with-icon:not(&--with-label) {
+    padding-right: 6px;
+    padding-left: 6px;
+  }
+
+  &--small&--with-label:not(&--with-icon) {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+}
