@@ -1,10 +1,10 @@
 .docs-header {
   display: flex;
+  justify-content: space-between;
   flex-shrink: 0;
-  padding: 0 var(--layout-padding-horisontal);
+  padding: 12px var(--layout-padding-horizontal);
   border-bottom: 1px solid var(--color-line-gray);
-  font-size: 15.8px;
-  line-height: 50px;
+  font-size: 18px;
   flex-wrap: wrap;
   position: relative;
 
@@ -15,17 +15,34 @@
   &__menu-link,
   &__logo {
     display: inline-block;
+    text-decoration: none;
+    align-self: center;
+    line-height: 24px;
   }
 
   &__logo {
+    padding: 4px 0;
     font-weight: bold;
     color: inherit;
   }
 
+  &__menu-link {
+    padding: 4px 10px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background-color .13s;
+
+    &:hover {
+      background-color: var(--color-link-hover);
+    }
+  }
+
   &__menu {
     display: flex;
-    margin: 0 0 0 auto;
+    margin: 0;
+    gap: 10px;
     padding-left: 0;
+    font-size: 16px;
 
     @media (--mobile) {
       flex-basis: 100%;
@@ -36,7 +53,6 @@
       display: inline-flex;
       align-items: center;
       list-style: none;
-      margin-left: 20px;
 
       @media (--mobile) {
         margin-left: 0;
@@ -64,12 +80,6 @@
         @media (--mobile) {
           margin-right: 0;
         }
-      }
-    }
-
-    &-link {
-      &:hover {
-        color: var(--color-link-active);
       }
     }
   }
