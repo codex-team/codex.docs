@@ -1,6 +1,5 @@
 .docs {
   display: flex;
-  padding: 0 var(--layout-padding-horizontal);
 
   @media (--mobile) {
     flex-wrap: wrap;
@@ -8,9 +7,8 @@
 
   &__aside {
     width: var(--layout-width-aside);
-    padding: var(--layout-padding-vertical) 22px;
-    border-right: solid 1px red;
-    height: 100%;
+    padding: 0px 22px;
+    border-right: solid 1px #e8e8eb;
 
     @media (--mobile) {
       width: 100%;
@@ -38,7 +36,7 @@
 
   &__aside,
   &__content {
-    padding: var(--layout-padding-vertical) 0;
+    padding-top: var(--layout-padding-vertical);
 
     @media (--mobile) {
       padding: 20px 0;
