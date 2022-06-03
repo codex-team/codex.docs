@@ -9,8 +9,9 @@
     padding: 0px 22px;
     border-right: solid 1px var(--color-line-gray);
     position: fixed;
+    top: var(--layout-height-header);
     height: calc(
-      100vh - var(--layout-padding-vertical) - var(--layout-height-header)
+      100%-var(--layout-height-header)-var(--layout-padding-vertical)
     );
 
     @media (--mobile) {
@@ -25,6 +26,7 @@
   &__content {
     flex-grow: 2;
     word-wrap: break-word;
+    margin-top: var(--layout-height-header);
 
     @media (--mobile) {
       width: 100%;
@@ -40,7 +42,6 @@
   &__aside,
   &__content {
     padding-top: var(--layout-padding-vertical);
-    margin-top: var(--layout-height-header);
 
     @media (--mobile) {
       padding: 20px 0;
