@@ -1,6 +1,10 @@
 .docs-aside {
   font-size: 14px;
   letter-spacing: 0.01em;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 
   @media (--mobile) {
     position: static;
@@ -22,6 +26,11 @@
     &:hover {
       color: var(--color-link-active);
     }
+  }
+
+  &__section-wrapper {
+    flex-grow: 1;
+    overflow: auto;
   }
 
   &__section {
@@ -73,6 +82,7 @@
     display: flex;
     align-items: center;
     gap: 18px;
+    padding-bottom: 20px;
 
     .logo {
       display: inline-flex;
