@@ -1,4 +1,4 @@
-.docs-aside {
+.docs-left-aside {
   font-size: 14px;
   letter-spacing: 0.01em;
   display: flex;
@@ -102,5 +102,61 @@
 
   svg {
     margin-right: 10px;
+  }
+}
+
+.docs-right-aside {
+  padding-left: 22px;
+  border-left: solid 1px var(--color-line-gray);
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+
+  &__title {
+    padding: 0px 6px;
+    font-size: 16px;
+    line-height: 21px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: var(--color-link-hover);
+    }
+  }
+
+  &__section-wrapper {
+    flex-grow: 1;
+    overflow: auto;
+    padding-left: 8px;
+  }
+
+  &__section {
+    margin-bottom: 6px;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    &-title {
+      display: inline-block;
+      font-size: 14px;
+      line-height: 21px;
+      font-weight: 400;
+      max-width: var(--layout-width-aside);
+      white-space: wrap;
+      padding: 4px 8px;
+    }
+  }
+
+  &__current {
+    background-color: var(--color-link-hover) !important;
   }
 }

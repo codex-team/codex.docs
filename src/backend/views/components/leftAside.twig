@@ -1,19 +1,19 @@
-<div class="docs-aside-toggler" onclick="document.querySelector('.docs-aside').classList.toggle('docs-aside--toggled')">
+<div class="docs-aside-toggler" onclick="document.querySelector('.docs-left-aside').classList.toggle('docs-left-aside--toggled')">
 	{{ svg('menu') }}
 	Table of contents
 </div>
-<div class="docs-aside">
-	<div class="docs-aside__section-wrapper">
+<div class="docs-left-aside">
+	<div class="docs-left-aside__section-wrapper">
 		{% for firstLevelPage in menu %}
-			<section class="docs-aside__section">
-				<a {% if page is defined and page._id == firstLevelPage._id%} class="docs-aside__section-title docs-aside__current" {% else %} class="docs-aside__section-title" {% endif %} {% if firstLevelPage.uri %} href="/{{ firstLevelPage.uri }}" {% else %} href="/page/{{ firstLevelPage._id }}" {% endif %}>
+			<section class="docs-left-aside__section">
+				<a {% if page is defined and page._id == firstLevelPage._id%} class="docs-left-aside__section-title docs-left-aside__current" {% else %} class="docs-left-aside__section-title" {% endif %} {% if firstLevelPage.uri %} href="/{{ firstLevelPage.uri }}" {% else %} href="/page/{{ firstLevelPage._id }}" {% endif %}>
 					{{ firstLevelPage.title | striptags }}
 				</a>
 				{% if firstLevelPage.children is not empty %}
-					<ul class="docs-aside__section-list">
+					<ul class="docs-left-aside__section-list">
 						{% for child in firstLevelPage.children %}
 							<li>
-								<a {% if page is defined and page._id == child._id %} class="docs-aside__current" {% endif %} {% if child.uri %} href="/{{ child.uri }}" {% else %} href="/page/{{ child._id }}" {% endif %}>
+								<a {% if page is defined and page._id == child._id %} class="docs-left-aside__current" {% endif %} {% if child.uri %} href="/{{ child.uri }}" {% else %} href="/page/{{ child._id }}" {% endif %}>
 									{{ child.title | striptags }}
 								</a>
 							</li>
@@ -23,7 +23,7 @@
 			</section>
 		{% endfor %}
 	</div>
-	<a class="docs-aside__logo-wrapper" href="https://github.com/codex-team/codex.docs">
+	<a class="docs-left-aside__logo-wrapper" href="https://github.com/codex-team/codex.docs">
 		<div class="logo">
 			{{ svg('aside-logo') }}
 		</div>
