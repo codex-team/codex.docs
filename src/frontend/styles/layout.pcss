@@ -1,10 +1,9 @@
 .docs {
-  display: flex;
   @media (--mobile) {
     flex-wrap: wrap;
   }
 
-  &__aside {
+  &__left-aside {
     width: var(--layout-width-aside);
     padding: 0px 22px;
     border-right: solid 1px var(--color-line-gray);
@@ -24,8 +23,6 @@
   }
 
   &__content {
-    flex-grow: 2;
-    word-wrap: break-word;
     margin-top: var(--layout-height-header);
 
     @media (--mobile) {
@@ -39,7 +36,15 @@
     }
   }
 
-  &__aside,
+  &__right-aside {
+    padding: 0px 22px;
+    position: fixed;
+    top: var(--layout-height-header);
+    right: 0;
+  }
+
+  &__left-aside,
+  &__right-aside,
   &__content {
     padding-top: var(--layout-padding-vertical);
 

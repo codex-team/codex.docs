@@ -17,14 +17,17 @@
   <body>
     {% include "components/header.twig" with res.locals.isAuthorized %}
     <div class="docs">
-      <aside class="docs__aside">
-        {% include "components/aside.twig" %}
+      <aside class="docs__left-aside">
+        {% include "components/leftAside.twig" %}
       </aside>
       <div class="docs__content">
         <div class="docs__content-inner">
           {% block body %}{% endblock %}
         </div>
       </div>
+       <aside class="docs__right-aside">
+         {% include "components/rightAside.twig" %}
+       </aside>
     </div>
     <script src="/dist/main.bundle.js"></script>
     {% if config.yandexMetrikaId is not empty %}
