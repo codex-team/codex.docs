@@ -24,10 +24,10 @@
         <div class="docs__content-inner">
           {% block body %}{% endblock %}
         </div>
-        <aside class="docs__right-aside">
-         {% include "components/rightAside.twig" %}
-        </aside>
       </div>
+      <aside class="docs__right-aside">
+         {% include "components/rightAside.twig" %}
+      </aside>
     </div>
     <script src="/dist/main.bundle.js"></script>
     {% if config.yandexMetrikaId is not empty %}
