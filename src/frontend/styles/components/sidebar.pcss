@@ -1,0 +1,82 @@
+.docs-sidebar {
+  width: 344px;
+  border-right: 1px solid var(--color-line-gray);
+  box-sizing: border-box;
+  padding: 30px 22px;
+
+  &__section {
+    overflow: hidden;
+  }
+
+  &__section:not(:last-child) {
+    margin-bottom: 20px;
+  }
+
+  &__section-title {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+    z-index: 2;
+    position: relative;
+  }
+
+  &__section-list-item {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  &__section-title,
+  &__section-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 34px;
+    padding: 0 8px;
+    @apply --squircle;
+  }
+
+  &__section-title:not(&__section-title--active),
+  &__section-list-item:not(&__section-list-item--active) {
+    &:hover {
+      background: var(--color-link-hover);
+    }
+  }
+
+  &__section-title--active,
+  &__section-list-item--active {
+    background: linear-gradient(270deg, #129BFF 0%, #8A53FF 100%);
+    color: white;
+  }
+
+  &__section-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
+    position: relative;
+
+    max-height: 1000px;
+    transition: max-height 200ms ease-in-out;
+
+    &--collapsed {
+      max-height: 0;
+    }
+  }
+
+  &__section-toggler {
+    color: inherit;
+    background: transparent;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+    transition: transform 200ms ease-in;
+
+    svg {
+      display: block;
+    }
+
+    &--collapsed {
+      transform: rotate(180deg);
+    }
+  }
+}

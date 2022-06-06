@@ -70,6 +70,13 @@
       background: color-mod(var(--color-link-active) blackness(+10%));
     }
   }
+
+  --squircle {
+    @supports(-webkit-mask-box-image: url('')){
+      border-radius: 0;
+      -webkit-mask-box-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10.3872C0 1.83334 1.83334 0 10.3872 0H13.6128C22.1667 0 24 1.83334 24 10.3872V13.6128C24 22.1667 22.1667 24 13.6128 24H10.3872C1.83334 24 0 22.1667 0 13.6128V10.3872Z' fill='black'/%3E%3C/svg%3E%0A") 48% 41% 37.9% 53.3%;;
+    }
+  }
 }
 
 /**
