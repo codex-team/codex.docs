@@ -3,6 +3,9 @@
   border-right: 1px solid var(--color-line-gray);
   box-sizing: border-box;
   padding: 30px 22px;
+  height: calc(100vh - var(--layout-height-header));
+  position: sticky;
+  top: var(--layout-height-header);
 
   &__section {
     overflow: hidden;
@@ -43,6 +46,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 8px;
+    transition-property: background-color;
+    transition-duration: 0.1s;
     @apply --squircle;
   }
 

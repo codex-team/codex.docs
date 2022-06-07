@@ -1,6 +1,6 @@
 .docs {
   display: flex;
-  padding: 0 var(--layout-padding-horizontal);
+  min-height: calc(100vh - var(--layout-height-header));
 
   @media (--mobile) {
     flex-wrap: wrap;
@@ -22,6 +22,7 @@
     flex-grow: 2;
     word-wrap: break-word;
 
+
     @media (--mobile) {
       width: 100%;
       flex-basis: 100%;
@@ -35,7 +36,7 @@
 
   &__aside,
   &__content {
-    padding: var(--layout-padding-vertical) 0;
+    padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
 
     @media (--mobile) {
       padding: 20px 0;
