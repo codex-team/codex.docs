@@ -50,6 +50,12 @@
     transition-duration: 0.1s;
     @apply --squircle;
   }
+  &__section-title > span,
+  &__section-list-item > span{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
   &__section-list-item-wrapper,
   &__section-title {
