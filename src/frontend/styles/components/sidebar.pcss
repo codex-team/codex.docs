@@ -6,6 +6,16 @@
 
   &__section {
     overflow: hidden;
+
+    &--animated {
+      .docs-sidebar__section-list {
+        transition: max-height 200ms ease-in-out;
+      }
+
+      .docs-sidebar__section-toggler {
+        transition: transform 200ms ease-in;
+      }
+    }
   }
 
   &__section:not(:last-child) {
@@ -18,11 +28,13 @@
     font-weight: 700;
     z-index: 2;
     position: relative;
+    height: 34px;
   }
 
   &__section-list-item {
     font-size: 14px;
     line-height: 21px;
+    height: 29px;
   }
 
   &__section-title,
@@ -30,9 +42,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 34px;
     padding: 0 8px;
     @apply --squircle;
+  }
+
+  &__section-list-item-wrapper,
+  &__section-title {
+    &:not(:last-child) {
+      margin-bottom: 2px;
+    }
   }
 
   &__section-title:not(&__section-title--active),
@@ -54,9 +72,7 @@
     margin: 0;
     z-index: 1;
     position: relative;
-
     max-height: 1000px;
-    transition: max-height 200ms ease-in-out;
 
     &--collapsed {
       max-height: 0;
@@ -69,7 +85,6 @@
     padding: 0;
     border: 0;
     cursor: pointer;
-    transition: transform 200ms ease-in;
 
     svg {
       display: block;
