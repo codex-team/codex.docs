@@ -28,6 +28,18 @@
   --layout-width-aside: 300px;
   --layout-width-main-col: 650px;
 
+  --layout-width-aside-right-title: 277px;
+  --layout-right-aside-resposive-width: 160px;
+  --layout-width-right-aside-available: calc(
+    50% - var(--layout-width-main-col) / 2 -
+      var(--layout-right-aside-resposive-width)
+  );
+  --layout-width-right-aside: max(
+    450px,
+    var(--layout-width-right-aside-available)
+  );
+  --layout-right-aside-padding-left: 30px;
+
   --layout-height-header: 57px;
 
   @media (--mobile) {

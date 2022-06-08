@@ -37,11 +37,17 @@
   }
 
   &__right-aside {
-    padding-left: 30px;
+    padding-left: var(--layout-right-aside-padding-left);
     padding-bottom: 30px;
     position: fixed;
     top: var(--layout-height-header);
     right: 0;
+    width: calc(
+      var(--layout-width-right-aside)-var(--layout-right-aside-padding-left)
+    );
+    max-width: calc(
+      var(--layout-width-right-aside)-var(--layout-right-aside-padding-left)
+    );
   }
 
   &__left-aside,
