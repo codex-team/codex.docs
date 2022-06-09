@@ -33,7 +33,9 @@
       }
 
       .docs-sidebar__section-toggler {
-        transition: transform 200ms ease-in;
+        svg {
+          transition: transform 200ms ease-in;
+        }
       }
     }
   }
@@ -94,6 +96,12 @@
   &__section-list-item--active {
     background: linear-gradient(270deg, #129BFF 0%, #8A53FF 100%);
     color: white;
+
+    @media (--can-hover) {
+      .docs-sidebar__section-toggler:hover {
+        background: rgba(0,0,0,0.3);
+      }
+    }
   }
 
   &__section-list {
@@ -115,13 +123,27 @@
     padding: 0;
     border: 0;
     cursor: pointer;
+    width: 24px;
+    height: 24px;
+    transition-property: background-color;
+    transition-duration: 0.1s;
+    
+    @apply --squircle;
+
+    @media (--can-hover) {
+      &:hover {
+        background: white;
+      }
+    }
 
     svg {
       display: block;
     }
 
     &--collapsed {
-      transform: rotate(180deg);
+      svg {
+        transform: rotate(180deg);
+      }
     }
   }
 
