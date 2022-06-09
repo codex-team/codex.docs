@@ -5,7 +5,10 @@ export default class TableOfContent {
   /**
    * Initialize table of content
    */
-  constructor() {
+  constructor({ tagSelector, tocWrapperSelector }) {
+    this.tagSelector = tagSelector || 'h2,h3,h4';
+    this.tocWrapperSelector = tocWrapperSelector;
+
     this.init();
   }
 
@@ -14,6 +17,15 @@ export default class TableOfContent {
    */
   init() {
     this.findTagsOnThePage();
+
+    /**
+     * Check if no tags found
+     */
+    if (this.tags.length === 0) {
+      console.info('Table of content is not needed');
+      return;
+    }
+
     this.createTableOfContent();
     this.addTableOfContent();
     this.initIntersectionObserver();
@@ -23,21 +35,7 @@ export default class TableOfContent {
    * Find all tags on the page
    */
   findTagsOnThePage() {
-    const tags = document.querySelectorAll(`.block-header--anchor`);
-
-    const allowedTags = [
-      'h2',
-      'h3',
-      'h4',
-      'h5',
-      'h6',
-    ];
-
-    this.tags = Array.prototype.filter.call(tags, (tag) => {
-      console.log(tag.tagName.toLowerCase());
-
-      return allowedTags.includes(tag.tagName.toLowerCase());
-    });
+    this.tags = document.querySelectorAll(this.tagSelector);
   }
 
   /**
@@ -53,7 +51,6 @@ export default class TableOfContent {
    */
   createTableOfContent() {
     this.tocElement = document.createElement('section');
-
     this.tocElement.classList.add('table-of-content__list');
 
     this.tags.forEach((tag) => {
@@ -89,8 +86,13 @@ export default class TableOfContent {
     container.classList.add('table-of-content');
     container.appendChild(this.tocElement);
 
-    document.getElementById('layout-right-column')
-      .appendChild(container);
+    const tocWrapper = document.querySelector(this.tocWrapperSelector);
+
+    if (!tocWrapper) {
+      throw new Error('Table of content wrapper not found');
+    }
+
+    tocWrapper.appendChild(container);
   }
 
   /**
@@ -105,14 +107,6 @@ export default class TableOfContent {
       entries.forEach((entry) => {
         const target = entry.target;
         const targetLink = target.querySelector('a').getAttribute('href');
-
-        // @todo remove after testing
-        try {
-          const pageIntersectionField = document.querySelector('.page-intersection-field');
-
-          pageIntersectionField.style.top = `${entry.rootBounds.top}px`;
-          pageIntersectionField.style.height = `${entry.rootBounds.height}px`;
-        } catch (e) {}
 
         /**
          * Intersection state of block
