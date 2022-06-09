@@ -7,7 +7,7 @@
     {{ svg('menu') }} Table of contents
   </div>
 
-  <aside class="{{mainClass}}">
+  <aside class="{{mainClass}} docs-sidebar--hidden">
     {% for firstLevelPage in menu %}
       <section class="docs-sidebar__section" data-id="{{firstLevelPage._id}}">
         <a

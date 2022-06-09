@@ -67,6 +67,7 @@ export default class Sidebar {
     this.nodes.sidebar = moduleEl.querySelector('.' + Sidebar.CSS.sidebar);
     this.nodes.toggler = moduleEl.querySelector('.' + Sidebar.CSS.sidebarToggler);
     this.nodes.toggler.addEventListener('click', () => this.toggleSidebar());
+    this.ready();
   }
 
   /**
@@ -128,5 +129,14 @@ export default class Sidebar {
    */
   toggleSidebar() {
     this.nodes.sidebar.classList.toggle(Sidebar.CSS.sidebarHidden);
+  }
+
+  /**
+   * Displays sidebar when ready
+   *
+   * @returns {void}
+   */
+  ready() {
+    this.nodes.sidebar.classList.remove(Sidebar.CSS.sidebarHidden);
   }
 }
