@@ -23,6 +23,9 @@ export default class Sidebar {
       sectionList: 'docs-sidebar__section-list',
       sectionListCollapsed: 'docs-sidebar__section-list--collapsed',
       sectionListItemActive: 'docs-sidebar__section-list-item--active',
+      sidebarToggler: 'docs-sidebar__toggler',
+      sidebar: 'docs-sidebar',
+      sidebarHidden: 'docs-sidebar--hidden',
     };
   }
 
@@ -30,9 +33,7 @@ export default class Sidebar {
    * Creates base properties
    */
   constructor() {
-    this.nodes = {
-      section: null,
-    };
+    this.nodes = {};
     const storedState = window.localStorage.getItem(LOCAL_STORAGE_KEY);
 
     this.collapsed = storedState ? JSON.parse(storedState) : {};
@@ -50,7 +51,11 @@ export default class Sidebar {
       const id = section.getAttribute('data-id');
       const togglerEl = section.querySelector('.' + Sidebar.CSS.toggler);
 
-      togglerEl.addEventListener('click', e => this.handleTogglerClick(id, section, togglerEl, e));
+      if (!togglerEl) {
+        return;
+      }
+
+      togglerEl.addEventListener('click', e => this.handleSectionTogglerClick(id, section, togglerEl, e));
 
       if (typeof this.collapsed[id] === 'undefined') {
         this.collapsed[id] = false;
@@ -59,6 +64,9 @@ export default class Sidebar {
         this.setSectionCollapsed(section, togglerEl, true, false);
       }
     });
+    this.nodes.sidebar = moduleEl.querySelector('.' + Sidebar.CSS.sidebar);
+    this.nodes.toggler = moduleEl.querySelector('.' + Sidebar.CSS.sidebarToggler);
+    this.nodes.toggler.addEventListener('click', () => this.toggleSidebar());
   }
 
   /**
@@ -70,7 +78,7 @@ export default class Sidebar {
    * @param {MouseEvent} event - click event
    * @returns {void}
    */
-  handleTogglerClick(sectionId, sectionEl, togglerEl, event) {
+  handleSectionTogglerClick(sectionId, sectionEl, togglerEl, event) {
     event.preventDefault();
     this.collapsed[sectionId] = !this.collapsed[sectionId];
     window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.collapsed));
@@ -111,5 +119,14 @@ export default class Sidebar {
     } else {
       sectionTitle.classList.toggle(Sidebar.CSS.sectionTitleActive, collapsed);
     }
+  }
+
+  /**
+   * Toggles sidebar visibility
+   *
+   * @returns {void}
+   */
+  toggleSidebar() {
+    this.nodes.sidebar.classList.toggle(Sidebar.CSS.sidebarHidden);
   }
 }
