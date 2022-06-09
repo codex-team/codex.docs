@@ -107,8 +107,12 @@ export default class TableOfContent {
         const targetLink = target.querySelector('a').getAttribute('href');
 
         // @todo remove after testing
-        document.querySelector('.page-intersection-field').style.top = `${entry.rootBounds.top}px`;
-        document.querySelector('.page-intersection-field').style.height = `${entry.rootBounds.height}px`;
+        try {
+          const pageIntersectionField = document.querySelector('.page-intersection-field');
+
+          pageIntersectionField.style.top = `${entry.rootBounds.top}px`;
+          pageIntersectionField.style.height = `${entry.rootBounds.height}px`;
+        } catch (e) {}
 
         /**
          * Intersection state of block
