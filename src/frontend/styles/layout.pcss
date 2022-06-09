@@ -31,10 +31,21 @@
       max-width: var(--layout-width-main-col);
       margin: 0 auto;
     }
+
+    @media not (--mobile) {
+      margin-bottom: 80vh;
+    }
+  }
+
+  &__aside-right {
+    @media (--mobile) {
+      display: none;
+    }
   }
 
   &__aside,
-  &__content {
+  &__content,
+  &__aside-right {
     padding: var(--layout-padding-vertical) 0;
 
     @media (--mobile) {

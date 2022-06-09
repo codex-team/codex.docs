@@ -6,12 +6,13 @@
  * @class Page
  * @classdesc Class for page module
  */
-export default class Writing {
+export default class Page {
   /**
    * Creates base properties
    */
   constructor() {
     this.codeStyler = null;
+    this.tableOfContent = null;
   }
 
   /**
@@ -21,7 +22,8 @@ export default class Writing {
    */
   init(settings = {}, moduleEl) {
     this.codeStyler = this.createCodeStyling();
-  };
+    this.tableOfContent = this.createTableOfContent();
+  }
 
   /**
    * Init code highlighting
@@ -30,7 +32,17 @@ export default class Writing {
     const { default: CodeStyler } = await import(/* webpackChunkName: "code-styling" */ './../classes/codeStyler');
 
     return new CodeStyler({
-      selector: '.block-code__content'
+      selector: '.block-code__content',
     });
-  };
+  }
+
+  /**
+   * Init table of content
+   * @return {Promise<TableOfContent>}
+   */
+  async createTableOfContent() {
+    const { default: TableOfContent } = await import(/* webpackChunkName: "table-of-content" */ './table-of-content');
+
+    return new TableOfContent();
+  }
 }

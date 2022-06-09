@@ -16,6 +16,7 @@ import ModuleDispatcher from 'module-dispatcher';
 import Writing from './modules/writing';
 import Page from './modules/page';
 import Extensions from './modules/extensions';
+import TableOfContent from "./modules/table-of-content";
 
 /**
  * Main app class
