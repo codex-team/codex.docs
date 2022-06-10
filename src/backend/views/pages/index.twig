@@ -4,7 +4,11 @@
   <title>{{ config.title }}</title>
   <link rel="stylesheet" href="/dist/main.css" />
   <link rel="preload" href="{{ config.landingFrameSrc }}" as="document">
-  <link rel="icon" type="image/png" href="/favicon.png?v=2">
+  {% if config.favicon is empty %}
+    <link rel="icon" type="image/png" href="/favicon.png">
+  {% else %}
+    <link rel="icon" type="image/png" href="{{ config.favicon }}">
+  {% endif %}
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta property="og:title" content="{{ config.title }}" />
   <meta property="og:site_name" content="{{ config.title }}" />
