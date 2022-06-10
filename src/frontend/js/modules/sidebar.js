@@ -15,13 +15,12 @@ export default class Sidebar {
   static get CSS() {
     return {
       toggler: 'docs-sidebar__section-toggler',
-      togglerCollapsed: 'docs-sidebar__section-toggler--collapsed',
       section: 'docs-sidebar__section',
+      sectionCollapsed: 'docs-sidebar__section--collapsed',
       sectionAnimated: 'docs-sidebar__section--animated',
       sectionTitle: 'docs-sidebar__section-title',
       sectionTitleActive: 'docs-sidebar__section-title--active',
       sectionList: 'docs-sidebar__section-list',
-      sectionListCollapsed: 'docs-sidebar__section-list--collapsed',
       sectionListItemActive: 'docs-sidebar__section-list-item--active',
       sidebarToggler: 'docs-sidebar__toggler',
       sidebarContent: 'docs-sidebar__content',
@@ -61,7 +60,7 @@ export default class Sidebar {
         this.collapsed[id] = false;
       }
       if (this.collapsed[id]) {
-        this.setSectionCollapsed(section, togglerEl, true, false);
+        this.setSectionCollapsed(section, true, false);
       }
     });
     this.nodes.sidebarContent = moduleEl.querySelector('.' + Sidebar.CSS.sidebarContent);
@@ -83,7 +82,7 @@ export default class Sidebar {
     event.preventDefault();
     this.collapsed[sectionId] = !this.collapsed[sectionId];
     window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.collapsed));
-    this.setSectionCollapsed(sectionEl, togglerEl, this.collapsed[sectionId]);
+    this.setSectionCollapsed(sectionEl, this.collapsed[sectionId]);
   }
 
   /**
@@ -92,17 +91,16 @@ export default class Sidebar {
    * @param {HTMLElement} sectionEl - element of the section to toggle
    * @param {HTMLElement} togglerEl - section's toggler button element
    * @param {boolean} collapsed - new collapsed state
-   * @param {boolean} animated - true if state should change with animation
+   * @param {boolean} [animated] - true if state should change with animation
    */
-  setSectionCollapsed(sectionEl, togglerEl, collapsed, animated = true) {
-    togglerEl.classList.toggle(Sidebar.CSS.togglerCollapsed, collapsed);
+  setSectionCollapsed(sectionEl, collapsed, animated = true) {
     const sectionList = sectionEl.querySelector('.' + Sidebar.CSS.sectionList);
 
     if (!sectionList) {
       return;
     }
     sectionEl.classList.toggle(Sidebar.CSS.sectionAnimated, animated);
-    sectionList.classList.toggle(Sidebar.CSS.sectionListCollapsed, collapsed);
+    sectionEl.classList.toggle(Sidebar.CSS.sectionCollapsed, collapsed);
 
     /**
      * Highlight section item as active if active child item is collapsed.

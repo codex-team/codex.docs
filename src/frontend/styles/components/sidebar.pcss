@@ -43,6 +43,18 @@
         }
       }
     }
+
+    &--collapsed {
+      .docs-sidebar__section-list {
+        max-height: 0;
+      }
+
+      .docs-sidebar__section-toggler {
+        svg {
+          transform: rotate(180deg);
+        }
+      }
+    }
   }
 
   &__section:not(:first-child) {
@@ -116,10 +128,6 @@
     z-index: 1;
     position: relative;
     max-height: 1000px;
-
-    &--collapsed {
-      max-height: 0;
-    }
   }
 
   &__section-toggler {
@@ -143,12 +151,6 @@
 
     svg {
       display: block;
-    }
-
-    &--collapsed {
-      svg {
-        transform: rotate(180deg);
-      }
     }
   }
 
