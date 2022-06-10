@@ -1,7 +1,9 @@
+import { Storage } from '../utils/storage';
+
 /**
  * Local storage key
  */
-const LOCAL_STORAGE_KEY = 'docs_siedabar_state';
+const LOCAL_STORAGE_KEY = 'docs_sidebar_state';
 
 /**
  * Sidebar module
@@ -32,10 +34,18 @@ export default class Sidebar {
    * Creates base properties
    */
   constructor() {
-    this.nodes = {};
-    const storedState = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+    /**
+     * Stores refs to HTML elements needed for correct sidebar work
+     */
+    this.nodes = {
+      sections: [],
+      sidebarContent: null,
+      toggler: null,
+    };
+    this.sidebarStorage = new Storage(LOCAL_STORAGE_KEY);
+    const storedState = this.sidebarStorage.get();
 
-    this.collapsed = storedState ? JSON.parse(storedState) : {};
+    this.sectionsState = storedState ? JSON.parse(storedState) : {};
   }
 
   /**
@@ -46,23 +56,7 @@ export default class Sidebar {
    */
   init(settings, moduleEl) {
     this.nodes.sections = Array.from(moduleEl.querySelectorAll('.' + Sidebar.CSS.section));
-    this.nodes.sections.forEach(section => {
-      const id = section.getAttribute('data-id');
-      const togglerEl = section.querySelector('.' + Sidebar.CSS.toggler);
-
-      if (!togglerEl) {
-        return;
-      }
-
-      togglerEl.addEventListener('click', e => this.handleSectionTogglerClick(id, section, togglerEl, e));
-
-      if (typeof this.collapsed[id] === 'undefined') {
-        this.collapsed[id] = false;
-      }
-      if (this.collapsed[id]) {
-        this.setSectionCollapsed(section, true, false);
-      }
-    });
+    this.nodes.sections.forEach(section => this.initSection(section));
     this.nodes.sidebarContent = moduleEl.querySelector('.' + Sidebar.CSS.sidebarContent);
     this.nodes.toggler = moduleEl.querySelector('.' + Sidebar.CSS.sidebarToggler);
     this.nodes.toggler.addEventListener('click', () => this.toggleSidebar());
@@ -70,26 +64,48 @@ export default class Sidebar {
   }
 
   /**
+   * Initializes sidebar sections: applies stored state and adds event listeners
+   *
+   * @param {HTMLElement} section
+   * @returns {void}
+   */
+  initSection(section) {
+    const id = section.dataset.id;
+    const togglerEl = section.querySelector('.' + Sidebar.CSS.toggler);
+
+    if (!togglerEl) {
+      return;
+    }
+
+    togglerEl.addEventListener('click', e => this.handleSectionTogglerClick(id, section, e));
+
+    if (typeof this.sectionsState[id] === 'undefined') {
+      this.sectionsState[id] = false;
+    }
+    if (this.sectionsState[id]) {
+      this.setSectionCollapsed(section, true, false);
+    }
+  }
+
+  /**
    * Toggles section expansion
    *
    * @param {number} sectionId - id of the section to toggle
    * @param {HTMLElement} sectionEl - section html element
-   * @param {HTMLElement} togglerEl - toggler button html element
    * @param {MouseEvent} event - click event
    * @returns {void}
    */
-  handleSectionTogglerClick(sectionId, sectionEl, togglerEl, event) {
+  handleSectionTogglerClick(sectionId, sectionEl, event) {
     event.preventDefault();
-    this.collapsed[sectionId] = !this.collapsed[sectionId];
-    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.collapsed));
-    this.setSectionCollapsed(sectionEl, this.collapsed[sectionId]);
+    this.sectionsState[sectionId] = !this.sectionsState[sectionId];
+    this.sidebarStorage.set(JSON.stringify(this.sectionsState));
+    this.setSectionCollapsed(sectionEl, this.sectionsState[sectionId]);
   }
 
   /**
    * Updates section's collapsed state
    *
    * @param {HTMLElement} sectionEl - element of the section to toggle
-   * @param {HTMLElement} togglerEl - section's toggler button element
    * @param {boolean} collapsed - new collapsed state
    * @param {boolean} [animated] - true if state should change with animation
    */
@@ -112,6 +128,9 @@ export default class Sidebar {
       return;
     }
     if (collapsed && animated) {
+      /**
+       * Highlights section title as active with a delay to let section collapse animation finish first
+       */
       setTimeout(() => {
         sectionTitle.classList.toggle(Sidebar.CSS.sectionTitleActive, collapsed);
       }, 200);
