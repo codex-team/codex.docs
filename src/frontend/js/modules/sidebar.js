@@ -24,8 +24,8 @@ export default class Sidebar {
       sectionListCollapsed: 'docs-sidebar__section-list--collapsed',
       sectionListItemActive: 'docs-sidebar__section-list-item--active',
       sidebarToggler: 'docs-sidebar__toggler',
-      sidebar: 'docs-sidebar',
-      sidebarHidden: 'docs-sidebar--hidden',
+      sidebarContent: 'docs-sidebar__content',
+      sidebarContentHidden: 'docs-sidebar__content--hidden',
     };
   }
 
@@ -64,7 +64,7 @@ export default class Sidebar {
         this.setSectionCollapsed(section, togglerEl, true, false);
       }
     });
-    this.nodes.sidebar = moduleEl.querySelector('.' + Sidebar.CSS.sidebar);
+    this.nodes.sidebarContent = moduleEl.querySelector('.' + Sidebar.CSS.sidebarContent);
     this.nodes.toggler = moduleEl.querySelector('.' + Sidebar.CSS.sidebarToggler);
     this.nodes.toggler.addEventListener('click', () => this.toggleSidebar());
     this.ready();
@@ -128,7 +128,7 @@ export default class Sidebar {
    * @returns {void}
    */
   toggleSidebar() {
-    this.nodes.sidebar.classList.toggle(Sidebar.CSS.sidebarHidden);
+    this.nodes.sidebarContent.classList.toggle(Sidebar.CSS.sidebarContentHidden);
   }
 
   /**
@@ -137,6 +137,6 @@ export default class Sidebar {
    * @returns {void}
    */
   ready() {
-    this.nodes.sidebar.classList.remove(Sidebar.CSS.sidebarHidden);
+    this.nodes.sidebarContent.classList.remove(Sidebar.CSS.sidebarContentHidden);
   }
 }

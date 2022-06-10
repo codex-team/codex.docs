@@ -1,27 +1,32 @@
 .docs-sidebar {
-  border-bottom: 1px solid var(--color-line-gray);
-  box-sizing: border-box;
-  padding: 30px 22px;
-  position: sticky;
-  top: var(--layout-height-header);
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-
+  width: 100vw;
+    
   @media (--desktop) {
-    height: calc(100vh - var(--layout-height-header));
-    border-right: 1px solid var(--color-line-gray);
-    border-bottom: 0;
-    padding-bottom: 0;
+    width: 344px;
   }
 
-  &__wrapper {
-    width: 100vw;
-    
+  &__content {
+    border-bottom: 1px solid var(--color-line-gray);
+    box-sizing: border-box;
+    padding: 30px 22px;
+    position: sticky;
+    top: var(--layout-height-header);
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+  
     @media (--desktop) {
-      width: 344px;
+      height: calc(100vh - var(--layout-height-header));
+      border-right: 1px solid var(--color-line-gray);
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    &--hidden {
+      display: none;
     }
   }
+
 
   &__section {
     overflow: hidden;
@@ -147,9 +152,6 @@
     }
   }
 
-  &--hidden {
-    display: none;
-  }
 
   &__toggler {
     font-size: 13px;

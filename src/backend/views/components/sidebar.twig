@@ -1,13 +1,11 @@
 
-{% set mainClass = 'docs-sidebar' %}
-
-<div data-module="sidebar" class="{{mainClass}}__wrapper">
+<div data-module="sidebar" class="docs-sidebar">
 
   <div class="docs-sidebar__toggler">
     {{ svg('menu') }} Table of contents
   </div>
 
-  <aside class="{{mainClass}} docs-sidebar--hidden">
+  <aside class="docs-sidebar__content docs-sidebar__content--hidden">
     {% for firstLevelPage in menu %}
       <section class="docs-sidebar__section" data-id="{{firstLevelPage._id}}">
         <a
