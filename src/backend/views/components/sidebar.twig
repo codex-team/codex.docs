@@ -8,10 +8,10 @@
   <aside class="docs-sidebar__content docs-sidebar__content--hidden">
     {% for firstLevelPage in menu %}
       <section class="docs-sidebar__section" data-id="{{firstLevelPage._id}}">
-        <a
-          class="docs-sidebar__section-title {{page is defined and page._id == firstLevelPage._id ? 'docs-sidebar__section-title--active' : ''}}"
+        <a class="docs-sidebar__section-title-wrapper"
           href="{{firstLevelPage.uri ? '/' ~ firstLevelPage.uri : '/page/' ~ firstLevelPage._id }}"
         >
+        <div class="docs-sidebar__section-title {{page is defined and page._id == firstLevelPage._id ? 'docs-sidebar__section-title--active' : ''}}">
           <span>
             {{ firstLevelPage.title | striptags }}
           </span>
@@ -20,15 +20,18 @@
               {{ svg('arrow-up') }}
             </button>
           {% endif %}
+        </div>
         </a>
         {% if firstLevelPage.children is not empty %}
           <ul class="docs-sidebar__section-list">
             {% for child in firstLevelPage.children %}
-              <li class="docs-sidebar__section-list-item-wrapper">
+              <li>
                 <a
-                  class="docs-sidebar__section-list-item {{page is defined and page._id == child._id ? 'docs-sidebar__section-list-item--active' : ''}}"
+                  class="docs-sidebar__section-list-item-wrapper"
                   href="{{ child.uri ? '/' ~ child.uri : '/page/' ~ child._id }}">
-                    <span> {{ child.title | striptags }} </span>
+                    <div class="docs-sidebar__section-list-item {{page is defined and page._id == child._id ? 'docs-sidebar__section-list-item--active' : ''}}">
+                      <span>{{ child.title | striptags }}</span>
+                    </div>
                 </a>
               </li>
             {% endfor %}
@@ -42,9 +45,9 @@
           <div class="docs-sidebar__logo-image">
             {{ svg('aside-logo') }}
           </div>
-          <div class="docs-sidebar__logo-caption">
-            <span>Powered by CodeX Docs</span>
-          </div>
+          <p class="docs-sidebar__logo-caption">
+            Powered by CodeX Docs
+          </p>
         </a>
     </div>
 
