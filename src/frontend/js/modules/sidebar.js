@@ -5,6 +5,12 @@ import { Storage } from '../utils/storage';
  */
 const LOCAL_STORAGE_KEY = 'docs_sidebar_state';
 
+
+/**
+ * Section list item height in px
+ */
+const ITEM_HEIGHT = 31;
+
 /**
  * Sidebar module
  */
@@ -85,6 +91,19 @@ export default class Sidebar {
     if (this.sectionsState[id]) {
       this.setSectionCollapsed(section, true, false);
     }
+
+    /**
+     * Calculate and set sections list max height for smooth animation
+     */
+    const sectionList = section.querySelector('.' + Sidebar.CSS.sectionList);
+
+    if (!sectionList) {
+      return;
+    }
+
+    const itemsCount = sectionList.children.length;
+
+    sectionList.style.maxHeight = `${ itemsCount * ITEM_HEIGHT }px`;
   }
 
   /**

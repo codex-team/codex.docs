@@ -1,14 +1,16 @@
 .docs-sidebar {
-  width: 100vw;
+  --sidebar-width: 100vw;
+
+  width: var(--sidebar-width);
     
   @media (--desktop) {
-    width: 344px;
+    --sidebar-width: 344px;
   }
 
   &__content {
     border-bottom: 1px solid var(--color-line-gray);
     box-sizing: border-box;
-    padding: 30px 22px;
+    padding: var(--layout-padding-vertical) 22px;
     position: sticky;
     top: var(--layout-height-header);
     display: flex;
@@ -46,7 +48,7 @@
 
     &--collapsed {
       .docs-sidebar__section-list {
-        max-height: 0;
+        max-height: 0 !important;
       }
 
       .docs-sidebar__section-toggler {
@@ -127,7 +129,6 @@
     margin: 0;
     z-index: 1;
     position: relative;
-    max-height: 1000px;
   }
 
   &__section-toggler {
