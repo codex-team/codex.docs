@@ -35,7 +35,7 @@ export default class TableOfContent {
    * Find all tags on the page
    */
   findTagsOnThePage() {
-    this.tags = document.querySelectorAll(this.tagSelector);
+    this.tags = Array.from(document.querySelectorAll(this.tagSelector));
   }
 
   /**
