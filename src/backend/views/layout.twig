@@ -7,11 +7,7 @@
     <meta property="og:title" content="{{ page.title | striptags }}" />
     <meta property="article:modified_time" content="{{ (page.body.time / 1000) | date("c") }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    {% if config.favicon is empty %}
-      <link rel="icon" type="image/png" href="/favicon.png">
-    {% else %}
-      <link rel="icon" type="image/png" href="{{ config.favicon }}">
-    {% endif %}
+    <link rel="icon" type="image/png" href="/favicon">
   </head>
     <script>
       window.config = {
