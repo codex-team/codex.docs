@@ -7,6 +7,9 @@ import express from 'express';
 
 const router = express.Router();
 
+/**
+ * Get favicon
+ */
 router.get('/favicon', (req, res) => {
   const faviconURL: string = config.get('faviconURL');
 
