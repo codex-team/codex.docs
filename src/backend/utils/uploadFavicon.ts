@@ -1,4 +1,7 @@
 import { get } from 'https';
+import path from 'path';
+import os from 'os';
+import fs from 'fs';
 
 // Create empty buffer for file
 let file: Buffer = Buffer.alloc(0);
@@ -7,10 +10,11 @@ let file: Buffer = Buffer.alloc(0);
  * Upload favicon by url
  *
  * @param url - url for uploading favicon
- * @returns { Promise<Buffer> } - Promise with whole file data
+ * @returns { Promise<string> } - Promise with path of saved file
  */
-export default function uploadFavicon(url: string): Promise<Buffer> {
-  return new Promise(function (resolve, reject) {
+export default async function uploadFavicon(url: string): Promise<string> {
+  // Create prise of getting file data
+  const fileDataPromise = new Promise<Buffer>(function (resolve, reject) {
     const req = get(url, function ( res) {
       // Reject on bad status
       if (res.statusCode && (res.statusCode < 200 || res.statusCode >= 300)) {
@@ -31,4 +35,16 @@ export default function uploadFavicon(url: string): Promise<Buffer> {
     });
     req.end();
   });
+  const fileData = await fileDataPromise;
+
+  // Get file name by url
+  const filename = url.substring(url.lastIndexOf('/')+1);
+
+  // Get file path in temporary directory
+  const filePath = path.join(os.tmpdir(), filename);
+
+  // Save file
+  fs.writeFileSync(filePath, fileData);
+
+  return filePath;
 }
