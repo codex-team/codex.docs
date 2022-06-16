@@ -87,17 +87,16 @@ yarn test
 
 You can configure application using configs in <code>/config</code> directory.
 
-<code>port</code> - to set port of application
+| Property                | Role                                                                                                                                                |
+|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+ | <code>port</code>       | to set port of application                                                                                                                          |
+ | <code>database</code>   | to name directory with data                                                                                                                         |
+ | <code>rcFile</code>     | to set destination of codexdocsrc config file                                                                                                       |
+ | <code>uploads</code>    | to set destination of directory to save uploads                                                                                                     |
+ | <code>secret</code>     | to set secret                                                                                                                                       |
+ | <code>faviconURL</code> | to set url to get favicon. Server uploads file by url and saves it to temporary directory. And you can get favicon by /favicon route of application |
 
-<code>database</code> - to name directory with data
-
-<code>rcFile</code> - to set destination of rc file
-
-<code>uploads</code> - to set destination of directory to save uploads
-
-<code>secret</code> - to set secret
-
-<code>faviconURL</code> - to set url to get favicon
+You can configure application using configs in <code>/config</code> directory.
 
 ### Authentication
 
