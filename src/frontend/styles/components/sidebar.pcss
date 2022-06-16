@@ -1,16 +1,14 @@
 .docs-sidebar {
-  --sidebar-width: 100vw;
-
-  width: var(--sidebar-width);
+  width: 100vw;
     
   @media (--desktop) {
-    --sidebar-width: 344px;
+    width: var(--layout-sidebar-width);
   }
 
   &__content {
     border-bottom: 1px solid var(--color-line-gray);
     box-sizing: border-box;
-    padding: var(--layout-padding-vertical) 22px;
+    padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
     position: sticky;
     top: var(--layout-height-header);
     display: flex;
@@ -192,7 +190,7 @@
     background: white;
     z-index: 2;
     padding-bottom: 20px;
-    padding-top: 10px;
+    padding-top: 60px;
     font-size: 14px;
 
     @media (--desktop) {
@@ -203,10 +201,15 @@
       display: inline-flex;
     }
 
+    &-caption {
+      margin: 0;
+    }
+
     &-wrapper {
       display: flex;
       align-items: center;
       gap: 18px;
+      padding: 8px;
     }
   }
 
