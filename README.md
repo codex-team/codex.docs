@@ -83,6 +83,22 @@ yarn lint
 yarn test
 ```
 
+### Setup
+
+You can configure application using configs in <code>/config</code> directory.
+
+<code>port</code> - to set port of application
+
+<code>database</code> - to name directory with data
+
+<code>rcFile</code> - to set destination of rc file
+
+<code>uploads</code> - to set destination of directory to save uploads
+
+<code>secret</code> - to set secret
+
+<code>faviconURL</code> - to set url to get favicon
+
 ### Authentication
 
 To manage pages you need to authorize (available on `/auth`).
