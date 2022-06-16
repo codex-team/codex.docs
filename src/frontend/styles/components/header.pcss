@@ -7,6 +7,12 @@
   font-size: 18px;
   flex-wrap: wrap;
   position: relative;
+  height: var(--layout-height-header);
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 10;
 
   @media (--mobile){
     line-height: 40px;
@@ -60,25 +66,24 @@
       }
     }
 
-    &-add {
-      @media (--mobile) {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        line-height: 1em;
-        margin: 0 !important;
-      }
-      a {
+    li&-add {
+      flex-shrink: 0;
+
+      &--desktop {
         @media (--mobile) {
-          font-size: 0;
-          padding: 0 4px;
-          margin-right: 0;
+          display: none;
         }
       }
 
-      .docs-button__icon {
+      &--mobile {
+        display: none;
+
         @media (--mobile) {
-          margin-right: 0;
+          display: block;
+          position: absolute;
+          right: 15px;
+          top: 15px;
+          line-height: 1em;
         }
       }
     }
