@@ -5,7 +5,7 @@
 
   &__aside {
     width: var(--layout-width-aside);
-    padding: 0px 22px;
+    padding: 0px var(--layout-padding-horizontal-aside);
     border-right: solid 1px var(--color-line-gray);
     position: fixed;
     top: var(--layout-height-header);
@@ -37,17 +37,11 @@
   }
 
   &__aside-right {
-    padding-left: var(--layout-right-aside-padding-left);
-    padding-bottom: 30px;
     position: fixed;
     top: var(--layout-height-header);
     right: 0;
-    width: calc(
-      var(--layout-width-right-aside)-var(--layout-right-aside-padding-left)
-    );
-    max-width: calc(
-      var(--layout-width-right-aside)-var(--layout-right-aside-padding-left)
-    );
+    width: var(--layout-width-aside-right);
+    max-width: var(--layout-width-aside-right);
   }
 
   &__aside,

@@ -26,25 +26,35 @@
   --layout-padding-vertical: 30px;
 
   --layout-width-aside: 300px;
+  --layout-padding-horizontal-aside: 22px;
+
   --layout-width-main-col: 650px;
 
-  --layout-width-aside-right-title: 277px;
-  --layout-right-aside-resposive-width: 160px;
-  --layout-width-right-aside-available: calc(
-    50% - var(--layout-width-main-col) / 2 -
-      var(--layout-right-aside-resposive-width)
+  --layout-max-width-aside-right: 450px;
+  --layout-max-space-from-right-aside: 160px;
+  --layout-available-right-aside-width: calc(
+    50% - var(--layout-width-main-col) / 2
   );
-  --layout-width-right-aside: max(
-    320px,
-    var(--layout-width-right-aside-available)
+
+  --layout-width-aside-right: min(
+    var(--layout-available-right-aside-width),
+    var(--layout-max-width-aside-right)
   );
-  --layout-right-aside-padding-left: 30px;
 
   --layout-height-header: 57px;
+
+  @media (--extrem-wide-desktop) {
+    --layout-width-aside-right: calc(
+      var(--layout-available-right-aside-width)-var(
+          --layout-max-space-from-right-aside
+        )
+    );
+  }
 
   @media (--mobile) {
     --layout-padding-horizontal: 15px;
     --layout-padding-vertical: 15px;
+    --layout-width-aside-right: 0px;
   }
 
   --font-mono: Menlo, Monaco, Consolas, Courier New, monospace;
@@ -89,6 +99,7 @@
 /**
 * Custom media queries
 */
+@custom-media --extrem-wide-desktop all and (min-width: 1710px);
 @custom-media --wide-desktop all and (min-width: 1300px);
 @custom-media --desktop all and (min-width: 1050px);
 @custom-media --tablet all and (min-width: 980px) and (max-width: 1050px);
