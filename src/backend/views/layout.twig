@@ -17,9 +17,9 @@
   <body>
     {% include "components/header.twig" with res.locals.isAuthorized %}
     <div class="docs">
-      <aside class="docs__aside">
-        {% include "components/aside.twig" %}
-      </aside>
+      
+      {% include "components/sidebar.twig" %}
+      
       <div class="docs__content">
         <div class="docs__content-inner">
           {% block body %}{% endblock %}
