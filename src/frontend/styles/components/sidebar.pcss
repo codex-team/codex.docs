@@ -1,9 +1,9 @@
 .docs-sidebar {
   width: 100vw;
-  position: fixed;
-  top: var(--layout-height-header);
 
   @media (--desktop) {
+    position: fixed;
+    top: var(--layout-height-header);
     width: var(--layout-sidebar-width);
   }
 
@@ -11,11 +11,9 @@
     border-bottom: 1px solid var(--color-line-gray);
     box-sizing: border-box;
     padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
-    position: sticky;
-    top: var(--layout-height-header);
     display: flex;
     flex-direction: column;
-    overflow: auto;
+    overflow: hidden;
 
     @media (--desktop) {
       height: calc(100vh - var(--layout-height-header));
@@ -28,7 +26,10 @@
       display: none;
     }
   }
-
+  &__menu-wrapper {
+    overflow: auto;
+    height: 100%;
+  }
   &__section {
     overflow: hidden;
     flex-shrink: 0;

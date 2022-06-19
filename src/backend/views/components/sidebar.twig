@@ -1,55 +1,53 @@
-
 <div data-module="sidebar" class="docs-sidebar">
 
-  <div class="docs-sidebar__toggler">
-    {{ svg('menu') }} Table of contents
-  </div>
+	<div class="docs-sidebar__toggler">
+		{{ svg('menu') }}
+		Table of contents
+	</div>
 
-  <aside class="docs-sidebar__content docs-sidebar__content--hidden">
-    {% for firstLevelPage in menu %}
-      <section class="docs-sidebar__section" data-id="{{firstLevelPage._id}}">
-        <a class="docs-sidebar__section-title-wrapper"
-          href="{{firstLevelPage.uri ? '/' ~ firstLevelPage.uri : '/page/' ~ firstLevelPage._id }}"
-        >
-        <div class="docs-sidebar__section-title {{page is defined and page._id == firstLevelPage._id ? 'docs-sidebar__section-title--active' : ''}}">
-          <span>
-            {{ firstLevelPage.title | striptags }}
-          </span>
-          {% if firstLevelPage.children is not empty %}
-            <button class="docs-sidebar__section-toggler">
-              {{ svg('arrow-up') }}
-            </button>
-          {% endif %}
-        </div>
-        </a>
-        {% if firstLevelPage.children is not empty %}
-          <ul class="docs-sidebar__section-list">
-            {% for child in firstLevelPage.children %}
-              <li>
-                <a
-                  class="docs-sidebar__section-list-item-wrapper"
-                  href="{{ child.uri ? '/' ~ child.uri : '/page/' ~ child._id }}">
-                    <div class="docs-sidebar__section-list-item {{page is defined and page._id == child._id ? 'docs-sidebar__section-list-item--active' : ''}}">
-                      <span>{{ child.title | striptags }}</span>
-                    </div>
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-        {% endif %}
-      </section>
-    {% endfor %}
+	<aside class="docs-sidebar__content docs-sidebar__content--hidden">
+		<div class="docs-sidebar__menu-wrapper">
+			{% for firstLevelPage in menu %}
+				<section class="docs-sidebar__section" data-id="{{firstLevelPage._id}}">
+					<a class="docs-sidebar__section-title-wrapper" href="{{firstLevelPage.uri ? '/' ~ firstLevelPage.uri : '/page/' ~ firstLevelPage._id }}">
+						<div class="docs-sidebar__section-title {{page is defined and page._id == firstLevelPage._id ? 'docs-sidebar__section-title--active' : ''}}">
+							<span>
+								{{ firstLevelPage.title | striptags }}
+							</span>
+							{% if firstLevelPage.children is not empty %}
+								<button class="docs-sidebar__section-toggler">
+									{{ svg('arrow-up') }}
+								</button>
+							{% endif %}
+						</div>
+					</a>
+					{% if firstLevelPage.children is not empty %}
+						<ul class="docs-sidebar__section-list">
+							{% for child in firstLevelPage.children %}
+								<li>
+									<a class="docs-sidebar__section-list-item-wrapper" href="{{ child.uri ? '/' ~ child.uri : '/page/' ~ child._id }}">
+										<div class="docs-sidebar__section-list-item {{page is defined and page._id == child._id ? 'docs-sidebar__section-list-item--active' : ''}}">
+											<span>{{ child.title | striptags }}</span>
+										</div>
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</section>
+			{% endfor %}
+		</div>
 
-    <div class="docs-sidebar__logo">
-        <a class="docs-sidebar__logo-wrapper" href="https://github.com/codex-team/codex.docs">
-          <div class="docs-sidebar__logo-image">
-            {{ svg('aside-logo') }}
-          </div>
-          <p class="docs-sidebar__logo-caption">
-            Powered by CodeX Docs
-          </p>
-        </a>
-    </div>
+		<div class="docs-sidebar__logo">
+			<a class="docs-sidebar__logo-wrapper" href="https://github.com/codex-team/codex.docs">
+				<div class="docs-sidebar__logo-image">
+					{{ svg('aside-logo') }}
+				</div>
+				<p class="docs-sidebar__logo-caption">
+					Powered by CodeX Docs
+				</p>
+			</a>
+		</div>
 
-  </aside>
+	</aside>
 </div>
