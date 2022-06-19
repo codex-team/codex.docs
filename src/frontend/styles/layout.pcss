@@ -7,6 +7,7 @@
 
   &__content {
     margin-top: var(--layout-height-header);
+    width: 100%;
 
     @media (--mobile) {
       width: 100%;
@@ -19,8 +20,17 @@
     }
   }
 
+  &__aside-right {
+    position: fixed;
+    top: var(--layout-height-header);
+    right: 0;
+    width: var(--layout-width-aside-right);
+    max-width: var(--layout-width-aside-right);
+  }
+
+  &__aside-right,
   &__content {
-    padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
+    padding-top: var(--layout-padding-vertical);
 
     @media (--mobile) {
       padding: 20px var(--layout-padding-horizontal);
