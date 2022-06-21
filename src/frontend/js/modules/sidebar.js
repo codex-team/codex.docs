@@ -33,6 +33,7 @@ export default class Sidebar {
       sidebarToggler: 'docs-sidebar__toggler',
       sidebarContent: 'docs-sidebar__content',
       sidebarContentHidden: 'docs-sidebar__content--hidden',
+      sidebarContentInvisible: 'docs-sidebar__content--invisible',
     };
   }
 
@@ -173,6 +174,6 @@ export default class Sidebar {
    * @returns {void}
    */
   ready() {
-    this.nodes.sidebarContent.classList.remove(Sidebar.CSS.sidebarContentHidden);
+    this.nodes.sidebarContent.classList.remove(Sidebar.CSS.sidebarContentInvisible);
   }
 }
