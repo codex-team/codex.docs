@@ -16,18 +16,21 @@
     </script>
   <body>
     {% include "components/header.twig" with res.locals.isAuthorized %}
+
     <div class="docs">
-      
       {% include "components/sidebar.twig" %}
-      
+
       <div class="docs__content">
         <div class="docs__content-inner">
           {% block body %}{% endblock %}
         </div>
       </div>
-      <aside class="docs__aside-right" id="layout-right-column"></aside>
+
+      {% include "components/sidebar-right.twig" %}
     </div>
+
     <script src="/dist/main.bundle.js"></script>
+
     {% if config.yandexMetrikaId is not empty %}
       <script type="text/javascript" >
         (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};

@@ -48,7 +48,7 @@ export default class Page {
         'h2.block-header--anchor,' +
         'h3.block-header--anchor,' +
         'h4.block-header--anchor',
-      tocWrapperSelector: '#layout-right-column',
+      tocWrapperSelector: '#layout-sidebar-right',
     });
   }
 }
