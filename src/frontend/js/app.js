@@ -16,7 +16,7 @@ import ModuleDispatcher from 'module-dispatcher';
 import Writing from './modules/writing';
 import Page from './modules/page';
 import Extensions from './modules/extensions';
-import TableOfContent from "./modules/table-of-content";
+import Sidebar from './modules/sidebar';
 
 /**
  * Main app class
@@ -29,6 +29,7 @@ class Docs {
     this.writing = new Writing();
     this.page = new Page();
     this.extensions = new Extensions();
+    this.sidebar = new Sidebar();
 
     document.addEventListener('DOMContentLoaded', (event) => {
       this.docReady();
