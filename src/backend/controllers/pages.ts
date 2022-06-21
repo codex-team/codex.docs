@@ -128,10 +128,16 @@ class Pages {
       return prev;
     }, orderGroupedByParent);
 
+    let count = 0;
+
     /**
      * It groups remained ungrouped pages by its parent
      */
     while (orphanPageOrder.length > 0) {
+      if (count >= 1000) {
+        break;
+      }
+
       orphanPageOrder.forEach((orphanOrder, idx) => {
         // It loops each of grouped orders formatted as [root page id(1): corresponding child pages id(2)]
         Object.entries(orderGroupedByParent).forEach(([parentPageId, value]) => {
@@ -144,6 +150,8 @@ class Pages {
           }
         });
       });
+
+      count += 1;
     }
 
     /**
