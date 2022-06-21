@@ -3,9 +3,7 @@
   "description": "A block-styled editor with clean JSON output",
   "menu": [
     "Guides",
-    "API",
-    "Plugins",
-    {"title": "Support Project", "uri": "/support"}
+    {"title": "CodeX", "uri": "https://codex.so"}
   ],
   "landingFrameSrc": "https://codex.so/editor?frame=1",
   "startPage": "",

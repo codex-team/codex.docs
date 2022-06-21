@@ -1,31 +1,54 @@
 .docs-header {
   display: flex;
+  justify-content: space-between;
   flex-shrink: 0;
-  padding: 0 var(--layout-padding-horisontal);
+  padding: 12px var(--layout-padding-horizontal);
   border-bottom: 1px solid var(--color-line-gray);
-  font-size: 15.8px;
-  line-height: 50px;
+  font-size: 18px;
   flex-wrap: wrap;
   position: relative;
+  height: var(--layout-height-header);
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 10;
 
   @media (--mobile){
     line-height: 40px;
   }
 
-  a {
+  &__menu-link,
+  &__logo {
     display: inline-block;
     text-decoration: none;
+    align-self: center;
+    line-height: 24px;
   }
 
   &__logo {
+    padding: 4px 0;
     font-weight: bold;
     color: inherit;
   }
 
+  &__menu-link {
+    padding: 4px 10px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background-color .13s;
+
+    &:hover {
+      background-color: var(--color-link-hover);
+    }
+  }
+
   &__menu {
     display: flex;
-    margin: 0 0 0 auto;
+    margin: 0;
+    gap: 10px;
     padding-left: 0;
+    font-size: 16px;
 
     @media (--mobile) {
       flex-basis: 100%;
@@ -36,7 +59,6 @@
       display: inline-flex;
       align-items: center;
       list-style: none;
-      margin-left: 20px;
 
       @media (--mobile) {
         margin-left: 0;
@@ -44,35 +66,26 @@
       }
     }
 
-    &-add {
-      @media (--mobile) {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        line-height: 1em;
-        margin: 0 !important;
-      }
-      a {
+    li&-add {
+      flex-shrink: 0;
+
+      &--desktop {
         @media (--mobile) {
-          font-size: 0;
-          padding: 8px;
-          margin-right: 0;
+          display: none;
+        }
+      }
+
+      &--mobile {
+        display: none;
+
+        @media (--mobile) {
+          display: block;
+          position: absolute;
+          right: 15px;
+          top: 15px;
+          line-height: 1em;
         }
       }
     }
-
-    a:not(.docs-header__button) {
-      color: inherit;
-
-      &:hover {
-        color: var(--color-link-active);
-      }
-    }
-  }
-
-  &__button {
-    @apply --button;
-    @apply --button-primary;
-    margin: auto 30px auto auto;
   }
 }
