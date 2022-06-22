@@ -2,6 +2,7 @@ import Page, { PageData } from '../models/page';
 import Alias from '../models/alias';
 import PagesOrder from './pagesOrder';
 import PageOrder from '../models/pageOrder';
+import HttpException from "../exceptions/httpException";
 
 type PageDataFields = keyof PageData;
 
@@ -135,7 +136,7 @@ class Pages {
      */
     while (orphanPageOrder.length > 0) {
       if (count >= 1000) {
-        break;
+        throw new HttpException(500, `Page cannot be processed`);
       }
 
       orphanPageOrder.forEach((orphanOrder, idx) => {
