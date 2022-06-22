@@ -76,6 +76,28 @@ class PageOrder {
   }
 
   /**
+   * Returns only root page's order
+   *
+   * @returns {Promise<PageOrder[]>}
+   */
+  public static async getRootPageOrder(): Promise<PageOrder> {
+    const docs = await db.findOne({ 'page': '0' });
+
+    return new PageOrder(docs);
+  }
+
+  /**
+   * Returns only child page's order
+   *
+   * @returns {Promise<PageOrder[]>}
+   */
+  public static async getChildPageOrder(): Promise<PageOrder[]> {
+    const docs = await this.getAll({ 'page': { $ne: '0' } });
+
+    return Promise.all(docs.map(doc => new PageOrder(doc)));
+  }
+
+  /**
    * constructor data setter
    *
    * @param {PageOrderData} pageOrderData - info about pageOrder

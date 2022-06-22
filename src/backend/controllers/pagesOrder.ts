@@ -34,6 +34,24 @@ class PagesOrder {
   }
 
   /**
+   * Returns only root page's order
+   *
+   * @returns {Promise<PageOrder[]>}
+   */
+  public static async getRootPageOrder(): Promise<PageOrder> {
+    return PageOrder.getRootPageOrder();
+  }
+
+  /**
+   * Returns only child page's order
+   *
+   * @returns {Promise<PageOrder[]>}
+   */
+  public static async getChildPageOrder(): Promise<PageOrder[]> {
+    return PageOrder.getChildPageOrder();
+  }
+
+  /**
    * Pushes the child page to the parent's order list
    *
    * @param {string} parentId - parent page's id
