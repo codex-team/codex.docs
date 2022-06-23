@@ -2,8 +2,6 @@
   width: 100vw;
 
   @media (--desktop) {
-    position: fixed;
-    top: var(--layout-height-header);
     width: var(--layout-sidebar-width);
   }
 
@@ -11,9 +9,11 @@
     border-bottom: 1px solid var(--color-line-gray);
     box-sizing: border-box;
     padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
+    position: sticky;
+    top: var(--layout-height-header);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: auto;
 
     @media (--desktop) {
       height: calc(100vh - var(--layout-height-header));

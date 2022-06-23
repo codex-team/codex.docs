@@ -6,7 +6,6 @@
 	</div>
 
 	<aside class="docs-sidebar__content docs-sidebar__content--hidden">
-		<div class="docs-sidebar__menu-wrapper">
 			{% for firstLevelPage in menu %}
 				<section class="docs-sidebar__section" data-id="{{firstLevelPage._id}}">
 					<a class="docs-sidebar__section-title-wrapper" href="{{firstLevelPage.uri ? '/' ~ firstLevelPage.uri : '/page/' ~ firstLevelPage._id }}">
@@ -36,8 +35,6 @@
 					{% endif %}
 				</section>
 			{% endfor %}
-		</div>
-
 		<div class="docs-sidebar__logo">
 			<a class="docs-sidebar__logo-wrapper" href="https://github.com/codex-team/codex.docs">
 				<div class="docs-sidebar__logo-image">
