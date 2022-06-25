@@ -21,9 +21,12 @@
       {% include "components/sidebar.twig" %}
       
       <div class="docs__content">
+        
         <div class="docs__content-inner">
           {% block body %}{% endblock %}
         </div>
+
+        <aside class="docs__aside-right"></aside>
       </div>
     </div>
     <script src="/dist/main.bundle.js"></script>
