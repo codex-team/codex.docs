@@ -41,16 +41,13 @@
   }
 
   &__aside-right {
-    /* tmp styles */
-    background: gray;
-    height: 100px;
-    
     width: var(--layout-sidebar-width);
     min-width: 160px;
     display: none;
 
     position: sticky;
     top: var(--layout-height-header);
+    align-self: flex-start;
 
     @media (--desktop) {
       display: block;
