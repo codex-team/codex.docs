@@ -27,20 +27,16 @@
   }
 
   &__content {
-    padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
-
-    @media (--mobile) {
-      padding: 20px var(--layout-padding-horizontal);
-    }
-  }
-
-  &__content {
     --max-space-between-cols: 160px;
-
+    padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
     display: flex;
     margin: 0 auto;
     justify-content: space-between;
     max-width: calc(var(--layout-width-main-col) + var(--max-space-between-cols) + var(--layout-sidebar-width));
+
+    @media (--mobile) {
+      padding: 20px var(--layout-padding-horizontal);
+    }
   }
 
   &__aside-right {
