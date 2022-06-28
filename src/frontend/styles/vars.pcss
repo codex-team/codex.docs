@@ -79,7 +79,7 @@
     position: relative;
     padding: 10px 30px 10px 10px;
     width: 100%;
-    border: none;
+    border: solid 1px transparent;
     border-radius: 8px;
     background-color: var(--color-input-primary);
     box-sizing: border-box;
@@ -101,7 +101,7 @@
   --input {
     padding: 10px;
     width: 100%;
-    border: none;
+    border: solid 1px transparent;
     border-radius: 8px;
     background-color: var(--color-input-primary);
     box-sizing: border-box;
@@ -115,7 +115,7 @@
       outline: none;
     }
   }
-      
+
   --squircle {
     @supports(-webkit-mask-box-image: url('')){
       border-radius: 0;
@@ -132,4 +132,4 @@
 @custom-media --tablet all and (min-width: 980px) and (max-width: 1050px);
 @custom-media --mobile all and (max-width: 980px);
 @custom-media --retina all and (-webkit-min-device-pixel-ratio: 1.5);
-@custom-media --can-hover all and (hover:hover)
+@custom-media --can-hover all and (hover:hover);
