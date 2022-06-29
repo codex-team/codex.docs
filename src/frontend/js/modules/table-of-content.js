@@ -177,7 +177,7 @@ export default class TableOfContent {
    * Highlight link's item with a given href
    *
    * @param {string} targetLink - href of the link
-   * @param {boolean} [needHighlightPrevious=false] - need to highlight previous link
+   * @param {boolean} [needHighlightPrevious=false] - need to highlight previous link instead of current
    */
   setActiveLink(targetLink, needHighlightPrevious = false) {
     /**
