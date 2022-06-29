@@ -25,15 +25,15 @@
     gap: 6px;
 
     &-item {
-      border-radius: 8px;
+      @apply --squircle;
 
       &:hover {
-        background-color: #F3F6F8;
+        background-color: var(--color-link-hover);
         cursor: pointer;
       }
 
       &--active {
-        background-color: #F3F6F8;
+        background-color: var(--color-link-hover);
       }
 
       &--h3 { margin-left: 6px; }
