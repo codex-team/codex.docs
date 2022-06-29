@@ -4,6 +4,9 @@
 export default class TableOfContent {
   /**
    * Initialize table of content
+   *
+   * @param {string} tagSelector - selector for tags to observe
+   * @param {string} tocWrapperSelector - selector for table of content wrapper
    */
   constructor({ tagSelector, tocWrapperSelector }) {
     this.tagSelector = tagSelector || 'h2,h3,h4';
