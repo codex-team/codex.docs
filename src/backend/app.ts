@@ -7,6 +7,7 @@ import routes from './routes';
 import HttpException from './exceptions/httpException';
 import * as dotenv from 'dotenv';
 import config from 'config';
+import os from 'os';
 
 dotenv.config();
 const app = express();
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../public')));
 app.use('/uploads', express.static(config.get('uploads')));
+app.use('/favicon', express.static(os.tmpdir()));
 
 app.use('/', routes);
 

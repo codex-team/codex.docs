@@ -4,5 +4,8 @@
   "rcFile": "./.codexdocsrc",
   "uploads": "/uploads",
   "secret": "iamasecretstring",
-  "faviconURL": ""
+  "favicon": {
+    "destination": "",
+    "type": ""
+  }
 }

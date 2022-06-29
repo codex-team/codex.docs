@@ -1,50 +1,54 @@
-import { get } from 'https';
 import path from 'path';
 import os from 'os';
 import fs from 'fs';
+import fetch from 'node-fetch';
+import config from 'config';
 
-// Create empty buffer for file
-let file: Buffer = Buffer.alloc(0);
+interface FaviconData {
+  destination: string;
+  type: string;
+}
+
+const favicon = config.get<FaviconData>('favicon');
+
+/**
+ * Check if string is url
+ *
+ * @param  str - string to check
+ */
+function checkIsUrl(str: string): boolean {
+  const re = new RegExp('https?://');
+
+  return re.test(str);
+}
 
 /**
  * Upload favicon by url
  *
  * @param url - url for uploading favicon
- * @returns { Promise<string> } - Promise with path of saved file
+ * @returns { Promise<string> } - Promise with format of saved file
  */
-export default async function uploadFavicon(url: string): Promise<string> {
-  // Create prise of getting file data
-  const fileDataPromise = new Promise<Buffer>(function (resolve, reject) {
-    const req = get(url, function ( res) {
-      // Reject on bad status
-      if (res.statusCode && (res.statusCode < 200 || res.statusCode >= 300)) {
-        return reject(new Error('statusCode=' + res.statusCode));
-      }
-      // Response on incoming data
-      res.on('data', (chunk) => {
-        file = Buffer.concat([file, chunk]);
-      });
-      res.on('end', function () {
-        resolve(file);
-      });
-    });
-
-    // Reject on request error
-    req.on('error', function (err) {
-      reject(err);
-    });
-    req.end();
-  });
-  const fileData = await fileDataPromise;
+async function uploadFavicon(url: string): Promise<string> {
+  // Check if string is url
+  if (!checkIsUrl(url)) {
+    return url;
+  }
+  // Make get request to url
+  const res = await fetch(url);
+  // Get buffer data from response
+  const fileData = await res.buffer();
 
   // Get file name by url
   const filename = url.substring(url.lastIndexOf('/')+1);
 
+  // Get file format
+  const format = filename.split('.')[1];
+
   // Get file path in temporary directory
-  const filePath = path.join(os.tmpdir(), filename);
+  const filePath = path.join(os.tmpdir(), `favicon.${format}`);
 
   // Save file
   fs.writeFileSync(filePath, fileData);
 
-  return filePath;
+  return `/favicon/favicon.${format}`;
 }
