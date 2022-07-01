@@ -3,6 +3,8 @@ import Aliases from '../controllers/aliases';
 import Pages from '../controllers/pages';
 import Alias from '../models/alias';
 import verifyToken from './middlewares/token';
+import PageOrder from '../models/pageOrder';
+import Page from '../models/page';
 
 const router = express.Router();
 
@@ -32,9 +34,27 @@ router.get('*', verifyToken, async (req: Request, res: Response) => {
 
         const pageParent = await page.getParent();
 
+        let previousPage;
+
+        let nextPage;
+
+        const previousPageId = await PageOrder.getPreviousNavigationPage(alias.id);
+
+        const nextPageId = await PageOrder.getNextNavigationPage(alias.id);
+
+        if (previousPageId){
+          previousPage = await Page.get(previousPageId);
+        }
+
+        if (nextPageId) {
+          nextPage = await Page.get(nextPageId);
+        }
+
         res.render('pages/page', {
           page,
           pageParent,
+          previousPage,
+          nextPage,
           config: req.app.locals.config,
         });
       }

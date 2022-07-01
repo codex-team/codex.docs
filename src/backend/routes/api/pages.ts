@@ -158,8 +158,8 @@ router.delete('/page/:id', async (req: Request, res: Response) => {
     }
 
     const parentPageOrder = await PagesOrder.get(page._parent);
-    const pageBeforeId = parentPageOrder.getPageBefore(page._id);
-    const pageAfterId = parentPageOrder.getPageAfter(page._id);
+    const pageBeforeId = parentPageOrder.getSubPageBefore(page._id);
+    const pageAfterId = parentPageOrder.getSubPageAfter(page._id);
 
     let pageToRedirect;
 

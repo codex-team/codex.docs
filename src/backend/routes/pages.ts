@@ -3,6 +3,8 @@ import Pages from '../controllers/pages';
 import PagesOrder from '../controllers/pagesOrder';
 import verifyToken from './middlewares/token';
 import allowEdit from './middlewares/locals';
+import PageOrder from '../models/pageOrder';
+import Page from '../models/page';
 
 const router = express.Router();
 
@@ -62,10 +64,28 @@ router.get('/page/:id', verifyToken, async (req: Request, res: Response, next: N
 
     const pageParent = await page.parent;
 
+    let previousPage;
+
+    let nextPage;
+
+    const previousPageId = await PageOrder.getPreviousNavigationPage(pageId);
+
+    const nextPageId = await PageOrder.getNextNavigationPage(pageId);
+
+    if (previousPageId) {
+      previousPage = await Page.get(previousPageId);
+    }
+
+    if (nextPageId) {
+      nextPage = await Page.get(nextPageId);
+    }
+
     res.render('pages/page', {
       page,
       pageParent,
       config: req.app.locals.config,
+      previousPage,
+      nextPage,
     });
   } catch (error) {
     res.status(404);

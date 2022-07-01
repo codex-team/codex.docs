@@ -1,0 +1,21 @@
+{% set mainClass = 'navigator' %}
+
+
+{% set tag = 'div' %}
+
+{% if url is not empty %}
+  {% set tag = 'a' %}
+{% endif %}
+
+<{{tag}}
+  {{ name is not empty ? 'name="' ~ name ~ '"': '' }}
+class="{{ mainClass }} {{ mainClass }}--{{ direction|default('previous') }} {{ class ?? '' }}"
+{{ url is not empty ? 'href="' ~ url ~ '"' : '' }}
+>
+<div class="{{mainClass}}__direction">
+  {{ direction }}
+</div>
+<div class="{{mainClass}}__label">
+  {{ label }}
+</div>
+</{{tag}}>
