@@ -1,3 +1,15 @@
+{#
+Reusable navigaor component.
+Available props:
+  - label
+  - direction: previous, next
+  - url: navigation link
+  - class: additional class for the button
+
+Usage example:
+  {% include 'components/navigator.twig' with {label: 'Previous page', direction: 'previous'} %}
+#}
+
 {% set mainClass = 'navigator' %}
 
 

@@ -23,9 +23,6 @@
         {% include 'components/button.twig' with {label: 'Edit', icon: 'pencil', size: 'small', url: '/page/edit/' ~ page._id, class: 'page__header-button'} %}
       {% endif %}
     </header>
-    <script>
-      console.log({{prev.uri}})
-    </script>
     <h1 class="page__title">
       {{ page.title }}
     </h1>
