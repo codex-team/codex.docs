@@ -9,6 +9,7 @@
   "startPage": "",
   "misprintsChatId": "12344564",
   "yandexMetrikaId": "",
+  "twigAppHawkToken": "",
   "carbon": {
     "serve": "",
     "placement": ""
