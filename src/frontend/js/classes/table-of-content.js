@@ -22,10 +22,9 @@ export default class TableOfContent {
     this.findTagsOnThePage();
 
     /**
-     * Check if no tags found
+     * Check if no tags found then table of content is not needed
      */
     if (this.tags.length === 0) {
-      console.info('Table of content is not needed');
       return;
     }
 
