@@ -6,11 +6,11 @@ export default class TableOfContent {
    * Initialize table of content
    *
    * @param {string} tagSelector - selector for tags to observe
-   * @param {string} tocWrapperSelector - selector for table of content wrapper
+   * @param {string} tocParentElement - selector for table of content wrapper
    */
-  constructor({ tagSelector, tocWrapperSelector }) {
+  constructor({ tagSelector, tocParentElement }) {
     this.tagSelector = tagSelector || 'h2,h3,h4';
-    this.tocWrapperSelector = tocWrapperSelector;
+    this.tocParentElement = tocParentElement;
 
     this.init();
   }
@@ -89,7 +89,7 @@ export default class TableOfContent {
     container.classList.add('table-of-content');
     container.appendChild(this.tocElement);
 
-    const tocWrapper = document.querySelector(this.tocWrapperSelector);
+    const tocWrapper = document.querySelector(this.tocParentElement);
 
     if (!tocWrapper) {
       throw new Error('Table of content wrapper not found');

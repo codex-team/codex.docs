@@ -46,9 +46,9 @@ export default class Page {
     return new TableOfContent({
       tagSelector:
         'h2.block-header--anchor,' +
-        'h3.block-header--anchor,' + 
+        'h3.block-header--anchor,' +
         'h4.block-header--anchor',
-      tocWrapperSelector: '#layout-sidebar-right',
+      tocParentElement: '#layout-sidebar-right',
     });
   }
 }
