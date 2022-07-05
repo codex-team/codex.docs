@@ -41,12 +41,12 @@ export default class Page {
    * @return {Promise<TableOfContent>}
    */
   async createTableOfContent() {
-    const { default: TableOfContent } = await import(/* webpackChunkName: "table-of-content" */ './table-of-content');
+    const { default: TableOfContent } = await import(/* webpackChunkName: "table-of-content" */ '../classes/table-of-content');
 
     return new TableOfContent({
       tagSelector:
         'h2.block-header--anchor,' +
-        'h3.block-header--anchor,' +
+        'h3.block-header--anchor,' + 
         'h4.block-header--anchor',
       tocWrapperSelector: '#layout-sidebar-right',
     });
