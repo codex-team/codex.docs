@@ -26,12 +26,12 @@ function checkIsUrl(str: string): boolean {
 }
 
 /**
- * Upload favicon by url
+ * Upload favicon by url, or get it by path
  *
- * @param destination - url for uploading favicon
- * @returns { Promise<string> } - Promise with format of saved file
+ * @param destination - url or path of favicon
+ * @returns { Promise<FaviconData> } - Promise with data about favicon
  */
-export async function uploadFavicon(destination: string): Promise<FaviconData> {
+export async function downloadFavicon(destination: string): Promise<FaviconData> {
   // Check of destination is empty
   if (!destination) {
     throw Error('Favicon destination is empty');

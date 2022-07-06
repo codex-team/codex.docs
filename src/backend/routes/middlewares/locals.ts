@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 
-console.log('Initiated');
-
 /**
  * Middleware for checking locals.isAuthorized property, which allows to edit/create pages
  *

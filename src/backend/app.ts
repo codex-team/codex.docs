@@ -9,7 +9,7 @@ import * as dotenv from 'dotenv';
 import config from 'config';
 import os from 'os';
 import appConfig from 'config';
-import { uploadFavicon } from './utils/uploadFavicon';
+import { downloadFavicon } from './utils/downloadFavicon';
 
 dotenv.config();
 const app = express();
@@ -25,7 +25,7 @@ app.set('view engine', 'twig');
 require('./utils/twig');
 
 // Upload favicon by url, it's path on server is '/temp/favicon.{format}'
-uploadFavicon(faviconURL).then((res) => {
+downloadFavicon(faviconURL).then((res) => {
   app.locals.favicon = res;
   console.log('Favicon successfully uploaded');
 })
