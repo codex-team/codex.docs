@@ -16,7 +16,7 @@ const app = express();
 const localConfig = rcParser.getConfiguration();
 
 // Get url to upload favicon from config
-const faviconURL: string = appConfig.get('favicon');
+const favicon: string = appConfig.get('favicon');
 
 app.locals.config = localConfig;
 // view engine setup
@@ -25,7 +25,7 @@ app.set('view engine', 'twig');
 require('./utils/twig');
 
 // Upload favicon by url, it's path on server is '/temp/favicon.{format}'
-downloadFavicon(faviconURL).then((res) => {
+downloadFavicon(favicon).then((res) => {
   app.locals.favicon = res;
   console.log('Favicon successfully uploaded');
 })
