@@ -1,0 +1,220 @@
+.docs-sidebar {
+  width: 100vw;
+    
+  @media (--desktop) {
+    width: var(--layout-sidebar-width);
+  }
+
+  &__content {
+    border-bottom: 1px solid var(--color-line-gray);
+    box-sizing: border-box;
+    padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
+    position: sticky;
+    top: var(--layout-height-header);
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+  
+    @media (--desktop) {
+      height: calc(100vh - var(--layout-height-header));
+      border-right: 1px solid var(--color-line-gray);
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    &--hidden {
+      display: none;
+    }
+
+    &--invisible {
+      visibility: hidden;
+    }
+  }
+
+
+  &__section {
+    overflow: hidden;
+    flex-shrink: 0;
+
+    &--animated {
+      .docs-sidebar__section-list {
+        transition: max-height 200ms ease-in-out;
+      }
+
+      .docs-sidebar__section-toggler {
+        svg {
+          transition: transform 200ms ease-in;
+        }
+      }
+    }
+
+    &--collapsed {
+      .docs-sidebar__section-list {
+        max-height: 0 !important;
+      }
+
+      .docs-sidebar__section-toggler {
+        svg {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+
+  &__section:not(:first-child) {
+    margin-top: 19px;
+  }
+
+  &__section-title {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+    z-index: 2;
+    position: relative;
+    height: 34px;
+  }
+
+  &__section-list-item {
+    font-size: 14px;
+    line-height: 21px;
+    height: 29px;
+  }
+
+  &__section-title,
+  &__section-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    transition-property: background-color;
+    transition-duration: 0.1s;
+    @apply --squircle;
+  }
+
+  &__section-title > span,
+  &__section-list-item > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__section-title-wrapper {
+    &:not(:last-child) {
+      padding-bottom: 1px;
+      display: block;
+    }
+  }
+
+
+  &__section-list-item-wrapper {
+    padding: 1px 0;
+    display: block;
+  }
+
+  li:last-child {
+    .docs-sidebar__section-list-item-wrapper {
+      padding-bottom: 0;
+    }
+  }
+
+
+  &__section-title:not(&__section-title--active),
+  &__section-list-item:not(&__section-list-item--active) {
+    @media (--can-hover) {
+      &:hover {
+        background: var(--color-link-hover);
+      }
+    }
+  }
+
+  &__section-title--active,
+  &__section-list-item--active {
+    background: linear-gradient(270deg, #129BFF 0%, #8A53FF 100%);
+    color: white;
+
+    @media (--can-hover) {
+      .docs-sidebar__section-toggler:hover {
+        background: rgba(0,0,0,0.3);
+      }
+    }
+  }
+
+  &__section-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
+    position: relative;
+  }
+
+  &__section-toggler {
+    color: inherit;
+    background: transparent;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    transition-property: background-color;
+    transition-duration: 0.1s;
+    
+    @apply --squircle;
+
+    @media (--can-hover) {
+      &:hover {
+        background: white;
+      }
+    }
+
+    svg {
+      display: block;
+    }
+  }
+
+
+  &__toggler {
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--color-text-second);
+    padding: 20px 15px;
+    border-bottom: 1px solid var(--color-line-gray);
+    
+    @media (--desktop) {
+      display: none;
+    }
+
+    svg {
+      margin-right: 10px;
+    }
+  }
+
+  &__logo {
+    display: none;
+    margin-top: auto;
+    background: white;
+    z-index: 2;
+    padding-bottom: 20px;
+    padding-top: 60px;
+    font-size: 14px;
+
+    @media (--desktop) {
+      display: block;
+    }
+
+    &-image{
+      display: inline-flex;
+    }
+
+    &-caption {
+      margin: 0;
+    }
+
+    &-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 8px;
+    }
+  }
+
+}
