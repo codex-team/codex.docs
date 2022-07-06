@@ -2,7 +2,6 @@ import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import config from 'config';
 import csrf from 'csurf';
-import app from '../app';
 
 const router = express.Router();
 const csrfProtection = csrf({ cookie: true });
@@ -15,7 +14,7 @@ router.get('/auth', csrfProtection, function (req: Request, res: Response) {
   res.render('auth', {
     title: 'Login page',
     csrfToken: req.csrfToken(),
-    favicon: app.locals.favicon,
+    favicon: req.app.locals.favicon,
   });
 });
 
@@ -29,7 +28,7 @@ router.post('/auth', parseForm, csrfProtection, async (req: Request, res: Respon
         title: 'Login page',
         header: 'Password not set',
         csrfToken: req.csrfToken(),
-        favicon: app.locals.favicon,
+        favicon: req.app.locals.favicon,
       });
 
       return;
@@ -40,7 +39,7 @@ router.post('/auth', parseForm, csrfProtection, async (req: Request, res: Respon
         title: 'Login page',
         header: 'Wrong password',
         csrfToken: req.csrfToken(),
-        favicon: app.locals.favicon,
+        favicon: req.app.locals.favicon,
       });
 
       return;
@@ -63,7 +62,7 @@ router.post('/auth', parseForm, csrfProtection, async (req: Request, res: Respon
       title: 'Login page',
       header: 'Password not set',
       csrfToken: req.csrfToken(),
-      favicon: app.locals.favicon
+      favicon: req.app.locals.favicon
     });
 
     return;

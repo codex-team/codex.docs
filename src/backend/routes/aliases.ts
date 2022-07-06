@@ -3,7 +3,6 @@ import Aliases from '../controllers/aliases';
 import Pages from '../controllers/pages';
 import Alias from '../models/alias';
 import verifyToken from './middlewares/token';
-import app from '../app';
 
 const router = express.Router();
 
@@ -37,7 +36,7 @@ router.get('*', verifyToken, async (req: Request, res: Response) => {
           page,
           pageParent,
           config: req.app.locals.config,
-          favicon: app.locals.favicon,
+          favicon: req.app.locals.favicon,
         });
       }
     }

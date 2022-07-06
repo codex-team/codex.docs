@@ -87,14 +87,14 @@ yarn test
 
 You can configure application using configs in <code>/config</code> directory.
 
-| Property                | Role                                                                                                                                                |
-|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
- | <code>port</code>       | to set port of application                                                                                                                          |
- | <code>database</code>   | to name directory with data                                                                                                                         |
- | <code>rcFile</code>     | to set destination of codexdocsrc config file                                                                                                       |
- | <code>uploads</code>    | to set destination of directory to save uploads                                                                                                     |
- | <code>secret</code>     | to set secret                                                                                                                                       |
- | <code>faviconURL</code> | to set url to get favicon. Server uploads file by url and saves it to temporary directory. And you can get favicon by /favicon route of application |
+| Property             | Role                                                                                                                                                               |
+|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+ | <code>port</code>    | to set port of application                                                                                                                                         |
+ | <code>database</code> | to name directory with data                                                                                                                                        |
+ | <code>rcFile</code>  | to set destination of codexdocsrc config file                                                                                                                      |
+ | <code>uploads</code> | to set destination of directory to save uploads                                                                                                                    |
+ | <code>secret</code>  | to set secret                                                                                                                                                      |
+ | <code>favicon</code> | to set url or path to get favicon. Server uploads file by url and saves it to temporary directory. And you can get favicon by /favicon static route of application |
 
 You can configure application using configs in <code>/config</code> directory.
 

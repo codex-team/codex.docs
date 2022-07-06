@@ -16,7 +16,7 @@ const app = express();
 const localConfig = rcParser.getConfiguration();
 
 // Get url to upload favicon from config
-const faviconURL: string = appConfig.get('faviconURL');
+const faviconURL: string = appConfig.get('favicon');
 
 app.locals.config = localConfig;
 // view engine setup

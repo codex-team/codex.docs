@@ -3,7 +3,6 @@ import Pages from '../controllers/pages';
 import PagesOrder from '../controllers/pagesOrder';
 import verifyToken from './middlewares/token';
 import allowEdit from './middlewares/locals';
-import app from '../app';
 
 const router = express.Router();
 
@@ -17,7 +16,7 @@ router.get('/page/new', verifyToken, allowEdit, async (req: Request, res: Respon
     res.render('pages/form', {
       pagesAvailable,
       page: null,
-      favicon: app.locals.favicon,
+      favicon: req.app.locals.favicon,
     });
   } catch (error) {
     res.status(404);
@@ -45,7 +44,7 @@ router.get('/page/edit/:id', verifyToken, allowEdit, async (req: Request, res: R
       page,
       parentsChildrenOrdered,
       pagesAvailable,
-      favicon: app.locals.favicon,
+      favicon: req.app.locals.favicon,
     });
   } catch (error) {
     res.status(404);
@@ -68,7 +67,7 @@ router.get('/page/:id', verifyToken, async (req: Request, res: Response, next: N
       page,
       pageParent,
       config: req.app.locals.config,
-      favicon: app.locals.favicon,
+      favicon: req.app.locals.favicon,
     });
   } catch (error) {
     res.status(404);
