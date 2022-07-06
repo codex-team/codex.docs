@@ -9,8 +9,29 @@ export default class TableOfContent {
    * @param {string} tocParentElement - selector for table of content wrapper
    */
   constructor({ tagSelector, tocParentElement }) {
+    /**
+     * Array of tags to observe
+     */
+    this.tags = [];
+
+    /**
+     * Selector for tags to observe
+     */
     this.tagSelector = tagSelector || 'h2,h3,h4';
+
+    /**
+     * Selector for table of content wrapper
+     */
     this.tocParentElement = tocParentElement;
+
+    this.CSS = {
+      tocContainer: 'table-of-content',
+      tocHeader: 'table-of-content__header',
+      tocElement: 'table-of-content__list',
+      tocElementItem: 'table-of-content__list-item',
+      tocElementItemActive: 'table-of-content__list-item--active',
+      tocElementItemIndent: number => `table-of-content__list-item--indent-${number}x`,
+    };
 
     this.init();
   }
@@ -19,7 +40,7 @@ export default class TableOfContent {
    * Initialize table of content
    */
   init() {
-    this.findTagsOnThePage();
+    this.tags = this.getSectionTagsOnThePage();
 
     /**
      * Check if no tags found then table of content is not needed
@@ -35,9 +56,11 @@ export default class TableOfContent {
 
   /**
    * Find all tags on the page
+   *
+   * @return {HTMLElement[]}
    */
-  findTagsOnThePage() {
-    this.tags = Array.from(document.querySelectorAll(this.tagSelector));
+  getSectionTagsOnThePage() {
+    return Array.from(document.querySelectorAll(this.tagSelector));
   }
 
   /**
@@ -53,7 +76,7 @@ export default class TableOfContent {
    */
   createTableOfContent() {
     this.tocElement = document.createElement('section');
-    this.tocElement.classList.add('table-of-content__list');
+    this.tocElement.classList.add(this.CSS.tocElement);
 
     this.tags.forEach((tag) => {
       const linkTarget = tag.querySelector('a').getAttribute('href');
@@ -64,10 +87,25 @@ export default class TableOfContent {
       linkBlock.innerText = tag.innerText;
       linkBlock.href = `${linkTarget}`;
 
-      linkWrapper.classList.add('table-of-content__list-item');
+      linkWrapper.classList.add(this.CSS.tocElementItem);
 
-      // additional indent for h3-h6
-      linkWrapper.classList.add(`table-of-content__list-item--${tag.tagName.toLowerCase()}`);
+      /**
+       * Additional indent for h3-h6 headers
+       */
+      switch (tag.tagName.toLowerCase()) {
+        case 'h3':
+          linkWrapper.classList.add(this.CSS.tocElementItemIndent(1));
+          break;
+        case 'h4':
+          linkWrapper.classList.add(this.CSS.tocElementItemIndent(2));
+          break;
+        case 'h5':
+          linkWrapper.classList.add(this.CSS.tocElementItemIndent(3));
+          break;
+        case 'h6':
+          linkWrapper.classList.add(this.CSS.tocElementItemIndent(4));
+          break;
+      }
 
       linkWrapper.appendChild(linkBlock);
       this.tocElement.appendChild(linkWrapper);
@@ -82,10 +120,10 @@ export default class TableOfContent {
     const container = document.createElement('section');
 
     header.innerText = 'On this page';
-    header.classList.add('table-of-content__header');
+    header.classList.add(this.CSS.tocHeader);
     container.appendChild(header);
 
-    container.classList.add('table-of-content');
+    container.classList.add(this.CSS.tocContainer);
     container.appendChild(this.tocElement);
 
     const tocWrapper = document.querySelector(this.tocParentElement);
@@ -185,7 +223,7 @@ export default class TableOfContent {
     /**
      * Clear all links
      */
-    this.tocElement.querySelectorAll('li').forEach((link) => {
+    this.tocElement.querySelectorAll('.table-of-content__list-item').forEach((link) => {
       link.classList.remove('table-of-content__list-item--active');
     });
 
