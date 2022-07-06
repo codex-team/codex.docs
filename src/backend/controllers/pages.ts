@@ -1,5 +1,8 @@
 import Page, { PageData } from '../models/page';
 import Alias from '../models/alias';
+import PagesOrder from './pagesOrder';
+import PageOrder from '../models/pageOrder';
+import HttpException from "../exceptions/httpException";
 
 type PageDataFields = keyof PageData;
 
@@ -63,13 +66,128 @@ class Pages {
   }
 
   /**
+   * Group all pages by their parents
+   * If the pageId is passed, it excludes passed page from result pages
+   *
+   * @param {string} pageId - pageId to exclude from result pages
+   * @returns {Page[]}
+   */
+  public static async groupByParent(pageId = ''): Promise<Page[]> {
+    const result: Page[] = [];
+    const orderGroupedByParent: Record<string, string[]> = {};
+    const rootPageOrder = await PagesOrder.getRootPageOrder();
+    const childPageOrder = await PagesOrder.getChildPageOrder();
+    const orphanPageOrder: PageOrder[] = [];
+
+    /**
+     * If there is no root and child page order, then it returns an empty array
+     */
+    if (!rootPageOrder || (!rootPageOrder && childPageOrder.length <= 0)) {
+      return [];
+    }
+
+    const pages = (await this.getAll()).reduce((map, _page) => {
+      map.set(_page._id, _page);
+
+      return map;
+    }, new Map);
+    const idsOfRootPages = rootPageOrder.order;
+
+    /**
+     * It groups root pages and 1 level pages by its parent
+     */
+    idsOfRootPages.reduce((prev, curr, idx) => {
+      const childPages:PageOrder[] = [];
+
+      childPageOrder.forEach((pageOrder, _idx) => {
+        if (pageOrder.page === curr) {
+          childPages.push(pageOrder);
+          childPageOrder.splice(_idx, 1);
+        }
+      });
+
+      const hasChildPage = childPages.length > 0;
+
+      prev[curr] = [];
+      prev[curr].push(curr);
+
+      /**
+       * It attaches 1 level page id to its parent page id
+       */
+      if (hasChildPage) {
+        prev[curr].push(...childPages[0].order);
+      }
+
+      /**
+       * If non-attached childPages which is not 1 level page still remains,
+       * It is stored as an orphan page so that it can be processed in the next statements
+       */
+      if (idx === idsOfRootPages.length - 1 && childPageOrder.length > 0) {
+        orphanPageOrder.push(...childPageOrder);
+      }
+
+      return prev;
+    }, orderGroupedByParent);
+
+    let count = 0;
+
+    /**
+     * It groups remained ungrouped pages by its parent
+     */
+    while (orphanPageOrder.length > 0) {
+      if (count >= 1000) {
+        throw new HttpException(500, `Page cannot be processed`);
+      }
+
+      orphanPageOrder.forEach((orphanOrder, idx) => {
+        // It loops each of grouped orders formatted as [root page id(1): corresponding child pages id(2)]
+        Object.entries(orderGroupedByParent).forEach(([parentPageId, value]) => {
+          // If (2) contains orphanOrder's parent id(page)
+          if (orphanOrder.page && orphanOrder.order && value.includes(orphanOrder.page)) {
+            // Append orphanOrder's id(order) into its parent id
+            orderGroupedByParent[parentPageId].splice(value.indexOf(orphanOrder.page) + 1, 0, ...orphanOrder.order);
+            // Finally, remove orphanOrder from orphanPageOrder
+            orphanPageOrder.splice(idx, 1);
+          }
+        });
+      });
+
+      count += 1;
+    }
+
+    /**
+     * It converts grouped pages(object) to array
+     */
+    Object.values(orderGroupedByParent).flatMap(arr => [ ...arr ])
+      .forEach(arr => {
+        result.push(pages.get(arr));
+      });
+
+    /**
+     * If the pageId passed, it excludes itself from result pages
+     * Otherwise just returns result itself
+     */
+    if (pageId) {
+      return this.removeChildren(result, pageId).reduce((prev, curr) => {
+        if (curr instanceof Page) {
+          prev.push(curr);
+        }
+
+        return prev;
+      }, Array<Page>());
+    } else {
+      return result;
+    }
+  }
+
+  /**
    * Set all children elements to null
    *
    * @param {Array<Page|null>} [pagesAvailable] - Array of all pages
    * @param {string} parent - id of parent page
    * @returns {Array<?Page>}
    */
-  public static removeChildren(pagesAvailable: Array<Page|null>, parent: string | undefined): Array<Page | null> {
+  public static removeChildren(pagesAvailable: Array<Page | null>, parent: string | undefined): Array<Page | null> {
     pagesAvailable.forEach(async (item, index) => {
       if (item === null || item._parent !== parent) {
         return;

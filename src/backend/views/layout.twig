@@ -17,13 +17,18 @@
   <body>
     {% include "components/header.twig" with res.locals.isAuthorized %}
     <div class="docs">
-      <aside class="docs__aside">
-        {% include "components/aside.twig" %}
-      </aside>
+      
+      {% include "components/sidebar.twig" %}
+      
       <div class="docs__content">
+        
         <div class="docs__content-inner">
           {% block body %}{% endblock %}
         </div>
+
+        <aside class="docs__aside-right">
+          <div style="width: 100%; height: 100px; background: grey"/>
+        </aside>
       </div>
     </div>
     <script src="/dist/main.bundle.js"></script>

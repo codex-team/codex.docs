@@ -146,4 +146,31 @@ describe('PageOrder model', () => {
 
     await pageOrder.destroy();
   });
+
+  it('Testing get parents and children order methods', async () => {
+    const parentTestData = {
+      page: '0',
+      order: ['1', '2', '3', '4', '5'],
+    };
+    const childTestData = {
+      page: 'child',
+      order: ['a', 'b', 'c', 'd', 'e'],
+    };
+
+    const parentOrder = new PageOrder(parentTestData);
+    const childOrder = new PageOrder(childTestData);
+    const insertedParentOrder = await parentOrder.save();
+    const insertedChildOrder = await childOrder.save();
+    const fetchedParentOrder = await PageOrder.getRootPageOrder();
+    const fetchedChildOrder = await PageOrder.getChildPageOrder();
+
+    expect(fetchedParentOrder.page).to.deep.equals(parentTestData.page);
+    expect(fetchedParentOrder.order).to.deep.equal(parentTestData.order);
+    expect(fetchedChildOrder).to.be.an('array').that.is.length(1);
+    expect(fetchedChildOrder[0].page).to.deep.equals(childTestData.page);
+    expect(fetchedChildOrder[0].order).to.deep.equals(childTestData.order);
+
+    await insertedParentOrder.destroy();
+    await insertedChildOrder.destroy();
+  });
 });
