@@ -64,21 +64,11 @@ router.get('/page/:id', verifyToken, async (req: Request, res: Response, next: N
 
     const pageParent = await page.parent;
 
-    let previousPage;
-
-    let nextPage;
-
     const previousPageId = await PageOrder.getPreviousNavigationPage(pageId);
-
     const nextPageId = await PageOrder.getNextNavigationPage(pageId);
 
-    if (previousPageId) {
-      previousPage = await Page.get(previousPageId);
-    }
-
-    if (nextPageId) {
-      nextPage = await Page.get(nextPageId);
-    }
+    const previousPage = await Page.get(previousPageId);
+    const nextPage = await Page.get(nextPageId);
 
     res.render('pages/page', {
       page,

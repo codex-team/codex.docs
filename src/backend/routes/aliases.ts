@@ -34,21 +34,11 @@ router.get('*', verifyToken, async (req: Request, res: Response) => {
 
         const pageParent = await page.getParent();
 
-        let previousPage;
-
-        let nextPage;
-
         const previousPageId = await PageOrder.getPreviousNavigationPage(alias.id);
-
         const nextPageId = await PageOrder.getNextNavigationPage(alias.id);
 
-        if (previousPageId){
-          previousPage = await Page.get(previousPageId);
-        }
-
-        if (nextPageId) {
-          nextPage = await Page.get(nextPageId);
-        }
+        const previousPage = await Page.get(previousPageId);
+        const nextPage = await Page.get(nextPageId);
 
         res.render('pages/page', {
           page,

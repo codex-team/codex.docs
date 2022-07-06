@@ -93,7 +93,7 @@ class PageOrder {
    * @param {string} pageId - page's id
    * @returns {Promise<string | null>} - previous page id
    */
-  public static async getPreviousNavigationPage(pageId: string): Promise<string | null> {
+  public static async getPreviousNavigationPage(pageId: string): Promise<string> {
     const page = await Pages.get(pageId);
 
     const pageParent =  await page.getParent();
@@ -133,7 +133,7 @@ class PageOrder {
       previousPageId = newOrder._order[newOrder._order.length - 1];
     }
 
-    return previousPageId;
+    return previousPageId || '';
   }
 
   /**
@@ -142,7 +142,7 @@ class PageOrder {
    * @param {string} pageId - page's id
    * @returns {Promise<string | null>} - next page id
    */
-  public static async getNextNavigationPage(pageId: string): Promise<string | null> {
+  public static async getNextNavigationPage(pageId: string): Promise<string> {
     const page = await Pages.get(pageId);
     const pageParent = await page.getParent();
 
@@ -165,7 +165,7 @@ class PageOrder {
 
       nextPageId = order.getSubPageAfter(pageParent._id);
 
-      return nextPageId;
+      return nextPageId || '';
     }
 
     // Get order by page id
@@ -183,7 +183,7 @@ class PageOrder {
 
     nextPageId = order.getSubPageAfter(pageId);
 
-    return nextPageId;
+    return nextPageId || '';
   }
 
   /**

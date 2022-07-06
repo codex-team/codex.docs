@@ -40,16 +40,8 @@
       {%  endfor %}
     </section>
     <footer class="page_footer">
-      <div class="navigator_wrapper">
-        {% if previousPage  %}
-          {% include 'components/navigator.twig' with {label:  previousPage.title, direction: 'previous', url: '/' ~ previousPage.uri} %}
-       {% endif %}
-      </div>
-      <div class="navigator_wrapper">
-        {% if nextPage  %}
-           {% include 'components/navigator.twig' with {label:  nextPage.title, direction: 'next', url: '/' ~ nextPage.uri} %}
-        {% endif %}
-      </div>
+        {% include 'components/navigator.twig' with {label:  previousPage.title, direction: 'previous', url: '/' ~ previousPage.uri} %}
+        {% include 'components/navigator.twig' with {label:  nextPage.title, direction: 'next', url: '/' ~ nextPage.uri} %}
     </footer>
   </article>
 

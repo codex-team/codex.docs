@@ -19,15 +19,19 @@ Usage example:
   {% set tag = 'a' %}
 {% endif %}
 
-<{{tag}}
-  {{ name is not empty ? 'name="' ~ name ~ '"': '' }}
-class="{{ mainClass }} {{ mainClass }}--{{ direction|default('previous') }} {{ class ?? '' }}"
-{{ url is not empty ? 'href="' ~ url ~ '"' : '' }}
->
-<div class="{{mainClass}}__direction">
-  {{ direction }}
+<div class="navigator_wrapper">
+  {% if label and url %}
+    <{{ tag }}
+      {{ name is not empty ? 'name="' ~ name ~ '"': '' }}
+        class="{{ mainClass }} {{ mainClass }}--{{ direction|default('previous') }} {{ class ?? '' }}"
+      {{ url is not empty ? 'href="' ~ url ~ '"' : '' }}
+      >
+      <div class="{{ mainClass }}__direction">
+       {{ direction }}
+      </div>
+      <div class="{{ mainClass }}__label">
+       {{ label }}
+      </div>
+    </{{ tag }}>
+  {% endif %}
 </div>
-<div class="{{mainClass}}__label">
-  {{ label }}
-</div>
-</{{tag}}>
