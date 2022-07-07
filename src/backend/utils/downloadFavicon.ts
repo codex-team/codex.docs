@@ -14,6 +14,9 @@ interface FaviconData {
   type: string;
 }
 
+// Initiate controller for aborting request
+const controller = new AbortController();
+
 /**
  * Check if string is url
  *
@@ -48,16 +51,30 @@ export async function downloadFavicon(destination: string): Promise<FaviconData>
     return  { destination: destination,
       type: `image/${format}` } as FaviconData;
   }
+
+  // Create timeout to abort request
+  const timeoutId = setTimeout(() => {
+    controller.abort();
+    console.log('Favicon request has timed out.');
+  }, 5000);
+
   // Make get request to url
-  const res = await fetch(destination);
+  const res = await fetch(destination, { signal: controller.signal });
   // Get buffer data from response
   const fileData = await res.buffer();
+
+  // Clear timeout, if data was got
+  clearTimeout(timeoutId);
 
   // Get file path in temporary directory
   const filePath = path.join(os.tmpdir(), `favicon.${format}`);
 
   // Save file
-  fs.writeFileSync(filePath, fileData);
+  await fs.writeFile(filePath, fileData, (err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
 
   return  { destination: `/favicon/favicon.${format}`,
     type: `image/${format}` } as FaviconData;
