@@ -45,7 +45,6 @@ router.get('/page/edit/:id', verifyToken, allowEdit, async (req: Request, res: R
       page,
       parentsChildrenOrdered,
       pagesAvailable,
-      favicon: req.app.locals.favicon,
     });
   } catch (error) {
     res.status(404);
@@ -67,8 +66,6 @@ router.get('/page/:id', verifyToken, async (req: Request, res: Response, next: N
     res.render('pages/page', {
       page,
       pageParent,
-      config: req.app.locals.config,
-      favicon: req.app.locals.favicon,
     });
   } catch (error) {
     res.status(404);

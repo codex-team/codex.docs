@@ -17,11 +17,11 @@
   <body>
     {% include "components/header.twig" with res.locals.isAuthorized %}
     <div class="docs">
-      
+
       {% include "components/sidebar.twig" %}
-      
+
       <div class="docs__content">
-        
+
         <div class="docs__content-inner">
           {% block body %}{% endblock %}
         </div>

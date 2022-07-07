@@ -24,15 +24,20 @@ app.set('views', path.join(__dirname, './', 'views'));
 app.set('view engine', 'twig');
 require('./utils/twig');
 
-// Upload favicon by url, it's path on server is '/temp/favicon.{format}'
-downloadFavicon(favicon).then((res) => {
-  app.locals.favicon = res;
-  console.log('Favicon successfully uploaded');
-})
-  .catch( (err) => {
-    console.log(err);
-    console.log('Favicon has not uploaded');
-  });
+// Check if favicon is not empty
+if (favicon) {
+  // Upload favicon by url, it's path on server is '/temp/favicon.{format}'
+  downloadFavicon(favicon).then((res) => {
+    app.locals.favicon = res;
+    console.log('Favicon successfully uploaded');
+  })
+    .catch( (err) => {
+      console.log(err);
+      console.log('Favicon has not uploaded');
+    });
+} else {
+  console.log('Favicon is empty');
+}
 
 app.use(morgan('dev'));
 app.use(express.json());

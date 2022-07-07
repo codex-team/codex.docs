@@ -36,7 +36,6 @@ router.get('*', verifyToken, async (req: Request, res: Response) => {
           page,
           pageParent,
           config: req.app.locals.config,
-          favicon: req.app.locals.favicon,
         });
       }
     }

@@ -10,8 +10,7 @@ router.get('/', verifyToken, async (req: Request, res: Response) => {
   if (config.startPage) {
     return res.redirect(config.startPage);
   }
-  res.render('pages/index', { isAuthorized: res.locals.isAuthorized,
-    favicon: req.app.locals.favicon });
+  res.render('pages/index', { isAuthorized: res.locals.isAuthorized });
 });
 
 export default router;
