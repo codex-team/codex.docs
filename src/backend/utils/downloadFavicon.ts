@@ -1,5 +1,4 @@
 import path from 'path';
-import os from 'os';
 import fs from 'fs';
 import fetch from 'node-fetch';
 
@@ -32,9 +31,10 @@ function checkIsUrl(str: string): boolean {
  * Upload favicon by url, or get it by path
  *
  * @param destination - url or path of favicon
+ * @param faviconFolder - folder to save favicon
  * @returns { Promise<FaviconData> } - Promise with data about favicon
  */
-export async function downloadFavicon(destination: string): Promise<FaviconData> {
+export async function downloadFavicon(destination: string, faviconFolder: string): Promise<FaviconData> {
   // Check of destination is empty
   if (!destination) {
     throw Error('Favicon destination is empty');
@@ -67,7 +67,7 @@ export async function downloadFavicon(destination: string): Promise<FaviconData>
   clearTimeout(timeoutId);
 
   // Get file path in temporary directory
-  const filePath = path.join(os.tmpdir(), `favicon.${format}`);
+  const filePath = path.join(faviconFolder, `favicon.${format}`);
 
   // Save file
   await fs.writeFile(filePath, fileData, (err) => {
@@ -76,6 +76,6 @@ export async function downloadFavicon(destination: string): Promise<FaviconData>
     }
   });
 
-  return  { destination: `/favicon/favicon.${format}`,
+  return { destination: `/favicon/favicon.${format}`,
     type: `image/${format}` } as FaviconData;
 }

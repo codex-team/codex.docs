@@ -24,10 +24,12 @@ app.set('views', path.join(__dirname, './', 'views'));
 app.set('view engine', 'twig');
 require('./utils/twig');
 
+const downloadedFaviconFolder = os.tmpdir();
+
 // Check if favicon is not empty
 if (favicon) {
   // Upload favicon by url, it's path on server is '/temp/favicon.{format}'
-  downloadFavicon(favicon).then((res) => {
+  downloadFavicon(favicon, downloadedFaviconFolder).then((res) => {
     app.locals.favicon = res;
     console.log('Favicon successfully uploaded');
   })
@@ -45,7 +47,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../public')));
 app.use('/uploads', express.static(config.get('uploads')));
-app.use('/favicon', express.static(os.tmpdir()));
+app.use('/favicon', express.static(downloadedFaviconFolder));
 
 app.use('/', routes);
 
