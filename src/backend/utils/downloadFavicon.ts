@@ -48,8 +48,10 @@ export async function downloadFavicon(destination: string, faviconFolder: string
 
   // Check if string is url
   if (!checkIsUrl(destination)) {
-    return  { destination: destination,
-      type: `image/${format}` } as FaviconData;
+    return  {
+      destination: destination,
+      type: `image/${format}`,
+    } as FaviconData;
   }
 
   // Create timeout to abort request
@@ -76,6 +78,8 @@ export async function downloadFavicon(destination: string, faviconFolder: string
     }
   });
 
-  return { destination: `/favicon/favicon.${format}`,
-    type: `image/${format}` } as FaviconData;
+  return {
+    destination: `/favicon/favicon.${format}`,
+    type: `image/${format}`,
+  } as FaviconData;
 }
