@@ -223,8 +223,8 @@ export default class TableOfContent {
     /**
      * Clear all links
      */
-    this.tocElement.querySelectorAll('.table-of-content__list-item').forEach((link) => {
-      link.classList.remove('table-of-content__list-item--active');
+    this.tocElement.querySelectorAll(this.CSS.tocElementItem).forEach((link) => {
+      link.classList.remove(this.CSS.tocElementItemActive);
     });
 
     /**
@@ -248,7 +248,7 @@ export default class TableOfContent {
      * If target list item is found then highlight it
      */
     if (listItem) {
-      listItem.classList.add('table-of-content__list-item--active');
+      listItem.classList.add(this.CSS.tocElementItemActive);
     }
   }
 }
