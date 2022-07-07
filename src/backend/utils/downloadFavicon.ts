@@ -5,7 +5,7 @@ import fetch from 'node-fetch';
 /**
  * Uploaded favicon data
  */
-interface FaviconData {
+export interface FaviconData {
   // Uploaded favicon path
   destination: string;
 

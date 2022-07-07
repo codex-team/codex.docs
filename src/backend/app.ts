@@ -9,7 +9,7 @@ import * as dotenv from 'dotenv';
 import config from 'config';
 import os from 'os';
 import appConfig from 'config';
-import { downloadFavicon } from './utils/downloadFavicon';
+import { downloadFavicon, FaviconData } from './utils/downloadFavicon';
 
 dotenv.config();
 const app = express();
@@ -38,7 +38,11 @@ if (favicon) {
       console.log('Favicon has not uploaded');
     });
 } else {
-  console.log('Favicon is empty');
+  console.log('Favicon is empty, using default path');
+  app.locals.favicon = {
+    destination: '/favicon.png',
+    type: 'image/png',
+  } as FaviconData;
 }
 
 app.use(morgan('dev'));
