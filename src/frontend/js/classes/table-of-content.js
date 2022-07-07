@@ -223,7 +223,7 @@ export default class TableOfContent {
     /**
      * Clear all links
      */
-    this.tocElement.querySelectorAll(this.CSS.tocElementItem).forEach((link) => {
+    this.tocElement.querySelectorAll(`.${this.CSS.tocElementItem}`).forEach((link) => {
       link.classList.remove(this.CSS.tocElementItemActive);
     });
 
