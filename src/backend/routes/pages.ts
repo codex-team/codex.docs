@@ -16,7 +16,6 @@ router.get('/page/new', verifyToken, allowEdit, async (req: Request, res: Respon
     res.render('pages/form', {
       pagesAvailableGrouped,
       page: null,
-      favicon: req.app.locals.favicon,
     });
   } catch (error) {
     res.status(404);
@@ -44,7 +43,9 @@ router.get('/page/edit/:id', verifyToken, allowEdit, async (req: Request, res: R
     res.render('pages/form', {
       page,
       parentsChildrenOrdered,
+      pagesAvailableGrouped,
       pagesAvailable,
+      config: req.app.locals.config,
     });
   } catch (error) {
     res.status(404);

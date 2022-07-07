@@ -14,7 +14,6 @@ router.get('/auth', csrfProtection, function (req: Request, res: Response) {
   res.render('auth', {
     title: 'Login page',
     csrfToken: req.csrfToken(),
-    favicon: req.app.locals.favicon,
   });
 });
 
