@@ -14,9 +14,17 @@ dotenv.config();
 const app = express();
 const localConfig = rcParser.getConfiguration();
 
-HawkCatcher.init(process.env.EXPRESS_NODEJS_HAWK_TOKEN || '');
+// Initialize the backend error tracking catcher.
+if (process.env.HAWK_TOKEN_BACKEND) {
+  HawkCatcher.init(process.env.HAWK_TOKEN_BACKEND);
+}
 
 app.locals.config = localConfig;
+// Set client error tracking token as app local.
+if (process.env.HAWK_TOKEN_CLIENT) {
+  app.locals.config.hawkClientToken = process.env.HAWK_TOKEN_CLIENT;
+}
+
 // view engine setup
 app.set('views', path.join(__dirname, './', 'views'));
 app.set('view engine', 'twig');
@@ -32,12 +40,13 @@ app.use('/uploads', express.static(config.get('uploads')));
 app.use('/', routes);
 
 
-// error handler
+// global error handler
 app.use(function (err: unknown, req: Request, res: Response, next: NextFunction) {
-  // send error to hawk server.
-  if (err instanceof Error) {
+  // send any type of error to hawk server.
+  if (process.env.HAWK_TOKEN_BACKEND && err instanceof Error) {
     HawkCatcher.send(err);
   }
+  // only send Http based exception to client.
   if (err instanceof HttpException) {
     // set locals, only providing error in development
     res.locals.message = err.message;
