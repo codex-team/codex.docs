@@ -31,7 +31,9 @@ class Docs {
     this.page = new Page();
     this.extensions = new Extensions();
     this.sidebar = new Sidebar();
-    this.hawk = new HawkCatcher(window.config.hawkToken);
+    if (window.config.hawkClientToken) {
+      this.hawk = new HawkCatcher(window.config.hawkClientToken);
+    }
 
     document.addEventListener('DOMContentLoaded', (event) => {
       this.docReady();
