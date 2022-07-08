@@ -49,7 +49,7 @@ export async function downloadFavicon(destination: string, faviconFolder: string
   // Check if string is url
   if (!checkIsUrl(destination)) {
     return  {
-      destination: destination,
+      destination: `/${filename}`,
       type: `image/${format}`,
     } as FaviconData;
   }
