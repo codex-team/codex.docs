@@ -51,7 +51,7 @@ export default class TableOfContent {
 
     this.createTableOfContent();
     this.addTableOfContent();
-    this.initIntersectionObserver();
+    // this.initIntersectionObserver();
   }
 
   /**
@@ -60,7 +60,58 @@ export default class TableOfContent {
    * @return {HTMLElement[]}
    */
   getSectionTagsOnThePage() {
-    return Array.from(document.querySelectorAll(this.tagSelector));
+    const foundTags = Array.from(document.querySelectorAll(this.tagSelector));
+
+    const tagsSectionsMap = foundTags.map((tag) => {
+      // calculate left upper corner of the tag
+      const rect = tag.getBoundingClientRect();
+      const top = rect.top + window.scrollY;
+
+      console.log(`${tag.tagName} top ${top}`);
+
+      return {
+        top,
+        tag,
+      };
+    });
+
+    console.log(tagsSectionsMap);
+
+    const detectSection = (scrollPosition) => {
+      // console.log('scrollPosition', scrollPosition);
+
+      const section = tagsSectionsMap.filter((tag) => {
+        // console.log('tag.top', tag.top, 'scrollPosition', scrollPosition);
+
+        return tag.top < scrollPosition;
+      }).pop();
+
+      console.log(section ? section.tag.innerText : null);
+
+      const targetLink = section.tag.querySelector('a').getAttribute('href');
+
+      this.setActiveLink(targetLink);
+
+      // return section ? section.tag : null;
+    };
+
+    let ticking;
+
+    document.addEventListener('scroll', function(e) {
+      const lastKnownScrollPosition = window.scrollY + 55;
+
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          detectSection(lastKnownScrollPosition);
+
+          ticking = false;
+        });
+
+        ticking = true;
+      }
+    });
+
+    return foundTags;
   }
 
   /**
