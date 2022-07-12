@@ -3,5 +3,6 @@
   "database": ".db",
   "rcFile": "./.codexdocsrc",
   "uploads": "/uploads",
-  "secret": "iamasecretstring"
+  "secret": "iamasecretstring",
+  "favicon": ""
 }

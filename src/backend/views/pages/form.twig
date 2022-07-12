@@ -13,14 +13,18 @@
       }
     </textarea>
     <header class="writing-header">
-      <span class="writing-header__left">
-        <span>
-        New Page at the
+      <div class="writing-header__inner-container">
         {% set currentPageId = 0 %}
         {% if page is not empty %}
           {% set currentPageId = page._id %}
         {% endif %}
-          <select name="parent">
+        <div class="select-wrapper">
+          {% if parentsChildrenOrdered is not empty %}
+            <label for="parent">Parent Page</label>
+          {% else %}
+            <label for="parent">New Page at the</label>
+          {% endif %}
+          <select id="parent" name="parent">
             <option value="0">Root</option>
             {% for _page in pagesAvailableGrouped %}
               {% if _page._id != currentPageId %}
@@ -34,24 +38,25 @@
               {% endif %}
             {% endfor %}
           </select>
-        </span>
-
+        </div>
         {% if parentsChildrenOrdered is not empty %}
-          <span>
-            Put Above
-            <select name="above">
+          <div class="select-wrapper">
+            <label for="above">Put Above</label>
+            <select id="above" name="above">
               <option value="0">—</option>
               {% for _page in parentsChildrenOrdered %}
                 <option value="{{ _page._id }}">{{ _page.title }}</option>
               {% endfor %}
             </select>
-          </span>
+          </div>
         {% endif %}
-      </span>
-
-      {% if page is not empty %}
-        <p><input type="text" class="uri-input" name="uri-input" placeholder="URI (Optional)" value="{{ page.uri }}"></p>
-      {% endif %}
+        {% if page is not empty %}
+          <div class="uri-input-wrapper">
+            <label for="uri-input">Alias</label>
+            <input type="text" id="uri-input" class="uri-input" name="uri-input" placeholder="URI (Optional)" value="{{ page.uri }}">
+          </div>
+        {% endif %}
+      </div>
     </header>
     <div class="writing-editor">
       <div id="editorjs"></div>
