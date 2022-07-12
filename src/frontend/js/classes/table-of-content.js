@@ -140,7 +140,7 @@ export default class TableOfContent {
    */
   initIntersectionObserver() {
     const options = {
-      rootMargin: '-5% 0 -60%',
+      rootMargin: '-5% 0 -85%',
     };
 
     const callback = (entries) => {
