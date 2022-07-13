@@ -253,6 +253,11 @@ export default class TableOfContent {
      * If targetLink is not defined then do nothing
      */
     if (!targetLink) {
+      /**
+       * Show the top of table of content
+       */
+        document.querySelector(`.${this.CSS.tocHeader}`).scrollIntoViewIfNeeded();
+
       return;
     }
 
@@ -278,6 +283,7 @@ export default class TableOfContent {
      */
     if (listItem) {
       listItem.classList.add(this.CSS.tocElementItemActive);
+      listItem.scrollIntoViewIfNeeded();
     }
   }
 }
