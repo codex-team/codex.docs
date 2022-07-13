@@ -13,6 +13,7 @@ export default class TableOfContent {
      * Array of tags to observe
      */
     this.tags = [];
+    this.tagsSectionsMap = [];
 
     /**
      * Selector for tags to observe
@@ -49,9 +50,17 @@ export default class TableOfContent {
       return;
     }
 
+    /**
+     * Initialize table of content element
+     */
     this.createTableOfContent();
     this.addTableOfContent();
-    // this.initIntersectionObserver();
+
+    /**
+     *
+     */
+    this.calculateBoundings();
+    this.watchActiveSection();
   }
 
   /**
@@ -60,9 +69,11 @@ export default class TableOfContent {
    * @return {HTMLElement[]}
    */
   getSectionTagsOnThePage() {
-    const foundTags = Array.from(document.querySelectorAll(this.tagSelector));
+    return Array.from(document.querySelectorAll(this.tagSelector));
+  }
 
-    const tagsSectionsMap = foundTags.map((tag) => {
+  calculateBoundings() {
+    this.tagsSectionsMap = this.tags.map((tag) => {
       // calculate left upper corner of the tag
       const rect = tag.getBoundingClientRect();
       const top = rect.top + window.scrollY;
@@ -74,25 +85,23 @@ export default class TableOfContent {
         tag,
       };
     });
+  }
 
-    console.log(tagsSectionsMap);
-
+  watchActiveSection() {
     const detectSection = (scrollPosition) => {
-      // console.log('scrollPosition', scrollPosition);
-
-      const section = tagsSectionsMap.filter((tag) => {
-        // console.log('tag.top', tag.top, 'scrollPosition', scrollPosition);
-
+      const section = this.tagsSectionsMap.filter((tag) => {
         return tag.top < scrollPosition;
       }).pop();
 
       console.log(section ? section.tag.innerText : null);
 
-      const targetLink = section.tag.querySelector('a').getAttribute('href');
+      if (section) {
+        const targetLink = section.tag.querySelector('a').getAttribute('href');
 
-      this.setActiveLink(targetLink);
-
-      // return section ? section.tag : null;
+        this.setActiveLink(targetLink);
+      } else {
+        this.setActiveLink();
+      }
     };
 
     let ticking;
@@ -110,8 +119,6 @@ export default class TableOfContent {
         ticking = true;
       }
     });
-
-    return foundTags;
   }
 
   /**
@@ -187,84 +194,6 @@ export default class TableOfContent {
   }
 
   /**
-   * Init intersection observer
-   */
-  initIntersectionObserver() {
-    const options = {
-      rootMargin: '-5% 0 -85%',
-    };
-
-    const callback = (entries) => {
-      entries.forEach((entry) => {
-        const target = entry.target;
-        const targetLink = target.querySelector('a').getAttribute('href');
-
-        /**
-         * Intersection state of block
-         *
-         * @type {boolean}
-         */
-        const isVisible = entry.isIntersecting;
-
-        /**
-         * Calculate scroll direction whith the following logic:
-         *
-         * DOWN: if block top is BELOW (coordinate value is greater) the intersection root top
-         * and block is NOT VISIBLE
-         *
-         * DOWN: if block top is ABOVE (coordinate value is less) the intersection root top
-         * and block is VISIBLE
-         *
-         * UP: if block top is ABOVE (coordinate value is less) the intersection root top
-         * and block is visible
-         *
-         * UP: if block top is BELOW (coordinate value is greater) the intersection root top
-         * and block is NOT VISIBLE
-         *
-         * Therefore we can use XOR operator for
-         * - is block's top is above root's top
-         * - is block visible
-         *
-         * @type {string}
-         */
-        const scrollDirection = ((entry.boundingClientRect.top < entry.rootBounds.top) ^ (entry.isIntersecting)) ? 'down' : 'up';
-
-        /**
-         * If a header becomes VISIBLE on scroll DOWN
-         * then highlight its link
-         *
-         * = moving to the new chapter
-         */
-        if (isVisible && scrollDirection === 'down') {
-          this.setActiveLink(targetLink);
-        }
-
-        /**
-         * If a header becomes NOT VISIBLE on scroll UP
-         * then highlight previous link
-         *
-         * = moving to the previous chapter
-         */
-        if (!isVisible && scrollDirection === 'up') {
-          this.setActiveLink(targetLink, true);
-        }
-      });
-    };
-
-    /**
-     * Create intersection observer
-     */
-    this.observer = new IntersectionObserver(callback, options);
-
-    /**
-     * Add observer to found tags
-     */
-    this.tags.reverse().forEach((tag) => {
-      this.observer.observe(tag);
-    });
-  }
-
-  /**
    * Highlight link's item with a given href
    *
    * @param {string} targetLink - href of the link
@@ -277,6 +206,13 @@ export default class TableOfContent {
     this.tocElement.querySelectorAll(`.${this.CSS.tocElementItem}`).forEach((link) => {
       link.classList.remove(this.CSS.tocElementItemActive);
     });
+
+    /**
+     * If targetLink is not defined then do nothing
+     */
+    if (!targetLink) {
+      return;
+    }
 
     /**
      * Looking for a target link
