@@ -71,7 +71,7 @@ export default class TableOfContent {
   }
 
   /**
-   * Find all tags on the page
+   * Find all section tags on the page
    *
    * @return {HTMLElement[]}
    */
@@ -79,9 +79,11 @@ export default class TableOfContent {
     return Array.from(document.querySelectorAll(this.tagSelector));
   }
 
+  /**
+   * Calculate top line position for each tag
+   */
   calculateBoundings() {
     this.tagsSectionsMap = this.tags.map((tag) => {
-      // calculate left upper corner of the tag
       const rect = tag.getBoundingClientRect();
       const top = rect.top + window.scrollY;
 
@@ -92,23 +94,41 @@ export default class TableOfContent {
     });
   }
 
+  /**
+   * Watch active section while scrolling
+   */
   watchActiveSection() {
     const detectSection = (scrollPosition) => {
+      /**
+       * Find the nearest section above the scroll position
+       */
       const section = this.tagsSectionsMap.filter((tag) => {
         return tag.top < scrollPosition;
       }).pop();
 
+      /**
+       * If section found then set it as active
+       */
       if (section) {
         const targetLink = section.tag.querySelector('a').getAttribute('href');
 
         this.setActiveLink(targetLink);
       } else {
+        /**
+         * Otherwise no active link will be highlighted
+         */
         this.setActiveLink();
       }
     };
 
+    /**
+     * Define a flag to reduce number of calls to detectSection function
+     */
     let ticking;
 
+    /**
+     * Scroll listener
+     */
     document.addEventListener('scroll', (event) => {
       /**
        * Calculate scroll position
@@ -128,6 +148,9 @@ export default class TableOfContent {
         }
       }
 
+      /**
+       * Call section detecting function
+       */
       if (!ticking) {
         window.requestAnimationFrame(() => {
           detectSection(lastKnownScrollPosition);
