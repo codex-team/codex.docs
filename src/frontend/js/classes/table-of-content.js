@@ -7,8 +7,9 @@ export default class TableOfContent {
    *
    * @param {string} tagSelector - selector for tags to observe
    * @param {string} tocParentElement - selector for table of content wrapper
+   * @param {string|null} fixedHeaderSelector - selector for fixed site header
    */
-  constructor({ tagSelector, tocParentElement }) {
+  constructor({ tagSelector, tocParentElement, fixedHeaderSelector = null }) {
     /**
      * Array of tags to observe
      */
@@ -24,6 +25,12 @@ export default class TableOfContent {
      * Selector for table of content wrapper
      */
     this.tocParentElement = tocParentElement;
+
+    /**
+     * Selector for getting real height of the fixed header to detect active section correctly
+     * @type {null}
+     */
+    this.fixedHeaderSelector = fixedHeaderSelector;
 
     this.CSS = {
       tocContainer: 'table-of-content',
@@ -57,7 +64,7 @@ export default class TableOfContent {
     this.addTableOfContent();
 
     /**
-     *
+     * Calculate boundings for each tag and watch active section
      */
     this.calculateBoundings();
     this.watchActiveSection();
@@ -78,8 +85,6 @@ export default class TableOfContent {
       const rect = tag.getBoundingClientRect();
       const top = rect.top + window.scrollY;
 
-      console.log(`${tag.tagName} top ${top}`);
-
       return {
         top,
         tag,
@@ -93,8 +98,6 @@ export default class TableOfContent {
         return tag.top < scrollPosition;
       }).pop();
 
-      console.log(section ? section.tag.innerText : null);
-
       if (section) {
         const targetLink = section.tag.querySelector('a').getAttribute('href');
 
@@ -106,11 +109,27 @@ export default class TableOfContent {
 
     let ticking;
 
-    document.addEventListener('scroll', function(e) {
-      const lastKnownScrollPosition = window.scrollY + 55;
+    document.addEventListener('scroll', (event) => {
+      /**
+       * Calculate scroll position
+       */
+      let lastKnownScrollPosition = 1 + window.scrollY;
+
+      /**
+       * If fixed header is present then calculate scroll position based on it
+       */
+      if (this.fixedHeaderSelector) {
+        const fixedHeader = document.querySelector(this.fixedHeaderSelector);
+
+        if (fixedHeader) {
+          lastKnownScrollPosition += fixedHeader.getBoundingClientRect().height;
+        } else {
+          console.warn(`Fixed header was not found by selector ${this.fixedHeaderSelector}`);
+        }
+      }
 
       if (!ticking) {
-        window.requestAnimationFrame(function() {
+        window.requestAnimationFrame(() => {
           detectSection(lastKnownScrollPosition);
 
           ticking = false;
