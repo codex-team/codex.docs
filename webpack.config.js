@@ -40,7 +40,7 @@ module.exports = () => {
               options: {
                 // you can specify a publicPath here
                 // by default it use publicPath in webpackOptions.output
-                publicPath: '../',
+                // publicPath: '../',
               },
             },
             {

@@ -7,7 +7,7 @@
     <meta property="og:title" content="{{ page.title | striptags }}" />
     <meta property="article:modified_time" content="{{ (page.body.time / 1000) | date("c") }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="icon" type="{{ favicon.type }}" href="{{ favicon.destination }}">
   </head>
     <script>
       window.config = {
@@ -18,11 +18,11 @@
   <body>
     {% include "components/header.twig" with res.locals.isAuthorized %}
     <div class="docs">
-      
+
       {% include "components/sidebar.twig" %}
-      
+
       <div class="docs__content">
-        
+
         <div class="docs__content-inner">
           {% block body %}{% endblock %}
         </div>
