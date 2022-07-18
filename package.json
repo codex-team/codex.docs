@@ -17,6 +17,7 @@
     "editor-upgrade": "yarn add -D @editorjs/{editorjs,header,code,delimiter,list,link,image,table,inline-code,marker,warning,checklist,raw}@latest"
   },
   "dependencies": {
+    "@codexteam/shortcuts": "^1.1.1",
     "config": "^3.3.6",
     "cookie-parser": "^1.4.5",
     "csurf": "^1.11.0",

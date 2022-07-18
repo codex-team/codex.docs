@@ -907,6 +907,11 @@
   resolved "https://registry.yarnpkg.com/@codexteam/misprints/-/misprints-1.0.0.tgz#e5a7dec7389fe0f176cd51a040d6dc9bdc252086"
   integrity sha512-R2IO1JmcaWCuWNPFVEAyar2HqQFuJwkeQUyVF0ovY4ip7z+VnVTYWxeYhCx7eZYEQCyXmcJooICQDihtn16lOA==
 
+"@codexteam/shortcuts@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@codexteam/shortcuts/-/shortcuts-1.1.1.tgz#6aa19ed0476da78045847ddc6d5b311f2f015094"
+  integrity sha512-wtpYocFlFQSOiea3KAySn9ONno/yKL4JukokV0vJUq1BOUmVEx71sdTW7qgQhG1wcfIO2R/XJ/y4K9EZQyBzng==
+
 "@cspotcode/source-map-consumer@0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@cspotcode/source-map-consumer/-/source-map-consumer-0.8.0.tgz#33bf4b7b39c178821606f669bbc447a6a629786b"
