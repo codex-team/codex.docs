@@ -1,3 +1,5 @@
+import { Decorators } from '../utils/decorators';
+
 /**
  * Generate dynamic table of content
  */
@@ -85,7 +87,7 @@ export default class TableOfContent {
   calculateBoundings() {
     this.tagsSectionsMap = this.tags.map((tag) => {
       const rect = tag.getBoundingClientRect();
-      const top = rect.top + window.scrollY;
+      const top = Math.floor(rect.top + window.scrollY);
 
       return {
         top,
@@ -103,7 +105,11 @@ export default class TableOfContent {
        * Find the nearest section above the scroll position
        */
       const section = this.tagsSectionsMap.filter((tag) => {
-        return tag.top < scrollPosition;
+        console.log('scrollPosition', scrollPosition);
+        console.log('tag', tag);
+        console.log('tag.top <= scrollPosition', tag.top <= scrollPosition);
+
+        return tag.top <= scrollPosition;
       }).pop();
 
       /**
@@ -124,7 +130,9 @@ export default class TableOfContent {
     /**
      * Define a flag to reduce number of calls to detectSection function
      */
-    let ticking;
+    const delayedDetectSectionFunction = Decorators.debounce((lastKnownScrollPosition) => {
+      detectSection(lastKnownScrollPosition);
+    }, 200);
 
     /**
      * Scroll listener
@@ -133,33 +141,25 @@ export default class TableOfContent {
       /**
        * Calculate scroll position
        */
-      let lastKnownScrollPosition = 1 + window.scrollY;
+      let lastKnownScrollPosition = this.getScrollPadding() + window.scrollY;
 
       /**
        * If fixed header is present then calculate scroll position based on it
        */
-      if (this.fixedHeaderSelector) {
-        const fixedHeader = document.querySelector(this.fixedHeaderSelector);
-
-        if (fixedHeader) {
-          lastKnownScrollPosition += fixedHeader.getBoundingClientRect().height;
-        } else {
-          console.warn(`Fixed header was not found by selector ${this.fixedHeaderSelector}`);
-        }
-      }
+      // if (this.fixedHeaderSelector) {
+      //   const fixedHeader = document.querySelector(this.fixedHeaderSelector);
+      //
+      //   if (fixedHeader) {
+      //     lastKnownScrollPosition += fixedHeader.getBoundingClientRect().height;
+      //   } else {
+      //     console.warn(`Fixed header was not found by selector ${this.fixedHeaderSelector}`);
+      //   }
+      // }
 
       /**
        * Call section detecting function
        */
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          detectSection(lastKnownScrollPosition);
-
-          ticking = false;
-        });
-
-        ticking = true;
-      }
+      delayedDetectSectionFunction(lastKnownScrollPosition);
     });
   }
 
@@ -256,7 +256,7 @@ export default class TableOfContent {
       /**
        * Show the top of table of content
        */
-        document.querySelector(`.${this.CSS.tocHeader}`).scrollIntoViewIfNeeded();
+      document.querySelector(`.${this.CSS.tocHeader}`).scrollIntoViewIfNeeded();
 
       return;
     }
@@ -285,5 +285,47 @@ export default class TableOfContent {
       listItem.classList.add(this.CSS.tocElementItemActive);
       listItem.scrollIntoViewIfNeeded();
     }
+  }
+
+  /**
+   * Get scroll padding top value from HTML element
+   *
+   * @returns {number}
+   */
+  getScrollPadding() {
+    const defaultScrollPaddingValue = 0;
+
+    /**
+     * Try to get calculated value or fallback to default value
+     */
+    try {
+      /**
+       * Getting the HTML element
+       */
+      const htmlElement = document.getElementsByTagName('html')[0];
+
+      /**
+       * If element is not found then return 0
+       */
+      if (!htmlElement) {
+        return defaultScrollPaddingValue;
+      }
+
+      /**
+       * Getting css scroll padding value
+       */
+      const scrollPaddingTopValue = getComputedStyle(htmlElement)
+        .getPropertyValue('scroll-padding-top');
+
+      /**
+       * Parse value to number
+       */
+      return parseInt(scrollPaddingTopValue, 10);
+    } catch (e) {}
+
+    /**
+     * On any errors return default value
+     */
+    return defaultScrollPaddingValue;
   }
 }
