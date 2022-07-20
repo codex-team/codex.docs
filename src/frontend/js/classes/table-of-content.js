@@ -119,7 +119,7 @@ export default class TableOfContent {
     /**
      * Define a flag to reduce number of calls to detectSection function
      */
-    const delayedDetectSectionFunction = Decorators.throttle((lastKnownScrollPosition) => {
+    const throttledDetectSectionFunction = Decorators.throttle((lastKnownScrollPosition) => {
       detectSection(lastKnownScrollPosition);
     }, 200);
 
@@ -135,7 +135,7 @@ export default class TableOfContent {
       /**
        * Call section detecting function
        */
-      delayedDetectSectionFunction(lastKnownScrollPosition);
+      throttledDetectSectionFunction(lastKnownScrollPosition);
     });
   }
 
