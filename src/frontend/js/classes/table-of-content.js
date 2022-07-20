@@ -289,6 +289,18 @@ export default class TableOfContent {
    */
   scrollToActiveItemIfNeeded() {
     /**
+     * Do nothing if the Table of Content has no internal scroll at this page
+     *
+     * @todo compute it once
+     */
+    const hasScroll = this.nodes.wrapper.scrollHeight > this.nodes.wrapper.clientHeight;
+
+    if (!hasScroll) {
+      return;
+    }
+
+
+    /**
      * If some item is highlighted, check whether we need to scroll to it or not
      */
     if (this.activeItem) {
