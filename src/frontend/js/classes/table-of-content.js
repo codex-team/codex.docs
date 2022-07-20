@@ -275,7 +275,7 @@ export default class TableOfContent {
       /**
        * Getting the HTML element
        */
-      const htmlElement = document.getElementsByTagName('html')[0];
+      const htmlElement = document.documentElement;
 
       /**
        * If element is not found then return 0
