@@ -93,7 +93,14 @@ export default class TableOfContent {
    * Watch active section while scrolling
    */
   watchActiveSection() {
-    const detectSection = (scrollPosition) => {
+    const detectSection = () => {
+      /**
+       * Calculate scroll position
+       *
+       * @todo research how not to use magic number
+       */
+      let scrollPosition = this.getScrollPadding() + window.scrollY + 1;
+
       /**
        * Find the nearest section above the scroll position
        */
@@ -119,24 +126,14 @@ export default class TableOfContent {
     /**
      * Define a flag to reduce number of calls to detectSection function
      */
-    const throttledDetectSectionFunction = Decorators.throttle((lastKnownScrollPosition) => {
-      detectSection(lastKnownScrollPosition);
+    const throttledDetectSectionFunction = Decorators.throttle(() => {
+      detectSection();
     }, 200);
 
     /**
      * Scroll listener
      */
-    document.addEventListener('scroll', (event) => {
-      /**
-       * Calculate scroll position
-       */
-      let lastKnownScrollPosition = this.getScrollPadding() + window.scrollY + 1;
-
-      /**
-       * Call section detecting function
-       */
-      throttledDetectSectionFunction(lastKnownScrollPosition);
-    });
+    document.addEventListener('scroll', throttledDetectSectionFunction);
   }
 
   /**
