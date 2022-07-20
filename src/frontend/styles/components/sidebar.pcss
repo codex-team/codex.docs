@@ -1,6 +1,6 @@
 .docs-sidebar {
   width: 100vw;
-    
+
   @media (--desktop) {
     width: var(--layout-sidebar-width);
   }
@@ -14,7 +14,7 @@
     display: flex;
     flex-direction: column;
     overflow: auto;
-  
+
     @media (--desktop) {
       height: calc(100vh - var(--layout-height-header));
       border-right: 1px solid var(--color-line-gray);
@@ -31,6 +31,17 @@
     }
   }
 
+  &__search {
+    height: 34px;
+    appearance: none;
+    background: url("../svg/search.svg") left 10px center no-repeat,
+      url("../svg/shortcut.svg") right 10px center no-repeat;
+    background-color: var(--color-input-primary);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 8px 35px;
+    padding-right: 45px;
+  }
 
   &__section {
     overflow: hidden;
@@ -105,7 +116,6 @@
     }
   }
 
-
   &__section-list-item-wrapper {
     padding: 1px 0;
     display: block;
@@ -116,7 +126,6 @@
       padding-bottom: 0;
     }
   }
-
 
   &__section-title:not(&__section-title--active),
   &__section-list-item:not(&__section-list-item--active) {
@@ -129,12 +138,12 @@
 
   &__section-title--active,
   &__section-list-item--active {
-    background: linear-gradient(270deg, #129BFF 0%, #8A53FF 100%);
+    background: linear-gradient(270deg, #129bff 0%, #8a53ff 100%);
     color: white;
 
     @media (--can-hover) {
       .docs-sidebar__section-toggler:hover {
-        background: rgba(0,0,0,0.3);
+        background: rgba(0, 0, 0, 0.3);
       }
     }
   }
@@ -157,7 +166,7 @@
     height: 24px;
     transition-property: background-color;
     transition-duration: 0.1s;
-    
+
     @apply --squircle;
 
     @media (--can-hover) {
@@ -171,14 +180,13 @@
     }
   }
 
-
   &__toggler {
     font-size: 13px;
     cursor: pointer;
     color: var(--color-text-second);
     padding: 20px 15px;
     border-bottom: 1px solid var(--color-line-gray);
-    
+
     @media (--desktop) {
       display: none;
     }
@@ -201,7 +209,7 @@
       display: block;
     }
 
-    &-image{
+    &-image {
       display: inline-flex;
     }
 
@@ -216,5 +224,4 @@
       padding: 8px;
     }
   }
-
 }
