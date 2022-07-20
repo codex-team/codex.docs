@@ -3,11 +3,12 @@
  */
 export class Decorators {
   /**
+   * Throttle decorator function
    *
+   * @param {Function} func - function to throttle
+   * @param {number} ms - milliseconds to throttle
    *
-   * @param func
-   * @param ms
-   * @return {wrapper}
+   * @returns {wrapper}
    */
   static throttle(func, ms) {
     let isThrottled = false,
@@ -15,18 +16,18 @@ export class Decorators {
         savedThis;
 
     function wrapper() {
-      if (isThrottled) { // (2)
+      if (isThrottled) {
         savedArgs = arguments;
         savedThis = this;
         return;
       }
 
-      func.apply(this, arguments); // (1)
+      func.apply(this, arguments);
 
       isThrottled = true;
 
       setTimeout(function() {
-        isThrottled = false; // (3)
+        isThrottled = false;
 
         if (savedArgs) {
           wrapper.apply(savedThis, savedArgs);
