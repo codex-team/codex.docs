@@ -130,7 +130,7 @@ export default class TableOfContent {
       /**
        * Calculate scroll position
        */
-      let lastKnownScrollPosition = this.getScrollPadding() + window.scrollY;
+      let lastKnownScrollPosition = this.getScrollPadding() + window.scrollY + 1;
 
       /**
        * Call section detecting function
