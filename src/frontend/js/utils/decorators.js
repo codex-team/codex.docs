@@ -1,63 +1,62 @@
 /**
  * A few useful utility functions
  */
-export class Decorators {
-  /**
-   * Throttle decorator function
-   *
-   * @param {Function} func - function to throttle
-   * @param {number} ms - milliseconds to throttle
-   *
-   * @returns {wrapper}
-   */
-  static throttle(func, ms) {
-    let isThrottled = false,
-        savedArgs,
-        savedThis;
 
-    function wrapper() {
-      if (isThrottled) {
-        savedArgs = arguments;
-        savedThis = this;
-        return;
-      }
+/**
+ * Throttle decorator function
+ *
+ * @param {Function} func - function to throttle
+ * @param {number} ms - milliseconds to throttle
+ *
+ * @returns {Function}
+ */
+export function throttle(func, ms) {
+  let isThrottled = false,
+      savedArgs,
+      savedThis;
 
-      func.apply(this, arguments);
+  // eslint-disable-next-line jsdoc/require-jsdoc
+  function wrapper() {
+    if (isThrottled) {
+      savedArgs = arguments;
+      savedThis = this;
 
-      isThrottled = true;
-
-      setTimeout(function() {
-        isThrottled = false;
-
-        if (savedArgs) {
-          wrapper.apply(savedThis, savedArgs);
-          savedArgs = savedThis = null;
-        }
-      }, ms);
+      return;
     }
 
-    return wrapper;
+    func.apply(this, arguments);
+
+    isThrottled = true;
+
+    setTimeout(function () {
+      isThrottled = false;
+
+      if (savedArgs) {
+        wrapper.apply(savedThis, savedArgs);
+        savedArgs = savedThis = null;
+      }
+    }, ms);
   }
 
-  /**
-   * Debounce decorator function
-   *
-   * @param {Function} f - function to debounce
-   * @param {number} ms - milliseconds to debounce
-   *
-   * @returns {(function(): void)|*}
-   */
-  static debounce(f, ms) {
-    let isCooldown = false;
+  return wrapper;
+}
 
-    return function () {
-      if (isCooldown) return;
+/**
+ * Debounce decorator function
+ *
+ * @param {Function} f - function to debounce
+ * @param {number} ms - milliseconds to debounce
+ *
+ * @returns {(function(): void)|*}
+ */
+export function debounce(f, ms) {
+  let timeoutId = null;
 
-      f.apply(this, arguments);
+  return function () {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
 
-      isCooldown = true;
-
-      setTimeout(() => isCooldown = false, ms);
-    };
-  }
+    timeoutId = setTimeout(() => f.apply(this, arguments), ms);
+  };
 }

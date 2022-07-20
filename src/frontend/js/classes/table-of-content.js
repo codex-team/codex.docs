@@ -1,4 +1,5 @@
-import { Decorators } from '../utils/decorators';
+import * as Decorators from '../utils/decorators';
+import * as $ from '../utils/dom';
 
 /**
  * Generate dynamic table of content
@@ -7,10 +8,11 @@ export default class TableOfContent {
   /**
    * Initialize table of content
    *
-   * @param {string} tagSelector - selector for tags to observe
-   * @param {string} tocParentElement - selector for table of content wrapper
+   * @param {object} options - constructor params
+   * @param {string} options.tagSelector - selector for tags to observe
+   * @param {HTMLElement} options.appendTo - element for appending of the table of content
    */
-  constructor({ tagSelector, tocParentElement}) {
+  constructor({ tagSelector, appendTo }) {
     /**
      * Array of tags to observe
      */
@@ -23,9 +25,30 @@ export default class TableOfContent {
     this.tagSelector = tagSelector || 'h2,h3,h4';
 
     /**
-     * Selector for table of content wrapper
+     * Element to append the Table of Content
      */
-    this.tocParentElement = tocParentElement;
+    this.tocParentElement = appendTo;
+
+    if (!this.tocParentElement) {
+      throw new Error('Table of Content wrapper not found');
+    }
+
+    this.nodes = {
+      /**
+       * Main Table of Content element
+       */
+      wrapper: null,
+
+      /**
+       * List of Table of Content links
+       */
+      items: [],
+    };
+
+    /**
+     * Currently highlighted element of ToC
+     */
+    this.activeItem = null;
 
     this.CSS = {
       tocContainer: 'table-of-content',
@@ -59,16 +82,16 @@ export default class TableOfContent {
     this.addTableOfContent();
 
     /**
-     * Calculate boundings for each tag and watch active section
+     * Calculate bounds for each tag and watch active section
      */
-    this.calculateBoundings();
+    this.calculateBounds();
     this.watchActiveSection();
   }
 
   /**
    * Find all section tags on the page
    *
-   * @return {HTMLElement[]}
+   * @returns {HTMLElement[]}
    */
   getSectionTagsOnThePage() {
     return Array.from(document.querySelectorAll(this.tagSelector));
@@ -77,7 +100,7 @@ export default class TableOfContent {
   /**
    * Calculate top line position for each tag
    */
-  calculateBoundings() {
+  calculateBounds() {
     this.tagsSectionsMap = this.tags.map((tag) => {
       const rect = tag.getBoundingClientRect();
       const top = Math.floor(rect.top + window.scrollY);
@@ -93,13 +116,24 @@ export default class TableOfContent {
    * Watch active section while scrolling
    */
   watchActiveSection() {
+    /**
+     * Where content zone starts in document
+     */
+    const contentTopOffset = this.getScrollPadding();
+
+    /**
+     * Treat section as active if it reaches the 1/5 of viewport from top
+     * For example, for a window with 1006px height it will be 219px
+     */
+    const activationOffset = window.innerHeight / 5;
+
     const detectSection = () => {
       /**
        * Calculate scroll position
        *
        * @todo research how not to use magic number
        */
-      let scrollPosition = this.getScrollPadding() + window.scrollY + 1;
+      const scrollPosition = contentTopOffset + window.scrollY + activationOffset;
 
       /**
        * Find the nearest section above the scroll position
@@ -114,12 +148,12 @@ export default class TableOfContent {
       if (section) {
         const targetLink = section.tag.querySelector('a').getAttribute('href');
 
-        this.setActiveLink(targetLink);
+        this.setActiveItem(targetLink);
       } else {
         /**
          * Otherwise no active link will be highlighted
          */
-        this.setActiveLink();
+        this.setActiveItem(null);
       }
     };
 
@@ -128,12 +162,14 @@ export default class TableOfContent {
      */
     const throttledDetectSectionFunction = Decorators.throttle(() => {
       detectSection();
-    }, 200);
+    }, 400);
 
     /**
      * Scroll listener
      */
-    document.addEventListener('scroll', throttledDetectSectionFunction);
+    document.addEventListener('scroll', throttledDetectSectionFunction, {
+      passive: true,
+    });
   }
 
   /**
@@ -148,19 +184,16 @@ export default class TableOfContent {
    * </section>
    */
   createTableOfContent() {
-    this.tocElement = document.createElement('section');
-    this.tocElement.classList.add(this.CSS.tocElement);
+    this.tocElement = $.make('section', this.CSS.tocElement);
 
     this.tags.forEach((tag) => {
       const linkTarget = tag.querySelector('a').getAttribute('href');
 
-      const linkWrapper = document.createElement('li');
-      const linkBlock = document.createElement('a');
-
-      linkBlock.innerText = tag.innerText;
-      linkBlock.href = `${linkTarget}`;
-
-      linkWrapper.classList.add(this.CSS.tocElementItem);
+      const linkWrapper = $.make('li', this.CSS.tocElementItem);
+      const linkBlock = $.make('a', null, {
+        innerText: tag.innerText,
+        href: `${linkTarget}`,
+      });
 
       /**
        * Additional indent for h3-h6 headers
@@ -182,6 +215,8 @@ export default class TableOfContent {
 
       linkWrapper.appendChild(linkBlock);
       this.tocElement.appendChild(linkWrapper);
+
+      this.nodes.items.push(linkWrapper);
     });
   }
 
@@ -189,74 +224,110 @@ export default class TableOfContent {
    * Add table of content to the page
    */
   addTableOfContent() {
-    const header = document.createElement('header');
-    const container = document.createElement('section');
+    this.nodes.wrapper = $.make('section', this.CSS.tocContainer);
 
-    header.innerText = 'On this page';
-    header.classList.add(this.CSS.tocHeader);
-    container.appendChild(header);
+    const header = $.make('header', this.CSS.tocHeader, {
+      textContent: 'On this page',
+    });
 
-    container.classList.add(this.CSS.tocContainer);
-    container.appendChild(this.tocElement);
+    this.nodes.wrapper.appendChild(header);
+    this.nodes.wrapper.appendChild(this.tocElement);
 
-    const tocWrapper = document.querySelector(this.tocParentElement);
-
-    if (!tocWrapper) {
-      throw new Error('Table of content wrapper not found');
-    }
-
-    tocWrapper.appendChild(container);
+    this.tocParentElement.appendChild(this.nodes.wrapper);
   }
 
   /**
    * Highlight link's item with a given href
    *
-   * @param {string} targetLink - href of the link
-   * @param {boolean} [needHighlightPrevious=false] - need to highlight previous link instead of current
+   * @param {string|null} targetLink - href of the link. Null if we need to clear all highlights
    */
-  setActiveLink(targetLink, needHighlightPrevious = false) {
+  setActiveItem(targetLink) {
     /**
-     * Clear all links
+     * Clear current highlight
      */
-    this.tocElement.querySelectorAll(`.${this.CSS.tocElementItem}`).forEach((link) => {
-      link.classList.remove(this.CSS.tocElementItemActive);
-    });
+    if (this.activeItem) {
+      this.activeItem.classList.remove(this.CSS.tocElementItemActive);
+    }
 
     /**
-     * If targetLink is not defined then do nothing
+     * If targetLink is null, that means we reached top, nothing to highlight
      */
-    if (!targetLink) {
-      /**
-       * Show the top of table of content
-       */
-      document.querySelector(`.${this.CSS.tocHeader}`).scrollIntoViewIfNeeded();
-
+    if (targetLink === null) {
       return;
     }
 
     /**
      * Looking for a target link
+     *
+     * @todo do not fire DOM search, use saved map instead
      */
     const targetElement = this.tocElement.querySelector(`a[href="${targetLink}"]`);
 
     /**
      * Getting link's wrapper
      */
-    let listItem = targetElement.parentNode;
+    const listItem = targetElement.parentNode;
 
     /**
-     * Change target list item if it is needed
+     * Highlight and save current item
      */
-    if (needHighlightPrevious) {
-      listItem = listItem.previousSibling;
-    }
+    listItem.classList.add(this.CSS.tocElementItemActive);
+    this.activeItem = listItem;
 
     /**
-     * If target list item is found then highlight it
+     * If need, scroll parent to active item
      */
-    if (listItem) {
-      listItem.classList.add(this.CSS.tocElementItemActive);
-      listItem.scrollIntoViewIfNeeded();
+    this.scrollToActiveItemIfNeeded();
+  }
+
+  /**
+   * Document scroll ending callback
+   *
+   * @returns {void}
+   */
+  scrollToActiveItemIfNeeded() {
+    console.log('computations! )))');
+
+    /**
+     * If some item is highlighted, check whether we need to scroll to it or not
+     */
+    if (this.activeItem) {
+      /**
+       * First, check do we need to scroll to item?
+       *   We need to scroll in case when:
+       *   item bottom coord is bigger than parent height + current parent scroll
+       */
+      const itemOffsetTop = this.activeItem.offsetTop;
+      const itemHeight = this.activeItem.offsetHeight;
+      const itemBottomCoord = itemOffsetTop + itemHeight;
+      const additionalOffsetBelowItem = 10; // padding below item
+      const itemBottomCoordWithPadding = itemBottomCoord + additionalOffsetBelowItem;
+
+      const scrollableParentHeight = this.nodes.wrapper.offsetHeight;
+      const scrollableParentScrolledDistance = this.nodes.wrapper.scrollTop;
+
+      const isScrollRequired = itemBottomCoordWithPadding > scrollableParentHeight + scrollableParentScrolledDistance;
+
+      if (isScrollRequired === false) {
+        /**
+         * Item is visible, scroll is not needed
+         */
+        return;
+      }
+
+      /**
+       * Now compute the scroll distance to make item visible
+       */
+
+      const distanceToMakeItemFullyVisible = itemBottomCoordWithPadding - scrollableParentHeight;
+
+      /**
+       * Change the scroll
+       * Using RAF to prevent overloading of regular scroll animation FPS
+       */
+      window.requestAnimationFrame(() => {
+        this.nodes.wrapper.scrollTop = distanceToMakeItemFullyVisible;
+      });
     }
   }
 
@@ -280,7 +351,7 @@ export default class TableOfContent {
       /**
        * Getting css scroll padding value
        */
-      const scrollPaddingTopValue = getComputedStyle(htmlElement)
+      const scrollPaddingTopValue = window.getComputedStyle(htmlElement)
         .getPropertyValue('scroll-padding-top');
 
       /**

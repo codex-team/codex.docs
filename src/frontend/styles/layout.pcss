@@ -20,15 +20,15 @@
       margin: 0 auto;
 
       @media (--desktop) {
-        margin-right: var(--layout-padding-horizontal);
         margin-left: 0;
+        padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
       }
     }
   }
 
   &__content {
     --max-space-between-cols: 160px;
-    padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
+
     display: flex;
     justify-content: space-between;
     max-width: calc(var(--layout-width-main-col) + var(--max-space-between-cols) + var(--layout-sidebar-width));
@@ -49,7 +49,7 @@
     overflow: auto;
     height: calc(100vh - var(--layout-height-header));
 
-    top: calc(var(--layout-height-header) + var(--layout-padding-vertical));
+    top: calc(var(--layout-height-header));
     align-self: flex-start;
 
     @media (--desktop) {
