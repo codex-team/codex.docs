@@ -48,8 +48,7 @@ export default class Page {
         'h2.block-header--anchor,' +
         'h3.block-header--anchor,' +
         'h4.block-header--anchor',
-      tocParentElement: '#layout-sidebar-right',
-      fixedHeaderSelector: '.docs-header',
+      tocParentElement: '#layout-sidebar-right'
     });
   }
 }

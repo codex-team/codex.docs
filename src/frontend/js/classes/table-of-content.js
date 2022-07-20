@@ -9,9 +9,8 @@ export default class TableOfContent {
    *
    * @param {string} tagSelector - selector for tags to observe
    * @param {string} tocParentElement - selector for table of content wrapper
-   * @param {string|null} fixedHeaderSelector - selector for fixed site header
    */
-  constructor({ tagSelector, tocParentElement, fixedHeaderSelector = null }) {
+  constructor({ tagSelector, tocParentElement}) {
     /**
      * Array of tags to observe
      */
@@ -27,12 +26,6 @@ export default class TableOfContent {
      * Selector for table of content wrapper
      */
     this.tocParentElement = tocParentElement;
-
-    /**
-     * Selector for getting real height of the fixed header to detect active section correctly
-     * @type {null}
-     */
-    this.fixedHeaderSelector = fixedHeaderSelector;
 
     this.CSS = {
       tocContainer: 'table-of-content',
@@ -105,10 +98,6 @@ export default class TableOfContent {
        * Find the nearest section above the scroll position
        */
       const section = this.tagsSectionsMap.filter((tag) => {
-        console.log('scrollPosition', scrollPosition);
-        console.log('tag', tag);
-        console.log('tag.top <= scrollPosition', tag.top <= scrollPosition);
-
         return tag.top <= scrollPosition;
       }).pop();
 
@@ -142,19 +131,6 @@ export default class TableOfContent {
        * Calculate scroll position
        */
       let lastKnownScrollPosition = this.getScrollPadding() + window.scrollY;
-
-      /**
-       * If fixed header is present then calculate scroll position based on it
-       */
-      // if (this.fixedHeaderSelector) {
-      //   const fixedHeader = document.querySelector(this.fixedHeaderSelector);
-      //
-      //   if (fixedHeader) {
-      //     lastKnownScrollPosition += fixedHeader.getBoundingClientRect().height;
-      //   } else {
-      //     console.warn(`Fixed header was not found by selector ${this.fixedHeaderSelector}`);
-      //   }
-      // }
 
       /**
        * Call section detecting function
