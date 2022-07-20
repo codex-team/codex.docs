@@ -278,13 +278,6 @@ export default class TableOfContent {
       const htmlElement = document.documentElement;
 
       /**
-       * If element is not found then return 0
-       */
-      if (!htmlElement) {
-        return defaultScrollPaddingValue;
-      }
-
-      /**
        * Getting css scroll padding value
        */
       const scrollPaddingTopValue = getComputedStyle(htmlElement)
