@@ -253,6 +253,8 @@ export default class TableOfContent {
      * If targetLink is null, that means we reached top, nothing to highlight
      */
     if (targetLink === null) {
+      this.activeItem = null;
+
       return;
     }
 
@@ -286,8 +288,6 @@ export default class TableOfContent {
    * @returns {void}
    */
   scrollToActiveItemIfNeeded() {
-    console.log('computations! )))');
-
     /**
      * If some item is highlighted, check whether we need to scroll to it or not
      */
@@ -296,6 +296,8 @@ export default class TableOfContent {
        * First, check do we need to scroll to item?
        *   We need to scroll in case when:
        *   item bottom coord is bigger than parent height + current parent scroll
+       *
+       * @todo use memoization for calculating of the itemBottomCoordWithPadding
        */
       const itemOffsetTop = this.activeItem.offsetTop;
       const itemHeight = this.activeItem.offsetHeight;
@@ -303,9 +305,13 @@ export default class TableOfContent {
       const additionalOffsetBelowItem = 10; // padding below item
       const itemBottomCoordWithPadding = itemBottomCoord + additionalOffsetBelowItem;
 
-      const scrollableParentHeight = this.nodes.wrapper.offsetHeight;
+      const scrollableParentHeight = this.nodes.wrapper.offsetHeight; // @todo compute it once
       const scrollableParentScrolledDistance = this.nodes.wrapper.scrollTop;
 
+      /**
+       * Scroll required if item ends below the parent bottom boundary
+       * @todo check the upward-scroll case as well (item top coord < parent scroll top) (formula: new scroll top = old scroll top - (old scroll top - item offset top - padding))
+       */
       const isScrollRequired = itemBottomCoordWithPadding > scrollableParentHeight + scrollableParentScrolledDistance;
 
       if (isScrollRequired === false) {
@@ -318,7 +324,6 @@ export default class TableOfContent {
       /**
        * Now compute the scroll distance to make item visible
        */
-
       const distanceToMakeItemFullyVisible = itemBottomCoordWithPadding - scrollableParentHeight;
 
       /**
