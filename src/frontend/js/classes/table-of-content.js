@@ -302,17 +302,28 @@ export default class TableOfContent {
       const itemOffsetTop = this.activeItem.offsetTop;
       const itemHeight = this.activeItem.offsetHeight;
       const itemBottomCoord = itemOffsetTop + itemHeight;
-      const additionalOffsetBelowItem = 10; // padding below item
-      const itemBottomCoordWithPadding = itemBottomCoord + additionalOffsetBelowItem;
+      const scrollPadding = 10; // scroll offset below/above item
+      const itemBottomCoordWithPadding = itemBottomCoord + scrollPadding;
+      const itemTopCoordWithPadding = itemOffsetTop - scrollPadding;
 
       const scrollableParentHeight = this.nodes.wrapper.offsetHeight; // @todo compute it once
       const scrollableParentScrolledDistance = this.nodes.wrapper.scrollTop;
 
       /**
-       * Scroll required if item ends below the parent bottom boundary
-       * @todo check the upward-scroll case as well (item top coord < parent scroll top) (formula: new scroll top = old scroll top - (old scroll top - item offset top - padding))
+       * Scroll bottom required if item ends below the parent bottom boundary
        */
-      const isScrollRequired = itemBottomCoordWithPadding > scrollableParentHeight + scrollableParentScrolledDistance;
+      const isScrollDownRequired = itemBottomCoordWithPadding > scrollableParentHeight + scrollableParentScrolledDistance;
+
+      /**
+       * Scroll upward required when item starts above the visible parent zone
+       */
+      const isScrollUpRequired = itemTopCoordWithPadding < scrollableParentScrolledDistance;
+
+      /**
+       * If item is fully visible, scroll is not required
+       */
+      const isScrollRequired = isScrollDownRequired || isScrollUpRequired;
+
 
       if (isScrollRequired === false) {
         /**
@@ -324,7 +335,14 @@ export default class TableOfContent {
       /**
        * Now compute the scroll distance to make item visible
        */
-      const distanceToMakeItemFullyVisible = itemBottomCoordWithPadding - scrollableParentHeight;
+      let distanceToMakeItemFullyVisible;
+
+
+      if (isScrollDownRequired) {
+        distanceToMakeItemFullyVisible = itemBottomCoordWithPadding - scrollableParentHeight;
+      } else { // scrollUpRequired=true
+        distanceToMakeItemFullyVisible = itemTopCoordWithPadding;
+      }
 
       /**
        * Change the scroll
