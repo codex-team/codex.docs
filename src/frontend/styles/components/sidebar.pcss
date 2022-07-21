@@ -4,24 +4,24 @@
   &--animated {
     .docs-sidebar__content {
       transition: transform 200ms ease-in-out;
+      will-change: transform;
     }
 
     .docs-sidebar__slider {
-      transition: left 200ms ease-in-out;
-
-      svg {
-        transition: transform 200ms ease-in-out;
-      }
+      transition: transform 200ms ease-in-out;
+      will-change: transform;
     }
   }
 
   &--collapsed {
-    .docs-sidebar__content {
-      transform: translateX(-100%);
+    @media (--desktop) {
+      .docs-sidebar__content {
+        transform: translateX(-100%);
+      }
     }
 
     .docs-sidebar__slider {
-      left: 20px;
+      transform: translateX(20px);
 
       svg {
         transform: rotate(180deg);
@@ -219,7 +219,7 @@
   &__slider {
     display: none;
     position: fixed;
-    left: calc(var(--layout-sidebar-width) + 20px);
+    transform: translateX(calc(var(--layout-sidebar-width) + 20px));
     bottom: 20px;
     width: 32px;
     height: 32px;

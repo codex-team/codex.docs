@@ -1,5 +1,4 @@
 import { Storage } from '../utils/storage';
-import Shortcut from '@codexteam/shortcuts';
 
 /**
  * Local storage key
@@ -64,7 +63,8 @@ export default class Sidebar {
     this.sidebarVisibilityStorage = new Storage(SIDEBAR_VISIBILITY_KEY);
     const storedVisibility = this.sidebarVisibilityStorage.get();
 
-    this.visibility = storedVisibility !== 'false';
+    this.isVisible = storedVisibility !== 'false';
+    this.keys = {};
   }
 
   /**
@@ -189,22 +189,37 @@ export default class Sidebar {
    * @returns {void}
    */
   initSidebar() {
-    if (!this.visibility) {
-      this.nodes.slider.classList.add(Sidebar.CSS.sidebarSliderHidden);
+    if (!this.isVisible) {
       this.nodes.sidebar.classList.add(Sidebar.CSS.sidebarCollapsed);
     }
 
-    // prevent sidebar animation on page load
+    /**
+     * prevent sidebar animation on page load
+     * Since animated class contains transition, hiding will be animated with it
+     * To prevent awkward animation when visibility is set to false, we need to remove animated class
+     */
     setTimeout(() => {
       this.nodes.sidebar.classList.add(Sidebar.CSS.sidebarAnimated);
     }, 200);
 
-    // add shortcut to slide sidebar
-    const shortcutForSlider = new Shortcut({
-      name: 'CMD+SHIFT+S',
-      on: document.body,
-      callback: () => this.handleSliderClick(),
-    });
+    // add event listener to execute keyboard shortcut
+    document.body.addEventListener('keydown', (e) => this.executeSlide(e), false);
+    document.body.addEventListener('keyup', (e) => this.executeSlide(e), false);
+  }
+
+  /**
+   * @param {KeyboardEvent} event - keydown event
+   * @returns {void}
+   */
+  executeSlide(event) {
+    this.keys[event.key.toLowerCase()] = event.type === 'keydown';
+
+    /**
+     * Execute slide when ctrl + . is pressed
+     */
+    if (this.keys['control'] && this.keys['.']) {
+      this.handleSliderClick();
+    }
   }
 
   /**
@@ -213,8 +228,8 @@ export default class Sidebar {
    * @returns {void}
    */
   handleSliderClick() {
-    this.visibility = !this.visibility;
-    this.sidebarVisibilityStorage.set(this.visibility);
+    this.isVisible = !this.isVisible;
+    this.sidebarVisibilityStorage.set(this.isVisible);
     this.nodes.sidebar.classList.toggle(Sidebar.CSS.sidebarCollapsed);
   }
 
