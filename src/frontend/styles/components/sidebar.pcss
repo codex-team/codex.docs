@@ -32,15 +32,24 @@
   }
 
   &__search {
-    height: 34px;
+    @apply --input;
+
     appearance: none;
-    background: url("../svg/search.svg") left 10px center no-repeat,
-      url("../svg/shortcut.svg") right 10px center no-repeat;
+    background: url("../svg/search.svg") left 10px center no-repeat;
     background-color: var(--color-input-primary);
     border: 1px solid transparent;
     border-radius: 8px;
     padding: 8px 35px;
     padding-right: 45px;
+
+    &-wrapper::after {
+      color: var(--color-button-secondary);
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      content: "⌘ P";
+      margin-left: -50px;
+    }
   }
 
   &__section {
