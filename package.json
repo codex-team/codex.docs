@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@hawk.so/javascript": "^3.0.1",
-    "@hawk.so/nodejs": "^3.1.1",
+    "@hawk.so/nodejs": "^3.1.2",
     "config": "^3.3.6",
     "cookie-parser": "^1.4.5",
     "csurf": "^1.11.0",

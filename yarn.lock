@@ -1028,10 +1028,10 @@
     "@hawk.so/types" "^0.1.13"
     error-stack-parser "^2.0.6"
 
-"@hawk.so/nodejs@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@hawk.so/nodejs/-/nodejs-3.1.1.tgz#fc68b77833ce14f2491c77c58c724e51366c47dd"
-  integrity sha512-VzVGYDat+dEmtSFp777Ql9GYqHwliO5aoNbqdK3xAa7tbe3FPrSv4B8SsyJEJJuXkTjAKOlWmX0zjkjlY80A6w==
+"@hawk.so/nodejs@^3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@hawk.so/nodejs/-/nodejs-3.1.2.tgz#b06229f0c8a0d8676412329511f9f2b01e492211"
+  integrity sha512-FqZtJDEc3G/VdirsEEfA4BodA3OGXCSy2188aPSeaLkLWswaKAnkaJNTGHQL59dtOeSbvipMJVgtoqihHkpGBQ==
   dependencies:
     "@hawk.so/types" "^0.1.15"
     axios "^0.21.1"
