@@ -35,6 +35,8 @@ export default class Sidebar {
       sidebarContentHidden: 'docs-sidebar__content--hidden',
       sidebarContentInvisible: 'docs-sidebar__content--invisible',
       sidebarSearch: 'docs-sidebar__search',
+      sidebarSearchWrapperMac: 'docs-sidebar__search-wrapper-mac',
+      sidebarSearchWrapperOther: 'docs-sidebar__search-wrapper-other',
     };
   }
 
@@ -49,6 +51,7 @@ export default class Sidebar {
       sections: [],
       sidebarContent: null,
       toggler: null,
+      search:null,
     };
     this.sidebarStorage = new Storage(LOCAL_STORAGE_KEY);
     const storedState = this.sidebarStorage.get();
@@ -69,15 +72,13 @@ export default class Sidebar {
     this.nodes.toggler = moduleEl.querySelector('.' + Sidebar.CSS.sidebarToggler);
     this.nodes.toggler.addEventListener('click', () => this.toggleSidebar());
 
-    let className =  Sidebar.CSS.sidebarSearch+'-wrapper-';
+    this.nodes.search = moduleEl.querySelector('.' + Sidebar.CSS.sidebarSearch);
+    let className =  Sidebar.CSS.sidebarSearchWrapperOther;
 
     if (window.navigator.userAgent.indexOf('Mac') != -1) {
-      className += 'mac';
-    } else {
-      className += 'other';
+      className = Sidebar.CSS.sidebarSearchWrapperMac;
     }
-
-    moduleEl.querySelector('.' + Sidebar.CSS.sidebarSearch).parentElement.classList.add(className);
+    this.nodes.search.parentElement.classList.add(className);
     this.ready();
   }
 
@@ -186,5 +187,14 @@ export default class Sidebar {
    */
   ready() {
     this.nodes.sidebarContent.classList.remove(Sidebar.CSS.sidebarContentInvisible);
+    document.addEventListener('keydown', e => this.keyboardShortcutListener(e));
+  }
+
+  keyboardShortcutListener(e) {
+    if (e.ctrlKey && e.code === 'KeyP') {
+      this.nodes.search.focus();
+      e.preventDefault();
+      e.stoppropagation();
+    }
   }
 }
