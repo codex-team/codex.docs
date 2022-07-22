@@ -194,7 +194,12 @@ export default class Sidebar {
     if (e.ctrlKey && e.code === 'KeyP') {
       this.nodes.search.focus();
       e.preventDefault();
-      e.stoppropagation();
+    }
+    if (this.nodes.search === document.activeElement) {
+      if (e.code === 'ArrowUp') {
+      }
+      if (e.code === 'ArrowDown') {
+      }
     }
   }
 }
