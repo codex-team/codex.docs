@@ -42,7 +42,7 @@
     padding: 8px 35px;
     padding-right: 45px;
 
-    &-wrapper::after {
+    &-wrapper-mac::after {
       color: var(--color-button-secondary);
       font-weight: 400;
       font-size: 14px;
@@ -50,6 +50,18 @@
       content: "⌘ P";
       margin-left: -50px;
     }
+
+    &-wrapper-other::after {
+      color: var(--color-button-secondary);
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      content: "Ctrl P";
+      margin-left: -60px;
+    }
+    /* &-wrapper:focus-within::after {
+      content: "";
+    } */
   }
 
   &__section {

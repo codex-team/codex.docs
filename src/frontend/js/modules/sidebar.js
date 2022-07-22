@@ -34,6 +34,7 @@ export default class Sidebar {
       sidebarContent: 'docs-sidebar__content',
       sidebarContentHidden: 'docs-sidebar__content--hidden',
       sidebarContentInvisible: 'docs-sidebar__content--invisible',
+      sidebarSearch: 'docs-sidebar__search',
     };
   }
 
@@ -67,6 +68,16 @@ export default class Sidebar {
     this.nodes.sidebarContent = moduleEl.querySelector('.' + Sidebar.CSS.sidebarContent);
     this.nodes.toggler = moduleEl.querySelector('.' + Sidebar.CSS.sidebarToggler);
     this.nodes.toggler.addEventListener('click', () => this.toggleSidebar());
+
+    let className =  Sidebar.CSS.sidebarSearch+'-wrapper-';
+
+    if (window.navigator.userAgent.indexOf('Mac') != -1) {
+      className += 'mac';
+    } else {
+      className += 'other';
+    }
+
+    moduleEl.querySelector('.' + Sidebar.CSS.sidebarSearch).parentElement.classList.add(className);
     this.ready();
   }
 
