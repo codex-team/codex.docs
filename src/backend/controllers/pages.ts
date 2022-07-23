@@ -2,7 +2,7 @@ import Page, { PageData } from '../models/page';
 import Alias from '../models/alias';
 import PagesOrder from './pagesOrder';
 import PageOrder from '../models/pageOrder';
-import HttpException from "../exceptions/httpException";
+import HttpException from '../exceptions/httpException';
 
 type PageDataFields = keyof PageData;
 

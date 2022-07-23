@@ -29,10 +29,12 @@ export default class Sidebar {
       sectionAnimated: 'docs-sidebar__section--animated',
       sectionTitle: 'docs-sidebar__section-title',
       sectionTitleActive: 'docs-sidebar__section-title--active',
+      sectionTitleSelected: 'docs-sidebar__section-title--selected',
       sectionList: 'docs-sidebar__section-list',
       sectionListItem: 'docs-sidebar__section-list-item',
       sectionListItemWrapperHidden: 'docs-sidebar__section-list-item-wrapper--hidden',
       sectionListItemActive: 'docs-sidebar__section-list-item--active',
+      sectionListItemSlelected: 'docs-sidebar__section-list-item--selected',
       sidebarToggler: 'docs-sidebar__toggler',
       sidebarContent: 'docs-sidebar__content',
       sidebarContentHidden: 'docs-sidebar__content--hidden',
@@ -55,6 +57,9 @@ export default class Sidebar {
       sidebarContent: null,
       toggler: null,
       search:null,
+      searchResults: [],
+      selectedSearchResult: null,
+      selectedSearchResultIndex: null,
     };
     this.sidebarStorage = new Storage(LOCAL_STORAGE_KEY);
     const storedState = this.sidebarStorage.get();
@@ -202,18 +207,36 @@ export default class Sidebar {
     if (this.nodes.search === document.activeElement) {
       if (e.code === 'ArrowUp') {
         console.log("up");
+        e.stopImmediatePropagation();
+        e.preventDefault();
       }
+    
       if (e.code === 'ArrowDown') {
         console.log("down");
+        e.stopImmediatePropagation();
+        e.preventDefault();
       }
-      e.stopImmediatePropagation();
-      e.preventDefault();
     }
   }
 
   search(e) {
     const searchValue = e.target.value;
 
+    if (this.nodes.selectedSearchResult) {
+      const { element, type } = this.nodes.selectedSearchResult;
+
+      if (element) {
+        if (type === 'title') {
+          element.classList.remove(Sidebar.CSS.sectionTitleSelected);
+        }
+        if ( type === 'item') {
+          element.classList.remove(Sidebar.CSS.sectionListItemSlelected);
+        }
+        this.nodes.selectedSearchResult = null;
+        this.nodes.selectedSearchResultIndex = null;
+      }
+    }
+    this.nodes.searchResults = [];
     this.nodes.sections.forEach(section => {
       const sectionTitle = section.querySelector('.' + Sidebar.CSS.sectionTitle);
       let isTitleMatch = true;
@@ -233,6 +256,10 @@ export default class Sidebar {
           if (item.innerText.trim().toLowerCase()
             .indexOf(searchValue.toLowerCase()) !== -1) {
             item.parentElement.classList.remove(Sidebar.CSS.sectionListItemWrapperHidden);
+            this.nodes.searchResults.push({
+              element:item,
+              type:'item',
+            });
             isItemMatch = true;
           } else {
             item.parentElement.classList.add(Sidebar.CSS.sectionListItemWrapperHidden);
@@ -243,6 +270,10 @@ export default class Sidebar {
         section.classList.add(Sidebar.CSS.sectionHidden);
       } else {
         section.classList.remove(Sidebar.CSS.sectionHidden);
+        this.nodes.searchResults.push({
+          element:sectionTitle,
+          type:'title',
+        });
       }
     });
     e.stopImmediatePropagation();
