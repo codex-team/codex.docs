@@ -82,15 +82,20 @@ export default class Sidebar {
     this.nodes.search = moduleEl.querySelector('.' + Sidebar.CSS.sidebarSearch);
     let className =  Sidebar.CSS.sidebarSearchWrapperOther;
 
+    // Search initialize with platform specific shortcut.
     if (window.navigator.userAgent.indexOf('Mac') != -1) {
       className = Sidebar.CSS.sidebarSearchWrapperMac;
     }
     this.nodes.search.parentElement.classList.add(className);
+    // Add event listener for search input.
     this.nodes.search.addEventListener('input', e => {
       e.stopImmediatePropagation();
       e.preventDefault();
       this.search(e.target.value);
     });
+    // Add event listener for keyboard events.
+    document.addEventListener('keydown', e => this.keyboardListener(e));
+
     this.ready();
   }
 
@@ -199,7 +204,6 @@ export default class Sidebar {
    */
   ready() {
     this.nodes.sidebarContent.classList.remove(Sidebar.CSS.sidebarContentInvisible);
-    document.addEventListener('keydown', e => this.keyboardListener(e));
   }
 
   /**
@@ -208,35 +212,44 @@ export default class Sidebar {
    * @param {KeyboardEvent} e - keyboard event.
    */
   keyboardListener(e) {
+    // If Ctrl + P is pressed, focus search input.
     if (e.ctrlKey && e.code === 'KeyP') {
       this.nodes.search.focus();
       e.preventDefault();
+      // Get search results if search input is empty.
       this.search('');
     }
+    // If search is focused and arrow keys are pressed, move focus to next/previous item.
     if (this.nodes.search === document.activeElement) {
       if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
         e.stopImmediatePropagation();
         e.preventDefault();
+        // check for search results.
         if (this.nodes.searchResults.length === 0) {
           return;
         }
-
+        // get current focused item.
         const prevSelectedSearchResultIndex = this.nodes.selectedSearchResultIndex;
 
+        // get next item index.
         if (this.nodes.selectedSearchResultIndex === null) {
+          // if no item is focused and up press, focus last item.
           if (e.code === 'ArrowUp') {
             this.nodes.selectedSearchResultIndex = this.nodes.searchResults.length - 1;
           }
+          // if no item is focused and down press, focus first item.
           if (e.code === 'ArrowDown') {
             this.nodes.selectedSearchResultIndex = 0;
           }
         } else {
+          // if item is focused and up press, focus previous item.
           if (e.code === 'ArrowUp') {
             this.nodes.selectedSearchResultIndex--;
             if ( this.nodes.selectedSearchResultIndex < 0 ) {
               this.nodes.selectedSearchResultIndex = this.nodes.searchResults.length - 1;
             }
           }
+          // if item is focused and down press, focus next item.
           if (e.code === 'ArrowDown') {
             this.nodes.selectedSearchResultIndex++;
             if ( this.nodes.selectedSearchResultIndex >= this.nodes.searchResults.length ) {
@@ -245,10 +258,12 @@ export default class Sidebar {
           }
         }
 
+        // remove focus from previous item.
         if (prevSelectedSearchResultIndex !== null) {
           const { element:preElement, type:preType } =  this.nodes.searchResults[prevSelectedSearchResultIndex];
 
           if (preElement) {
+            // remove focus from previous item or title.
             if (preType === 'title') {
               preElement.classList.remove(Sidebar.CSS.sectionTitleSelected);
             }
@@ -261,6 +276,7 @@ export default class Sidebar {
         const { element, type } =  this.nodes.searchResults[this.nodes.selectedSearchResultIndex];
 
         if (element) {
+          // add focus to next item or title.
           if (type === 'title') {
             element.classList.add(Sidebar.CSS.sectionTitleSelected);
           }
@@ -269,6 +285,7 @@ export default class Sidebar {
           }
         }
       }
+      // if enter is pressed, click on focused item.
       if (e.code === 'Enter') {
         if (this.nodes.selectedSearchResultIndex!==null) {
           this.nodes.searchResults[this.nodes.selectedSearchResultIndex].element.click();
@@ -283,21 +300,28 @@ export default class Sidebar {
    * @param {InputEvent} searchValue - search value.
    */
   search(searchValue) {
+    // remove selection from previous search results.
     if (this.nodes.selectedSearchResultIndex) {
       const { element, type } = this.nodes.searchResults[this.nodes.selectedSearchResultIndex];
 
       if (element) {
+        // remove focus from previous item or title.
         if (type === 'title') {
           element.classList.remove(Sidebar.CSS.sectionTitleSelected);
         }
         if ( type === 'item') {
           element.classList.remove(Sidebar.CSS.sectionListItemSlelected);
         }
+        // empty selected index.
         this.nodes.selectedSearchResultIndex = null;
       }
     }
+    // empty search results.
     this.nodes.searchResults = [];
+
+    // match search value with sidebar sections.
     this.nodes.sections.forEach(section => {
+      // match with section title.
       const sectionTitle = section.querySelector('.' + Sidebar.CSS.sectionTitle);
       let isTitleMatch = true;
       const matchResults = [];
@@ -307,6 +331,7 @@ export default class Sidebar {
         isTitleMatch = false;
       }
 
+      // match with section items.
       const sectionList = section.querySelector('.' + Sidebar.CSS.sectionList);
       let isItemMatch = false;
 
@@ -316,21 +341,27 @@ export default class Sidebar {
         sectionListItems.forEach(item => {
           if (item.innerText.trim().toLowerCase()
             .indexOf(searchValue.toLowerCase()) !== -1) {
+            // remove hiden class from item.
             item.parentElement.classList.remove(Sidebar.CSS.sectionListItemWrapperHidden);
+            // add item to search results.
             matchResults.push({
               element:item,
               type:'item',
             });
             isItemMatch = true;
           } else {
+            // hide item if it is not a match.
             item.parentElement.classList.add(Sidebar.CSS.sectionListItemWrapperHidden);
           }
         });
       }
       if (!isTitleMatch && !isItemMatch) {
+        // hide section and it's items are not a match.
         section.classList.add(Sidebar.CSS.sectionHidden);
       } else {
+        // show section and it's items are a match.
         section.classList.remove(Sidebar.CSS.sectionHidden);
+        // add section title to search results.
         this.nodes.searchResults.push({
           element:sectionTitle,
           type:'title',
