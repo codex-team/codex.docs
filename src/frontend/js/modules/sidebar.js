@@ -82,8 +82,7 @@ export default class Sidebar {
       className = Sidebar.CSS.sidebarSearchWrapperMac;
     }
     this.nodes.search.parentElement.classList.add(className);
-    this.nodes.search.addEventListener('keydown', e => this.search(e));
-    this.nodes.search.addEventListener('keyup', e => this.search(e));
+    this.nodes.search.addEventListener('input', e => this.search(e));
     this.ready();
   }
 
@@ -199,12 +198,13 @@ export default class Sidebar {
     if (e.ctrlKey && e.code === 'KeyP') {
       this.nodes.search.focus();
       e.preventDefault();
-      e.stopImmediatePropagation();
     }
     if (this.nodes.search === document.activeElement) {
       if (e.code === 'ArrowUp') {
+        console.log("up");
       }
       if (e.code === 'ArrowDown') {
+        console.log("down");
       }
       e.stopImmediatePropagation();
       e.preventDefault();
