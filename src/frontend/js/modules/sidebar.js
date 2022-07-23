@@ -24,11 +24,14 @@ export default class Sidebar {
     return {
       toggler: 'docs-sidebar__section-toggler',
       section: 'docs-sidebar__section',
+      sectionHidden: 'docs-sidebar__section--hidden',
       sectionCollapsed: 'docs-sidebar__section--collapsed',
       sectionAnimated: 'docs-sidebar__section--animated',
       sectionTitle: 'docs-sidebar__section-title',
       sectionTitleActive: 'docs-sidebar__section-title--active',
       sectionList: 'docs-sidebar__section-list',
+      sectionListItem: 'docs-sidebar__section-list-item',
+      sectionListItemWrapperHidden: 'docs-sidebar__section-list-item-wrapper--hidden',
       sectionListItemActive: 'docs-sidebar__section-list-item--active',
       sidebarToggler: 'docs-sidebar__toggler',
       sidebarContent: 'docs-sidebar__content',
@@ -79,6 +82,8 @@ export default class Sidebar {
       className = Sidebar.CSS.sidebarSearchWrapperMac;
     }
     this.nodes.search.parentElement.classList.add(className);
+    this.nodes.search.addEventListener('keydown', e => this.search(e));
+    this.nodes.search.addEventListener('keyup', e => this.search(e));
     this.ready();
   }
 
@@ -194,12 +199,52 @@ export default class Sidebar {
     if (e.ctrlKey && e.code === 'KeyP') {
       this.nodes.search.focus();
       e.preventDefault();
+      e.stopImmediatePropagation();
     }
     if (this.nodes.search === document.activeElement) {
       if (e.code === 'ArrowUp') {
       }
       if (e.code === 'ArrowDown') {
       }
+      e.stopImmediatePropagation();
+      e.preventDefault();
     }
+  }
+
+  search(e) {
+    const searchValue = e.target.value;
+
+    this.nodes.sections.forEach(section => {
+      const sectionTitle = section.querySelector('.' + Sidebar.CSS.sectionTitle);
+      let isTitleMatch = true;
+
+      if (sectionTitle.innerText.trim().toLowerCase()
+        .indexOf(searchValue.toLowerCase()) === -1) {
+        isTitleMatch = false;
+      }
+
+      const sectionList = section.querySelector('.' + Sidebar.CSS.sectionList);
+      let isItemMatch = false;
+
+      if (sectionList) {
+        const sectionListItems = sectionList.querySelectorAll('.' + Sidebar.CSS.sectionListItem);
+
+        sectionListItems.forEach(item => {
+          if (item.innerText.trim().toLowerCase()
+            .indexOf(searchValue.toLowerCase()) !== -1) {
+            item.parentElement.classList.remove(Sidebar.CSS.sectionListItemWrapperHidden);
+            isItemMatch = true;
+          } else {
+            item.parentElement.classList.add(Sidebar.CSS.sectionListItemWrapperHidden);
+          }
+        });
+      }
+      if (!isTitleMatch && !isItemMatch) {
+        section.classList.add(Sidebar.CSS.sectionHidden);
+      } else {
+        section.classList.remove(Sidebar.CSS.sectionHidden);
+      }
+    });
+    e.stopImmediatePropagation();
   }
 }

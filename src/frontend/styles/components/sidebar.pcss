@@ -60,14 +60,15 @@
       content: "Ctrl P";
       margin-left: -50px;
     }
-    /* &-wrapper:focus-within::after {
-      content: "";
-    } */
   }
 
   &__section {
     overflow: hidden;
     flex-shrink: 0;
+
+    &--hidden {
+      display: none;
+    }
 
     &--animated {
       .docs-sidebar__section-list {
@@ -141,6 +142,9 @@
   &__section-list-item-wrapper {
     padding: 1px 0;
     display: block;
+    &--hidden {
+      display: none  !important;
+    }
   }
 
   li:last-child {
