@@ -58,7 +58,6 @@ export default class Sidebar {
       toggler: null,
       search:null,
       searchResults: [],
-      selectedSearchResult: null,
       selectedSearchResultIndex: null,
     };
     this.sidebarStorage = new Storage(LOCAL_STORAGE_KEY);
@@ -196,34 +195,88 @@ export default class Sidebar {
    */
   ready() {
     this.nodes.sidebarContent.classList.remove(Sidebar.CSS.sidebarContentInvisible);
-    document.addEventListener('keydown', e => this.keyboardShortcutListener(e));
+    document.addEventListener('keydown', e => this.keyboardListener(e));
   }
 
-  keyboardShortcutListener(e) {
+  /**
+   * Keyboard event listener added
+   *
+   * @param {KeyboardEvent} e - keyboard event.
+   */
+  keyboardListener(e) {
     if (e.ctrlKey && e.code === 'KeyP') {
       this.nodes.search.focus();
       e.preventDefault();
     }
     if (this.nodes.search === document.activeElement) {
-      if (e.code === 'ArrowUp') {
-        console.log("up");
+      if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
         e.stopImmediatePropagation();
         e.preventDefault();
-      }
-    
-      if (e.code === 'ArrowDown') {
-        console.log("down");
-        e.stopImmediatePropagation();
-        e.preventDefault();
+        if (this.nodes.searchResults.length === 0) {
+          return;
+        }
+
+        const prevSelectedSearchResultIndex = this.nodes.selectedSearchResultIndex;
+
+        if (this.nodes.selectedSearchResultIndex === null) {
+          if (e.code === 'ArrowUp') {
+            this.nodes.selectedSearchResultIndex = this.nodes.searchResults.length - 1;
+          }
+          if (e.code === 'ArrowDown') {
+            this.nodes.selectedSearchResultIndex = 0;
+          }
+        } else {
+          if (e.code === 'ArrowUp') {
+            this.nodes.selectedSearchResultIndex--;
+            if ( this.nodes.selectedSearchResultIndex < 0 ) {
+              this.nodes.selectedSearchResultIndex = this.nodes.searchResults.length - 1;
+            }
+          }
+          if (e.code === 'ArrowDown') {
+            this.nodes.selectedSearchResultIndex++;
+            if ( this.nodes.selectedSearchResultIndex >= this.nodes.searchResults.length ) {
+              this.nodes.selectedSearchResultIndex = 0;
+            }
+          }
+        }
+
+        if (prevSelectedSearchResultIndex) {
+          const { preElement, preType } =  this.nodes.searchResults[prevSelectedSearchResultIndex];
+
+          if (preElement) {
+            if (preType === 'title') {
+              preElement.classList.add(Sidebar.CSS.sectionTitleSelected);
+            }
+            if ( preType === 'item') {
+              preElement.classList.add(Sidebar.CSS.sectionListItemSlelected);
+            }
+          }
+        }
+
+        const { element, type } =  this.nodes.searchResults[this.nodes.selectedSearchResultIndex];
+
+        if (element) {
+          if (type === 'title') {
+            element.classList.add(Sidebar.CSS.sectionTitleSelected);
+          }
+          if ( type === 'item') {
+            element.classList.add(Sidebar.CSS.sectionListItemSlelected);
+          }
+        }
       }
     }
   }
 
+  /**
+   * Search for items in the sidebar.
+   * 
+   * @param {InputEvent} e - input event. 
+   */
   search(e) {
     const searchValue = e.target.value;
 
-    if (this.nodes.selectedSearchResult) {
-      const { element, type } = this.nodes.selectedSearchResult;
+    if (this.nodes.selectedSearchResultIndex) {
+      const { element, type } = this.nodes.searchResults[this.nodes.selectedSearchResultIndex];
 
       if (element) {
         if (type === 'title') {
@@ -232,7 +285,6 @@ export default class Sidebar {
         if ( type === 'item') {
           element.classList.remove(Sidebar.CSS.sectionListItemSlelected);
         }
-        this.nodes.selectedSearchResult = null;
         this.nodes.selectedSearchResultIndex = null;
       }
     }
