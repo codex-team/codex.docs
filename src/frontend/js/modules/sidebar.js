@@ -93,6 +93,8 @@ export default class Sidebar {
       e.preventDefault();
       this.search(e.target.value);
     });
+    // Get search results if search input is empty.
+    this.search('');
     // Add event listener for keyboard events.
     document.addEventListener('keydown', e => this.keyboardListener(e));
 
@@ -216,8 +218,6 @@ export default class Sidebar {
     if (e.ctrlKey && e.code === 'KeyP') {
       this.nodes.search.focus();
       e.preventDefault();
-      // Get search results if search input is empty.
-      this.search('');
     }
     // If search is focused and arrow keys are pressed, move focus to next/previous item.
     if (this.nodes.search === document.activeElement) {
@@ -282,6 +282,27 @@ export default class Sidebar {
           }
           if ( type === 'item') {
             element.classList.add(Sidebar.CSS.sectionListItemSlelected);
+          }
+          // find the parent section.
+          const parentSection = element.closest('section');
+          // check if it's visible.
+          const rect = parentSection.getBoundingClientRect();
+          const elemTop = rect.top;
+          const elemBottom = rect.bottom;
+
+          // scroll top if item is not visible.
+          if ( elemTop < 0) {
+            this.nodes.sidebarContent.scroll({
+              top: elemTop,
+              behavior: 'smooth',
+            });
+          }
+          // scroll bottom if item is not visible.
+          if (elemBottom > window.innerHeight) {
+            this.nodes.sidebarContent.scroll({
+              top: elemBottom,
+              behavior: 'smooth',
+            });
           }
         }
       }
