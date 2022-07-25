@@ -122,10 +122,12 @@ export default class TableOfContent {
     const contentTopOffset = this.getScrollPadding();
 
     /**
-     * Treat section as active if it reaches the 1/5 of viewport from top
-     * For example, for a window with 1006px height it will be 219px
+     * Additional offset for correct calculation of active section
+     *
+     * Cause opening page with anchor could scroll almost
+     * near to the target section and we need to add 1px to calculations
      */
-    const activationOffset = window.innerHeight / 5;
+    const activationOffset = 1;
 
     const detectSection = () => {
       /**
