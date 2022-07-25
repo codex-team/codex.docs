@@ -214,8 +214,8 @@ export default class Sidebar {
    * @param {KeyboardEvent} e - keyboard event.
    */
   keyboardListener(e) {
-    // If Ctrl + P is pressed, focus search input.
-    if (e.ctrlKey && e.code === 'KeyP') {
+    // If Ctrl+P or ⌘+P is pressed, focus search input.
+    if ((e.ctrlKey || e.metaKey) && e.code === 'KeyP') {
       this.nodes.search.focus();
       e.preventDefault();
     }
