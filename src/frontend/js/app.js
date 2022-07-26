@@ -17,6 +17,7 @@ import Writing from './modules/writing';
 import Page from './modules/page';
 import Extensions from './modules/extensions';
 import Sidebar from './modules/sidebar';
+import HawkCatcher from '@hawk.so/javascript';
 
 /**
  * Main app class
@@ -30,6 +31,9 @@ class Docs {
     this.page = new Page();
     this.extensions = new Extensions();
     this.sidebar = new Sidebar();
+    if (window.config.hawkClientToken) {
+      this.hawk = new HawkCatcher(window.config.hawkClientToken);
+    }
 
     document.addEventListener('DOMContentLoaded', (event) => {
       this.docReady();
