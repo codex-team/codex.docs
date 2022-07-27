@@ -290,11 +290,9 @@ class Pages {
 
       await alias.destroy();
     }
-    await flatArray.generate();
-
     const removedPage = page.destroy();
     await flatArray.generate();
-    
+
     return removedPage;
   }
 
