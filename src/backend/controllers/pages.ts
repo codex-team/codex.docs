@@ -292,7 +292,10 @@ class Pages {
     }
     await flatArray.generate();
 
-    return page.destroy();
+    const removedPage = page.destroy();
+    await flatArray.generate();
+    
+    return removedPage;
   }
 
   /**
