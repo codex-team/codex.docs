@@ -7,6 +7,8 @@
   --color-link-hover: #F3F6F8;
   --color-bg-light: #f8f7fa;
   --color-page-active: #ff1767;
+  --color-input-primary: #F3F6F8;
+  --color-input-border: #477CFF;
 
   --color-button-primary: #3389FF;
   --color-button-primary-hover: #2E7AE6;
@@ -78,6 +80,49 @@
     }
   }
 
+  --select {
+    position: relative;
+    padding: 10px 30px 10px 10px;
+    width: 100%;
+    border: solid 1px transparent;
+    border-radius: 8px;
+    background-color: var(--color-input-primary);
+    box-sizing: border-box;
+    appearance: none;
+    line-height: 18px;
+    background-image: url("../svg/arrow-down.svg");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+
+    &:focus {
+      border: solid 1px var(--color-input-border);
+      box-shadow: 0 0 0 3px rgba(18, 155, 255, 0.33);
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  --input {
+    padding: 10px;
+    width: 100%;
+    line-height: 18px;
+    border: solid 1px transparent;
+    border-radius: 8px;
+    background-color: var(--color-input-primary);
+    box-sizing: border-box;
+
+    &:focus {
+      border: solid 1px var(--color-input-border);
+      box-shadow: 0 0 0 3px rgba(18, 155, 255, 0.33);
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
   --squircle {
     border-radius: 8px;
 
@@ -96,4 +141,4 @@
 @custom-media --tablet all and (min-width: 980px) and (max-width: 1050px);
 @custom-media --mobile all and (max-width: 980px);
 @custom-media --retina all and (-webkit-min-device-pixel-ratio: 1.5);
-@custom-media --can-hover all and (hover:hover)
+@custom-media --can-hover all and (hover:hover);

@@ -83,6 +83,21 @@ yarn lint
 yarn test
 ```
 
+### Setup
+
+You can configure application using configs in <code>/config</code> directory.
+
+| Property             | Role                                                                                                                                                                                                                                         |
+|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+ | <code>port</code>    | to set port of application                                                                                                                                                                                                                   |
+ | <code>database</code> | to name directory with data                                                                                                                                                                                                                  |
+ | <code>rcFile</code>  | to set destination of codexdocsrc config file                                                                                                                                                                                                |
+ | <code>uploads</code> | to set destination of directory to save uploads                                                                                                                                                                                              |
+ | <code>secret</code>  | to set secret                                                                                                                                                                                                                                |
+ | <code>favicon</code> | to set url or favicon path (favicon need to be in /public directory), like `/myFavicon.png`, to get favicon. Server uploads file by url and saves it to temporary directory. And you can get favicon by /favicon static route of application |
+
+You can configure application using configs in <code>/config</code> directory.
+
 ### Authentication
 
 To manage pages you need to authorize (available on `/auth`).
