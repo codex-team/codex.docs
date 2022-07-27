@@ -1,5 +1,4 @@
 import database from '../utils/database/index';
-import Pages from '../controllers/pages';
 
 const db = database['pagesOrder'];
 
@@ -85,105 +84,6 @@ class PageOrder {
     const docs = await db.findOne({ 'page': '0' });
 
     return new PageOrder(docs);
-  }
-
-  /**
-   * Returns previous page for navigation
-   *
-   * @param {string} pageId - page's id
-   * @returns {Promise<string | null>} - previous page id
-   */
-  public static async getPreviousNavigationPage(pageId: string): Promise<string> {
-    const page = await Pages.get(pageId);
-
-    const pageParent =  await page.getParent();
-
-    let previousPageId = null;
-
-    // Check if page has a parent
-    if (pageParent._id) {
-      // Get order by parent
-      const order = await this.get(pageParent._id);
-
-      // Get previous page
-      previousPageId = order.getSubPageBefore(pageId);
-
-      // Check if previous page consists in parent order
-      if (!previousPageId) {
-        previousPageId = pageParent._id;
-      }
-
-      return previousPageId;
-    }
-
-    // Get order, which includes getting page, because it has no parent
-    const order = await this.getRootPageOrder();
-
-    // Get parent page before page, which was gotten
-    const parentPageBefore = order.getSubPageBefore(pageId);
-
-    if (parentPageBefore) {
-      // Get previous parent page order
-      const newOrder = await this.get(parentPageBefore);
-
-      // Check if order is empty
-      if (!newOrder._order || newOrder._order.length == 0) {
-        return parentPageBefore;
-      }
-      previousPageId = newOrder._order[newOrder._order.length - 1];
-    }
-
-    return previousPageId || '';
-  }
-
-  /**
-   * Returns next page for navigation
-   *
-   * @param {string} pageId - page's id
-   * @returns {Promise<string | null>} - next page id
-   */
-  public static async getNextNavigationPage(pageId: string): Promise<string> {
-    const page = await Pages.get(pageId);
-    const pageParent = await page.getParent();
-
-    let nextPageId;
-
-    // Check if page has a parent
-    if (pageParent._id) {
-      let order = await this.get(pageParent._id);
-
-      // Get next page by parent order
-      nextPageId = order.getSubPageAfter(pageId);
-
-      // Check if next page consists in parent order
-      if (nextPageId) {
-        return nextPageId;
-      }
-
-      // Get order, which includes parent
-      order = await this.getRootPageOrder();
-
-      nextPageId = order.getSubPageAfter(pageParent._id);
-
-      return nextPageId || '';
-    }
-
-    // Get order by page id
-    const childOrder = await this.get(pageId);
-
-    // Check if order is empty
-    if (childOrder._order && childOrder._order.length > 0) {
-      nextPageId = childOrder._order[0];
-
-      return nextPageId;
-    }
-
-    // Get order, which includes getting page, because it has no parent
-    const order = await this.getRootPageOrder();
-
-    nextPageId = order.getSubPageAfter(pageId);
-
-    return nextPageId || '';
   }
 
   /**
