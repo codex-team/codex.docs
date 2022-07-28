@@ -39,7 +39,7 @@
         {% endif %}
       {%  endfor %}
     </section>
-    <footer class="page_footer">
+    <footer class="page__footer">
         {% include 'components/navigator.twig' with {label:  previousPage.title, direction: 'previous', url: '/' ~ previousPage.uri} %}
         {% include 'components/navigator.twig' with {label:  nextPage.title, direction: 'next', url: '/' ~ nextPage.uri} %}
     </footer>
