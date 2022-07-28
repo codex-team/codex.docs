@@ -3,7 +3,7 @@ import Alias from '../models/alias';
 import PagesOrder from './pagesOrder';
 import PageOrder from '../models/pageOrder';
 import HttpException from '../exceptions/httpException';
-import flatArray from '../models/flatArray';
+import PagesFlatArray from '../models/pagesFlatArray';
 
 type PageDataFields = keyof PageData;
 
@@ -196,7 +196,7 @@ class Pages {
       pagesAvailable[index] = null;
       pagesAvailable = Pages.removeChildren(pagesAvailable, item._id);
     });
-    flatArray.generate();
+    PagesFlatArray.regenerate();
 
     return pagesAvailable;
   }
@@ -223,7 +223,7 @@ class Pages {
 
         alias.save();
       }
-      await flatArray.generate();
+      await PagesFlatArray.regenerate();
 
       return insertedPage;
     } catch (e) {
@@ -267,7 +267,7 @@ class Pages {
         Alias.markAsDeprecated(previousUri);
       }
     }
-    await flatArray.generate();
+    await PagesFlatArray.regenerate();
 
     return updatedPage;
   }
@@ -291,7 +291,7 @@ class Pages {
       await alias.destroy();
     }
     const removedPage = page.destroy();
-    await flatArray.generate();
+    await PagesFlatArray.regenerate();
 
     return removedPage;
   }

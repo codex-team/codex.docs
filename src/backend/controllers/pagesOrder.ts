@@ -1,6 +1,6 @@
 import PageOrder from '../models/pageOrder';
 import Page from '../models/page';
-import flatArray from '../models/flatArray';
+import PagesFlatArray from '../models/pagesFlatArray';
 
 /**
  * @class PagesOrder
@@ -63,7 +63,7 @@ class PagesOrder {
 
     order.push(childId);
     await order.save();
-    await flatArray.generate();
+    await PagesFlatArray.regenerate();
   }
 
   /**
@@ -78,13 +78,13 @@ class PagesOrder {
 
     oldParentOrder.remove(targetPageId);
     await oldParentOrder.save();
-    await flatArray.generate();
+    await PagesFlatArray.regenerate();
 
     const newParentOrder = await PageOrder.get(newParentId);
 
     newParentOrder.push(targetPageId);
     await newParentOrder.save();
-    await flatArray.generate();
+    await PagesFlatArray.regenerate();
   }
 
   /**
@@ -129,7 +129,7 @@ class PagesOrder {
     pageOrder.order = Array.from(new Set([...pageOrder.order, ...unordered]));
     pageOrder.putAbove(currentPageId, putAbovePageId);
     await pageOrder.save();
-    await flatArray.generate();
+    await PagesFlatArray.regenerate();
   }
 
   /**
@@ -144,7 +144,7 @@ class PagesOrder {
     }
 
     await order.destroy();
-    await flatArray.generate();
+    await PagesFlatArray.regenerate();
   }
 }
 

@@ -5,56 +5,76 @@ import NodeCache from 'node-cache';
 // Create cache for flat array
 const cache = new NodeCache({ stdTTL: 120 });
 
+const cacheKey = 'pagesFlatArray';
+
 /**
- * @typedef {object} FlatArrayData
- * @property {string} id - page id
- * @property {string} parentId - page parent id
- * @property {string} rootId - page root id
- * @property {number} level - page level in sidebar
- * @property {string} title - page title
- * @property {string} uri - page uri
+ * Element for pagesFlatArray
  */
-export interface FlatArrayData {
+export interface PagesFlatArrayData {
+  /**
+   * Page id
+   */
   id?: string;
+
+  /**
+   * Page parent id
+   */
   parentId?: string;
+
+  /**
+   * id of parent with parent id '0'
+   */
   rootId?: string;
+
+  /**
+   * Page level in sidebar view
+   */
   level?: number;
+
+  /**
+   * Page title
+   */
   title?: string;
+
+  /**
+   * Page uri
+   */
   uri?: string;
 }
 
 /**
- * @class FlatArray
- * @class FlatArray model
+   * @class PagesFlatArray
+   * @class PagesFlatArray model - flat array of pages, which are ordered like in sidebar
  */
-class FlatArray {
+class PagesFlatArray {
   /**
    * Returns pages flat array
    *
-   * @returns {Promise<Array<FlatArrayData>>}
+   * @returns {Promise<Array<PagesFlatArrayData>>}
    */
-  public static async get(): Promise<Array<FlatArrayData>> {
+  public static async get(): Promise<Array<PagesFlatArrayData>> {
     // Get flat array from cache
-    let arr = cache.get('flatArray') as Array<FlatArrayData>;
+    let arr = cache.get(cacheKey) as Array<PagesFlatArrayData>;
 
     // Check is flat array consists in cache
     if (!arr) {
-      arr = await this.generate();
+      arr = await this.regenerate();
     }
 
     return arr;
   }
 
   /**
-   * Generates flat array, saves it to cache, returns it
+   * Generates new flat array, saves it to cache, returns it
+   * Calls, when there is no pages flat array data in cache or when page or pageOrder data updates
    *
-   * @returns {Promise<Array<FlatArrayData>>}
+   * @returns {Promise<Array<PagesFlatArrayData>>}
    */
-  public static async generate(): Promise<Array<FlatArrayData>> {
+  public static async regenerate(): Promise<Array<PagesFlatArrayData>> {
     const pages = await Page.getAll();
     const pagesOrders = await PageOrder.getAll();
 
-    let arr = new Array<FlatArrayData>();
+    let arr = new Array<PagesFlatArrayData>();
 
     // Get root order
     const rootOrder = pagesOrders.find( order => order.page == '0' );
@@ -70,7 +90,7 @@ class FlatArray {
     }
 
     // Save generated flat array to cache
-    cache.set('flatArray', arr);
+    cache.set(cacheKey, arr);
 
     return arr;
   }
@@ -79,9 +99,9 @@ class FlatArray {
    * Returns previous page
    *
    * @param pageId - page id
-   * @returns {Promise<FlatArrayData | undefined>}
+   * @returns {Promise<PagesFlatArrayData | undefined>}
    */
-  public static async getPageBefore(pageId: string): Promise<FlatArrayData | undefined> {
+  public static async getPageBefore(pageId: string): Promise<PagesFlatArrayData | undefined> {
     const arr = await this.get();
 
     const pageIndex = arr.findIndex( (item) => item.id == pageId);
@@ -99,9 +119,9 @@ class FlatArray {
    * Returns next page
    *
    * @param pageId - page id
-   * @returns {Promise<FlatArrayData | undefined>}
+   * @returns {Promise<PagesFlatArrayData | undefined>}
    */
-  public static async getPageAfter(pageId: string): Promise<FlatArrayData | undefined> {
+  public static async getPageAfter(pageId: string): Promise<PagesFlatArrayData | undefined> {
     const arr = await this.get();
 
     const pageIndex = arr.findIndex( (item) => item.id == pageId );
@@ -122,11 +142,11 @@ class FlatArray {
    * @param level - page level in sidebar
    * @param pages - all pages
    * @param orders - all page orders
-   * @returns {Promise<Array<FlatArrayData>>}
+   * @returns {Promise<Array<PagesFlatArrayData>>}
    */
   private static getChildrenFlatArray(pageId: string, level: number,
-    pages: Array<Page>, orders: Array<PageOrder>): Array<FlatArrayData> {
-    let arr: Array<FlatArrayData> = new Array<FlatArrayData>();
+    pages: Array<Page>, orders: Array<PageOrder>): Array<PagesFlatArrayData> {
+    let arr: Array<PagesFlatArrayData> = new Array<PagesFlatArrayData>();
 
     const page = pages.find( item => item._id == pageId );
 
@@ -155,4 +175,4 @@ class FlatArray {
   }
 }
 
-export default FlatArray;
+export default PagesFlatArray;

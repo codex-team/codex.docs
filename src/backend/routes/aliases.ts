@@ -3,7 +3,7 @@ import Aliases from '../controllers/aliases';
 import Pages from '../controllers/pages';
 import Alias from '../models/alias';
 import verifyToken from './middlewares/token';
-import FlatArray from '../models/flatArray';
+import PagesFlatArray from '../models/pagesFlatArray';
 
 const router = express.Router();
 
@@ -33,8 +33,8 @@ router.get('*', verifyToken, async (req: Request, res: Response) => {
 
         const pageParent = await page.getParent();
 
-        const previousPage = await FlatArray.getPageBefore(alias.id);
-        const nextPage = await FlatArray.getPageAfter(alias.id);
+        const previousPage = await PagesFlatArray.getPageBefore(alias.id);
+        const nextPage = await PagesFlatArray.getPageAfter(alias.id);
 
         res.render('pages/page', {
           page,
