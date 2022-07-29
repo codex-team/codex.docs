@@ -24,12 +24,12 @@ export interface PagesFlatArrayData {
   /**
    * id of parent with parent id '0'
    */
-  rootId?: string;
+  rootId: string;
 
   /**
    * Page level in sidebar view
    */
-  level?: number;
+  level: number;
 
   /**
    * Page title
@@ -50,9 +50,10 @@ class PagesFlatArray {
   /**
    * Returns pages flat array
    *
+   * @param fullNesting - does flat array consist full nesting
    * @returns {Promise<Array<PagesFlatArrayData>>}
    */
-  public static async get(): Promise<Array<PagesFlatArrayData>> {
+  public static async get(fullNesting: boolean = false): Promise<Array<PagesFlatArrayData>> {
     // Get flat array from cache
     let arr = cache.get(cacheKey) as Array<PagesFlatArrayData>;
 
@@ -61,7 +62,11 @@ class PagesFlatArray {
       arr = await this.regenerate();
     }
 
-    return arr;
+    if (fullNesting) {
+      return arr
+    }
+
+    return arr.filter( (item) => item.level < 2 );
   }
 
   /**
