@@ -1,0 +1,13 @@
+{
+  "extends": [
+    "codex"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
+  },
+  "globals": {
+    "HTMLElement": true
+  }
+}

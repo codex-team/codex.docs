@@ -11,7 +11,8 @@
   </head>
     <script>
       window.config = {
-        misprintsChatId: "{{ config.misprintsChatId }}"
+        misprintsChatId: "{{ config.misprintsChatId }}",
+        hawkClientToken:"{{ config.hawkClientToken }}",
       };
     </script>
   <body>
@@ -26,9 +27,7 @@
           {% block body %}{% endblock %}
         </div>
 
-        <aside class="docs__aside-right">
-          <div style="width: 100%; height: 100px; background: grey"/>
-        </aside>
+        <aside class="docs__aside-right" id="layout-sidebar-right"></aside>
       </div>
     </div>
     <script src="/dist/main.bundle.js"></script>
