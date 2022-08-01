@@ -43,7 +43,6 @@ export interface PagesFlatArrayData {
 }
 
 /**
-   * @class PagesFlatArray
    * @class PagesFlatArray model - flat array of pages, which are ordered like in sidebar
  */
 class PagesFlatArray {
