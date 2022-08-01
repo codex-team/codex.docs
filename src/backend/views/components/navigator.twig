@@ -1,13 +1,12 @@
 {#
 Reusable navigaor component.
 Available props:
-  - label
-  - direction: previous, next
-  - url: navigation link
-  - class: additional class for the button
+  - previousPage
+  - nextPage
+  - class: additional class for the navigator
 
 Usage example:
-  {% include 'components/navigator.twig' with {label: 'Previous page', direction: 'previous'} %}
+  {% include 'components/navigator.twig' with {previousPage: previousPage, nextPage: nextPage} %}
 #}
 
 {% set mainClass = 'navigator' %}
@@ -15,23 +14,39 @@ Usage example:
 
 {% set tag = 'div' %}
 
-{% if url is not empty %}
-  {% set tag = 'a' %}
-{% endif %}
+{% set tag = 'a' %}
 
-<div class="navigator--wrapper">
-  {% if label and url %}
+<div>
+  {% if previousPage %}
     <{{ tag }}
       {{ name is not empty ? 'name="' ~ name ~ '"': '' }}
-        class="{{ mainClass }} {{ mainClass }}--{{ direction|default('previous') }} {{ class ?? '' }}"
-      {{ url is not empty ? 'href="' ~ url ~ '"' : '' }}
+        class="{{ mainClass }} {{ mainClass }}--previous {{ class ?? '' }}"
+      href="/{{ previousPage.uri }}"
       >
-      <div class="{{ mainClass }}__direction">
-       {{ direction }}
+      <div class="{{ mainClass }}-direction">
+       previous
       </div>
-      <div class="{{ mainClass }}__label">
-       {{ label }}
+      <div class="{{ mainClass }}-label">
+       {{ previousPage.title }}
       </div>
     </{{ tag }}>
   {% endif %}
 </div>
+
+<div>
+  {% if nextPage %}
+    <{{ tag }}
+      {{ name is not empty ? 'name="' ~ name ~ '"': '' }}
+         class="{{ mainClass }} {{ mainClass }}--next {{ class ?? '' }}"
+      href="/{{ nextPage.uri }}"
+      >
+      <div class="{{ mainClass }}-direction">
+        next
+      </div>
+      <div class="{{ mainClass }}-label">
+       {{ nextPage.title }}
+      </div>
+    </{{ tag }}>
+  {% endif %}
+</div>
+
