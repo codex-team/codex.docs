@@ -14,7 +14,7 @@ export interface PagesFlatArrayData {
   /**
    * Page id
    */
-  id?: string;
+  id: string;
 
   /**
    * Page parent id
@@ -34,7 +34,7 @@ export interface PagesFlatArrayData {
   /**
    * Page title
    */
-  title?: string;
+  title: string;
 
   /**
    * Page uri
@@ -50,10 +50,10 @@ class PagesFlatArray {
   /**
    * Returns pages flat array
    *
-   * @param fullNesting - does flat array consist full nesting
+   * @param nestingLimit - number of flat array nesting, set null to dismiss the restriction, default nesting 2
    * @returns {Promise<Array<PagesFlatArrayData>>}
    */
-  public static async get(fullNesting: boolean = false): Promise<Array<PagesFlatArrayData>> {
+  public static async get(nestingLimit: number | null = 2): Promise<Array<PagesFlatArrayData>> {
     // Get flat array from cache
     let arr = cache.get(cacheKey) as Array<PagesFlatArrayData>;
 
@@ -62,11 +62,11 @@ class PagesFlatArray {
       arr = await this.regenerate();
     }
 
-    if (fullNesting) {
-      return arr
+    if (!nestingLimit) {
+      return arr;
     }
 
-    return arr.filter( (item) => item.level < 2 );
+    return arr.filter( (item) => item.level < nestingLimit );
   }
 
   /**
@@ -158,11 +158,11 @@ class PagesFlatArray {
     // Add element to child array
     if (page) {
       arr.push( {
-        id: page._id,
+        id: page._id!,
         level: level,
         parentId: page._parent,
         rootId: '0',
-        title: page.title,
+        title: page.title!,
         uri: page.uri,
       } );
     }
