@@ -39,9 +39,7 @@
         {% endif %}
       {%  endfor %}
     </section>
-    <footer class="page__footer">
-        {% include 'components/navigator.twig' with {previousPage:  previousPage, nextPage: nextPage} %}
-    </footer>
+    {% include 'components/navigator.twig' with {previousPage:  previousPage, nextPage: nextPage} %}
   </article>
 
 {% endblock %}

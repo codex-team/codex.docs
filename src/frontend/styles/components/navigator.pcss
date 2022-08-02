@@ -1,4 +1,8 @@
-.navigator_item {
+.navigator {
+  display: flex;
+}
+
+.navigator__item {
   margin-top: 35px;
   cursor: pointer;
   -webkit-user-select: none;
@@ -15,10 +19,12 @@
 
   &--previous {
     align-items: flex-start;
+    margin-left: 0;
   }
 
   &--next {
     align-items: flex-end;
+    margin-left: auto;
   }
 
   &-direction {

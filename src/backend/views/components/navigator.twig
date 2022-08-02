@@ -9,14 +9,14 @@ Usage example:
   {% include 'components/navigator.twig' with {previousPage: previousPage, nextPage: nextPage} %}
 #}
 
-{% set mainClass = 'navigator_item' %}
+{% set mainClass = 'navigator__item' %}
 
 
 {% set tag = 'div' %}
 
 {% set tag = 'a' %}
 
-<div>
+<div class="navigator">
   {% if previousPage %}
     <{{ tag }}
       {{ name is not empty ? 'name="' ~ name ~ '"': '' }}
@@ -31,9 +31,7 @@ Usage example:
       </div>
     </{{ tag }}>
   {% endif %}
-</div>
 
-<div>
   {% if nextPage %}
     <{{ tag }}
       {{ name is not empty ? 'name="' ~ name ~ '"': '' }}
