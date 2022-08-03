@@ -17,6 +17,8 @@
     "editor-upgrade": "yarn add -D @editorjs/{editorjs,header,code,delimiter,list,link,image,table,inline-code,marker,warning,checklist,raw}@latest"
   },
   "dependencies": {
+    "@hawk.so/javascript": "^3.0.1",
+    "@hawk.so/nodejs": "^3.1.2",
     "config": "^3.3.6",
     "cookie-parser": "^1.4.5",
     "csurf": "^1.11.0",
@@ -31,6 +33,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "nedb": "^1.8.0",
+    "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1",
     "open-graph-scraper": "^4.9.0",
     "twig": "^1.15.4",

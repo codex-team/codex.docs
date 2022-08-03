@@ -1,5 +1,6 @@
 import PageOrder from '../models/pageOrder';
 import Page from '../models/page';
+import PagesFlatArray from '../models/pagesFlatArray';
 
 /**
  * @class PagesOrder
@@ -62,6 +63,7 @@ class PagesOrder {
 
     order.push(childId);
     await order.save();
+    await PagesFlatArray.regenerate();
   }
 
   /**
@@ -76,11 +78,13 @@ class PagesOrder {
 
     oldParentOrder.remove(targetPageId);
     await oldParentOrder.save();
+    await PagesFlatArray.regenerate();
 
     const newParentOrder = await PageOrder.get(newParentId);
 
     newParentOrder.push(targetPageId);
     await newParentOrder.save();
+    await PagesFlatArray.regenerate();
   }
 
   /**
@@ -125,6 +129,7 @@ class PagesOrder {
     pageOrder.order = Array.from(new Set([...pageOrder.order, ...unordered]));
     pageOrder.putAbove(currentPageId, putAbovePageId);
     await pageOrder.save();
+    await PagesFlatArray.regenerate();
   }
 
   /**
@@ -138,7 +143,8 @@ class PagesOrder {
       throw new Error('Page with given id does not contain order');
     }
 
-    return order.destroy();
+    await order.destroy();
+    await PagesFlatArray.regenerate();
   }
 }
 

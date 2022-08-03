@@ -1,4 +1,3 @@
-
 /**
  * Utility class to handle interaction with local storage
  */
