@@ -6,7 +6,6 @@ import { Storage } from '../utils/storage';
 const LOCAL_STORAGE_KEY = 'docs_sidebar_state';
 const SIDEBAR_VISIBILITY_KEY = 'docs_sidebar_visibility';
 
-
 /**
  * Section list item height in px
  */
@@ -60,10 +59,14 @@ export default class Sidebar {
 
     this.sectionsState = storedState ? JSON.parse(storedState) : {};
 
+    // Initialize localStorage that contains sidebar visibility
     this.sidebarVisibilityStorage = new Storage(SIDEBAR_VISIBILITY_KEY);
+    // Get current sidebar visibility from storage
     const storedVisibility = this.sidebarVisibilityStorage.get();
 
+    // Sidebar visibility
     this.isVisible = storedVisibility !== 'false';
+    // Keys to store currently pressed keys
     this.keys = {};
   }
 
@@ -119,7 +122,7 @@ export default class Sidebar {
 
     const itemsCount = sectionList.children.length;
 
-    sectionList.style.maxHeight = `${ itemsCount * ITEM_HEIGHT }px`;
+    sectionList.style.maxHeight = `${itemsCount * ITEM_HEIGHT}px`;
   }
 
   /**
@@ -204,7 +207,6 @@ export default class Sidebar {
 
     // add event listener to execute keyboard shortcut
     document.body.addEventListener('keydown', (e) => this.executeSlide(e), false);
-    document.body.addEventListener('keyup', (e) => this.executeSlide(e), false);
   }
 
   /**
@@ -212,12 +214,10 @@ export default class Sidebar {
    * @returns {void}
    */
   executeSlide(event) {
-    this.keys[event.key.toLowerCase()] = event.type === 'keydown';
-
     /**
      * Execute slide when ctrl + . is pressed
      */
-    if (this.keys['control'] && this.keys['.']) {
+    if ((event.ctrlKey || event.metaKey) && event.code === 'Period') {
       this.handleSliderClick();
     }
   }
