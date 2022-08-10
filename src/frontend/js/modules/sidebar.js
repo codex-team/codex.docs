@@ -1,4 +1,5 @@
 import { Storage } from '../utils/storage';
+import Shortcut from '@codexteam/shortcuts';
 
 /**
  * Local storage key
@@ -206,20 +207,12 @@ export default class Sidebar {
     }, 200);
 
     // add event listener to execute keyboard shortcut
-    document.body.addEventListener('keydown', (e) => this.executeSlide(e), false);
-  }
-
-  /**
-   * @param {KeyboardEvent} event - keydown event
-   * @returns {void}
-   */
-  executeSlide(event) {
-    /**
-     * Execute slide when ctrl + . is pressed
-     */
-    if ((event.ctrlKey || event.metaKey) && event.code === 'Period') {
-      this.handleSliderClick();
-    }
+    // eslint-disable-next-line no-new
+    new Shortcut({
+      name: 'CMD+.',
+      on: document.body,
+      callback: () => this.handleSliderClick(),
+    });
   }
 
   /**
