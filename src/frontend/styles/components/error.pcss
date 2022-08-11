@@ -1,11 +1,20 @@
 .error-page {
   font-size: 15px;
   text-align: center;
-  margin-top: 30vh;
-  margin-left: 20vw;
+  position: absolute;
+  top: 40%;
+  left: 50%;
 
   @media (--mobile) {
-    margin-left: 0vw;
+    position: relative;
+    top: 30vh;
+    left: 0;
+  }
+
+  @media (--tablet) {
+    position: relative;
+    top: 30vh;
+    left: 0;
   }
 
   h1 {
