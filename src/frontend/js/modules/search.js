@@ -92,6 +92,10 @@ export default class Search {
     this.nodes.overlay.classList.toggle('search-overlay--visible', this.isVisible);
     document.body.classList.toggle('noscroll', this.isVisible);
 
+    try {
+      document.getElementsByClassName('docs')[0].classList.toggle('blurred', this.isVisible);
+    } catch (e) {}
+
     this.nodes.searchInput.focus();
   }
 
@@ -100,9 +104,11 @@ export default class Search {
   }
 
   getSearchResults(text) {
-    // this.showSearchResult(text);
+    if (!text) {
+      this.clearSearchResults();
+      return;
+    }
 
-    // call api to get search results
     axios.get('/api/search', {
       params: {
         text: text
@@ -111,11 +117,12 @@ export default class Search {
       .then(this.showSearchResult.bind(this));
   }
 
-  showSearchResult({ data }) {
-    console.log(data);
-
+  clearSearchResults() {
     this.nodes.searchResultsWrapper.innerHTML = '';
+  }
 
+  showSearchResult({ data }) {
+    this.clearSearchResults();
 
     data.result.pages.forEach(page => {
       const result = document.createElement('a');
