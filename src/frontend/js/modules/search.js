@@ -93,6 +93,7 @@ export default class Search {
     document.body.classList.toggle('noscroll', this.isVisible);
 
     try {
+      document.getElementsByClassName('docs-header')[0].classList.toggle('blurred', this.isVisible);
       document.getElementsByClassName('docs')[0].classList.toggle('blurred', this.isVisible);
     } catch (e) {}
 
