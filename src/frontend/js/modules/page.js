@@ -17,6 +17,7 @@ export default class Page {
   init() {
     this.codeStyler = this.createCodeStyling();
     this.tableOfContent = this.createTableOfContent();
+    this.search = this.createSearch();
   }
 
   /**
