@@ -47,8 +47,8 @@ router.get('*', verifyToken, async (req: Request, res: Response) => {
     }
   } catch (err) {
     res.status(404).render('error', {
-      message:'Page not found',
-      status:404,
+      message: 'Page not found',
+      status: 404,
     });
   }
 });
