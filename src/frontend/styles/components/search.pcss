@@ -44,9 +44,27 @@
     }
   }
 
-  &-results {
+  &-result {
     &-wrapper {
 
+    }
+
+    &-suggestions {
+      padding: 5px 25px;
+      overflow-x: scroll;
+
+      &-item {
+        margin-right: 12px;
+
+        padding: 2px 8px;
+        background: #ccedf6;
+        border-radius: 50px;
+        border: 1px solid #b5d8e2;
+
+        &:hover {
+          background: #aad4e0;
+        }
+      }
     }
 
     &-item {
@@ -66,6 +84,7 @@
       }
 
       &__description {
+        margin-top: 8px;
       }
     }
   }
@@ -77,7 +96,7 @@
 }
 
 .blurred {
-  filter: blur(2px);
+  filter: blur(3px);
 }
 
 

@@ -2,23 +2,44 @@ import { debounce } from '../utils/decorators';
 import Shortcut from '@codexteam/shortcuts';
 import axios from 'axios';
 
-
 export default class Search {
   constructor() {
     this.nodes = {
       overlay: null,
       searchWrapper: null,
       searchInput: null,
-      searchResultsWrapper: null
+      searchResultWrapper: null
     };
 
     this.isVisible = false;
 
-    this.shortcut = null;
-    this.TOGGLER_SHORTCUT = 'CMD+SHIFT+F';
+    this.PLACEHOLDER = 'Find in documents...';
 
+    this.TOGGLER_SHORTCUT = 'CMD+SHIFT+F';
+    this.shortcut = null;
+
+    this.DEBOUNCE_TIME = 300;
     this.debouncedSearch = null;
-    this.DEBOUNCE_TIME = 500;
+
+    this.MIN_SEARCH_LENGTH = 1;
+
+    this.CSS = {
+      overlay: 'search-overlay',
+      overlayVisible: 'search-overlay--visible',
+      searchWrapper: 'search-wrapper',
+      searchInput: 'search-input',
+      searchResultWrapper: 'search-result-wrapper',
+
+      searchResultSuggestions: 'search-result-suggestions',
+      searchResultSuggestionItem: 'search-result-suggestions-item',
+
+      searchResultItem: 'search-result-item',
+      searchResultItemTitle: 'search-result-item__title',
+      searchResultItemDescription: 'search-result-item__description',
+
+      blur: 'blurred',
+      noscroll: 'noscroll'
+    };
   }
 
   init(settings = {}, moduleEl) {
@@ -30,27 +51,30 @@ export default class Search {
 
     // ! force open search overlay
     // this.toggleSearchOverlay(true);
+    // const testString = 'api';
+    // this.nodes.searchInput.value = testString;
+    // this.debouncedSearch(testString);
   }
 
   createSearchOverlay() {
     this.nodes.overlay = document.createElement('div');
-    this.nodes.overlay.classList.add('search-overlay');
+    this.nodes.overlay.classList.add(this.CSS.overlay);
     this.nodes.overlay.addEventListener('click', this.searchOverlayClickProcessor.bind(this));
 
     this.nodes.searchWrapper = document.createElement('div');
-    this.nodes.searchWrapper.classList.add('search-wrapper');
+    this.nodes.searchWrapper.classList.add(this.CSS.searchWrapper);
 
     this.nodes.searchInput = document.createElement('input');
-    this.nodes.searchInput.classList.add('search-input');
+    this.nodes.searchInput.classList.add(this.CSS.searchInput);
     this.nodes.searchInput.setAttribute('type', 'search');
-    this.nodes.searchInput.setAttribute('placeholder', 'Find in documents...');
+    this.nodes.searchInput.setAttribute('placeholder', this.PLACEHOLDER);
     this.nodes.searchInput.setAttribute('autocomplete', 'off');
     this.nodes.searchInput.addEventListener('input', this.searchInputOnchangeProcessor.bind(this));
     this.nodes.searchWrapper.appendChild(this.nodes.searchInput);
 
-    this.nodes.searchResultsWrapper = document.createElement('div');
-    this.nodes.searchResultsWrapper.classList.add('search-results-wrapper');
-    this.nodes.searchWrapper.appendChild(this.nodes.searchResultsWrapper);
+    this.nodes.searchResultWrapper = document.createElement('div');
+    this.nodes.searchResultWrapper.classList.add(this.CSS.searchResultWrapper);
+    this.nodes.searchWrapper.appendChild(this.nodes.searchResultWrapper);
 
     this.nodes.overlay.appendChild(this.nodes.searchWrapper);
     document.body.appendChild(this.nodes.overlay);
@@ -65,15 +89,14 @@ export default class Search {
   }
 
   searchInputOnchangeProcessor(event) {
-    // close search overlay if ESC key is pressed
-    if (event.keyCode === 27) {
-      this.toggleSearchOverlay(false);
-      event.preventDefault();
+    const text = event.target.value;
+
+    if (text.length < this.MIN_SEARCH_LENGTH) {
+      this.clearSearchResults();
+      return;
     }
 
-    console.log(event.target.value);
-
-    this.debouncedSearch(event.target.value);
+    this.debouncedSearch(text);
   }
 
   enableShortcutListening() {
@@ -89,12 +112,13 @@ export default class Search {
   toggleSearchOverlay(force) {
     this.isVisible = force || !this.isVisible;
 
-    this.nodes.overlay.classList.toggle('search-overlay--visible', this.isVisible);
-    document.body.classList.toggle('noscroll', this.isVisible);
+    this.nodes.overlay.classList.toggle(this.CSS.overlayVisible, this.isVisible);
+    document.body.classList.toggle(this.CSS.noscroll, this.isVisible);
 
+    // blur everything except search overlay
     try {
-      document.getElementsByClassName('docs-header')[0].classList.toggle('blurred', this.isVisible);
-      document.getElementsByClassName('docs')[0].classList.toggle('blurred', this.isVisible);
+      document.getElementsByClassName('docs-header')[0].classList.toggle(this.CSS.blurred, this.isVisible);
+      document.getElementsByClassName('docs')[0].classList.toggle(this.CSS.blurred, this.isVisible);
     } catch (e) {}
 
     this.nodes.searchInput.focus();
@@ -105,41 +129,74 @@ export default class Search {
   }
 
   getSearchResults(text) {
-    if (!text) {
-      this.clearSearchResults();
-      return;
-    }
 
     axios.get('/api/search', {
       params: {
-        text: text
+        text
       }
     })
       .then(this.showSearchResult.bind(this));
   }
 
   clearSearchResults() {
-    this.nodes.searchResultsWrapper.innerHTML = '';
+    this.nodes.searchResultWrapper.innerHTML = '';
   }
 
   showSearchResult({ data }) {
     this.clearSearchResults();
 
+    // const suggestionsWrapper = this.generateSearchSuggestions(data.result.suggestions);
+    //
+    // this.nodes.searchResultWrapper.appendChild(suggestionsWrapper);
+
     data.result.pages.forEach(page => {
       const result = document.createElement('a');
-      result.classList.add('search-results-item');
+      result.classList.add(this.CSS.searchResultItem);
       result.setAttribute('href', `/${page.uri}`);
 
       const title = document.createElement('div');
-      title.classList.add('search-results-item__title');
+      title.classList.add(this.CSS.searchResultItemTitle);
       title.innerHTML = page.title;
       result.appendChild(title);
 
-      // const description = document.createElement('div');
-      // description.classList.add('search-results-item__description');
+      const description = document.createElement('div');
+      description.classList.add(this.CSS.searchResultItemDescription);
+      description.innerHTML = `${page.shortBody}`;
       // result.appendChild(description);
 
-      this.nodes.searchResultsWrapper.appendChild(result);
+      this.nodes.searchResultWrapper.appendChild(result);
     });
   }
+
+  // generateSearchSuggestions(suggestions = []) {
+  //   const suggestionsWrapper = document.createElement('div');
+  //
+  //   suggestionsWrapper.classList.add(this.CSS.searchResultSuggestions);
+  //
+  //   suggestions.forEach(suggestion => {
+  //     const suggestionItem = document.createElement('span');
+  //
+  //     suggestionItem.classList.add(this.CSS.searchResultSuggestionItem);
+  //     suggestionItem.innerHTML = suggestion;
+  //     suggestionItem.addEventListener('click', this.searchSuggestionClickProcessor.bind(this));
+  //
+  //     suggestionsWrapper.appendChild(suggestionItem);
+  //   });
+  //
+  //   return suggestionsWrapper;
+  // }
+  //
+  // searchSuggestionClickProcessor(event) {
+  //   const word = event.target.innerHTML;
+  //
+  //   const searchString = this.nodes.searchInput.value;
+  //   const searchStringWords = searchString.split(' ');
+  //
+  //   searchStringWords.pop();
+  //   searchStringWords.push(word);
+  //
+  //   this.nodes.searchInput.value = searchStringWords.join(' ');
+  //
+  //   this.debouncedSearch(this.nodes.searchInput.value);
+  // }
 }

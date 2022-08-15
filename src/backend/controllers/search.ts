@@ -1,12 +1,6 @@
 import Page from '../models/page';
 import Pages from '../controllers/pages';
 
-type SearchResponse = {
-  completions: string[];
-
-  pages: Page[];
-}
-
 class Search {
   /**
    * Prepare words database
@@ -23,7 +17,7 @@ class Search {
       page.body.blocks.forEach((block: any) => {
         let blockContent = '';
 
-        const validBlocks = ['header', 'paragraph'];
+        const validBlocks = ['header', 'paragraph', 'list'];
         if (!validBlocks.includes(block.type)) {
           return;
         }
@@ -36,16 +30,20 @@ class Search {
           case 'paragraph':
             blockContent = block.data.text
             break;
+
+          case 'list':
+            blockContent = block.data.items.join(' ');
+            break;
         }
 
         const blockWords: string[] = blockContent
           // @todo get text from inline code elements and remove html tags
 
-          // left only letters and numbers
-          .replace(/[^a-z0-9]/gi, ' ')
-
           // lowercase all words
           .toLowerCase()
+
+          // left only letters (+cyrillic) and numbers
+          .replace(/[^a-zа-я0-9]/gi, ' ')
 
           // remove multiple spaces
           .replace(/\s+/g, ' ')
@@ -67,7 +65,7 @@ class Search {
     return pagesWords;
   }
 
-  public async query(searchString: string): Promise<SearchResponse> {
+  public async query(searchString: string) {
     const pages = await Pages.getAll();
     const pagesWords = await this.index();
 
@@ -95,9 +93,46 @@ class Search {
     });
 
     const foundPages = goodPages
-      .filter(({ successRatio }) => successRatio > 50)
+      .filter(({ successRatio }) => successRatio > 75)
       .sort((a, b) => b.successRatio - a.successRatio)
       .slice(0, 10);
+
+    const returnPages = pages.filter(page => foundPages.some(({ id }) => id === page._id))
+      .map(page => {
+        let shortBody = '...';
+        let score = 1;
+
+        page.body.blocks.forEach((block: any) => {
+          let blockContent = '';
+
+          switch (block.type) {
+            case 'header':
+              blockContent = block.data.text;
+              break;
+
+            // case 'paragraph':
+            //   blockContent = block.data.text
+            //   break;
+            //
+            // case 'list':
+            //   blockContent = block.data.items.join(' ');
+            //   break;
+          }
+
+          searchWords.forEach(word => {
+            blockContent = blockContent.replace(word, `<span class="search-word">${word}</span>`);
+          })
+
+          // shortBody += blockContent;
+        });
+
+        return {
+          ...page,
+          shortBody
+        };
+      });
+
+
 
 
     // --------- START test ---------
@@ -113,8 +148,8 @@ class Search {
 
 
     return {
-      completions: uniqWords.filter(word => word.indexOf(searchWords.slice(-1)[0]) === 0),
-      pages: pages.filter(page => foundPages.some(({ id }) => id === page._id))
+      suggestions: uniqWords.filter(word => word.indexOf(searchWords.slice(-1)[0]) === 0),
+      pages: returnPages
     }
   }
 

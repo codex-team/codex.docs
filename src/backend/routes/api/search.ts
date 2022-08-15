@@ -32,13 +32,14 @@ router.get('/search', async (req: Request, res: Response) => {
         uri: page.uri,
         // body: page.body,
         // parent: page.parent,
+        shortBody: page.shortBody,
       };
     });
 
     res.json({
       success: true,
       result: {
-        completions: searchResponse.completions,
+        suggestions: searchResponse.suggestions,
         pages: compactedPages,
         time: searchItem,
       },
