@@ -67,8 +67,6 @@ export default class Sidebar {
 
     // Sidebar visibility
     this.isVisible = storedVisibility !== 'false';
-    // Keys to store currently pressed keys
-    this.keys = {};
   }
 
   /**
