@@ -3,6 +3,7 @@ import Pages from '../controllers/pages';
 import PagesOrder from '../controllers/pagesOrder';
 import verifyToken from './middlewares/token';
 import allowEdit from './middlewares/locals';
+import PagesFlatArray from '../models/pagesFlatArray';
 
 const router = express.Router();
 
@@ -62,10 +63,15 @@ router.get('/page/:id', verifyToken, async (req: Request, res: Response, next: N
 
     const pageParent = await page.parent;
 
+    const previousPage = await PagesFlatArray.getPageBefore(pageId);
+    const nextPage = await PagesFlatArray.getPageAfter(pageId);
+
     res.render('pages/page', {
       page,
       pageParent,
       config: req.app.locals.config,
+      previousPage,
+      nextPage,
     });
   } catch (error) {
     res.status(404);

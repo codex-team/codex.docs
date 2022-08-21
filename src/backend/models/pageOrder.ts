@@ -182,7 +182,7 @@ class PageOrder {
    *
    * @param {string} pageId - identity of page
    */
-  public getPageBefore(pageId: string): string | null {
+  public getSubPageBefore(pageId: string): string | null {
     if (this.order === undefined) {
       return null;
     }
@@ -204,7 +204,7 @@ class PageOrder {
    *
    * @param pageId - identity of page
    */
-  public getPageAfter(pageId: string): string | null {
+  public getSubPageAfter(pageId: string): string | null {
     if (this.order === undefined) {
       return null;
     }

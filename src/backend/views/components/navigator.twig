@@ -1,0 +1,50 @@
+{#
+Reusable navigaor component.
+Available props:
+  - previousPage
+  - nextPage
+  - class: additional class for the navigator
+
+Usage example:
+  {% include 'components/navigator.twig' with {previousPage: previousPage, nextPage: nextPage} %}
+#}
+
+{% set mainClass = 'navigator__item' %}
+
+
+{% set tag = 'div' %}
+
+{% set tag = 'a' %}
+
+<div class="navigator">
+  {% if previousPage %}
+    <{{ tag }}
+      {{ name is not empty ? 'name="' ~ name ~ '"': '' }}
+        class="{{ mainClass }} {{ mainClass }}--previous {{ class ?? '' }}"
+      href="/{{ previousPage.uri }}"
+      >
+      <div class="{{ mainClass }}-direction">
+       previous
+      </div>
+      <div class="{{ mainClass }}-label">
+       {{ previousPage.title }}
+      </div>
+    </{{ tag }}>
+  {% endif %}
+
+  {% if nextPage %}
+    <{{ tag }}
+      {{ name is not empty ? 'name="' ~ name ~ '"': '' }}
+         class="{{ mainClass }} {{ mainClass }}--next {{ class ?? '' }}"
+      href="/{{ nextPage.uri }}"
+      >
+      <div class="{{ mainClass }}-direction">
+        next
+      </div>
+      <div class="{{ mainClass }}-label">
+       {{ nextPage.title }}
+      </div>
+    </{{ tag }}>
+  {% endif %}
+</div>
+
