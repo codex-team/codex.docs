@@ -18,6 +18,7 @@
     &-inner {
       max-width: var(--layout-width-main-col);
       margin: 0 auto;
+      min-width: 0;
 
       @media (--desktop) {
         margin-right: var(--layout-padding-horizontal);
@@ -28,6 +29,7 @@
 
   &__content {
     --max-space-between-cols: 160px;
+    box-sizing: border-box;
     padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
     display: flex;
     justify-content: space-between;
