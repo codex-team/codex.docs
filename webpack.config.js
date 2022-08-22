@@ -61,19 +61,6 @@ export default () => {
             },
           ],
         },
-        /**
-         * https://github.com/webpack/webpack/issues/11467#issuecomment-691873586
-         */
-        // {
-        //   test: /\.m?js/,
-        //   type: "javascript/auto",
-        // },
-        // {
-        //   test: /\.m?js/,
-        //   resolve: {
-        //     fullySpecified: false,
-        //   },
-        // },
         {
           test: /\.js$/,
           exclude: /(node_modules|bower_components)/,
