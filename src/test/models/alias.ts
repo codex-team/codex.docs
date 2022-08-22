@@ -2,11 +2,19 @@ import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';
 import config from 'config';
-import Alias from '../../backend/models/alias';
-import { binaryMD5 } from '../../backend/utils/crypto';
-import database from '../../backend/utils/database';
+import Alias from '../../backend/models/alias.js';
+import { binaryMD5 } from '../../backend/utils/crypto.js';
+import database from '../../backend/utils/database/index.js';
+import { fileURLToPath } from 'url';
 
 const aliases = database['aliases'];
+
+/**
+ * The __dirname CommonJS variables are not available in ES modules.
+ * https://nodejs.org/api/esm.html#no-__filename-or-__dirname
+ */
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 describe('Alias model', () => {
   after(() => {

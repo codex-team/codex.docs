@@ -1,9 +1,9 @@
 import Datastore from 'nedb';
-import { AliasData } from '../../models/alias';
-import { FileData } from '../../models/file';
-import { PageData } from '../../models/page';
-import { PageOrderData } from '../../models/pageOrder';
-import initDb from './initDb';
+import { AliasData } from '../../models/alias.js';
+import { FileData } from '../../models/file.js';
+import { PageData } from '../../models/page.js';
+import { PageOrderData } from '../../models/pageOrder.js';
+import initDb from './initDb.js';
 
 /**
  * @typedef Options - optional params

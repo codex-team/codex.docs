@@ -3,11 +3,20 @@ import path from 'path';
 import config from 'config';
 import chai from 'chai';
 import chaiHTTP from 'chai-http';
-import server from '../../bin/server';
-import model from '../../backend/models/page';
-import Page from '../../backend/models/page';
-import PageOrder from '../../backend/models/pageOrder';
-import translateString from '../../backend/utils/translation';
+import server from '../../bin/server.js';
+import model from '../../backend/models/page.js';
+import Page from '../../backend/models/page.js';
+import PageOrder from '../../backend/models/pageOrder.js';
+import translateString from '../../backend/utils/translation.js';
+import { fileURLToPath } from 'url';
+
+/**
+ * The __dirname CommonJS variables are not available in ES modules.
+ * https://nodejs.org/api/esm.html#no-__filename-or-__dirname
+ */
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 
 const {expect} = chai;
 const app = server.app;
@@ -516,7 +525,7 @@ describe('Pages REST: ', () => {
 
     page6 = await Page.get(pages[6]);
     expect(page6.data._id).to.be.undefined;
-    
+
     page7 = await Page.get(pages[7]);
     expect(page7.data._id).to.be.undefined;
 

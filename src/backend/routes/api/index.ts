@@ -1,7 +1,7 @@
 import express from 'express';
-import pagesAPI from './pages';
-import transportAPI from './transport';
-import linksAPI from './links';
+import pagesAPI from './pages.js';
+import transportAPI from './transport.js';
+import linksAPI from './links.js';
 
 const router = express.Router();
 

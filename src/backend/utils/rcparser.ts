@@ -1,6 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 import config from 'config';
+import { fileURLToPath } from 'url';
+
+/**
+ * The __dirname CommonJS variables are not available in ES modules.
+ * https://nodejs.org/api/esm.html#no-__filename-or-__dirname
+ */
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const rcPath = path.resolve(__dirname, '../../../', config.get('rcFile') || './.codexdocsrc');
 
