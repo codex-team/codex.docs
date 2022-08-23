@@ -32,6 +32,8 @@ router.get('/search', async (req: Request, res: Response) => {
         uri: page.uri,
         // body: page.body,
         // parent: page.parent,
+        section: page.section,
+        anchor: page.anchor,
         shortBody: page.shortBody,
       };
     });

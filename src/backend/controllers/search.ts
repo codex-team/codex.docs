@@ -34,10 +34,13 @@ class Search {
           case 'list':
             blockContent = block.data.items.join(' ');
             break;
+
+          default:
+            return;
         }
 
         const blockWords: string[] = blockContent
-          // @todo get text from inline code elements and remove html tags
+          .replace(/<[^>]*>?/gm, '')
 
           // lowercase all words
           .toLowerCase()
@@ -99,36 +102,59 @@ class Search {
 
     const returnPages = pages.filter(page => foundPages.some(({ id }) => id === page._id))
       .map(page => {
-        let shortBody = '...';
-        let score = 1;
+        let shortBody = '';
+        let flag = false;
+        let section = '';
+        let ratio = 0;
 
         page.body.blocks.forEach((block: any) => {
+          if (flag) return;
+
           let blockContent = '';
 
           switch (block.type) {
             case 'header':
               blockContent = block.data.text;
+              ratio = 1;
+              section = blockContent;
               break;
 
-            // case 'paragraph':
-            //   blockContent = block.data.text
-            //   break;
-            //
-            // case 'list':
-            //   blockContent = block.data.items.join(' ');
-            //   break;
+            case 'paragraph':
+              blockContent = block.data.text
+              ratio = 0.5;
+              break;
+
+            case 'list':
+              blockContent = block.data.items.join(' ');
+              ratio = 0.5;
+              break;
+
+            default:
+              return;
           }
 
+          blockContent = blockContent
+            .replace(/<[^>]*>?/gm, '');
+            // .toLowerCase();
+
           searchWords.forEach(word => {
-            blockContent = blockContent.replace(word, `<span class="search-word">${word}</span>`);
+            // blockContent = blockContent.replace(word, `<span class="search-word">${word}</span>`);
+            if (flag) return;
+
+            if (blockContent.toLowerCase().indexOf(word) !== -1) {
+
+              shortBody = this.highlightSubstring(blockContent, word);
+              flag = true;
+            }
           })
 
-          // shortBody += blockContent;
         });
 
         return {
           ...page,
-          shortBody
+          shortBody,
+          anchor: section.replace(/\s+/g, '-').toLowerCase(),
+          section,
         };
       });
 
@@ -136,12 +162,12 @@ class Search {
 
 
     // --------- START test ---------
-
+    //
     const uniqWords = [...new Set(pagesWords.flatMap(page => page.words))].sort();
-
-    uniqWords.forEach(word => {
-      console.log(word);
-    })
+    //
+    // uniqWords.forEach(word => {
+    //   console.log(word);
+    // })
 
     // --------- END test ---------
 
@@ -157,6 +183,12 @@ class Search {
     const pages = await this.query(searchString);
 
     return pages;
+  }
+
+  private highlightSubstring(text: string, word: string) {
+    const wordRegExp = new RegExp(word, "ig");
+
+    return text.replace(wordRegExp, '<span class="search-word">$&</span>');
   }
 }
 

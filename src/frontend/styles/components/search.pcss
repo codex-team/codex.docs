@@ -83,12 +83,26 @@
         font-weight: 500;
       }
 
+      &__section {
+        opacity: 0.7;
+
+        &:before {
+          content: '•';
+          margin: 0 5px;
+          text-align: center;
+        }
+      }
+
       &__description {
         margin-top: 8px;
+        line-height: 1.5;
       }
     }
   }
 
+  &-word {
+    color: var(--color-link-active);
+  }
 }
 
 .noscroll {

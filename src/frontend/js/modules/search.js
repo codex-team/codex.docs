@@ -35,6 +35,7 @@ export default class Search {
 
       searchResultItem: 'search-result-item',
       searchResultItemTitle: 'search-result-item__title',
+      searchResultItemSection: 'search-result-item__section',
       searchResultItemDescription: 'search-result-item__description',
 
       blur: 'blurred',
@@ -122,6 +123,7 @@ export default class Search {
     } catch (e) {}
 
     this.nodes.searchInput.focus();
+    this.nodes.searchInput.select();
   }
 
   createDebouncedSearch() {
@@ -150,19 +152,28 @@ export default class Search {
     // this.nodes.searchResultWrapper.appendChild(suggestionsWrapper);
 
     data.result.pages.forEach(page => {
+      const url = `/${page.uri}` + (page.section ? `#${page.anchor}` : '');
+
       const result = document.createElement('a');
       result.classList.add(this.CSS.searchResultItem);
-      result.setAttribute('href', `/${page.uri}`);
+      result.setAttribute('href', url);
 
       const title = document.createElement('div');
       title.classList.add(this.CSS.searchResultItemTitle);
       title.innerHTML = page.title;
       result.appendChild(title);
 
+      if (page.section !== page.title) {
+        const section = document.createElement('span');
+        section.classList.add(this.CSS.searchResultItemSection);
+        section.innerHTML = `${page.section}`;
+        title.appendChild(section);
+      }
+
       const description = document.createElement('div');
       description.classList.add(this.CSS.searchResultItemDescription);
       description.innerHTML = `${page.shortBody}`;
-      // result.appendChild(description);
+      result.appendChild(description);
 
       this.nodes.searchResultWrapper.appendChild(result);
     });
