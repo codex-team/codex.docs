@@ -2,8 +2,16 @@ import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';
 import config from 'config';
-import File from '../../backend/models/file';
-import database from '../../backend/utils/database';
+import File from '../../backend/models/file.js';
+import database from '../../backend/utils/database/index.js';
+import { fileURLToPath } from 'url';
+
+/**
+ * The __dirname CommonJS variables are not available in ES modules.
+ * https://nodejs.org/api/esm.html#no-__filename-or-__dirname
+ */
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const files = database['files'];
 
@@ -159,9 +167,9 @@ describe('File model', () => {
 
     if (savedFile._id !== undefined){
       const foundFile = await File.get(savedFile._id);
-  
+
       const { data } = foundFile;
-  
+
       expect(data._id).to.equal(savedFile._id);
       expect(data.name).to.equal(savedFile.name);
       expect(data.filename).to.equal(savedFile.filename);
@@ -188,9 +196,9 @@ describe('File model', () => {
 
     if (savedFile.filename !== undefined){
       const foundFile = await File.getByFilename(savedFile.filename);
-  
+
       const { data } = foundFile;
-  
+
       expect(data._id).to.equal(savedFile._id);
       expect(data.name).to.equal(savedFile.name);
       expect(data.filename).to.equal(savedFile.filename);
