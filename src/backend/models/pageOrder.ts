@@ -1,4 +1,4 @@
-import database from '../utils/database/index';
+import database from '../utils/database/index.js';
 
 const db = database['pagesOrder'];
 

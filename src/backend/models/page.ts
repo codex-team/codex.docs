@@ -1,5 +1,5 @@
-import urlify from '../utils/urlify';
-import database from '../utils/database/index';
+import urlify from '../utils/urlify.js';
+import database from '../utils/database/index.js';
 
 const pagesDb = database['pages'];
 

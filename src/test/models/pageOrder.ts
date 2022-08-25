@@ -2,8 +2,16 @@ import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';
 import config from 'config';
-import PageOrder from '../../backend/models/pageOrder';
-import database from '../../backend/utils/database';
+import PageOrder from '../../backend/models/pageOrder.js';
+import database from '../../backend/utils/database/index.js';
+import { fileURLToPath } from 'url';
+
+/**
+ * The __dirname CommonJS variables are not available in ES modules.
+ * https://nodejs.org/api/esm.html#no-__filename-or-__dirname
+ */
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const pagesOrder = database['pagesOrder'];
 

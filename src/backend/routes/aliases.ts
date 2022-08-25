@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
-import Aliases from '../controllers/aliases';
-import Pages from '../controllers/pages';
-import Alias from '../models/alias';
-import verifyToken from './middlewares/token';
-import PagesFlatArray from '../models/pagesFlatArray';
+import Aliases from '../controllers/aliases.js';
+import Pages from '../controllers/pages.js';
+import Alias from '../models/alias.js';
+import verifyToken from './middlewares/token.js';
+import PagesFlatArray from '../models/pagesFlatArray.js';
 
 const router = express.Router();
 
