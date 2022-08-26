@@ -1,7 +1,6 @@
-import PageData from '../models/page';
-import Pages from '../controllers/pages';
-import urlify from '../utils/urlify';
-import Page from '../models/page';
+import PageData from '../models/page.js';
+import Pages from '../controllers/pages.js';
+import urlify from '../utils/urlify.js';
 
 class Search {
   private words: { [key: string]: {[key: string]: number} } = Object.create(null);
