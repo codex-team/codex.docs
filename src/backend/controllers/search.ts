@@ -149,7 +149,9 @@ class Search {
     const pagesList: {[key: string]: number} = {};
 
     Object.keys(this.words)
-      .filter(word => words.indexOf(word) !== -1)
+      .filter(word => {
+        return !!words.filter(searchWord => word.indexOf(searchWord) !== -1).length
+      })
       .forEach(word => {
         Object.keys(this.words[word])
           .forEach(pageId => {
