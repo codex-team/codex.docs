@@ -1,12 +1,11 @@
 .page {
-  font-size: 15px;
-  line-height: 1.6;
-  letter-spacing: 0.005em;
-
   &__header {
     display: flex;
     align-items: center;
+    margin-bottom: 20px;
+    font-size: 14px;
     color: var(--color-text-second);
+    line-height: 1.5em;
 
     @media (--mobile) {
       font-size: 13px;
@@ -51,7 +50,7 @@
     font-size: 35px;
     font-weight: 900;
     letter-spacing: -0.04em;
-    margin-bottom: -0.1em;
+    margin: 0;
   }
 
   .cdx-marker {
@@ -61,12 +60,16 @@
 
   .inline-code,
   .block-header a .inline-code {
+    @apply --squircle;
+
+    font-size: 14px;
     display: inline-block;
     background: rgba(251,241,241,0.78);
     color: #C44545;
-    padding: 0.1em 0.5em;
+
+    padding: 3px 6px 2px;
     border-radius: 2px;
-    margin: 0 2px;
+    margin: -1px 2px 0;
     font-family: Menlo, Monaco, Consolas, Courier New, monospace;
     font-size: 0.84em;
     line-height: 1.4em;
@@ -78,6 +81,9 @@
   }
 
   &__content {
+    font-size: 16px;
+    line-height: 150%;
+
     a {
       text-decoration: none;
       border-bottom: 1px solid #000;
@@ -90,16 +96,22 @@
       }
 
       .inline-code {
+        font-size: 14px;
         margin: 0;
-        padding: 0.15em .5em;
+        padding: 2px 6px 1px;
         border-bottom: 1px dashed rgba(84, 151, 255, 0.99);
         color: #1f6fd8;
         background-color: #daf1fe;
+        @apply --squircle;
 
         &:hover {
           background-color: #c8edfe;
         }
       }
+    }
+
+    &-block {
+      padding: 8px 0;
     }
   }
 
