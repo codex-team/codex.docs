@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import Search from '../../controllers/search';
+import Search from '../../controllers/search.js';
 
 const router = express.Router();
 
@@ -13,18 +13,18 @@ router.get('/search', async (req: Request, res: Response) => {
     const searchString = req.query.text as string;
 
     /** Start measuring search time */
-    const startTime = performance.now();
+    // const startTime = performance.now();
 
     const search = new Search();
 
     const searchResponse = await search.query(searchString);
 
     /** End measuring search time */
-    const endTime = performance.now();
+    // const endTime = performance.now();
 
     /** Show search time */
-    const searchItem = (endTime - startTime).toFixed(6);
-    console.log(`🔎 "${searchString}" ⏱  ${searchItem} ms`);
+    // const searchItem = (endTime - startTime).toFixed(6);
+    // console.log(`🔎 "${searchString}" ⏱  ${searchItem} ms`);
 
     const compactedPages = searchResponse.pages.map(page => {
       return {
@@ -42,7 +42,7 @@ router.get('/search', async (req: Request, res: Response) => {
       result: {
         suggestions: searchResponse.suggestions,
         pages: compactedPages,
-        time: searchItem,
+        // time: searchItem,
       },
     });
   } catch (err) {
