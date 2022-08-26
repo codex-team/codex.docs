@@ -23,7 +23,7 @@
         {% include 'components/button.twig' with {label: 'Edit', icon: 'pencil', size: 'small', url: '/page/edit/' ~ page._id, class: 'page__header-button'} %}
       {% endif %}
     </header>
-    <h1 class="page__title">
+    <h1 class="page__title" id="{{ page.title | urlify  }}">
       {{ page.title }}
     </h1>
     {% if (config.carbon and config.carbon.placement and config.carbon.serve) %}

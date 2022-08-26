@@ -1,194 +1,263 @@
-import Page from '../models/page';
+import PageData from '../models/page';
 import Pages from '../controllers/pages';
+import urlify from '../utils/urlify';
+import Page from '../models/page';
 
 class Search {
-  /**
-   * Prepare words database
-   */
-  public async index() {
-    /**
-     * Prepare pages content for the search
-     * @todo - it should be done in the background
-     */
-    const pages = await Pages.getAll();
-    const pagesWords = pages.map(page => {
-      const pageWords: string[] = [];
+  private words: { [key: string]: {[key: string]: number} } = Object.create(null);
+  private pages: PageData[] = [];
 
-      page.body.blocks.forEach((block: any) => {
-        let blockContent = '';
-
-        const validBlocks = ['header', 'paragraph', 'list'];
-        if (!validBlocks.includes(block.type)) {
-          return;
-        }
-
-        switch (block.type) {
-          case 'header':
-            blockContent = block.data.text;
-            break;
-
-          case 'paragraph':
-            blockContent = block.data.text
-            break;
-
-          case 'list':
-            blockContent = block.data.items.join(' ');
-            break;
-
-          default:
-            return;
-        }
-
-        const blockWords: string[] = blockContent
-          .replace(/<[^>]*>?/gm, '')
-
-          // lowercase all words
-          .toLowerCase()
-
-          // left only letters (+cyrillic) and numbers
-          .replace(/[^a-zа-я0-9]/gi, ' ')
-
-          // remove multiple spaces
-          .replace(/\s+/g, ' ')
-
-          // split to words by spaces
-          .split(' ');
-
-        pageWords.push(...blockWords);
-      });
-
-      const uniqueWords = [...new Set(pageWords)].sort();
-
-      return {
-        id: page._id,
-        words: uniqueWords
-      };
-    });
-
-    return pagesWords;
-  }
-
-  public async query(searchString: string) {
-    const pages = await Pages.getAll();
-    const pagesWords = await this.index();
+  public async init() {
+    this.pages = await this.getPages();
 
     /**
-     * Search itself
+     * Process all pages
      */
-    const searchWords = searchString.toLowerCase().split(' ');
-    const goodPages = pagesWords.map(({ id, words}) => {
-      const foundWords = searchWords.filter(
-        word => {
-          return words.filter(
-            testWord => {
-              return testWord.indexOf(word) === 0
-            }
-          ).length > 0;
-        }
-      );
+    for await (const page of this.pages) {
 
-      const successRatio = foundWords.length / searchWords.length * 100;
+      // if (page._id && !this.pages[page._id]) {
+      //   this.pages[page._id] = [];
+      // }
 
-      return {
-        id,
-        successRatio
-      }
-    });
+      /**
+       * Read content blocks from page
+       */
+      for await (const block of page.body.blocks) {
+        const blockRatio = this.getBlockRatio(block);
+        const blockContent = this.getCleanTextFromBlock(block);
+        const blockWords: string[] = this.splitTextToWords(blockContent);
 
-    const foundPages = goodPages
-      .filter(({ successRatio }) => successRatio > 75)
-      .sort((a, b) => b.successRatio - a.successRatio)
-      .slice(0, 10);
+        // if (page._id) {
+        //   this.pages[page._id].push(...blockWords);
+        // }
 
-    const returnPages = pages.filter(page => foundPages.some(({ id }) => id === page._id))
-      .map(page => {
-        let shortBody = '';
-        let flag = false;
-        let section = '';
-        let ratio = 0;
-
-        page.body.blocks.forEach((block: any) => {
-          if (flag) return;
-
-          let blockContent = '';
-
-          switch (block.type) {
-            case 'header':
-              blockContent = block.data.text;
-              ratio = 1;
-              section = blockContent;
-              break;
-
-            case 'paragraph':
-              blockContent = block.data.text
-              ratio = 0.5;
-              break;
-
-            case 'list':
-              blockContent = block.data.items.join(' ');
-              ratio = 0.5;
-              break;
-
-            default:
-              return;
+        /**
+         * Process list of words in a block
+         */
+        for await (const word of blockWords) {
+          if (!this.words[word]) {
+            this.words[word] = Object.create(null);
           }
 
-          blockContent = blockContent
-            .replace(/<[^>]*>?/gm, '');
-            // .toLowerCase();
-
-          searchWords.forEach(word => {
-            // blockContent = blockContent.replace(word, `<span class="search-word">${word}</span>`);
-            if (flag) return;
-
-            if (blockContent.toLowerCase().indexOf(word) !== -1) {
-
-              shortBody = this.highlightSubstring(blockContent, word);
-              flag = true;
+          if (page._id) {
+            if (!this.words[word][page._id]) {
+              this.words[word][page._id] = 0;
             }
-          })
 
-        });
-
-        return {
-          ...page,
-          shortBody,
-          anchor: section.replace(/\s+/g, '-').toLowerCase(),
-          section,
-        };
-      });
-
-
-
-
-    // --------- START test ---------
-    //
-    const uniqWords = [...new Set(pagesWords.flatMap(page => page.words))].sort();
-    //
-    // uniqWords.forEach(word => {
-    //   console.log(word);
-    // })
-
-    // --------- END test ---------
-
-
-
-    return {
-      suggestions: uniqWords.filter(word => word.indexOf(searchWords.slice(-1)[0]) === 0),
-      pages: returnPages
+            /**
+             * Add page id to the list of pages with this word
+             */
+            this.words[word][page._id] += blockRatio;
+          }
+        }
+      }
     }
   }
 
-  private async search(searchString: string) {
-    const pages = await this.query(searchString);
+  public async query(searchString: string) {
+    try {
+      await this.init();
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
 
-    return pages;
+    const searchWords = searchString
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, ' ')
+      .split(' ');
+
+    const goodPages = (await this.getPagesByWords(searchWords))
+      .slice(0, 10);
+
+    const returnPages: {[key: string]: string|number, ratio: number}[] = [];
+
+    goodPages.forEach(({ pageId, ratio }) => {
+      const page = this.pages.filter(page => page._id === pageId).pop();
+
+      if (!page) {
+        return;
+      }
+
+      let section = '';
+
+      page.body.blocks.forEach((block: any) => {
+        let koef = 0;
+
+        let blockContent = this.getCleanTextFromBlock(block);
+
+        let shortBody = blockContent;
+
+        if (block.type === 'header') {
+          section = blockContent;
+        }
+
+        searchWords.forEach(word => {
+          if (blockContent.toLowerCase().indexOf(word) !== -1) {
+            koef += 1;
+          }
+        })
+
+        shortBody = this.highlightSubstring(shortBody, searchWords);
+
+        if (koef > 0) {
+          returnPages.push({
+            ...page,
+            shortBody,
+            anchor: urlify(section),
+            section,
+            ratio: ratio * koef,
+          })
+        }
+      });
+    });
+
+    // // --------- START test ---------
+    // //
+    // const uniqWords = [...new Set(pagesWords.flatMap(page => page.words))].sort();
+    // //
+    // // uniqWords.forEach(word => {
+    // //   console.log(word);
+    // // })
+    //
+    // // --------- END test ---------
+
+    // console.log('RESULT')
+    // returnPages.forEach(page => {
+    //   console.log(page);
+    // });
+    //
+    // return {
+    //   suggestions: uniqWords.filter(word => word.indexOf(searchWords.slice(-1)[0]) === 0),
+    //   pages: returnPages
+    // }
+
+
+    return {
+      suggestions: [],
+      pages: returnPages
+        .sort((a, b) => b.ratio - a.ratio)
+        .slice(0, 15)
+    }
   }
 
-  private highlightSubstring(text: string, word: string) {
-    const wordRegExp = new RegExp(word, "ig");
+  private async getPages() {
+    return await Pages.getAll();
+  }
 
-    return text.replace(wordRegExp, '<span class="search-word">$&</span>');
+  private async getPagesByWords(words: string[]) {
+    const pagesList: {[key: string]: number} = {};
+
+    Object.keys(this.words)
+      .filter(word => words.indexOf(word) !== -1)
+      .forEach(word => {
+        Object.keys(this.words[word])
+          .forEach(pageId => {
+            if (!pagesList[pageId]) {
+              pagesList[pageId] = 0;
+            }
+
+            pagesList[pageId] += this.words[word][pageId]
+          })
+      })
+
+    const sortedPagesList = Object.keys(pagesList)
+      .map(pageId => {
+        return {
+          pageId,
+          ratio: pagesList[pageId]
+        }
+      })
+      .sort((a, b) => b.ratio - a.ratio);
+
+    return sortedPagesList;
+  }
+
+  private getUnique(elements: string[]) {
+    return [...new Set(elements)].sort();
+  }
+
+  private getBlockRatio(block: any) {
+    switch (block.type) {
+      case 'header':
+        return 6;
+      case 'paragraph':
+        return 2;
+      case 'list':
+        return 1;
+      default:
+        return 0;
+    }
+  }
+
+  private getCleanTextFromBlock(block: any): string {
+    let blockContent = '';
+
+    switch (block.type) {
+      case 'header':
+        blockContent = block.data.text;
+        break;
+
+      case 'paragraph':
+        blockContent = block.data.text
+        break;
+
+      case 'list':
+        blockContent = block.data.items.join(' ');
+        break;
+
+      default:
+        return blockContent;
+    }
+
+    blockContent = this.removeHTMLTags(blockContent);
+    blockContent = this.removeHTMLSpecialCharacters(blockContent);
+
+    return blockContent;
+  }
+
+  private removeHTMLTags(text: string) {
+    return text.replace(/<[^>]*>?/gm, '');
+  }
+
+  private removeHTMLSpecialCharacters(text: string) {
+    return text.replace(/&[^;]*;?/gm, '');
+  }
+
+  private splitTextToWords(text: string): string[] {
+    return text
+      // lowercase all words
+      .toLowerCase()
+
+      // remove punctuation
+      .replace(/[.,;:]/gi, '')
+
+      // left only letters (+cyrillic) and numbers
+      .replace(/[^a-zа-я0-9]/gi, ' ')
+
+      // remove multiple spaces
+      .replace(/\s+/g, ' ')
+
+      // split to words by spaces
+      .split(' ')
+
+      // ignore words shorter than 3 chars
+      .filter(word => word.length >= 3);
+  }
+
+  /**
+   * Highlight substring in string with a span wrapper
+   */
+  private highlightSubstring(text: string, words: string|string[]) {
+    if (typeof words === 'string') {
+      words = [words];
+    }
+
+    const wordRegExp = new RegExp(words.join('|'), "ig");
+    const CLASS_STYLE = 'search-word';
+
+    return text.replace(wordRegExp, `<span class="${CLASS_STYLE}">$&</span>`);
   }
 }
 

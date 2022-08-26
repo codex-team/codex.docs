@@ -13,7 +13,7 @@ export default class Search {
 
     this.isVisible = false;
 
-    this.PLACEHOLDER = 'Find in documents...';
+    this.PLACEHOLDER = 'Search docs';
 
     this.TOGGLER_SHORTCUT = 'CMD+SHIFT+F';
     this.shortcut = null;
@@ -38,7 +38,7 @@ export default class Search {
       searchResultItemSection: 'search-result-item__section',
       searchResultItemDescription: 'search-result-item__description',
 
-      blur: 'blurred',
+      blurred: 'blurred',
       noscroll: 'noscroll'
     };
   }
@@ -50,9 +50,15 @@ export default class Search {
     this.createDebouncedSearch();
     this.enableShortcutListening();
 
-    // ! force open search overlay
+    /**
+     * Only for development needs:
+     *
+     * - force open overlay
+     * - type a search string
+     * - fire search
+     */
+    // const testString = 'api method';
     // this.toggleSearchOverlay(true);
-    // const testString = 'api';
     // this.nodes.searchInput.value = testString;
     // this.debouncedSearch(testString);
   }
@@ -157,13 +163,14 @@ export default class Search {
       const result = document.createElement('a');
       result.classList.add(this.CSS.searchResultItem);
       result.setAttribute('href', url);
+      result.addEventListener('click', this.toggleSearchOverlay.bind(this, false));
 
       const title = document.createElement('div');
       title.classList.add(this.CSS.searchResultItemTitle);
       title.innerHTML = page.title;
       result.appendChild(title);
 
-      if (page.section !== page.title) {
+      if (page.section && page.section !== page.title) {
         const section = document.createElement('span');
         section.classList.add(this.CSS.searchResultItemSection);
         section.innerHTML = `${page.section}`;
