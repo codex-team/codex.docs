@@ -1,5 +1,12 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const path = require('path');
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+/**
+ * The __dirname CommonJS variables are not available in ES modules.
+ * https://nodejs.org/api/esm.html#no-__filename-or-__dirname
+ */
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * Options for the Babel
@@ -22,7 +29,7 @@ const babelLoader = {
   },
 };
 
-module.exports = () => {
+export default () => {
   return {
     entry: './src/frontend/js/app.js',
     output: {
@@ -53,9 +60,18 @@ module.exports = () => {
               loader: 'postcss-loader',
             },
           ],
-        }, {
+        },
+        {
           test: /\.js$/,
           exclude: /(node_modules|bower_components)/,
+          resolve: {
+            /**
+             * Disable mandatory to specify full paths with extensions using '"type": "module"' in package.json
+             * @see https://github.com/webpack/webpack/issues/11467#issuecomment-691873586
+             * @see https://stackoverflow.com/questions/69427025/programmatic-webpack-jest-esm-cant-resolve-module-without-js-file-exten
+             */
+            fullySpecified: false,
+          },
           use: [
             babelLoader,
           ],

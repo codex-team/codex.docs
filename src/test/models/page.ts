@@ -2,9 +2,17 @@ import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';
 import config from 'config';
-import Page from '../../backend/models/page';
-import translateString from '../../backend/utils/translation';
-import database from '../../backend/utils/database';
+import Page from '../../backend/models/page.js';
+import translateString from '../../backend/utils/translation.js';
+import database from '../../backend/utils/database/index.js';
+import { fileURLToPath } from 'url';
+
+/**
+ * The __dirname CommonJS variables are not available in ES modules.
+ * https://nodejs.org/api/esm.html#no-__filename-or-__dirname
+ */
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const pages = database['pages'];
 
