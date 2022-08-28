@@ -240,11 +240,44 @@ export default class Sidebar {
       callback: () => this.handleSliderClick(),
     });
 
+    // Add event listener to focus search input on Ctrl+P or ⌘+P is pressed.
     // eslint-disable-next-line no-new
     new Shortcut({
       name: 'CMD+P',
       on: document.body,
-      callback: () => {this.nodes.search.focus()},
+      callback: () => {
+        this.nodes.search.focus();
+      },
+    });
+
+    // Add event listener for up key during search input focus.
+    // eslint-disable-next-line no-new
+    new Shortcut({
+      name: 'up',
+      on: document.body,
+      callback: () => {
+        this.handleKeyboardEventOnSearch('up');
+      },
+    });
+
+    // Add event listener for down key during search input focus.
+    // eslint-disable-next-line no-new
+    new Shortcut({
+      name: 'down',
+      on: document.body,
+      callback: () => {
+        this.handleKeyboardEventOnSearch('down');
+      },
+    });
+
+    // Add event listener for enter key during search input focus.
+    // eslint-disable-next-line no-new
+    new Shortcut({
+      name: 'enter',
+      on: document.body,
+      callback: () => {
+        this.handleKeyboardEventOnSearch('enter');
+      },
     });
   }
 
@@ -270,107 +303,102 @@ export default class Sidebar {
   }
 
   /**
-   * Keyboard event listener added
-   *
-   * @param {KeyboardEvent} e - keyboard event.
+   * Handle keyboard events when search input is focused.
+   * 
+   * @param {string} eventType - type of the event.
+   * @returns {void}
    */
-  keyboardListener(e) {
-    // If Ctrl+P or ⌘+P is pressed, focus search input.
-    if ((e.ctrlKey || e.metaKey) && e.code === 'KeyP') {
-      this.nodes.search.focus();
-      e.preventDefault();
+  handleKeyboardEventOnSearch(eventType) {
+    // Return if search is not focused.
+    if (this.nodes.search !== document.activeElement) {
+      return;
     }
-    // If search is focused and arrow keys are pressed, move focus to next/previous item.
-    if (this.nodes.search === document.activeElement) {
-      if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
-        e.stopImmediatePropagation();
-        e.preventDefault();
-        // check for search results.
-        if (this.nodes.searchResults.length === 0) {
-          return;
-        }
-        // get current focused item.
-        const prevSelectedSearchResultIndex = this.nodes.selectedSearchResultIndex;
 
-        // get next item index.
-        if (this.nodes.selectedSearchResultIndex === null) {
-          // if no item is focused and up press, focus last item.
-          if (e.code === 'ArrowUp') {
+    // if enter is pressed and item is focused, then click on focused item.
+    if (eventType === 'enter' && this.nodes.selectedSearchResultIndex !== null) {
+      this.nodes.searchResults[this.nodes.selectedSearchResultIndex].element.click();
+    }
+
+    if (eventType === 'up' || eventType === 'down') {
+      // check for search results.
+      if (this.nodes.searchResults.length === 0) {
+        return;
+      }
+      // get current focused item.
+      const prevSelectedSearchResultIndex = this.nodes.selectedSearchResultIndex;
+
+      // get next item index.
+      if (this.nodes.selectedSearchResultIndex === null) {
+        // if no item is focused and up press, focus last item.
+        if (eventType === 'up') {
+          this.nodes.selectedSearchResultIndex = this.nodes.searchResults.length - 1;
+        }
+        // if no item is focused and down press, focus first item.
+        if (eventType === 'down') {
+          this.nodes.selectedSearchResultIndex = 0;
+        }
+      } else {
+        // if item is focused and up press, focus previous item.
+        if (eventType === 'up') {
+          this.nodes.selectedSearchResultIndex--;
+          if (this.nodes.selectedSearchResultIndex < 0) {
             this.nodes.selectedSearchResultIndex = this.nodes.searchResults.length - 1;
           }
-          // if no item is focused and down press, focus first item.
-          if (e.code === 'ArrowDown') {
+        }
+        // if item is focused and down press, focus next item.
+        if (eventType === 'down') {
+          this.nodes.selectedSearchResultIndex++;
+          if (this.nodes.selectedSearchResultIndex >= this.nodes.searchResults.length) {
             this.nodes.selectedSearchResultIndex = 0;
-          }
-        } else {
-          // if item is focused and up press, focus previous item.
-          if (e.code === 'ArrowUp') {
-            this.nodes.selectedSearchResultIndex--;
-            if (this.nodes.selectedSearchResultIndex < 0) {
-              this.nodes.selectedSearchResultIndex = this.nodes.searchResults.length - 1;
-            }
-          }
-          // if item is focused and down press, focus next item.
-          if (e.code === 'ArrowDown') {
-            this.nodes.selectedSearchResultIndex++;
-            if (this.nodes.selectedSearchResultIndex >= this.nodes.searchResults.length) {
-              this.nodes.selectedSearchResultIndex = 0;
-            }
-          }
-        }
-
-        // remove focus from previous item.
-        if (prevSelectedSearchResultIndex !== null) {
-          const { element: preElement, type: preType } = this.nodes.searchResults[prevSelectedSearchResultIndex];
-
-          if (preElement) {
-            // remove focus from previous item or title.
-            if (preType === 'title') {
-              preElement.classList.remove(Sidebar.CSS.sectionTitleSelected);
-            }
-            if (preType === 'item') {
-              preElement.classList.remove(Sidebar.CSS.sectionListItemSlelected);
-            }
-          }
-        }
-
-        const { element, type } = this.nodes.searchResults[this.nodes.selectedSearchResultIndex];
-
-        if (element) {
-          // add focus to next item or title.
-          if (type === 'title') {
-            element.classList.add(Sidebar.CSS.sectionTitleSelected);
-          }
-          if (type === 'item') {
-            element.classList.add(Sidebar.CSS.sectionListItemSlelected);
-          }
-          // find the parent section.
-          const parentSection = element.closest('section');
-          // check if it's visible.
-          const rect = parentSection.getBoundingClientRect();
-          const elemTop = rect.top;
-          const elemBottom = rect.bottom;
-
-          // scroll top if item is not visible.
-          if (elemTop < 0) {
-            this.nodes.sidebarContent.scroll({
-              top: elemTop,
-              behavior: 'smooth',
-            });
-          }
-          // scroll bottom if item is not visible.
-          if (elemBottom > window.innerHeight) {
-            this.nodes.sidebarContent.scroll({
-              top: elemBottom,
-              behavior: 'smooth',
-            });
           }
         }
       }
-      // if enter is pressed, click on focused item.
-      if (e.code === 'Enter') {
-        if (this.nodes.selectedSearchResultIndex !== null) {
-          this.nodes.searchResults[this.nodes.selectedSearchResultIndex].element.click();
+
+      // remove focus from previous item.
+      if (prevSelectedSearchResultIndex !== null) {
+        const { element: preElement, type: preType } = this.nodes.searchResults[prevSelectedSearchResultIndex];
+
+        if (preElement) {
+          // remove focus from previous item or title.
+          if (preType === 'title') {
+            preElement.classList.remove(Sidebar.CSS.sectionTitleSelected);
+          }
+          if (preType === 'item') {
+            preElement.classList.remove(Sidebar.CSS.sectionListItemSlelected);
+          }
+        }
+      }
+
+      const { element, type } = this.nodes.searchResults[this.nodes.selectedSearchResultIndex];
+
+      if (element) {
+        // add focus to next item or title.
+        if (type === 'title') {
+          element.classList.add(Sidebar.CSS.sectionTitleSelected);
+        }
+        if (type === 'item') {
+          element.classList.add(Sidebar.CSS.sectionListItemSlelected);
+        }
+        // find the parent section.
+        const parentSection = element.closest('section');
+        // check if it's visible.
+        const rect = parentSection.getBoundingClientRect();
+        const elemTop = rect.top;
+        const elemBottom = rect.bottom;
+
+        // scroll top if item is not visible.
+        if (elemTop < 0) {
+          this.nodes.sidebarContent.scroll({
+            top: elemTop,
+            behavior: 'smooth',
+          });
+        }
+        // scroll bottom if item is not visible.
+        if (elemBottom > window.innerHeight) {
+          this.nodes.sidebarContent.scroll({
+            top: elemBottom,
+            behavior: 'smooth',
+          });
         }
       }
     }
