@@ -62,7 +62,7 @@ export default class Sidebar {
       sidebarContent: null,
       toggler: null,
       slider: null,
-      search:null,
+      search: null,
       searchResults: [],
       selectedSearchResultIndex: null,
     };
@@ -97,7 +97,7 @@ export default class Sidebar {
     this.nodes.slider.addEventListener('click', () => this.handleSliderClick());
 
     this.nodes.search = moduleEl.querySelector('.' + Sidebar.CSS.sidebarSearch);
-    let className =  Sidebar.CSS.sidebarSearchWrapperOther;
+    let className = Sidebar.CSS.sidebarSearchWrapperOther;
 
     // Search initialize with platform specific shortcut.
     if (window.navigator.userAgent.indexOf('Mac') != -1) {
@@ -112,8 +112,6 @@ export default class Sidebar {
     });
     // Get search results if search input is empty.
     this.search('');
-    // Add event listener for keyboard events.
-    document.addEventListener('keydown', e => this.keyboardListener(e));
     this.ready();
   }
 
@@ -241,6 +239,13 @@ export default class Sidebar {
       on: document.body,
       callback: () => this.handleSliderClick(),
     });
+
+    // eslint-disable-next-line no-new
+    new Shortcut({
+      name: 'CMD+P',
+      on: document.body,
+      callback: () => {this.nodes.search.focus()},
+    });
   }
 
   /**
@@ -301,14 +306,14 @@ export default class Sidebar {
           // if item is focused and up press, focus previous item.
           if (e.code === 'ArrowUp') {
             this.nodes.selectedSearchResultIndex--;
-            if ( this.nodes.selectedSearchResultIndex < 0 ) {
+            if (this.nodes.selectedSearchResultIndex < 0) {
               this.nodes.selectedSearchResultIndex = this.nodes.searchResults.length - 1;
             }
           }
           // if item is focused and down press, focus next item.
           if (e.code === 'ArrowDown') {
             this.nodes.selectedSearchResultIndex++;
-            if ( this.nodes.selectedSearchResultIndex >= this.nodes.searchResults.length ) {
+            if (this.nodes.selectedSearchResultIndex >= this.nodes.searchResults.length) {
               this.nodes.selectedSearchResultIndex = 0;
             }
           }
@@ -316,7 +321,7 @@ export default class Sidebar {
 
         // remove focus from previous item.
         if (prevSelectedSearchResultIndex !== null) {
-          const { element:preElement, type:preType } =  this.nodes.searchResults[prevSelectedSearchResultIndex];
+          const { element: preElement, type: preType } = this.nodes.searchResults[prevSelectedSearchResultIndex];
 
           if (preElement) {
             // remove focus from previous item or title.
@@ -329,14 +334,14 @@ export default class Sidebar {
           }
         }
 
-        const { element, type } =  this.nodes.searchResults[this.nodes.selectedSearchResultIndex];
+        const { element, type } = this.nodes.searchResults[this.nodes.selectedSearchResultIndex];
 
         if (element) {
           // add focus to next item or title.
           if (type === 'title') {
             element.classList.add(Sidebar.CSS.sectionTitleSelected);
           }
-          if ( type === 'item') {
+          if (type === 'item') {
             element.classList.add(Sidebar.CSS.sectionListItemSlelected);
           }
           // find the parent section.
@@ -347,7 +352,7 @@ export default class Sidebar {
           const elemBottom = rect.bottom;
 
           // scroll top if item is not visible.
-          if ( elemTop < 0) {
+          if (elemTop < 0) {
             this.nodes.sidebarContent.scroll({
               top: elemTop,
               behavior: 'smooth',
@@ -364,7 +369,7 @@ export default class Sidebar {
       }
       // if enter is pressed, click on focused item.
       if (e.code === 'Enter') {
-        if (this.nodes.selectedSearchResultIndex!==null) {
+        if (this.nodes.selectedSearchResultIndex !== null) {
           this.nodes.searchResults[this.nodes.selectedSearchResultIndex].element.click();
         }
       }
@@ -386,7 +391,7 @@ export default class Sidebar {
         if (type === 'title') {
           element.classList.remove(Sidebar.CSS.sectionTitleSelected);
         }
-        if ( type === 'item') {
+        if (type === 'item') {
           element.classList.remove(Sidebar.CSS.sectionListItemSlelected);
         }
         // empty selected index.
@@ -422,8 +427,8 @@ export default class Sidebar {
             item.parentElement.classList.remove(Sidebar.CSS.sectionListItemWrapperHidden);
             // add item to search results.
             matchResults.push({
-              element:item,
-              type:'item',
+              element: item,
+              type: 'item',
             });
             isItemMatch = true;
           } else {
@@ -440,8 +445,8 @@ export default class Sidebar {
         section.classList.remove(Sidebar.CSS.sectionHidden);
         // add section title to search results.
         this.nodes.searchResults.push({
-          element:sectionTitle,
-          type:'title',
+          element: sectionTitle,
+          type: 'title',
         }, ...matchResults);
       }
     });
