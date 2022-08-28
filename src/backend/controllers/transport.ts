@@ -3,9 +3,9 @@ import fetch from 'node-fetch';
 import fs from 'fs';
 import nodePath from 'path';
 import config from 'config';
-import File, { FileData } from '../models/file';
-import crypto from '../utils/crypto';
-import deepMerge from '../utils/objects';
+import File, { FileData } from '../models/file.js';
+import crypto from '../utils/crypto.js';
+import deepMerge from '../utils/objects.js';
 
 const random16 = crypto.random16;
 

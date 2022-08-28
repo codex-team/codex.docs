@@ -1,9 +1,9 @@
-import Page, { PageData } from '../models/page';
-import Alias from '../models/alias';
-import PagesOrder from './pagesOrder';
-import PageOrder from '../models/pageOrder';
-import HttpException from '../exceptions/httpException';
-import PagesFlatArray from '../models/pagesFlatArray';
+import Page, { PageData } from '../models/page.js';
+import Alias from '../models/alias.js';
+import PagesOrder from './pagesOrder.js';
+import PageOrder from '../models/pageOrder.js';
+import HttpException from '../exceptions/httpException.js';
+import PagesFlatArray from '../models/pagesFlatArray.js';
 
 
 type PageDataFields = keyof PageData;

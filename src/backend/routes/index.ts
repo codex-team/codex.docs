@@ -1,10 +1,10 @@
 import express from 'express';
-import home from './home';
-import pages from './pages';
-import auth from './auth';
-import aliases from './aliases';
-import api from './api';
-import pagesMiddleware from './middlewares/pages';
+import home from './home.js';
+import pages from './pages.js';
+import auth from './auth.js';
+import aliases from './aliases.js';
+import api from './api/index.js';
+import pagesMiddleware from './middlewares/pages.js';
 
 const router = express.Router();
 

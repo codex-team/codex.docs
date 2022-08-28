@@ -3,8 +3,8 @@ import multer, { StorageEngine } from 'multer';
 import mime from 'mime';
 import mkdirp from 'mkdirp';
 import config from 'config';
-import Transport from '../../controllers/transport';
-import { random16 } from '../../utils/crypto';
+import Transport from '../../controllers/transport.js';
+import { random16 } from '../../utils/crypto.js';
 
 const router = Router();
 

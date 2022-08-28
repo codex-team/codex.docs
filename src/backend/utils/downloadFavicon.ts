@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import fetch from 'node-fetch';
+import fetch, { RequestInit } from 'node-fetch';
 
 /**
  * Uploaded favicon data
@@ -61,7 +61,7 @@ export async function downloadFavicon(destination: string, faviconFolder: string
   }, 5000);
 
   // Make get request to url
-  const res = await fetch(destination, { signal: controller.signal });
+  const res = await fetch(destination, { signal: controller.signal as RequestInit['signal'] });
   // Get buffer data from response
   const fileData = await res.buffer();
 

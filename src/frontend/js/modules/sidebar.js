@@ -1,10 +1,11 @@
 import { Storage } from '../utils/storage';
+import Shortcut from '@codexteam/shortcuts';
 
 /**
  * Local storage key
  */
 const LOCAL_STORAGE_KEY = 'docs_sidebar_state';
-
+const SIDEBAR_VISIBILITY_KEY = 'docs_sidebar_visibility';
 
 /**
  * Section list item height in px
@@ -36,6 +37,9 @@ export default class Sidebar {
       sectionListItemActive: 'docs-sidebar__section-list-item--active',
       sectionListItemSlelected: 'docs-sidebar__section-list-item--selected',
       sidebarToggler: 'docs-sidebar__toggler',
+      sidebarSlider: 'docs-sidebar__slider',
+      sidebarCollapsed: 'docs-sidebar--collapsed',
+      sidebarAnimated: 'docs-sidebar--animated',
       sidebarContent: 'docs-sidebar__content',
       sidebarContentHidden: 'docs-sidebar__content--hidden',
       sidebarContentInvisible: 'docs-sidebar__content--invisible',
@@ -53,9 +57,11 @@ export default class Sidebar {
      * Stores refs to HTML elements needed for correct sidebar work
      */
     this.nodes = {
+      sidebar: null,
       sections: [],
       sidebarContent: null,
       toggler: null,
+      slider: null,
       search:null,
       searchResults: [],
       selectedSearchResultIndex: null,
@@ -64,6 +70,14 @@ export default class Sidebar {
     const storedState = this.sidebarStorage.get();
 
     this.sectionsState = storedState ? JSON.parse(storedState) : {};
+
+    // Initialize localStorage that contains sidebar visibility
+    this.sidebarVisibilityStorage = new Storage(SIDEBAR_VISIBILITY_KEY);
+    // Get current sidebar visibility from storage
+    const storedVisibility = this.sidebarVisibilityStorage.get();
+
+    // Sidebar visibility
+    this.isVisible = storedVisibility !== 'false';
   }
 
   /**
@@ -73,11 +87,14 @@ export default class Sidebar {
    * @param {HTMLElement} moduleEl - module element
    */
   init(settings, moduleEl) {
+    this.nodes.sidebar = moduleEl;
     this.nodes.sections = Array.from(moduleEl.querySelectorAll('.' + Sidebar.CSS.section));
     this.nodes.sections.forEach(section => this.initSection(section));
     this.nodes.sidebarContent = moduleEl.querySelector('.' + Sidebar.CSS.sidebarContent);
     this.nodes.toggler = moduleEl.querySelector('.' + Sidebar.CSS.sidebarToggler);
     this.nodes.toggler.addEventListener('click', () => this.toggleSidebar());
+    this.nodes.slider = moduleEl.querySelector('.' + Sidebar.CSS.sidebarSlider);
+    this.nodes.slider.addEventListener('click', () => this.handleSliderClick());
 
     this.nodes.search = moduleEl.querySelector('.' + Sidebar.CSS.sidebarSearch);
     let className =  Sidebar.CSS.sidebarSearchWrapperOther;
@@ -97,7 +114,6 @@ export default class Sidebar {
     this.search('');
     // Add event listener for keyboard events.
     document.addEventListener('keydown', e => this.keyboardListener(e));
-
     this.ready();
   }
 
@@ -135,7 +151,7 @@ export default class Sidebar {
 
     const itemsCount = sectionList.children.length;
 
-    sectionList.style.maxHeight = `${ itemsCount * ITEM_HEIGHT }px`;
+    sectionList.style.maxHeight = `${itemsCount * ITEM_HEIGHT}px`;
   }
 
   /**
@@ -200,11 +216,51 @@ export default class Sidebar {
   }
 
   /**
+   * Initializes sidebar
+   *
+   * @returns {void}
+   */
+  initSidebar() {
+    if (!this.isVisible) {
+      this.nodes.sidebar.classList.add(Sidebar.CSS.sidebarCollapsed);
+    }
+
+    /**
+     * prevent sidebar animation on page load
+     * Since animated class contains transition, hiding will be animated with it
+     * To prevent awkward animation when visibility is set to false, we need to remove animated class
+     */
+    setTimeout(() => {
+      this.nodes.sidebar.classList.add(Sidebar.CSS.sidebarAnimated);
+    }, 200);
+
+    // add event listener to execute keyboard shortcut
+    // eslint-disable-next-line no-new
+    new Shortcut({
+      name: 'CMD+.',
+      on: document.body,
+      callback: () => this.handleSliderClick(),
+    });
+  }
+
+  /**
+   * Slides sidebar
+   *
+   * @returns {void}
+   */
+  handleSliderClick() {
+    this.isVisible = !this.isVisible;
+    this.sidebarVisibilityStorage.set(this.isVisible);
+    this.nodes.sidebar.classList.toggle(Sidebar.CSS.sidebarCollapsed);
+  }
+
+  /**
    * Displays sidebar when ready
    *
    * @returns {void}
    */
   ready() {
+    this.initSidebar();
     this.nodes.sidebarContent.classList.remove(Sidebar.CSS.sidebarContentInvisible);
   }
 
