@@ -57,7 +57,7 @@ export default class Search {
      * - type a search string
      * - fire search
      */
-    // const testString = 'api method';
+    // const testString = 'access editor';
     // this.toggleSearchOverlay(true);
     // this.nodes.searchInput.value = testString;
     // this.debouncedSearch(testString);

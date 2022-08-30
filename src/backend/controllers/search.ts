@@ -61,11 +61,7 @@ class Search {
       throw error;
     }
 
-    const searchWords = searchString
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, ' ')
-      .split(' ');
+    const searchWords = this.splitTextToWords(searchString);
 
     const goodPages = (await this.getPagesByWords(searchWords))
       .slice(0, 10);
@@ -182,9 +178,9 @@ class Search {
   private getBlockRatio(block: any) {
     switch (block.type) {
       case 'header':
-        return 6;
+        return 8;
       case 'paragraph':
-        return 2;
+        return 1.1;
       case 'list':
         return 1;
       default:
@@ -239,6 +235,8 @@ class Search {
 
       // remove multiple spaces
       .replace(/\s+/g, ' ')
+
+      .trim()
 
       // split to words by spaces
       .split(' ')
