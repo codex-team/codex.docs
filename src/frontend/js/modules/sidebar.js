@@ -11,6 +11,10 @@ const SIDEBAR_VISIBILITY_KEY = 'docs_sidebar_visibility';
  * Section list item height in px
  */
 const ITEM_HEIGHT = 35;
+/**
+ * HEIGHT of the header in px
+ */
+const HEADER_HEIGHT = 56;
 
 /**
  * Sidebar module
@@ -113,7 +117,7 @@ export default class Sidebar {
     // Get search results if search input is empty.
     this.search('');
     // Add event listener for keyboard events.
-    this.nodes.sidebar.addEventListener('keydown', e => this.handleKeyboardEventOnSearch(e));
+    this.nodes.sidebarContent.addEventListener('keydown', e => this.handleKeyboardEventOnSearch(e));
     this.ready();
   }
 
@@ -293,6 +297,8 @@ export default class Sidebar {
     // if enter is pressed and item is focused, then click on focused item.
     if (e.code === 'Enter' && this.nodes.selectedSearchResultIndex !== null) {
       this.nodes.searchResults[this.nodes.selectedSearchResultIndex].element.click();
+      e.preventDefault();
+      e.stopPropagation();
     }
 
     if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
@@ -363,7 +369,7 @@ export default class Sidebar {
         const elemBottom = rect.bottom;
 
         // scroll top if item is not visible.
-        if (elemTop < 0) {
+        if (elemTop < HEADER_HEIGHT) {
           this.nodes.sidebarContent.scroll({
             top: elemTop,
             behavior: 'smooth',
@@ -377,6 +383,8 @@ export default class Sidebar {
           });
         }
       }
+      e.preventDefault();
+      e.stopPropagation();
     }
   }
 
