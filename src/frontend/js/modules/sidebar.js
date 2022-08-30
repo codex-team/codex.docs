@@ -108,16 +108,19 @@ export default class Sidebar {
       className = Sidebar.CSS.sidebarSearchWrapperMac;
     }
     this.nodes.search.parentElement.classList.add(className);
+
     // Add event listener for search input.
     this.nodes.search.addEventListener('input', e => {
       e.stopImmediatePropagation();
       e.preventDefault();
       this.search(e.target.value);
     });
-    // Get search results if search input is empty.
+    // Initialize the search results.
     this.search('');
+
     // Add event listener for keyboard events.
     this.nodes.sidebarContent.addEventListener('keydown', e => this.handleKeyboardEventOnSearch(e));
+
     this.ready();
   }
 
@@ -257,10 +260,9 @@ export default class Sidebar {
           // make sidebar visible.
           this.handleSliderClick();
         }
-        document.activeElement.blur();
         this.nodes.search.focus();
         // Stop propagation of event.
-        e.stopImmediatePropagation();
+        e.stopPropagation();
         e.preventDefault();
       },
     });
@@ -301,9 +303,12 @@ export default class Sidebar {
 
     // if enter is pressed and item is focused, then click on focused item.
     if (e.code === 'Enter' && this.nodes.selectedSearchResultIndex !== null) {
+      // goto focused item.
       this.nodes.searchResults[this.nodes.selectedSearchResultIndex].element.click();
+      // prevent default action.
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
     }
 
     if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
@@ -319,9 +324,8 @@ export default class Sidebar {
         // if no item is focused and up press, focus last item.
         if (e.code === 'ArrowUp') {
           this.nodes.selectedSearchResultIndex = this.nodes.searchResults.length - 1;
-        }
+        } else if (e.code === 'ArrowDown') {
         // if no item is focused and down press, focus first item.
-        if (e.code === 'ArrowDown') {
           this.nodes.selectedSearchResultIndex = 0;
         }
       } else {
@@ -331,9 +335,8 @@ export default class Sidebar {
           if (this.nodes.selectedSearchResultIndex < 0) {
             this.nodes.selectedSearchResultIndex = this.nodes.searchResults.length - 1;
           }
-        }
+        } else if (e.code === 'ArrowDown') {
         // if item is focused and down press, focus next item.
-        if (e.code === 'ArrowDown') {
           this.nodes.selectedSearchResultIndex++;
           if (this.nodes.selectedSearchResultIndex >= this.nodes.searchResults.length) {
             this.nodes.selectedSearchResultIndex = 0;
@@ -349,8 +352,7 @@ export default class Sidebar {
           // remove focus from previous item or title.
           if (preType === 'title') {
             preElement.classList.remove(Sidebar.CSS.sectionTitleSelected);
-          }
-          if (preType === 'item') {
+          } else if (preType === 'item') {
             preElement.classList.remove(Sidebar.CSS.sectionListItemSlelected);
           }
         }
@@ -362,10 +364,10 @@ export default class Sidebar {
         // add focus to next item or title.
         if (type === 'title') {
           element.classList.add(Sidebar.CSS.sectionTitleSelected);
-        }
-        if (type === 'item') {
+        } else if (type === 'item') {
           element.classList.add(Sidebar.CSS.sectionListItemSlelected);
         }
+
         // find the parent section.
         const parentSection = element.closest('section');
         // check if it's visible.
@@ -379,17 +381,18 @@ export default class Sidebar {
             top: elemTop,
             behavior: 'smooth',
           });
-        }
+        } else if (elemBottom > window.innerHeight) {
         // scroll bottom if item is not visible.
-        if (elemBottom > window.innerHeight) {
           this.nodes.sidebarContent.scroll({
             top: elemBottom,
             behavior: 'smooth',
           });
         }
       }
+      // prevent default action.
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
     }
   }
 
@@ -407,8 +410,7 @@ export default class Sidebar {
         // remove focus from previous item or title.
         if (type === 'title') {
           element.classList.remove(Sidebar.CSS.sectionTitleSelected);
-        }
-        if (type === 'item') {
+        } else if (type === 'item') {
           element.classList.remove(Sidebar.CSS.sectionListItemSlelected);
         }
         // empty selected index.
