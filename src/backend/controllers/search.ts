@@ -46,7 +46,7 @@ class Search {
             /**
              * Add page id to the list of pages with this word
              */
-            this.words[word][page._id] += blockRatio;
+            this.words[word][page._id] *= blockRatio;
           }
         }
       }
