@@ -252,6 +252,11 @@ export default class Sidebar {
       name: 'CMD+P',
       on: document.body,
       callback: (e) => {
+        // If sidebar is not visible.
+        if (!this.isVisible) {
+          // make sidebar visible.
+          this.handleSliderClick();
+        }
         document.activeElement.blur();
         this.nodes.search.focus();
         // Stop propagation of event.
