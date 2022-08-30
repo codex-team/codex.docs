@@ -112,6 +112,8 @@ export default class Sidebar {
     });
     // Get search results if search input is empty.
     this.search('');
+    // Add event listener for keyboard events.
+    this.nodes.sidebar.addEventListener('keydown', e => this.handleKeyboardEventOnSearch(e));
     this.ready();
   }
 
@@ -245,38 +247,12 @@ export default class Sidebar {
     new Shortcut({
       name: 'CMD+P',
       on: document.body,
-      callback: () => {
+      callback: (e) => {
+        document.activeElement.blur();
         this.nodes.search.focus();
-      },
-    });
-
-    // Add event listener for up key during search input focus.
-    // eslint-disable-next-line no-new
-    new Shortcut({
-      name: 'up',
-      on: document.body,
-      callback: () => {
-        this.handleKeyboardEventOnSearch('up');
-      },
-    });
-
-    // Add event listener for down key during search input focus.
-    // eslint-disable-next-line no-new
-    new Shortcut({
-      name: 'down',
-      on: document.body,
-      callback: () => {
-        this.handleKeyboardEventOnSearch('down');
-      },
-    });
-
-    // Add event listener for enter key during search input focus.
-    // eslint-disable-next-line no-new
-    new Shortcut({
-      name: 'enter',
-      on: document.body,
-      callback: () => {
-        this.handleKeyboardEventOnSearch('enter');
+        // Stop propagation of event.
+        e.stopImmediatePropagation();
+        e.preventDefault();
       },
     });
   }
@@ -304,22 +280,22 @@ export default class Sidebar {
 
   /**
    * Handle keyboard events when search input is focused.
-   * 
-   * @param {string} eventType - type of the event.
+   *
+   * @param {Event} e - Event Object.
    * @returns {void}
    */
-  handleKeyboardEventOnSearch(eventType) {
+  handleKeyboardEventOnSearch(e) {
     // Return if search is not focused.
     if (this.nodes.search !== document.activeElement) {
       return;
     }
 
     // if enter is pressed and item is focused, then click on focused item.
-    if (eventType === 'enter' && this.nodes.selectedSearchResultIndex !== null) {
+    if (e.code === 'Enter' && this.nodes.selectedSearchResultIndex !== null) {
       this.nodes.searchResults[this.nodes.selectedSearchResultIndex].element.click();
     }
 
-    if (eventType === 'up' || eventType === 'down') {
+    if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
       // check for search results.
       if (this.nodes.searchResults.length === 0) {
         return;
@@ -330,23 +306,23 @@ export default class Sidebar {
       // get next item index.
       if (this.nodes.selectedSearchResultIndex === null) {
         // if no item is focused and up press, focus last item.
-        if (eventType === 'up') {
+        if (e.code === 'ArrowUp') {
           this.nodes.selectedSearchResultIndex = this.nodes.searchResults.length - 1;
         }
         // if no item is focused and down press, focus first item.
-        if (eventType === 'down') {
+        if (e.code === 'ArrowDown') {
           this.nodes.selectedSearchResultIndex = 0;
         }
       } else {
         // if item is focused and up press, focus previous item.
-        if (eventType === 'up') {
+        if (e.code === 'ArrowUp') {
           this.nodes.selectedSearchResultIndex--;
           if (this.nodes.selectedSearchResultIndex < 0) {
             this.nodes.selectedSearchResultIndex = this.nodes.searchResults.length - 1;
           }
         }
         // if item is focused and down press, focus next item.
-        if (eventType === 'down') {
+        if (e.code === 'ArrowDown') {
           this.nodes.selectedSearchResultIndex++;
           if (this.nodes.selectedSearchResultIndex >= this.nodes.searchResults.length) {
             this.nodes.selectedSearchResultIndex = 0;
