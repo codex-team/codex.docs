@@ -1,6 +1,6 @@
-import PageOrder from '../models/pageOrder';
-import Page from '../models/page';
-import PagesFlatArray from '../models/pagesFlatArray';
+import PageOrder from '../models/pageOrder.js';
+import Page from '../models/page.js';
+import PagesFlatArray from '../models/pagesFlatArray.js';
 
 /**
  * @class PagesOrder

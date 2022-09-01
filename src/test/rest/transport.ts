@@ -5,8 +5,17 @@ import chai from 'chai';
 import chaiHTTP from 'chai-http';
 import rimraf from 'rimraf';
 import config from 'config';
-import server from '../../bin/server';
-import model from '../../backend/models/file';
+import server from '../../bin/server.js';
+import model from '../../backend/models/file.js';
+import { fileURLToPath } from 'url';
+
+/**
+ * The __dirname CommonJS variables are not available in ES modules.
+ * https://nodejs.org/api/esm.html#no-__filename-or-__dirname
+ */
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 
 const {expect} = chai;
 const app = server.app;
@@ -119,7 +128,7 @@ describe('Transport routes: ', () => {
     if (file.path !== undefined){
       const getRes = await agent
         .get(file.path);
-  
+
       expect(getRes).to.have.status(200);
       expect(getRes).to.have.header('content-type', new RegExp(`^${file.mimetype}`));
     }
@@ -170,7 +179,7 @@ describe('Transport routes: ', () => {
     if (file.path !== undefined){
       const getRes = await agent
         .get(file.path);
-  
+
       expect(getRes).to.have.status(200);
       expect(getRes).to.have.header('content-type', file.mimetype);
     }

@@ -3,8 +3,16 @@
  */
 import twig from 'twig';
 import fs from 'fs';
-import urlify from './urlify';
+import urlify from './urlify.js';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+/**
+ * The __dirname CommonJS variables are not available in ES modules.
+ * https://nodejs.org/api/esm.html#no-__filename-or-__dirname
+ */
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default (function () {
   'use strict';

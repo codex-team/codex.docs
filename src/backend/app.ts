@@ -1,17 +1,24 @@
 import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
-import rcParser from './utils/rcparser';
-import routes from './routes';
-import HttpException from './exceptions/httpException';
+import rcParser from './utils/rcparser.js';
+import routes from './routes/index.js';
+import HttpException from './exceptions/httpException.js';
 import * as dotenv from 'dotenv';
 import config from 'config';
-import HawkCatcher from '@hawk.so/nodejs';
+import { default as HawkCatcher } from '@hawk.so/nodejs';
 import os from 'os';
 import appConfig from 'config';
-import { downloadFavicon, FaviconData } from './utils/downloadFavicon';
+import { downloadFavicon, FaviconData } from './utils/downloadFavicon.js';
 
+/**
+ * The __dirname CommonJS variables are not available in ES modules.
+ * https://nodejs.org/api/esm.html#no-__filename-or-__dirname
+ */
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 dotenv.config();
 const app = express();
@@ -34,7 +41,7 @@ if (process.env.HAWK_TOKEN_CLIENT) {
 // view engine setup
 app.set('views', path.join(__dirname, './', 'views'));
 app.set('view engine', 'twig');
-require('./utils/twig');
+import('./utils/twig.js');
 
 const downloadedFaviconFolder = os.tmpdir();
 

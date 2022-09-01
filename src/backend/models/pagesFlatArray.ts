@@ -1,5 +1,5 @@
-import Page from './page';
-import PageOrder from './pageOrder';
+import Page from './page.js';
+import PageOrder from './pageOrder.js';
 import NodeCache from 'node-cache';
 
 // Create cache for flat array

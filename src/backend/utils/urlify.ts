@@ -1,4 +1,4 @@
-import translateString from './translation';
+import translateString from './translation.js';
 
 /**
  * Convert text to URL-like string

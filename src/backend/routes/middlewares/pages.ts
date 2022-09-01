@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import Pages from '../../controllers/pages';
-import PagesOrder from '../../controllers/pagesOrder';
-import Page from '../../models/page';
-import asyncMiddleware from '../../utils/asyncMiddleware';
-import PageOrder from '../../models/pageOrder';
+import Pages from '../../controllers/pages.js';
+import PagesOrder from '../../controllers/pagesOrder.js';
+import Page from '../../models/page.js';
+import asyncMiddleware from '../../utils/asyncMiddleware.js';
+import PageOrder from '../../models/pageOrder.js';
 
 /**
  * Process one-level pages list to parent-children list
