@@ -2,27 +2,23 @@
   display: inline-block;
   width: 100%;
 
-  span {
-    color: inherit !important;
-  }
-
   &--added {
-    color: #277030;
-    background-color: #e2fce7;
+    color: #70b979;
+    background-color: #25f84d21;
 
     &::before {
       content: '+';
-      opacity: 0.4;
+      opacity: 0.8;
     }
   }
 
   &--removed {
-    color: rgb(174, 54, 60);
-    background-color: rgba(255, 230, 230, 1);
+    color: #f1acaf;
+    background-color: #95000069;
 
     &::before {
       content: '-';
-      opacity: 0.4;
+      opacity: 0.8;
     }
   }
 }
