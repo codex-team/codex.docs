@@ -119,7 +119,7 @@ export default class Sidebar {
     this.search('');
 
     // Add event listener for keyboard events.
-    this.nodes.sidebarContent.addEventListener('keydown', e => this.handleKeyboardEventOnSearch(e));
+    this.nodes.search.addEventListener('keydown', e => this.handleKeyboardEventOnSearch(e));
 
     this.ready();
   }
