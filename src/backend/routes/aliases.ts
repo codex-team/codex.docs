@@ -4,6 +4,7 @@ import Pages from '../controllers/pages';
 import Alias from '../models/alias';
 import verifyToken from './middlewares/token';
 import PagesFlatArray from '../models/pagesFlatArray';
+import HttpException from '../exceptions/httpException';
 
 const router = express.Router();
 
@@ -24,7 +25,7 @@ router.get('*', verifyToken, async (req: Request, res: Response) => {
     const alias = await Aliases.get(url);
 
     if (alias.id === undefined) {
-      throw new Error('Alias not found');
+      throw new HttpException(404, 'Alias not found');
     }
 
     switch (alias.type) {
@@ -46,10 +47,17 @@ router.get('*', verifyToken, async (req: Request, res: Response) => {
       }
     }
   } catch (err) {
-    res.status(404).render('error', {
-      message: 'Page not found',
-      status: 404,
-    });
+    if (err instanceof HttpException && err.status === 404) {
+      res.status(404).render('error', {
+        message: 'Page not found',
+        status: 404,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        error: err,
+      });
+    }
   }
 });
 
