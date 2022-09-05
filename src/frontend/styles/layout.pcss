@@ -21,10 +21,6 @@
 
       @media (--desktop) {
         margin-left: 0;
-        /* padding: var(--layout-padding-vertical) var(--layout-padding-horizontal); */
-      }
-
-      @media (--less-then-3-col){
         padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
       }
     }
@@ -35,10 +31,7 @@
 
     display: flex;
     justify-content: space-between;
-    max-width: min(
-      calc(var(--layout-width-main-col) + var(--max-space-between-cols) + var(--layout-sidebar-width)),
-      calc(100vw - var(--layout-sidebar-width))
-    );
+    max-width: calc(var(--layout-width-main-col) + var(--max-space-between-cols) + var(--layout-sidebar-width));
     margin-left: max(0px, calc(50vw - var(--layout-sidebar-width) - var(--layout-width-main-col) / 2));
     margin-right: auto;
 
