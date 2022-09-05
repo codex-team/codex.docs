@@ -30,6 +30,10 @@
 
       svg {
         margin: 0 6px;
+
+        @media (--mobile) {
+          display: none;
+        }
       }
     }
 
@@ -65,7 +69,7 @@
     background: rgba(251,241,241,0.78);
     color: #C44545;
 
-    padding: 3px 6px 2px;
+    padding: 3px 4px 2px;
     margin: -1px 2px 0;
     font-family: Menlo, Monaco, Consolas, Courier New, monospace;
     font-size: 0.84em;
@@ -95,11 +99,11 @@
       .inline-code {
         font-size: 14px;
         margin: 0;
-        padding: 2px 6px 1px;
+        padding: 2px 5px;
         border-bottom: 1px dashed rgba(84, 151, 255, 0.99);
         color: #1f6fd8;
         background-color: #daf1fe;
-        border-radius: 0 !important;
+        border-radius: 3px !important;
 
         &:hover {
           background-color: #c8edfe;
