@@ -817,6 +817,10 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@codexteam/misprints/-/misprints-1.0.0.tgz#e5a7dec7389fe0f176cd51a040d6dc9bdc252086"
 
+"@codexteam/shortcuts@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@codexteam/shortcuts/-/shortcuts-1.2.0.tgz#b8dd7396962b0bd845a5c8f8f19bc6119b520e19"
+
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/@cspotcode/source-map-support/-/source-map-support-0.8.1.tgz#00629c35a688e05a88b1cda684fb9d5e73f000a1"

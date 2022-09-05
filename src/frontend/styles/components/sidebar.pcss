@@ -1,6 +1,34 @@
 .docs-sidebar {
   width: 100vw;
 
+  &--animated {
+    .docs-sidebar__content {
+      transition: transform 200ms ease-in-out;
+      will-change: transform;
+    }
+
+    .docs-sidebar__slider {
+      transition: transform 200ms ease-in-out;
+      will-change: transform;
+    }
+  }
+
+  &--collapsed {
+    @media (--desktop) {
+      .docs-sidebar__content {
+        transform: translateX(-100%);
+      }
+    }
+
+    .docs-sidebar__slider {
+      transform: translateX(20px);
+
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
   @media (--desktop) {
     width: var(--layout-sidebar-width);
   }
@@ -193,6 +221,24 @@
 
     svg {
       margin-right: 10px;
+    }
+  }
+
+  &__slider {
+    display: none;
+    position: fixed;
+    transform: translateX(calc(var(--layout-sidebar-width) + 20px));
+    bottom: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: var(--color-link-hover);
+
+    @media (--desktop) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 
