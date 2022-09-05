@@ -175,21 +175,33 @@
     overflow-x: auto;
   }
 
+  /**
+   * Common styles for text headings (H2, H3, H4)
+   */
   --text-header {
     margin: 18px 0 0;
     line-height: 1.35em;
   }
 
+  /**
+   * Styles for the H2 at the Page and Editor
+   */
   --text-header-2 {
     font-size: 24px;
     font-weight: 700;
   }
 
+  /**
+   * Styles for the H3 at the Page and Editor
+   */
   --text-header-3 {
     font-size: 18px;
     font-weight: 700;
   }
 
+  /**
+   * Styles for the inline code element at the Page and Editor
+   */
   --text-inline-code {
     display: inline-block;
     background: rgba(251,241,241,0.78);
@@ -209,6 +221,9 @@
     }
   }
 
+  /**
+   * Styles for regular links inside a text
+   */
   --text-inline-link {
     text-decoration: none;
     border-bottom: 1px solid #000;
@@ -220,6 +235,9 @@
       border-bottom-color: var(--color-link-active);
     }
 
+    /**
+     * When a link contain an inline code, highlight it by its own way
+     */
     .inline-code {
       margin: 0;
       padding: 2px 5px;
