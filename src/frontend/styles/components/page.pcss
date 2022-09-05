@@ -12,6 +12,9 @@
     }
 
     &-nav {
+      display: flex;
+      align-items: center;
+
       &-item {
         color: inherit;
         text-decoration: none;
@@ -23,13 +26,10 @@
         &:hover {
           color: var(--color-link-active);
         }
+      }
 
-        &:not(:last-of-type) {
-          &::after {
-            content: '»';
-            margin: 0 0.7em 0 0.45em;
-          }
-        }
+      svg {
+        margin: 0 6px;
       }
     }
 
