@@ -52,9 +52,7 @@
   }
 
   &__title {
-    font-size: 36px;
-    font-weight: 800;
-    margin: 0;
+    @apply --text-content-title;
   }
 
   .cdx-marker {
@@ -64,58 +62,20 @@
 
   .inline-code,
   .block-header a .inline-code {
-    font-size: 14px;
-    display: inline-block;
-    background: rgba(251,241,241,0.78);
-    color: #C44545;
-
-    padding: 3px 4px 2px;
-    margin: -1px 2px 0;
-    font-family: Menlo, Monaco, Consolas, Courier New, monospace;
-    font-size: 0.84em;
-    line-height: 1.4em;
-    border-bottom: 0;
-
-    &:hover {
-      background: rgba(251,241,241,0.78);
-    }
+    @apply --text-inline-code;
   }
 
   &__content {
-    font-size: 16px;
-    line-height: 150%;
+    @apply --text-content-main;
 
     a {
-      text-decoration: none;
-      border-bottom: 1px solid #000;
-      padding-bottom: 1px;
-      color: inherit;
-
-      &:hover {
-        color: var(--color-link-active);
-        border-bottom-color: var(--color-link-active);
-      }
-
-      .inline-code {
-        font-size: 14px;
-        margin: 0;
-        padding: 2px 5px;
-        border-bottom: 1px dashed rgba(84, 151, 255, 0.99);
-        color: #1f6fd8;
-        background-color: #daf1fe;
-        border-radius: 3px !important;
-
-        &:hover {
-          background-color: #c8edfe;
-        }
-      }
+      @apply --text-inline-link;
     }
 
     &-block {
-      padding: 10px 0;
+      @apply --content-block;
     }
   }
-
 }
 
 /**
@@ -136,17 +96,14 @@
  * ==================
  */
 .block-header {
-  margin: 18px 0 0;
-  line-height: 1.35em;
+  @apply --text-header;
 
   &--2 {
-    font-size: 24px;
-    font-weight: 700;
+    @apply --text-header-2;
   }
 
   &--3 {
-    font-size: 18px;
-    font-weight: 700;
+    @apply --text-header-3;
   }
 
   a {
@@ -207,14 +164,7 @@
   --color-code-number: #ff6262;
   --color-code-comment: #6c7f93;
 
-
-  background: var(--color-code-bg);
-
-  font-family: var(--font-mono);
-  line-height: 1.5em;
-  font-size: 13px;
-  overflow-x: auto;
-
+  @apply --text-code-block;
   @apply --squircle;
 
   &__content {
@@ -408,6 +358,7 @@
     border: 1px solid var(--color-line-gray);
   }
 }
+
 
 /**
  * Warning
