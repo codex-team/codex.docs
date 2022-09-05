@@ -3,19 +3,21 @@
 {% block body %}
   <article class="page" data-module="page">
     <header class="page__header">
-      <a href="/" class="page__header-nav">
-        Documentation
-      </a>
-      {% if page._parent %}
-        <a class="page__header-nav"
-          {% if pageParent.uri %}
-            href="/{{ pageParent.uri }}"
-          {% else %}
-            href="/page/{{ pageParent._id }}"
-          {% endif %}>
-          {{ pageParent.title }}
+      <div class="page__header-nav">
+        <a href="/" class="page__header-nav-item">
+          Documentation
         </a>
-      {% endif %}
+        {% if page._parent %}
+          <a class="page__header-nav-item"
+            {% if pageParent.uri %}
+              href="/{{ pageParent.uri }}"
+            {% else %}
+              href="/page/{{ pageParent._id }}"
+            {% endif %}>
+            {{ pageParent.title }}
+          </a>
+        {% endif %}
+      </div>
       <time class="page__header-time">
         Last edit {{ (page.body.time / 1000)  | date("M d Y") }}
       </time>
