@@ -368,10 +368,8 @@ export default class Sidebar {
           element.classList.add(Sidebar.CSS.sectionListItemSlelected);
         }
 
-        // find the parent section.
-        const parentSection = element.closest('section');
         // check if it's visible.
-        const rect = parentSection.getBoundingClientRect();
+        const rect = element.getBoundingClientRect();
         let elemTop = rect.top;
         let elemBottom = rect.bottom;
         const halfOfViewport = window.innerHeight / 2;
