@@ -372,17 +372,29 @@ export default class Sidebar {
         const parentSection = element.closest('section');
         // check if it's visible.
         const rect = parentSection.getBoundingClientRect();
-        const elemTop = rect.top;
-        const elemBottom = rect.bottom;
+        let elemTop = rect.top;
+        let elemBottom = rect.bottom;
+        const halfOfViewport = window.innerHeight / 2;
+        const scrollTop = this.nodes.sidebarContent.scrollTop;
 
         // scroll top if item is not visible.
         if (elemTop < HEADER_HEIGHT) {
+          // scroll half viewport up.
+          const nextTop = scrollTop - halfOfViewport;
+
+          // check if element visible after scroll.
+          elemTop = (elemTop + nextTop) < HEADER_HEIGHT ? elemTop : nextTop;
           this.nodes.sidebarContent.scroll({
             top: elemTop,
             behavior: 'smooth',
           });
         } else if (elemBottom > window.innerHeight) {
-        // scroll bottom if item is not visible.
+          // scroll bottom if item is not visible.
+          // scroll half viewport down.
+          const nextDown = halfOfViewport + scrollTop;
+
+          // check if element visible after scroll.
+          elemBottom = (elemBottom - nextDown) > window.innerHeight ? elemBottom : nextDown;
           this.nodes.sidebarContent.scroll({
             top: elemBottom,
             behavior: 'smooth',
