@@ -1,4 +1,4 @@
-import Alias from '../models/alias';
+import Alias from '../models/alias.js';
 
 /**
  * @class Aliases
@@ -13,10 +13,6 @@ class Aliases {
    */
   public static async get(aliasName: string): Promise<Alias> {
     const alias = await Alias.get(aliasName);
-
-    if (!alias.id) {
-      throw new Error('Entity with given alias does not exist');
-    }
 
     return alias;
   }

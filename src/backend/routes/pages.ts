@@ -1,9 +1,9 @@
 import express, { NextFunction, Request, Response } from 'express';
-import Pages from '../controllers/pages';
-import PagesOrder from '../controllers/pagesOrder';
-import verifyToken from './middlewares/token';
-import allowEdit from './middlewares/locals';
-import PagesFlatArray from '../models/pagesFlatArray';
+import Pages from '../controllers/pages.js';
+import PagesOrder from '../controllers/pagesOrder.js';
+import verifyToken from './middlewares/token.js';
+import allowEdit from './middlewares/locals.js';
+import PagesFlatArray from '../models/pagesFlatArray.js';
 
 const router = express.Router();
 

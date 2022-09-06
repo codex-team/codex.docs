@@ -1,11 +1,12 @@
 .table-of-content {
   border-left: 1px solid var(--color-line-gray);
-  padding-left: var(--layout-padding-horizontal);
-
-  height: 100%;
+  max-height: 100%;
   overflow: auto;
-  padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
+  padding: 0 var(--layout-padding-horizontal);
+  margin: var(--layout-padding-vertical) 0;
   box-sizing: border-box;
+
+  --padding-x: 8px;
 
   &__header {
     font-size: 16px;
@@ -14,7 +15,7 @@
     letter-spacing: -0.01em;
 
     margin-bottom: 12px;
-    padding: 0 6px;
+    padding: 0 var(--padding-x);
   }
 
   &__list {
@@ -27,7 +28,7 @@
 
     list-style: none;
 
-    gap: 6px;
+    gap: 2px;
 
     &-item {
       @apply --squircle;
@@ -47,7 +48,7 @@
       &--indent-4x { margin-left: 24px; }
 
       & > a {
-        padding: 4px 8px;
+        padding: 4px var(--padding-x);
         display: block;
         font-size: 14px;
         letter-spacing: -0.01em;
