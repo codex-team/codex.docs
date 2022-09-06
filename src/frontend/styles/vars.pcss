@@ -1,7 +1,6 @@
 :root {
-  --color-text-main: #313649;
-  --color-text-second: #5d6068;
-  --color-direction-navigation: #717682;
+  --color-text-main: #060C26;
+  --color-text-second: #717682;
   --color-line-gray: #E8E8EB;
   --color-link-active: #2071cc;
   --color-link-hover: #F3F6F8;
@@ -9,6 +8,19 @@
   --color-page-active: #ff1767;
   --color-input-primary: #F3F6F8;
   --color-input-border: #477CFF;
+
+
+  /* Code Block styles */
+  --color-code-bg: #252935;
+  --color-code-main: #E1EBFE;
+  --color-code-keyword: #ff6675;
+  --color-code-class: #bf9dff;
+  --color-code-variable: #69c6ff;
+  --color-code-string: #81bcff;
+  --color-code-params: #ffa259;
+  --color-code-tag: #74e59d;
+  --color-code-number: #ff6262;
+  --color-code-comment: #6c7f93;
 
   --color-button-primary: #3389FF;
   --color-button-primary-hover: #2E7AE6;
@@ -29,7 +41,7 @@
   --layout-padding-horizontal: 22px;
   --layout-padding-vertical: 30px;
   --layout-sidebar-width: 290px;
-  --layout-width-main-col: 650px;
+  --layout-width-main-col: 700px;
   --layout-height-header: 56px;
 
   @media (--mobile) {
@@ -43,11 +55,6 @@
   }
 
   --font-mono: Menlo,Monaco,Consolas,Courier New,monospace;
-
-  --font-serif {
-    font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans", Geneva, Arial, sans-serif;
-    letter-spacing: -0.03em;
-  }
 
   --button {
     display: inline-block;
@@ -131,6 +138,120 @@
       -webkit-mask-box-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10.3872C0 1.83334 1.83334 0 10.3872 0H13.6128C22.1667 0 24 1.83334 24 10.3872V13.6128C24 22.1667 22.1667 24 13.6128 24H10.3872C1.83334 24 0 22.1667 0 13.6128V10.3872Z' fill='black'/%3E%3C/svg%3E%0A") 48% 41% 37.9% 53.3%;;
     }
   }
+
+  /**
+   * The common styles for the Page blocks as well as Editor blocks
+   */
+  --content-block {
+    padding: 10px 0;
+  }
+
+  /**
+   * Main page H1 title
+   */
+  --text-content-title {
+    font-size: 36px;
+    font-weight: 800;
+    margin: 0;
+  }
+
+  /**
+   * Page body font
+   */
+  --text-content-main {
+    font-size: 16px;
+    line-height: 150%;
+  }
+
+  /**
+   * Code on page and in the Editor
+   */
+  --text-code-block {
+    background: var(--color-code-bg);
+    color: var(--color-code-main);
+    font-family: var(--font-mono);
+    line-height: 1.5em;
+    font-size: 13px;
+    overflow-x: auto;
+  }
+
+  /**
+   * Common styles for text headings (H2, H3, H4)
+   */
+  --text-header {
+    margin: 18px 0 0;
+    line-height: 1.35em;
+  }
+
+  /**
+   * Styles for the H2 at the Page and Editor
+   */
+  --text-header-2 {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  /**
+   * Styles for the H3 at the Page and Editor
+   */
+  --text-header-3 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  /**
+   * Styles for the inline code element at the Page and Editor
+   */
+  --text-inline-code {
+    display: inline-block;
+    background: rgba(251,241,241,0.78);
+    color: #C44545;
+    font-size: 14px;
+    line-height: 1.4em;
+    letter-spacing: 0;
+
+    padding: 3px 4px 2px;
+    margin: -1px 2px 0;
+    font-family: var(--font-mono);
+    font-size: 0.84em;
+    border-bottom: 0;
+
+    &:hover {
+      background: rgba(251,241,241,0.78);
+    }
+  }
+
+  /**
+   * Styles for regular links inside a text
+   */
+  --text-inline-link {
+    text-decoration: none;
+    border-bottom: 1px solid #000;
+    padding-bottom: 1px;
+    color: inherit;
+
+    &:hover {
+      color: var(--color-link-active);
+      border-bottom-color: var(--color-link-active);
+    }
+
+    /**
+     * When a link contain an inline code, highlight it by its own way
+     */
+    .inline-code {
+      margin: 0;
+      padding: 2px 5px;
+      border-bottom: 1px dashed rgba(84, 151, 255, 0.99);
+      color: #1f6fd8;
+      background-color: #daf1fe;
+      border-radius: 3px !important;
+
+      &:hover {
+        background-color: #c8edfe;
+      }
+    }
+  }
+
 }
 
 /**
@@ -140,5 +261,6 @@
 @custom-media --desktop all and (min-width: 1050px);
 @custom-media --tablet all and (min-width: 980px) and (max-width: 1050px);
 @custom-media --mobile all and (max-width: 980px);
+@custom-media --not-mobile all and (min-width: 981px);
 @custom-media --retina all and (-webkit-min-device-pixel-ratio: 1.5);
 @custom-media --can-hover all and (hover:hover);
