@@ -57,7 +57,7 @@ export default class Search {
      * - type a search string
      * - fire search
      */
-    // const testString = 'access editor';
+    // const testString = 'codex description';
     // this.toggleSearchOverlay(true);
     // this.nodes.searchInput.value = testString;
     // this.debouncedSearch(testString);

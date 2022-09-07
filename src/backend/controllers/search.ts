@@ -1,23 +1,28 @@
+import NodeCache from 'node-cache';
 import PageData from '../models/page.js';
 import Pages from '../controllers/pages.js';
 import urlify from '../utils/urlify.js';
+import Page from '../models/page.js';
+
+const globalWords: { [key: string]: {[key: string]: number} } = Object.create(null);
+let globalPages: PageData[] = [];
 
 class Search {
-  private words: { [key: string]: {[key: string]: number} } = Object.create(null);
-  private pages: PageData[] = [];
+  // private words: { [key: string]: {[key: string]: number} } = Object.create(null);
+  // private pages: PageData[] = [];
+  // private cache: NodeCache = new NodeCache();
 
   public async init() {
-    this.pages = await this.getPages();
+    if (globalWords && Object.keys(globalWords).length) {
+      return Promise.resolve();
+    }
+
+    globalPages = await this.getPages();
 
     /**
      * Process all pages
      */
-    for await (const page of this.pages) {
-
-      // if (page._id && !this.pages[page._id]) {
-      //   this.pages[page._id] = [];
-      // }
-
+    for await (const page of globalPages) {
       /**
        * Read content blocks from page
        */
@@ -26,40 +31,33 @@ class Search {
         const blockContent = this.getCleanTextFromBlock(block);
         const blockWords: string[] = this.splitTextToWords(blockContent);
 
-        // if (page._id) {
-        //   this.pages[page._id].push(...blockWords);
-        // }
-
         /**
          * Process list of words in a block
          */
         for await (const word of blockWords) {
-          if (!this.words[word]) {
-            this.words[word] = Object.create(null);
+          if (!globalWords[word]) {
+            globalWords[word] = Object.create(null);
           }
 
           if (page._id) {
-            if (!this.words[word][page._id]) {
-              this.words[word][page._id] = 0;
+            if (!globalWords[word][page._id]) {
+              globalWords[word][page._id] = 0;
             }
 
             /**
              * Add page id to the list of pages with this word
              */
-            this.words[word][page._id] *= blockRatio;
+            globalWords[word][page._id] += blockRatio;
           }
         }
       }
     }
+
+    console.log('Done');
   }
 
   public async query(searchString: string) {
-    try {
-      await this.init();
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+    await this.init();
 
     const searchWords = this.splitTextToWords(searchString);
 
@@ -69,7 +67,7 @@ class Search {
     const returnPages: {[key: string]: string|number, ratio: number}[] = [];
 
     goodPages.forEach(({ pageId, ratio }) => {
-      const page = this.pages.filter(page => page._id === pageId).pop();
+      const page = globalPages.filter(page => page._id === pageId).pop();
 
       if (!page) {
         return;
@@ -78,7 +76,7 @@ class Search {
       let section = '';
 
       page.body.blocks.forEach((block: any) => {
-        let koef = 0;
+        let koef = 1;
 
         let blockContent = this.getCleanTextFromBlock(block);
 
@@ -90,7 +88,7 @@ class Search {
 
         searchWords.forEach(word => {
           if (blockContent.toLowerCase().indexOf(word) !== -1) {
-            koef += 1;
+            koef *= 10;
           }
         })
 
@@ -108,27 +106,6 @@ class Search {
       });
     });
 
-    // // --------- START test ---------
-    // //
-    // const uniqWords = [...new Set(pagesWords.flatMap(page => page.words))].sort();
-    // //
-    // // uniqWords.forEach(word => {
-    // //   console.log(word);
-    // // })
-    //
-    // // --------- END test ---------
-
-    // console.log('RESULT')
-    // returnPages.forEach(page => {
-    //   console.log(page);
-    // });
-    //
-    // return {
-    //   suggestions: uniqWords.filter(word => word.indexOf(searchWords.slice(-1)[0]) === 0),
-    //   pages: returnPages
-    // }
-
-
     return {
       suggestions: [],
       pages: returnPages
@@ -137,27 +114,44 @@ class Search {
     }
   }
 
-  private async getPages() {
-    return await Pages.getAll();
+  private async getPages(): Promise<Page[]> {
+    const pages = await Pages.getAll();
+
+    return pages;
+
+    // let pages: Page[] | undefined = this.cache.get("SEARCH:PAGES");
+    //
+    // if ( pages === undefined ) {
+    //   console.log('cache for SEARCH:PAGES is missing')
+    //
+    //   pages = await Pages.getAll();
+    //
+    //   this.cache.set("SEARCH:PAGES", pages);
+    // } else {
+    //   console.log('wow SEARCH:PAGES is cached')
+    // }
+    //
+    // return pages;
   }
 
   private async getPagesByWords(words: string[]) {
     const pagesList: {[key: string]: number} = {};
 
-    Object.keys(this.words)
+    const validWords = Object.keys(globalWords)
       .filter(word => {
         return !!words.filter(searchWord => word.indexOf(searchWord) !== -1).length
-      })
-      .forEach(word => {
-        Object.keys(this.words[word])
-          .forEach(pageId => {
-            if (!pagesList[pageId]) {
-              pagesList[pageId] = 0;
-            }
+      });
 
-            pagesList[pageId] += this.words[word][pageId]
-          })
-      })
+    validWords.forEach(word => {
+      Object.keys(globalWords[word])
+        .forEach(pageId => {
+          if (!pagesList[pageId]) {
+            pagesList[pageId] = 0;
+          }
+
+          pagesList[pageId] += globalWords[word][pageId]
+        })
+    })
 
     const sortedPagesList = Object.keys(pagesList)
       .map(pageId => {
@@ -178,11 +172,18 @@ class Search {
   private getBlockRatio(block: any) {
     switch (block.type) {
       case 'header':
-        return 8;
+        if (block.data.level === 1) {
+          return 16;
+        } else {
+          return 2;
+        }
+
       case 'paragraph':
         return 1.1;
+
       case 'list':
         return 1;
+
       default:
         return 0;
     }
@@ -260,4 +261,8 @@ class Search {
   }
 }
 
-export default Search;
+const search = new Search();
+
+export default search;
+
+// export default Search;

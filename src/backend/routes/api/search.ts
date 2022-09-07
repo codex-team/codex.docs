@@ -15,9 +15,11 @@ router.get('/search', async (req: Request, res: Response) => {
     /** Start measuring search time */
     // const startTime = performance.now();
 
-    const search = new Search();
+    // const search = new Search();
+    //
+    // const searchResponse = await search.query(searchString);
 
-    const searchResponse = await search.query(searchString);
+    const searchResponse = await Search.query(searchString);
 
     /** End measuring search time */
     // const endTime = performance.now();
