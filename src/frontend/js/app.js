@@ -17,6 +17,7 @@ import Writing from './modules/writing';
 import Page from './modules/page';
 import Extensions from './modules/extensions';
 import Sidebar from './modules/sidebar';
+import Search from './modules/search';
 import HawkCatcher from '@hawk.so/javascript';
 
 /**
@@ -31,6 +32,8 @@ class Docs {
     this.page = new Page();
     this.extensions = new Extensions();
     this.sidebar = new Sidebar();
+    this.search = new Search();
+
     if (window.config.hawkClientToken) {
       this.hawk = new HawkCatcher(window.config.hawkClientToken);
     }

@@ -9,5 +9,5 @@
   "watch": [
     "**/*"
   ],
-  "ext": "js,twig"
+  "ext": "ts,js,twig"
 }
