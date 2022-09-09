@@ -82,6 +82,11 @@ export default class Writing {
     this.nodes.parentIdSelector = moduleEl.querySelector('[name="parent"]');
     this.nodes.putAboveIdSelector = moduleEl.querySelector('[name="above"]');
     this.nodes.uriInput = moduleEl.querySelector('[name="uri-input"]');
+
+    /**
+     * Set minimum margin left for main column to prevent editor controls from overlapping sidebar
+     */
+    document.documentElement.style.setProperty('--main-col-min-margin-left', '50px');
   };
 
   /**
