@@ -1,7 +1,10 @@
 {% extends 'layout.twig' %}
 
 {% block body %}
-  <h1>{{message}}</h1>
-  <h2>{{error.status}}</h2>
-  <pre>{{error.stack}}</pre>
+	<div class="error-page">
+    <h1>
+      ┬┴┬┴┤ {{status}} ├┬┴┬┴
+    </h1>
+		<h1>{{message}}</h1>
+	</div>
 {% endblock %}

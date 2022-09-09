@@ -10,12 +10,12 @@
   flex-direction: column;
   justify-content: space-between;
   background-color: var(--color-link-hover);
-  border-radius: 10px;
   padding: 12px 16px 12px 16px;
   color: black;
   width: max-content;
-  font-weight: 500;
   font-size: 14px;
+
+  @apply --squircle;
 
   &--previous {
     align-items: flex-start;
@@ -29,13 +29,15 @@
 
   &-direction {
     text-transform: capitalize;
-    color: var(--color-direction-navigation);
+    color: var(--color-text-second);
     font-size: 12px;
-    font-weight: 400;
+    line-height: 140%;
+    margin-bottom: 2px;
   }
 
   &-label {
     width: 100%;
+    font-weight: 500;
   }
 }
 
