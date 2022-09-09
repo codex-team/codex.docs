@@ -57,7 +57,7 @@ export default class Search {
      * - type a search string
      * - fire search
      */
-    // const testString = 'codex description';
+    // const testString = 'codex descri';
     // this.toggleSearchOverlay(true);
     // this.nodes.searchInput.value = testString;
     // this.debouncedSearch(testString);
@@ -153,6 +153,10 @@ export default class Search {
   showSearchResult({ data }) {
     this.clearSearchResults();
 
+    // if (data.result.suggestions.length) {
+    //   this.showSuggestedWordCompletion(data.result.suggestions[0]);
+    // }
+
     // const suggestionsWrapper = this.generateSearchSuggestions(data.result.suggestions);
     //
     // this.nodes.searchResultWrapper.appendChild(suggestionsWrapper);
@@ -185,6 +189,20 @@ export default class Search {
       this.nodes.searchResultWrapper.appendChild(result);
     });
   }
+
+  // showSuggestedWordCompletion(word) {
+  //   const typedString = this.nodes.searchInput.value;
+  //   const words = typedString.split(' ');
+  //
+  //   words.pop();
+  //   words.push(word);
+  //
+  //   this.nodes.searchInput.value = words.join(' ');
+  //
+  //   this.nodes.searchInput.select();
+  //   this.nodes.searchInput.selectionStart = typedString.length;
+  //   this.nodes.searchInput.selectionEnd = this.nodes.searchInput.value.length;
+  // }
 
   // generateSearchSuggestions(suggestions = []) {
   //   const suggestionsWrapper = document.createElement('div');

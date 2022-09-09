@@ -1,22 +1,29 @@
-import NodeCache from 'node-cache';
 import PageData from '../models/page.js';
 import Pages from '../controllers/pages.js';
 import urlify from '../utils/urlify.js';
 import Page from '../models/page.js';
 
-const globalWords: { [key: string]: {[key: string]: number} } = Object.create(null);
+let globalWords: { [key: string]: {[key: string]: number} } = Object.create(null);
 let globalPages: PageData[] = [];
 
 class Search {
-  // private words: { [key: string]: {[key: string]: number} } = Object.create(null);
-  // private pages: PageData[] = [];
-  // private cache: NodeCache = new NodeCache();
-
+  /**
+   * Initialize search
+   */
   public async init() {
     if (globalWords && Object.keys(globalWords).length) {
       return Promise.resolve();
     }
 
+    await this.syncDB();
+  }
+
+  /**
+   * Load all pages from DB and update globalWords
+   * Use this method when any page was updated
+   */
+  public async syncDB() {
+    globalWords = Object.create(null);
     globalPages = await this.getPages();
 
     /**
@@ -56,6 +63,10 @@ class Search {
     console.log('Done');
   }
 
+  /**
+   * Search for pages by given query
+   * @param searchString
+   */
   public async query(searchString: string) {
     await this.init();
 
@@ -107,41 +118,40 @@ class Search {
     });
 
     return {
-      suggestions: [],
+      suggestions: ['description', 'about', 'contact'],
       pages: returnPages
         .sort((a, b) => b.ratio - a.ratio)
         .slice(0, 15)
     }
   }
 
+  /**
+   *
+   * @private
+   */
   private async getPages(): Promise<Page[]> {
-    const pages = await Pages.getAll();
-
-    return pages;
-
-    // let pages: Page[] | undefined = this.cache.get("SEARCH:PAGES");
-    //
-    // if ( pages === undefined ) {
-    //   console.log('cache for SEARCH:PAGES is missing')
-    //
-    //   pages = await Pages.getAll();
-    //
-    //   this.cache.set("SEARCH:PAGES", pages);
-    // } else {
-    //   console.log('wow SEARCH:PAGES is cached')
-    // }
-    //
-    // return pages;
+    return await Pages.getAll();
   }
 
+  /**
+   * Return list of pages with a given words
+   * @param words
+   * @private
+   */
   private async getPagesByWords(words: string[]) {
     const pagesList: {[key: string]: number} = {};
 
+    /**
+     * Get list of words starting with a words from the search query
+     */
     const validWords = Object.keys(globalWords)
       .filter(word => {
         return !!words.filter(searchWord => word.indexOf(searchWord) !== -1).length
       });
 
+    /**
+     * For each word get list of pages with this word
+     */
     validWords.forEach(word => {
       Object.keys(globalWords[word])
         .forEach(pageId => {
@@ -153,6 +163,9 @@ class Search {
         })
     })
 
+    /**
+     * Sort pages by frequency of given words
+     */
     const sortedPagesList = Object.keys(pagesList)
       .map(pageId => {
         return {
@@ -165,10 +178,11 @@ class Search {
     return sortedPagesList;
   }
 
-  private getUnique(elements: string[]) {
-    return [...new Set(elements)].sort();
-  }
-
+  /**
+   * Get block's ratio. It is used to calculate the weight of the words in the block
+   * @param block
+   * @private
+   */
   private getBlockRatio(block: any) {
     switch (block.type) {
       case 'header':
@@ -189,6 +203,11 @@ class Search {
     }
   }
 
+  /**
+   * Return clear text content from block without HTML tags and special characters
+   * @param block
+   * @private
+   */
   private getCleanTextFromBlock(block: any): string {
     let blockContent = '';
 
@@ -215,14 +234,29 @@ class Search {
     return blockContent;
   }
 
+  /**
+   * Remove HTML tags from string. Only content inside tags will be left
+   * @param text
+   * @private
+   */
   private removeHTMLTags(text: string) {
     return text.replace(/<[^>]*>?/gm, '');
   }
 
+  /**
+   * Remove special characters from text. For example: &nbsp; &amp; &quot; &lt; &gt;
+   * @param text
+   * @private
+   */
   private removeHTMLSpecialCharacters(text: string) {
     return text.replace(/&[^;]*;?/gm, '');
   }
 
+  /**
+   * Split text to words
+   * @param text
+   * @private
+   */
   private splitTextToWords(text: string): string[] {
     return text
       // lowercase all words
@@ -237,6 +271,7 @@ class Search {
       // remove multiple spaces
       .replace(/\s+/g, ' ')
 
+      // remove spaces at the beginning and at the end
       .trim()
 
       // split to words by spaces
@@ -261,8 +296,7 @@ class Search {
   }
 }
 
-const search = new Search();
-
-export default search;
-
-// export default Search;
+/**
+ * Export initialized instance
+ */
+export default new Search();

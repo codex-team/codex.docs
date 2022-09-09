@@ -10,31 +10,37 @@ const router = express.Router();
  */
 router.get('/search', async (req: Request, res: Response) => {
   try {
+    /**
+     * Get search string
+     */
     const searchString = req.query.text as string;
 
-    /** Start measuring search time */
-    // const startTime = performance.now();
-
-    // const search = new Search();
-    //
-    // const searchResponse = await search.query(searchString);
-
+    /**
+     * Get search results
+     */
     const searchResponse = await Search.query(searchString);
 
-    /** End measuring search time */
-    // const endTime = performance.now();
-
-    /** Show search time */
-    // const searchItem = (endTime - startTime).toFixed(6);
-    // console.log(`🔎 "${searchString}" ⏱  ${searchItem} ms`);
-
+    /**
+     * Compose response
+     */
     const compactedPages = searchResponse.pages.map(page => {
       return {
+        /** Page id */
         _id: page._id,
+
+        /** Page title */
         title: page.title,
+
+        /** Page uri */
         uri: page.uri,
+
+        /** Section heading name for the found fragment */
         section: page.section,
+
+        /** Section's anchor */
         anchor: page.anchor,
+
+        /** Page fragment with searched items */
         shortBody: page.shortBody,
       };
     });
@@ -42,9 +48,11 @@ router.get('/search', async (req: Request, res: Response) => {
     res.json({
       success: true,
       result: {
-        suggestions: searchResponse.suggestions,
+        /** Found pages */
         pages: compactedPages,
-        // time: searchItem,
+
+        /** Typing suggestions */
+        suggestions: searchResponse.suggestions,
       },
     });
   } catch (err) {
