@@ -3,7 +3,6 @@
 <head>
   <title>{{ config.title }}</title>
   <link rel="stylesheet" href="/dist/main.css" />
-  <link rel="preload" href="{{ config.landingFrameSrc }}" as="document">
   <link rel="icon" type="{{ favicon.type }}" href="{{ favicon.destination }}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta property="og:title" content="{{ config.title }}" />
@@ -16,7 +15,7 @@
   {% include "components/header.twig" %}
   <div class="landing-content">
     {{ svg('frog') }}
-    <p>
+    <p class="landing-content__message">
       It’s time to create the first page!
     </p>
     {% include 'components/button.twig' with {label: 'Add page', icon: 'plus', size: 'small', url: '/page/new'} %}
