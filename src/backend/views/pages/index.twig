@@ -14,11 +14,13 @@
 </script>
 <body class="landing-body">
   {% include "components/header.twig" %}
-  <div class="landing-loader" id="frame-loader">
-    {{ svg('loader') }}
+  <div class="content">
+    {{ svg('frog') }}
+    <p>
+      It’s time to create the first page!
+    </p>
+    {% include 'components/button.twig' with {label: 'Add page', icon: 'plus', size: 'small', url: '/page/new'} %}
   </div>
-  <iframe class="landing-frame" src="{{ config.landingFrameSrc }}" seamless frameborder="0" onload="this.style.opacity = 1; setTimeout(document.getElementById('frame-loader').remove(), 500)"></iframe>
-
   {% if config.yandexMetrikaId is not empty %}
     <script type="text/javascript" >
       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
