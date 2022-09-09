@@ -94,8 +94,11 @@
     padding: 6px 8px;
   }
 
-  .ce-block__content {
-    max-width: none;
+  @media (--desktop) {
+    .ce-block__content,
+    .ce-toolbar__content {
+      max-width: var(--layout-width-main-col);
+    }
   }
 }
 
