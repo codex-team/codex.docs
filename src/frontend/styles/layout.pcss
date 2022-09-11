@@ -1,6 +1,6 @@
 :root {
   /**
-   * Allows to dynamically set main column minimun margin left. 
+   * Allows to dynamically set main column minimun margin left.
    * Is used for adding extra space for editor controls in page edit mode (otherwise controls overlap sidebar)
    */
   --main-col-min-margin-left: 0px;
@@ -41,7 +41,7 @@
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
-    padding: 20px var(--layout-padding-horizontal);
+    padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
 
     @media (--desktop) {
       max-width: min(
