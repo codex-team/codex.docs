@@ -8,7 +8,7 @@ import routes from './routes/index.js';
 import HttpException from './exceptions/httpException.js';
 import * as dotenv from 'dotenv';
 import config from 'config';
-import { default as HawkCatcher } from '@hawk.so/nodejs';
+import HawkCatcher from '@hawk.so/nodejs';
 import os from 'os';
 import appConfig from 'config';
 import { downloadFavicon, FaviconData } from './utils/downloadFavicon.js';
