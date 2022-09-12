@@ -10,15 +10,14 @@ html {
   border-bottom: 1px solid var(--color-line-gray);
   font-size: 18px;
   flex-wrap: wrap;
-  height: var(--layout-height-header);
   box-sizing: border-box;
   position: sticky;
   top: 0;
   background: white;
   z-index: 10;
 
-  @media (--mobile){
-    line-height: 40px;
+  @media (--not-mobile){
+    height: var(--layout-height-header);
   }
 
   &__menu-link,
@@ -36,11 +35,13 @@ html {
   }
 
   &__menu-link {
-    padding: 4px 10px;
     font-weight: 500;
     transition: background-color .13s;
 
-    @apply --squircle;
+    @media (--not-mobile) {
+      padding: 4px 10px;
+      @apply --squircle;
+    }
 
     &:hover {
       background-color: var(--color-link-hover);
@@ -55,8 +56,9 @@ html {
     font-size: 16px;
 
     @media (--mobile) {
+      margin-top: 6px;
       flex-basis: 100%;
-      font-size: 12px;
+      font-size: 14px;
     }
 
     li {
@@ -85,8 +87,8 @@ html {
         @media (--mobile) {
           display: block;
           position: absolute;
-          right: 15px;
-          top: 15px;
+          right: 0;
+          top: 13px;
           line-height: 1em;
         }
       }

@@ -1,6 +1,34 @@
 .docs-sidebar {
   width: 100vw;
 
+  &--animated {
+    .docs-sidebar__content {
+      transition: transform 200ms ease-in-out;
+      will-change: transform;
+    }
+
+    .docs-sidebar__slider {
+      transition: transform 200ms ease-in-out;
+      will-change: transform;
+    }
+  }
+
+  &--collapsed {
+    @media (--desktop) {
+      .docs-sidebar__content {
+        transform: translateX(-100%);
+      }
+    }
+
+    .docs-sidebar__slider {
+      transform: translateX(20px);
+
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
   @media (--desktop) {
     width: var(--layout-sidebar-width);
   }
@@ -22,8 +50,13 @@
       padding-bottom: 0;
     }
 
-    &--hidden {
+    @media (--mobile) {
+      margin: 0 -8px;
       display: none;
+    }
+
+    &--visible {
+      display: block;
     }
 
     &--invisible {
@@ -78,6 +111,11 @@
     font-size: 14px;
     line-height: 21px;
     height: 29px;
+
+    @media (--mobile){
+      font-size: 16px;
+      line-height: 21px;
+    }
   }
 
   &__section-title,
@@ -88,6 +126,7 @@
     padding: 0 8px;
     transition-property: background-color;
     transition-duration: 0.1s;
+
     @apply --squircle;
   }
 
@@ -173,8 +212,6 @@
 
 
   &__toggler {
-    font-size: 13px;
-    cursor: pointer;
     color: var(--color-text-second);
     padding: 20px 15px;
     border-bottom: 1px solid var(--color-line-gray);
@@ -188,6 +225,25 @@
     }
   }
 
+  &__slider {
+    display: none;
+    position: fixed;
+    transform: translateX(calc(var(--layout-sidebar-width) + 20px));
+    bottom: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: var(--color-link-hover);
+    z-index: 10;
+
+    @media (--desktop) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
   &__logo {
     display: none;
     margin-top: auto;
@@ -196,6 +252,7 @@
     padding-bottom: 20px;
     padding-top: 60px;
     font-size: 14px;
+    color: var(--color-text-second);
 
     @media (--desktop) {
       display: block;

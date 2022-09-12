@@ -1,6 +1,4 @@
 .writing-header {
-  position: sticky;
-  top: 0;
   padding: 15px 0;
   margin-top: calc(-1 * var(--layout-padding-vertical));
   background: #fff;
@@ -52,28 +50,63 @@
 }
 
 .writing-editor {
-  font-size: 15px;
-  line-height: 1.6;
-  letter-spacing: 0.005em;
+  @apply --text-content-main;
 
   .ce-code__textarea {
-    color: #41314e;
-    line-height: 1.6em;
-    font-size: 12px;
-    background: var(--color-bg-light);
-    border: 1px solid #f1f1f4;
-    box-shadow: none;
+    @apply --text-code-block;
+
+    border: 0;
+    border-radius: 8px;
   }
 
   .ce-paragraph a {
-    color: inherit;
+    @apply --text-inline-link;
   }
 
   .ce-header {
-    @apply --font-serif;
+    @apply --text-header;
+    padding: 0;
+  }
+
+  h2.ce-header {
+    @apply --text-header-2;
+  }
+
+  h3.ce-header {
+    @apply --text-header-3;
+  }
+
+  .cdx-block {
+    padding: 0;
+  }
+
+  .inline-code {
+    @apply  --text-inline-code;
+  }
+
+  .tc-table {
+    @apply --text-content-main;
+  }
+
+  .tc-cell {
+    padding: 6px 8px;
+  }
+
+  @media (--desktop) {
+    .ce-block__content,
+    .ce-toolbar__content {
+      max-width: var(--layout-width-main-col);
+    }
   }
 }
 
 .codex-editor__redactor .ce-block:first-of-type .ce-header {
-  font-size: 32px;
+  @apply --text-content-title;
 }
+
+
+.ce-block {
+  @apply --content-block;
+}
+
+
