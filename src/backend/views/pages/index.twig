@@ -11,11 +11,11 @@
 </head>
 <script>
 </script>
-<body class="landing-body">
+<body class="greeting-body">
   {% include "components/header.twig" %}
-  <div class="landing-content">
+  <div class="greeting-content">
     {{ svg('frog') }}
-    <p class="landing-content__message">
+    <p class="greeting-content__message">
       It’s time to create the first page!
     </p>
     {% include 'components/button.twig' with {label: 'Add page', icon: 'plus', size: 'small', url: '/page/new'} %}
