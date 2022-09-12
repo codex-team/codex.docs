@@ -1,6 +1,7 @@
 {% extends 'layout.twig' %}
 
 {% block body %}
+  {% set linkNumber = 0 %}
   <article class="page" data-module="page">
     <header class="page__header">
       <div class="page__header-nav">
@@ -37,6 +38,10 @@
         {# Skip first header, because it is already showed as a Title #}
         {% if not (loop.first and block.type == 'header') %}
           {% if block.type in ['paragraph', 'header', 'image', 'code', 'list', 'delimiter', 'table', 'warning', 'checklist', 'linkTool', 'raw', 'embed'] %}
+            {# Create the counter to make header-achors different. #}
+            {% if (block.type == 'header') %}
+              {% set linkNumber = linkNumber + 1 %}
+            {% endif %}
             <div class="page__content-block">
               {% include './blocks/' ~ block.type ~ '.twig' with block.data %}
             </div>
