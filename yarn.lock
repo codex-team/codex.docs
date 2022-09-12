@@ -922,9 +922,9 @@
     "@hawk.so/types" "^0.1.13"
     error-stack-parser "^2.0.6"
 
-"@hawk.so/nodejs@^3.1.2":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@hawk.so/nodejs/-/nodejs-3.1.2.tgz#b06229f0c8a0d8676412329511f9f2b01e492211"
+"@hawk.so/nodejs@^3.1.4":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@hawk.so/nodejs/-/nodejs-3.1.4.tgz#62eb4ff1272559f0841a53d7931f6939b4c056fe"
   dependencies:
     "@hawk.so/types" "^0.1.15"
     axios "^0.21.1"
