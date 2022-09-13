@@ -258,7 +258,11 @@
 .block-list {
   margin: 0;
   list-style: outside;
-  padding-left: 26px;
+  padding-left: 40px;
+
+  &--ordered {
+    list-style-type: decimal
+  }
 
   li:not(:last-of-type) {
     margin-bottom: 8px;
