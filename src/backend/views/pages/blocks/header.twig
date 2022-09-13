@@ -2,5 +2,10 @@
   <a href="#{{ text | urlify  }}">
     {{ text }}
   </a>
+  <div class="block-header__copy-link"> {{ svg('copy') }} </div>
+  <div class="block-header__copy-link-success"> 
+    <div class="block-header__copy-link-success-inner">{{ svg('check') }}</div>
+  </div>
+
 </h{{ level }}>
 

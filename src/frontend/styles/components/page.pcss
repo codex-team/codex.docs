@@ -98,6 +98,8 @@
 .block-header {
   @apply --text-header;
 
+  position: relative;
+
   &--2 {
     @apply --text-header-2;
   }
@@ -114,32 +116,74 @@
 
   &--anchor {
     cursor: pointer;
+  }
 
-    &::before {
-      position: absolute;
-      content: '';
-      margin-left: -30px;
-      width: 14px;
-      height: 19px;
-      margin-top: 0.35em;
-      background-image: url("data:image/svg+xml,%3Csvg width='14' height='19' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%237B7E89' fill-rule='nonzero'%3E%3Cpath d='M8.58 11.997L2.283 5.701a1.762 1.762 0 0 1 0-2.49l.933-.935a1.762 1.762 0 0 1 2.49 0l6.298 6.297a3.508 3.508 0 0 0-.901-3.39L6.952 1.031a3.522 3.522 0 0 0-4.982 0l-.933.933a3.522 3.522 0 0 0 0 4.982l4.151 4.151c.92.92 2.218 1.208 3.392.9z'/%3E%3Cpath d='M12.958 11.628l-4.151-4.15a3.507 3.507 0 0 0-3.391-.899l6.296 6.296a1.76 1.76 0 0 1 0 2.49l-.933.936a1.764 1.764 0 0 1-2.49 0l-6.296-6.298a3.507 3.507 0 0 0 .899 3.39l4.151 4.15a3.522 3.522 0 0 0 4.982 0l.933-.935a3.52 3.52 0 0 0 0-4.98z'/%3E%3C/g%3E%3C/svg%3E");
-      opacity: 0;
-      transform: translateX(5px);
-      will-change: opacity, transform;
-      transition: all 100ms ease;
-
-      @media (--mobile){
-        display: none !important;
-      }
+  &--link-copied {
+    .block-header__copy-link {
+      display: none;
     }
 
+    .block-header__copy-link-success {
+      display: flex;
+    }
+  }
+
+  &__copy-link-success {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    left: -63px;
+    top: -15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    background: var(--color-success-light);
+    color: white;
+    display: none;
+
+    &-inner {
+      width: 34px;
+      height: 34px;
+      background-color: var(--color-success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 100%;
+    }
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__copy-link {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    left: -48px;
+    top: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    background: var(--color-link-hover);
+    color: var(--color-text-second);
+    opacity: 0;
+    transition: opacity;
+    transition-delay: 0.5s;
+    transition-duration: 200ms;
+  }
+
+  @media (--can-hover) {
     &:hover {
-      color: #4c4c58;
-    }
-
-    &:hover::before{
-      opacity: 1;
-      transform: none;
+      .block-header__copy-link {
+        opacity: 1;
+        transition-delay: 0s;
+        transition-duration: 100ms;
+      }
     }
   }
 
