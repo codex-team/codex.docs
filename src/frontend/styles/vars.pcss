@@ -40,7 +40,8 @@
    */
   --layout-padding-horizontal: 22px;
   --layout-padding-vertical: 30px;
-  --layout-sidebar-width: 290px;
+  --layout-padding-content-horizontal: 50px;
+  --layout-sidebar-width: 280px;
   --layout-width-main-col: 700px;
   --layout-height-header: 56px;
 
@@ -48,6 +49,7 @@
     --layout-padding-horizontal: 15px;
     --layout-padding-vertical: 15px;
     --layout-height-header: 88px;
+    --layout-padding-content-horizontal: var(--layout-padding-horizontal);
   }
 
   @media (--wide-desktop) {
@@ -264,3 +266,7 @@
 @custom-media --not-mobile all and (min-width: 981px);
 @custom-media --retina all and (-webkit-min-device-pixel-ratio: 1.5);
 @custom-media --can-hover all and (hover:hover);
+/**
+ * Big screens that have additional space around the center column
+ */
+@custom-media --widest-desktop all and (min-width: 1470px);
