@@ -3,7 +3,6 @@
 <head>
   <title>{{ config.title }}</title>
   <link rel="stylesheet" href="/dist/main.css" />
-  <link rel="preload" href="{{ config.landingFrameSrc }}" as="document">
   <link rel="icon" type="{{ favicon.type }}" href="{{ favicon.destination }}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta property="og:title" content="{{ config.title }}" />
@@ -12,13 +11,15 @@
 </head>
 <script>
 </script>
-<body class="landing-body">
+<body class="greeting-body">
   {% include "components/header.twig" %}
-  <div class="landing-loader" id="frame-loader">
-    {{ svg('loader') }}
+  <div class="greeting-content">
+    {{ svg('frog') }}
+    <p class="greeting-content__message">
+      It’s time to create the first page!
+    </p>
+    {% include 'components/button.twig' with {label: 'Add page', icon: 'plus', size: 'small', url: '/page/new'} %}
   </div>
-  <iframe class="landing-frame" src="{{ config.landingFrameSrc }}" seamless frameborder="0" onload="this.style.opacity = 1; setTimeout(document.getElementById('frame-loader').remove(), 500)"></iframe>
-
   {% if config.yandexMetrikaId is not empty %}
     <script type="text/javascript" >
       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};

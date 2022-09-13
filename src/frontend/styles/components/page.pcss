@@ -53,6 +53,7 @@
 
   &__title {
     @apply --text-content-title;
+    margin-bottom: 10px;
   }
 
   .cdx-marker {
@@ -257,7 +258,11 @@
 .block-list {
   margin: 0;
   list-style: outside;
-  padding-left: 26px;
+  padding-left: 40px;
+
+  &--ordered {
+    list-style-type: decimal
+  }
 
   li:not(:last-of-type) {
     margin-bottom: 8px;
@@ -269,8 +274,7 @@
  * ==================
  */
 .block-image {
- margin: 40px auto;
- text-align: center;
+ margin: 0 auto;
 
  &__content {
    img, video {
@@ -297,8 +301,9 @@
  }
 
  &__caption {
-   margin: 1em auto;
-   color: var(--color-text-second);
+    margin-top: 10px;
+    color: var(--color-text-second);
+    font-size: 0.9em;
  }
 }
 
