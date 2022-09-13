@@ -112,6 +112,7 @@
     text-decoration: none !important;
     border: 0;
     color: inherit !important;
+    pointer-events: none;
   }
 
   &--anchor {
@@ -119,8 +120,21 @@
   }
 
   &--link-copied {
-    .block-header__copy-link {
+    .block-header__copy-link, .block-header__copy-link:hover {
+      background: var(--color-success);
+    }
+
+    .block-header__copy-link-icon--initial {
       display: none;
+    }
+
+    .block-header__copy-link-icon--success {
+      display: block;
+    }
+
+    .block-header__copy-link-splash {
+      opacity: 0.1;
+      transform: scale(2);
     }
 
     .block-header__copy-link-success {
@@ -128,53 +142,54 @@
     }
   }
 
-  &__copy-link-success {
+  &__copy-link-splash {
     position: absolute;
-    width: 64px;
-    height: 64px;
-    left: -63px;
-    top: -15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 100%;
-    background: var(--color-success-light);
-    color: white;
+    width: 28px;
+    height: 28px;
+    top: 3px;
+    left: -36px;
+    border-radius: 8px;
+    background-color: var(--color-success);
+    opacity: 0;
+    transform: scale(1);
+    transition: transform 300ms;
+  }
+
+  &__copy-link-icon--success {
+    width: 24px;
+    height: 24px;
     display: none;
+    color: white;
+  }
 
-    &-inner {
-      width: 34px;
-      height: 34px;
-      background-color: var(--color-success);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 100%;
-    }
-
-    svg {
-      width: 24px;
-      height: 24px;
-    }
+  &__copy-link-icon--initial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   &__copy-link {
     position: absolute;
-    width: 34px;
-    height: 34px;
-    left: -48px;
-    top: 0;
+    width: 28px;
+    height: 28px;
+    left: -36px;
+    top: 3px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 100%;
-    background: var(--color-link-hover);
+    border-radius: 8px;
     color: var(--color-text-second);
     opacity: 0;
     transition: opacity;
     transition-delay: 0.5s;
     transition-duration: 200ms;
+
+    @media (--can-hover) {
+      &:hover {
+        background: var(--color-link-hover);
+      }
+    }
   }
 
   @media (--can-hover) {
