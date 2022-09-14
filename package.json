@@ -7,6 +7,7 @@
     "> 1%"
   ],
   "scripts": {
+    "start": "concurrently \"yarn start-backend\" \"yarn build-frontend\"",
     "dev": "concurrently \"yarn start-backend\" \"yarn build-frontend:dev\"",
     "start-backend": "cross-env NODE_ENV=development npx nodemon --config nodemon.json ./src/bin/server.ts",
     "compile": "tsc && copyfiles -u 3 ./src/**/*.twig ./dist/backend/views && copyfiles -u 1 ./src/**/*.svg ./dist/",
