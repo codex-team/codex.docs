@@ -99,6 +99,10 @@ function onListening(): void {
   ]);
 }
 
+/**
+ * Draw banner in console with given text lines
+ * @param {string[]} lines
+ */
 function drawBanner(lines: string[]) {
   /** Define banner parts */
   const PARTS = {
