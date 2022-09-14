@@ -87,5 +87,11 @@ export default () => {
     optimization: {
       splitChunks: false,
     },
+
+    /**
+     * Show less logs while building
+     * https://webpack.js.org/configuration/stats/
+     */
+    stats: 'minimal'
   };
 };

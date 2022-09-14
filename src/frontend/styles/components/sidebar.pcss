@@ -1,6 +1,15 @@
 .docs-sidebar {
   width: 100vw;
 
+  /* Bottom and Left coord of the "Hide Sidebar" toggler  */
+  --hide-sidebar-toggler-offset: 11px;
+  --hide-sidebar-toggler-size: 28px;
+
+  @media (--widest-desktop) {
+    --hide-sidebar-toggler-offset: var(--layout-padding-horizontal);
+    --hide-sidebar-toggler-size: 32px;
+  }
+
   &--animated {
     .docs-sidebar__content {
       transition: transform 200ms ease-in-out;
@@ -21,7 +30,7 @@
     }
 
     .docs-sidebar__slider {
-      transform: translateX(20px);
+      transform: translateX(var(--hide-sidebar-toggler-offset));
 
       svg {
         transform: rotate(180deg);
@@ -228,14 +237,15 @@
   &__slider {
     display: none;
     position: fixed;
-    transform: translateX(calc(var(--layout-sidebar-width) + 20px));
-    bottom: 20px;
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
+    transform: translateX(calc(var(--layout-sidebar-width) + var(--hide-sidebar-toggler-offset)));
+    bottom: var(--hide-sidebar-toggler-offset);
+    width: var(--hide-sidebar-toggler-size);
+    height: var(--hide-sidebar-toggler-size);
     cursor: pointer;
     background-color: var(--color-link-hover);
     z-index: 10;
+
+    @apply --squircle;
 
     @media (--desktop) {
       display: flex;
