@@ -43,7 +43,11 @@ Here is our [Demo Application](https://docs-demo.codex.so/) where you can try Co
 yarn add @codexteam/docs
 ```
 
-### 2. Run the application
+### 2. Fill the config
+
+Read about available [configuration](https://docs.codex.so/configuration) options.
+
+### 3. Run the application
 
 #### Using Yarn
 
