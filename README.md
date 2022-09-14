@@ -18,7 +18,7 @@ It's super easy to install and use.
 - 💌 [Misprints](https://github.com/codex-team/codex.misprints) reports to the Telegram / Slack
 - 📈 [Yandex Metrica](https://metrica.yandex.com/about) integrated
 - 🚢 Deploy easily — no DB and other deps required
-- 🤙 Simple configuration 
+- 🤙 Simple configuration
 - ⚙️ Tune UI as you need. Collapse sections, hide the Sidebar
 
 ## Demo
@@ -27,9 +27,9 @@ Here is our [Demo Application](https://docs-demo.codex.so/) where you can try Co
 
 ## Guides
 
-1. [Getting Started](https://docs.codex.so/getting-started) 
+1. [Getting Started](https://docs.codex.so/getting-started)
 2. [Configuration](https://docs.codex.so/configuration)
-3. [Deployment](https://docs.codex.so/deployment) 
+3. [Deployment](https://docs.codex.so/deployment)
 4. [Authentication](https://docs.codex.so/authentication)
 5. [Writing](https://docs.codex.so/writing)
 6. [How to enable analytics](https://docs.codex.so/yandex-metrica)
@@ -40,7 +40,7 @@ Here is our [Demo Application](https://docs-demo.codex.so/) where you can try Co
 ### 1. Clone the repo.
 
 ```shell
-yarn add @codexteam/docs
+git clone https://github.com/codex-team/codex.docs
 ```
 
 ### 2. Fill the config
