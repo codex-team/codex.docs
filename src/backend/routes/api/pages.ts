@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import multerFunc from 'multer';
 import Pages from '../../controllers/pages.js';
 import PagesOrder from '../../controllers/pagesOrder.js';
+import Search from '../../controllers/search.js';
 
 const router = express.Router();
 const multer = multerFunc();
@@ -70,6 +71,9 @@ router.put('/page', multer.none(), async (req: Request, res: Response) => {
     /** push to the orders array */
     await PagesOrder.push(parent, page._id);
 
+    /** Update search index */
+    await Search.syncDB();
+
     res.json({
       success: true,
       result: page,
@@ -127,6 +131,10 @@ router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
       parent,
       uri,
     });
+
+    /** Update search index */
+    await Search.syncDB();
+
     res.json({
       success: true,
       result: page,
@@ -205,6 +213,9 @@ router.delete('/page/:id', async (req: Request, res: Response) => {
     // remove also from parent's order
     parentPageOrder.remove(req.params.id);
     await parentPageOrder.save();
+
+    /** Update search index */
+    await Search.syncDB();
 
     res.json({
       success: true,
