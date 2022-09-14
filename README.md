@@ -1,115 +1,70 @@
 # CodeX Docs
 
-CodeX Docs is a simple but powerful documentation engine for CodeX powered with [Editor.js](//editorjs.io).
+[CodeX Docs](https://docs.codex.so/) is a free docs application. It's based on Editor.js ecosystem which gives all modern opportunities for working with content.
 
-You can use CodeX Docs for product documentation, for internal team docs, or for any other documentation.
+You can use it for product documentation, for internal team docs, for personal notes or any other need.
 
-![](https://capella.pics/e3b8a441-53dc-4da6-a7a9-76b12629983b.jpg)
+![page-overview-bright](https://user-images.githubusercontent.com/3684889/190149130-6a6fcdec-09bc-4f96-8bdc-5ff4d789f248.png)
 
-## Development
+It's super easy to install and use.
 
-### Prerequisites
+## Features
 
-- NodeJS (v16.x)
-- npx (installed by default with npm)
-- Yarn
+- 🤩 [Editor.js](https://editor.js/?from=docs-demo) ecosystem powered
+- 📂 Docs nesting — create any structure you need
+- 📱 Nice look on Desktop and Mobile
+- 🔥 Beautiful page URLs. Human-readable and SEO-friendly.
+- 🦅 [Hawk](https://hawk.so/?from=docs-demo) is hunting. Errors tracking integrated
+- 💌 [Misprints](https://github.com/codex-team/codex.misprints) reports to the Telegram / Slack
+- 📈 [Yandex Metrica](https://metrica.yandex.com/about) integrated
+- 🚢 Deploy easily — no DB and other deps required
+- 🤙 Simple configuration 
+- ⚙️ Tune UI as you need. Collapse sections, hide the Sidebar
 
-### Install npm packages
+## Demo
 
-```shell
-yarn install --frozen-lockfile
-```
+Here is our [Demo Application](https://docs-demo.codex.so/) where you can try CodeX Docs in action.
 
-### Create config file
+## Guides
 
-```shell
-cp .codexdocsrc.sample .codexdocsrc
-cp .env.sample .env
-```
+1. [Getting Started](https://docs.codex.so/getting-started) 
+2. [Configuration](https://docs.codex.so/configuration)
+3. [Deployment](https://docs.codex.so/deployment) 
+4. [Authentication](https://docs.codex.so/authentication)
+5. [Writing](https://docs.codex.so/writing)
+6. [How to enable analytics](https://docs.codex.so/yandex-metrica)
+7. [Contribution guide](https://docs.codex.so/contribution)
 
-### Run application (both frontend and backend)
+## Getting Started
 
-```shell
-yarn dev
-```
-
-Then you can open browser and navigate to [http://localhost:3000](http://localhost:3000).
-
-Now you can [authenticate](https://github.com/codex-team/codex.docs/#authentication) in the application and start creating your documentation.
-
-### Available scripts
-
-#### Start whole application (backend and frontend in watch mode)
+### 1. Clone the repo.
 
 ```shell
-yarn dev
+yarn add @codexteam/docs
 ```
 
-#### Start backend in development mode
+### 2. Fill the config
+
+Read about available [configuration](https://docs.codex.so/configuration) options.
+
+### 3. Run the application
+
+#### Using Yarn
 
 ```shell
-yarn start-backend
+yarn && yarn start
 ```
 
-#### Compile TypeScript files
+#### Using Docker
 
-```shell
-yarn compile
+```
+docker-compose build
+docker-compose up
 ```
 
-#### Build frontend
+#### Using Kubernetes
 
-To build frontend sources run the following command:
-
-```shell
-yarn build-frontend
-```
-
-To build frontend and watch for changes run the following command:
-
-```shell
-yarn build-frontend:dev
-```
-
-#### Run ESLint with `--fix` option
-
-```shell
-yarn lint
-```
-
-#### Run tests
-
-```shell
-yarn test
-```
-
-### Setup
-
-You can configure application using configs in <code>/config</code> directory.
-
-| Property             | Role                                                                                                                                                                                                                                         |
-|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
- | <code>port</code>    | to set port of application                                                                                                                                                                                                                   |
- | <code>database</code> | to name directory with data                                                                                                                                                                                                                  |
- | <code>rcFile</code>  | to set destination of codexdocsrc config file                                                                                                                                                                                                |
- | <code>uploads</code> | to set destination of directory to save uploads                                                                                                                                                                                              |
- | <code>secret</code>  | to set secret                                                                                                                                                                                                                                |
- | <code>favicon</code> | to set url or favicon path (favicon need to be in /public directory), like `/myFavicon.png`, to get favicon. Server uploads file by url and saves it to temporary directory. And you can get favicon by /favicon static route of application |
-
-You can configure application using configs in <code>/config</code> directory.
-
-### Authentication
-
-To manage pages you need to authorize (available on `/auth`).
-
-To set password, set the `PASSWORD` environment variable inside the `.env` file.
-
-## Release process
-
-We use [release-drafter](https://github.com/release-drafter/release-drafter) to generate release notes and GitHub release.
-It will automatically generate draft release based pull requests data between current version and previous version.
-To make new release you need go to [releases](https://github.com/codex-team/codex.docs/releases) page find the latest draft release and mark it as ready.
-After creating new release, new git tag will be created and new version will be published.
+We have the ready-to-use [Helm chart](https://github.com/codex-team/codex.docs.chart) to deploy project in Kubernetes
 
 # About CodeX
 
