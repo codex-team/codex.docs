@@ -118,9 +118,12 @@
   }
 
   &--link-copied {
-    .block-header__copy-link, .block-header__copy-link:hover {
+    .block-header__copy-link,
+    .block-header__copy-link:hover {
       background: var(--color-success);
       opacity: 1;
+      animation: check-square-in 250ms ease-in;
+      pointer-events: none;
     }
 
     .block-header__copy-link-icon--initial {
@@ -129,11 +132,13 @@
 
     .block-header__copy-link-icon--success {
       display: flex;
+      animation: check-sign-in 350ms ease-in forwards;
     }
 
     .block-header__copy-link-splash {
-      opacity: 0.1;
-      transform: scale(2);
+      opacity: 0;
+      visibility: visible;
+      transform: scale(3.5);
     }
   }
 
@@ -144,11 +149,9 @@
     height: 28px;
     background-color: var(--color-success);
     transform: scale(1);
-    opacity: 0;
-    border-radius: 11px;
-    transition: transform 300ms;
-    z-index: 1;
-    will-change: transform, opacity;
+    border-radius: 100%;
+    transition: transform 400ms ease-out, opacity 400ms;
+    visibility: hidden;
   }
 
   &__copy-link-icon--success {
@@ -172,10 +175,10 @@
     align-items: center;
     justify-content: center;
     border-radius: 8px;
+    @apply --squircle;
     color: var(--color-text-second);
     opacity: 0;
     margin-right: 8px;
-    z-index: 2;
 
     @media (--can-hover) {
       &:hover {
@@ -194,6 +197,30 @@
 
   .inline-code {
     line-height: inherit;
+  }
+
+  @keyframes check-sign-in {
+    from {
+        transform: scale(.7);
+    }
+    80% {
+        transform: scale(1.1);
+    }
+    to {
+        transform: none;
+    }
+  }
+
+  @keyframes check-square-in {
+    from {
+      transform: scale(1.05);
+    }
+    80% {
+      transform: scale(.96);
+    }
+    to {
+      transform: none;
+    }
   }
 }
 
