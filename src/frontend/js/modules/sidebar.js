@@ -45,7 +45,7 @@ export default class Sidebar {
       sidebarCollapsed: 'docs-sidebar--collapsed',
       sidebarAnimated: 'docs-sidebar--animated',
       sidebarContent: 'docs-sidebar__content',
-      sidebarContentHidden: 'docs-sidebar__content--hidden',
+      sidebarContentVisible: 'docs-sidebar__content--visible',
       sidebarContentInvisible: 'docs-sidebar__content--invisible',
       sidebarSearch: 'docs-sidebar__search',
       sidebarSearchWrapperMac: 'docs-sidebar__search-wrapper-mac',
@@ -219,7 +219,7 @@ export default class Sidebar {
    * @returns {void}
    */
   toggleSidebar() {
-    this.nodes.sidebarContent.classList.toggle(Sidebar.CSS.sidebarContentHidden);
+    this.nodes.sidebarContent.classList.toggle(Sidebar.CSS.sidebarContentVisible);
   }
 
   /**
