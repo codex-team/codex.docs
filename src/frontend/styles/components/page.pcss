@@ -48,12 +48,17 @@
     &-button {
       margin-left: 20px;
       text-decoration: none;
+
+      @media (--mobile) {
+        margin-left: auto;
+      }
     }
   }
 
   &__title {
     @apply --text-content-title;
     margin-bottom: 10px;
+    line-height: 1.35em;
   }
 
   .cdx-marker {
@@ -99,10 +104,12 @@
 .block-header {
   @apply --text-header;
 
+  margin-top: 10px;
   display: flex;
   align-items: center;
   transform: translateX(-36px);
   cursor: text;
+
   &--2 {
     @apply --text-header-2;
   }
@@ -332,17 +339,7 @@
  * ==================
  */
 .block-list {
-  margin: 0;
-  list-style: outside;
-  padding-left: 40px;
-
-  &--ordered {
-    list-style-type: decimal
-  }
-
-  li:not(:last-of-type) {
-    margin-bottom: 8px;
-  }
+  @apply --text-list;
 }
 
 /**

@@ -184,7 +184,7 @@
    * Common styles for text headings (H2, H3, H4)
    */
   --text-header {
-    margin: 18px 0 0;
+    margin: 20px 0 0;
     line-height: 1.35em;
   }
 
@@ -253,6 +253,27 @@
 
       &:hover {
         background-color: #c8edfe;
+      }
+    }
+  }
+
+  /**
+   * Styles for the List block
+   */
+  --text-list {
+    margin: 0;
+    list-style: outside;
+    padding-left: 40px;
+
+    &--ordered {
+      list-style-type: decimal
+    }
+
+    li {
+      padding: 0;
+
+      &:not(:last-of-type){
+        margin-bottom: 8px;
       }
     }
   }
