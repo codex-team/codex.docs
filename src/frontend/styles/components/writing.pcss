@@ -58,13 +58,17 @@
     border-radius: 8px;
   }
 
-  .ce-paragraph a {
-    @apply --text-inline-link;
+  .ce-paragraph {
+    line-height: inherit;
+
+    a {
+     @apply --text-inline-link;
+    }
   }
 
   .ce-header {
     @apply --text-header;
-    padding: 0;
+    padding: 0 0 10px;
   }
 
   h2.ce-header {
@@ -73,10 +77,6 @@
 
   h3.ce-header {
     @apply --text-header-3;
-  }
-
-  .cdx-block {
-    padding: 0;
   }
 
   .inline-code {
@@ -92,7 +92,11 @@
   }
 
   .cdx-list {
-    padding-left: 40px;
+    @apply --text-list;
+
+    &__item {
+      line-height: inherit;
+    }
   }
 
   @media (--desktop) {
@@ -107,7 +111,7 @@
   @apply --text-content-title;
 }
 
-.ce-block {
+.cdx-block {
   @apply --content-block;
 }
 
