@@ -26,7 +26,7 @@
           {% endif %}
           <select id="parent" name="parent">
             <option value="0">Root</option>
-            {% for _page in pagesAvailableGrouped %}
+            {% for _page in menu %}
               {% if _page._id != currentPageId %}
                 <option value="{{ _page._id }}" {{ page is not empty and page._parent == _page._id ? 'selected' : ''}}>
                   {% if _page._parent != "0" %}
@@ -35,6 +35,126 @@
                   {% endif %}
                   {{ _page.title }}
                 </option>
+                {% if _page.children.length != "0" %}
+                  {% for _page in _page.children %}
+                    {% if _page._id != currentPageId %}
+                      <option value="{{ _page._id }}" {{ page is not empty and page._parent == _page._id ? 'selected' : ''}}>
+                        {% if _page._parent != "0" %}
+                          &nbsp;
+                          &nbsp;
+                          &nbsp;
+                          &nbsp;
+                        {% endif %}
+                        {{ _page.title }}
+                      </option>
+                      {% if _page.children.length != "0" %}
+                        {% for _page in _page.children %}
+                          {% if _page._id != currentPageId %}
+                            <option value="{{ _page._id }}" {{ page is not empty and page._parent == _page._id ? 'selected' : ''}}>
+                              {% if _page._parent != "0" %}
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                              {% endif %}
+                              {{ _page.title }}
+                            </option>
+                            {% if _page.children.length != "0" %}
+                              {% for _page in _page.children %}
+                                {% if _page._id != currentPageId %}
+                                  <option value="{{ _page._id }}" {{ page is not empty and page._parent == _page._id ? 'selected' : ''}}>
+                                    {% if _page._parent != "0" %}
+                                      &nbsp;
+                                      &nbsp;
+                                      &nbsp;
+                                      &nbsp;
+                                      &nbsp;
+                                      &nbsp;
+                                      &nbsp;
+                                      &nbsp;
+                                    {% endif %}
+                                    {{ _page.title }}
+                                  </option>
+                                  {% if _page.children.length != "0" %}
+                                    {% for _page in _page.children %}
+                                      {% if _page._id != currentPageId %}
+                                        <option value="{{ _page._id }}" {{ page is not empty and page._parent == _page._id ? 'selected' : ''}}>
+                                          {% if _page._parent != "0" %}
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                          {% endif %}
+                                          {{ _page.title }}
+                                        </option>
+                                        {% if _page.children.length != "0" %}
+                                          {% for _page in _page.children %}
+                                            {% if _page._id != currentPageId %}
+                                              <option value="{{ _page._id }}" {{ page is not empty and page._parent == _page._id ? 'selected' : ''}}>
+                                                {% if _page._parent != "0" %}
+                                                  &nbsp;
+                                                  &nbsp;
+                                                  &nbsp;
+                                                  &nbsp;
+                                                  &nbsp;
+                                                  &nbsp;
+                                                  &nbsp;
+                                                  &nbsp;
+                                                  &nbsp;
+                                                  &nbsp;
+                                                  &nbsp;
+                                                  &nbsp;
+                                                {% endif %}
+                                                {{ _page.title }}
+                                              </option>
+                                              {% if _page.children.length != "0" %}
+                                                {% for _page in _page.children %}
+                                                  {% if _page._id != currentPageId %}
+                                                    <option value="{{ _page._id }}" disabled {{ page is not empty and page._parent == _page._id ? 'selected' : ''}}>
+                                                      {% if _page._parent != "0" %}
+                                                        &nbsp;
+                                                        &nbsp;
+                                                        &nbsp;
+                                                        &nbsp;
+                                                        &nbsp;
+                                                        &nbsp;
+                                                        &nbsp;
+                                                        &nbsp;
+                                                        &nbsp;
+                                                        &nbsp;
+                                                        &nbsp;
+                                                        &nbsp;
+                                                        &nbsp;
+                                                        &nbsp;
+                                                      {% endif %}
+                                                      {{ _page.title }}
+                                                    </option>
+                                                  {% endif %}
+                                                {% endfor %}
+                                              {% endif %}
+                                            {% endif %}
+                                          {% endfor %}
+                                        {% endif %}
+                                      {% endif %}
+                                    {% endfor %}
+                                  {% endif %}
+                                {% endif %}
+                              {% endfor %}
+                            {% endif %}
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
               {% endif %}
             {% endfor %}
           </select>

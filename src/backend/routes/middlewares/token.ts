@@ -14,16 +14,17 @@ export default async function verifyToken(req: Request, res: Response, next: Nex
   const token = req.cookies.authToken;
 
   try {
-    if (!process.env.PASSWORD) {
+    if (!process.env.ADMIN_PASSWORD) {
       res.locals.isAuthorized = false;
       next();
 
       return;
     }
 
-    const decodedToken = jwt.verify(token, process.env.PASSWORD + config.get('secret'));
+    const decodedToken = jwt.verify(token, config.get('secret'));
 
     res.locals.isAuthorized = !!decodedToken;
+    res.locals.tokenData = decodedToken;
 
     next();
   } catch (err) {

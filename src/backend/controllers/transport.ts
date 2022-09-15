@@ -34,9 +34,10 @@ class Transport {
    * @returns {Promise<FileData>}
    */
   public static async save(multerData: Dict, map: Dict): Promise<FileData> {
-    const { originalname: name, path, filename, size, mimetype, url } = multerData;
+    const { username, originalname: name, path, filename, size, mimetype, url } = multerData;
 
     const file = new File({
+      username,
       name,
       filename,
       path,
@@ -60,10 +61,11 @@ class Transport {
    * Fetches file by passed URL
    *
    * @param {string} url - URL of the file
+   * @param {string} username – username
    * @param {object} map - object that represents how should fields of File object should be mapped to response
    * @returns {Promise<FileData>}
    */
-  public static async fetch(url: string, map: Dict): Promise<FileData> {
+  public static async fetch(url: string, username: string, map: Dict): Promise<FileData> {
     const fetchedFile = await fetch(url);
     const buffer = await fetchedFile.buffer();
     const filename = await random16();
@@ -85,6 +87,7 @@ class Transport {
     const mimeType = type ? type.mime : fetchedMimeType;
 
     const file = new File({
+      username,
       name: url,
       filename: `${filename}.${ext}`,
       path: `${config.get('uploads')}/${filename}.${ext}`,

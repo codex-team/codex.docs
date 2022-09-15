@@ -121,7 +121,7 @@ export default class Sidebar {
 
     const itemsCount = sectionList.children.length;
 
-    sectionList.style.maxHeight = `${itemsCount * ITEM_HEIGHT}px`;
+    // sectionList.style.maxHeight = `${itemsCount * ITEM_HEIGHT}px`;
   }
 
   /**

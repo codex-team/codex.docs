@@ -34,6 +34,81 @@
                     </div>
                 </a>
               </li>
+              {% if child.children is not empty %}
+                <ul class="docs-sidebar__section-list">
+                  {% for child in child.children %}
+                    <li>
+                      <a
+                        class="docs-sidebar__section-list-item-wrapper"
+                        href="{{ child.uri ? '/' ~ child.uri : '/page/' ~ child._id }}">
+                          <div class="docs-sidebar__section-list-item {{page is defined and page._id == child._id ? 'docs-sidebar__section-list-item--active' : ''}}">
+                            <span>&nbsp;&bullet; {{ child.title | striptags }}</span>
+                          </div>
+                      </a>
+                    </li>
+                    {% if child.children is not empty %}
+                      <ul class="docs-sidebar__section-list">
+                        {% for child in child.children %}
+                          <li>
+                            <a
+                              class="docs-sidebar__section-list-item-wrapper"
+                              href="{{ child.uri ? '/' ~ child.uri : '/page/' ~ child._id }}">
+                                <div class="docs-sidebar__section-list-item {{page is defined and page._id == child._id ? 'docs-sidebar__section-list-item--active' : ''}}">
+                                  <span>&nbsp;&nbsp;&nbsp;&nbsp&bullet; {{ child.title | striptags }}</span>
+                                </div>
+                            </a>
+                          </li>
+                          {% if child.children is not empty %}
+                            <ul class="docs-sidebar__section-list">
+                              {% for child in child.children %}
+                                <li>
+                                  <a
+                                    class="docs-sidebar__section-list-item-wrapper"
+                                    href="{{ child.uri ? '/' ~ child.uri : '/page/' ~ child._id }}">
+                                      <div class="docs-sidebar__section-list-item {{page is defined and page._id == child._id ? 'docs-sidebar__section-list-item--active' : ''}}">
+                                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&bullet; {{ child.title | striptags }}</span>
+                                      </div>
+                                  </a>
+                                </li>
+                                {% if child.children is not empty %}
+                                  <ul class="docs-sidebar__section-list">
+                                    {% for child in child.children %}
+                                      <li>
+                                        <a
+                                          class="docs-sidebar__section-list-item-wrapper"
+                                          href="{{ child.uri ? '/' ~ child.uri : '/page/' ~ child._id }}">
+                                            <div class="docs-sidebar__section-list-item {{page is defined and page._id == child._id ? 'docs-sidebar__section-list-item--active' : ''}}">
+                                              <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&bullet; {{ child.title | striptags }}</span>
+                                            </div>
+                                        </a>
+                                      </li>
+                                      {% if child.children is not empty %}
+                                        <ul class="docs-sidebar__section-list">
+                                          {% for child in child.children %}
+                                            <li>
+                                              <a
+                                                class="docs-sidebar__section-list-item-wrapper"
+                                                href="{{ child.uri ? '/' ~ child.uri : '/page/' ~ child._id }}">
+                                                  <div class="docs-sidebar__section-list-item {{page is defined and page._id == child._id ? 'docs-sidebar__section-list-item--active' : ''}}">
+                                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&bullet; {{ child.title | striptags }}</span>
+                                                  </div>
+                                              </a>
+                                            </li>
+                                          {% endfor %}
+                                        </ul>
+                                      {% endif %}
+                                    {% endfor %}
+                                  </ul>
+                                {% endif %}
+                              {% endfor %}
+                            </ul>
+                          {% endif %}
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              {% endif %}
             {% endfor %}
           </ul>
         {% endif %}

@@ -10,6 +10,11 @@
       <li class="docs-header__menu-add docs-header__menu-add--mobile">
         {% include 'components/button.twig' with {icon: 'plus', size: 'small', url: '/page/new'} %}
       </li>
+      {% if tokenData.username == "admin" %}
+        <li class="docs-header__menu-settings">
+          {% include 'components/button.twig' with {icon: 'settings', size: 'small', url: '/admin/settings'} %}
+        </li>
+      {% endif %}
     {% endif %}
     {% for option in config.menu %}
       <li>

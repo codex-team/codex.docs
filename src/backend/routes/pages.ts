@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import Pages from '../controllers/pages.js';
 import PagesOrder from '../controllers/pagesOrder.js';
 import verifyToken from './middlewares/token.js';
-import allowEdit from './middlewares/locals.js';
+import { allowEdit } from './middlewares/locals.js';
 import PagesFlatArray from '../models/pagesFlatArray.js';
 
 const router = express.Router();
@@ -12,10 +12,7 @@ const router = express.Router();
  */
 router.get('/page/new', verifyToken, allowEdit, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const pagesAvailableGrouped = await Pages.groupByParent();
-
     res.render('pages/form', {
-      pagesAvailableGrouped,
       page: null,
     });
   } catch (error) {

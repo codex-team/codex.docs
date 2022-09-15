@@ -5,6 +5,7 @@ import mkdirp from 'mkdirp';
 import config from 'config';
 import Transport from '../../controllers/transport.js';
 import { random16 } from '../../utils/crypto.js';
+import verifyToken from '../middlewares/token.js';
 
 const router = Router();
 
@@ -59,7 +60,7 @@ const fileUploader = multer({
 /**
  * Accepts images to upload
  */
-router.post('/transport/image', imageUploader, async (req: Request, res: Response) => {
+router.post('/transport/image', verifyToken, imageUploader, async (req: Request, res: Response) => {
   const response = {
     success: 0,
     message: '',
@@ -79,6 +80,7 @@ router.post('/transport/image', imageUploader, async (req: Request, res: Respons
 
   const fileData = {
     ...req.files.image[0],
+    username: res.locals.tokenData.username,
     url: '/uploads/' + req.files.image[0].filename,
   };
 
@@ -100,7 +102,7 @@ router.post('/transport/image', imageUploader, async (req: Request, res: Respons
 /**
  * Accepts files to upload
  */
-router.post('/transport/file', fileUploader, async (req: Request, res: Response) => {
+router.post('/transport/file', verifyToken, fileUploader, async (req: Request, res: Response) => {
   const response = { success: 0 };
 
   if (req.files === undefined) {
@@ -117,7 +119,13 @@ router.post('/transport/file', fileUploader, async (req: Request, res: Response)
   try {
     Object.assign(
       response,
-      await Transport.save(req.files.file[0], req.body.map ? JSON.parse(req.body.map) : undefined)
+      await Transport.save(
+        {
+          ...req.files.file[0],
+          username: res.locals.tokenData.username,
+        },
+        req.body.map ? JSON.parse(req.body.map) : undefined
+      )
     );
 
     response.success = 1;
@@ -130,7 +138,7 @@ router.post('/transport/file', fileUploader, async (req: Request, res: Response)
 /**
  * Accept file url to fetch
  */
-router.post('/transport/fetch', multer().none(), async (req: Request, res: Response) => {
+router.post('/transport/fetch', verifyToken, multer().none(), async (req: Request, res: Response) => {
   const response = { success: 0 };
 
   if (!req.body.url) {
@@ -140,7 +148,7 @@ router.post('/transport/fetch', multer().none(), async (req: Request, res: Respo
   }
 
   try {
-    Object.assign(response, await Transport.fetch(req.body.url, req.body.map ? JSON.parse(req.body.map) : undefined));
+    Object.assign(response, await Transport.fetch(req.body.url, res.locals.tokenData.username, req.body.map ? JSON.parse(req.body.map) : undefined));
 
     response.success = 1;
     res.status(200).json(response);

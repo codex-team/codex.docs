@@ -3,6 +3,7 @@ import { AliasData } from '../../models/alias.js';
 import { FileData } from '../../models/file.js';
 import { PageData } from '../../models/page.js';
 import { PageOrderData } from '../../models/pageOrder.js';
+import { UserData } from '../../models/user.js';
 import initDb from './initDb.js';
 
 /**
@@ -172,4 +173,5 @@ export default {
   aliases: new Database<AliasData>(initDb('aliases')),
   pagesOrder: new Database<PageOrderData>(initDb('pagesOrder')),
   files: new Database<FileData>(initDb('files')),
+  users: new Database<UserData>(initDb('users')),
 };

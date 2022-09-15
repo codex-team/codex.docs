@@ -6,12 +6,14 @@
       ┬┴┬┴┤ ͜ʖ ͡°) ├┬┴┬┴
     </h1>
     <p>
-      Enter a password to access pages editing
+      Please login to access pages editing
     </p>
     <p>
       {{ header }}
     </p>
     <input type="hidden" name="_csrf" value={{ csrfToken }}>
+    <input type="hidden" name="_redirect" value={{ redirectUrl }}>
+    <input type="username" name="username" placeholder="Username">
     <input type="password" name="password" placeholder="Password">
     <input type="submit" value="Login">
   </form>

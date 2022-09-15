@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import multerFunc from 'multer';
 import Pages from '../../controllers/pages.js';
 import PagesOrder from '../../controllers/pagesOrder.js';
+import verifyToken from '../middlewares/token.js';
 
 const router = express.Router();
 const multer = multerFunc();
@@ -54,10 +55,11 @@ router.get('/pages', async (req: Request, res: Response) => {
  *
  * Create new page in the database
  */
-router.put('/page', multer.none(), async (req: Request, res: Response) => {
+router.put('/page', multer.none(), verifyToken, async (req: Request, res: Response) => {
   try {
     const { title, body, parent } = req.body;
     const page = await Pages.insert({
+      username: res.locals.tokenData.username,
       title,
       body,
       parent,
@@ -87,7 +89,7 @@ router.put('/page', multer.none(), async (req: Request, res: Response) => {
  *
  * Update page data in the database
  */
-router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
+router.post('/page/:id', multer.none(), verifyToken, async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
@@ -122,6 +124,7 @@ router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
     }
 
     page = await Pages.update(id, {
+      username: res.locals.tokenData.username,
       title,
       body,
       parent,
@@ -144,7 +147,7 @@ router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
  *
  * Remove page from the database
  */
-router.delete('/page/:id', async (req: Request, res: Response) => {
+router.delete('/page/:id', verifyToken, async (req: Request, res: Response) => {
   try {
     const pageId = req.params.id;
     const page = await Pages.get(pageId);

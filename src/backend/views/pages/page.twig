@@ -20,6 +20,10 @@
         {% endif %}
       </div>
       <time class="page__header-time">
+        {% if page.username %}
+          Author <span style="color: #000;">@{{ page.username }}</span>
+          &nbsp;&nbsp;|&nbsp;&nbsp;
+        {% endif %}
         Last edit {{ (page.body.time / 1000)  | date("M d Y") }}
       </time>
       {% if isAuthorized == true %}

@@ -6,6 +6,7 @@ const filesDb = database['files'];
  * @typedef {object} FileData
  *
  * @property {string} _id - file id
+ * @property {string} username - username
  * @property {string} name - original file name
  * @property {string} filename - name of uploaded file
  * @property {string} path - path to uploaded file
@@ -15,6 +16,7 @@ const filesDb = database['files'];
  */
 export interface FileData {
   _id?: string;
+  username?: string;
   name?: string;
   filename?: string;
   path?: string;
@@ -29,6 +31,7 @@ export interface FileData {
  * @class File model
  *
  * @property {string} _id - file id
+ * @property {string} username - username
  * @property {string} name - original file name
  * @property {string} filename - name of uploaded file
  * @property {string} path - path to uploaded file
@@ -37,6 +40,7 @@ export interface FileData {
  */
 class File {
   public _id?: string;
+  public username?: string;
   public name?: string;
   public filename?: string;
   public path?: string;
@@ -102,8 +106,9 @@ class File {
    * @param {FileData} fileData - info about file
    */
   public set data(fileData: FileData) {
-    const { name, filename, path, mimetype, size, url } = fileData;
+    const { username, name, filename, path, mimetype, size, url } = fileData;
 
+    this.username = username || this.username;
     this.name = name || this.name;
     this.filename = filename || this.filename;
     this.path = path ? this.processPath(path) : this.path;
@@ -120,6 +125,7 @@ class File {
   public get data(): FileData {
     return {
       _id: this._id,
+      username: this.username,
       name: this.name,
       filename: this.filename,
       path: this.path,

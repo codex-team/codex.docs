@@ -6,6 +6,7 @@ const pagesDb = database['pages'];
 /**
  * @typedef {object} PageData
  * @property {string} _id - page id
+ * @property {string} username - username
  * @property {string} title - page title
  * @property {string} uri - page uri
  * @property {*} body - page body
@@ -13,6 +14,7 @@ const pagesDb = database['pages'];
  */
 export interface PageData {
   _id?: string;
+  username?: string;
   title?: string;
   uri?: string;
   body?: any;
@@ -24,6 +26,7 @@ export interface PageData {
  * @class Page model
  *
  * @property {string} _id - page id
+ * @property {string} username - username
  * @property {string} title - page title
  * @property {string} uri - page uri
  * @property {*} body - page body
@@ -31,6 +34,7 @@ export interface PageData {
  */
 class Page {
   public _id?: string;
+  public username?: string;
   public body?: any;
   public title?: string;
   public uri?: string;
@@ -95,8 +99,9 @@ class Page {
    * @param {PageData} pageData - page's data
    */
   public set data(pageData: PageData) {
-    const { body, parent, uri } = pageData;
+    const { username, body, parent, uri } = pageData;
 
+    this.username = username || this.username;
     this.body = body || this.body;
     this.title = this.extractTitleFromBody();
     this.uri = uri || '';
@@ -111,6 +116,7 @@ class Page {
   public get data(): PageData {
     return {
       _id: this._id,
+      username: this.username,
       title: this.title,
       uri: this.uri,
       body: this.body,
