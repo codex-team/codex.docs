@@ -10,7 +10,7 @@ It's super easy to install and use.
 
 ## Features
 
-- 🤩 [Editor.js](https://editor.js/?from=docs-demo) ecosystem powered
+- 🤩 [Editor.js](https://editorjs.io/) ecosystem powered
 - 📂 Docs nesting — create any structure you need
 - 📱 Nice look on Desktop and Mobile
 - 🔥 Beautiful page URLs. Human-readable and SEO-friendly.
