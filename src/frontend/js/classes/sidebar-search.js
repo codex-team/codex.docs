@@ -15,7 +15,9 @@ export default class SidebarSearch {
   static get CSS() {
     return {
       sectionHidden: 'docs-sidebar__section--hidden',
+      sectionTitle: 'docs-sidebar__section-title',
       sectionTitleSelected: 'docs-sidebar__section-title--selected',
+      sectionList: 'docs-sidebar__section-list',
       sectionListItem: 'docs-sidebar__section-list-item',
       sectionListItemWrapperHidden: 'docs-sidebar__section-list-item-wrapper--hidden',
       sectionListItemSlelected: 'docs-sidebar__section-list-item--selected',
@@ -62,10 +64,10 @@ export default class SidebarSearch {
     this.search.addEventListener('input', e => {
       e.stopImmediatePropagation();
       e.preventDefault();
-      this.search(e.target.value);
+      this.filterSections(e.target.value);
     });
     // Initialize the search results.
-    this.search('');
+    this.filterSections('');
 
     // Add event listener for keyboard events.
     this.search.addEventListener('keydown', e => this.handleKeyboardEventOnSearch(e));
@@ -189,12 +191,7 @@ export default class SidebarSearch {
     }
   }
 
-  /**
-   * Search for items in the sidebar.
-   *
-   * @param {InputEvent} searchValue - search value.
-   */
-  search(searchValue) {
+  filterSections(searchValue) {
     // remove selection from previous search results.
     if (this.selectedSearchResultIndex) {
       const { element, type } = this.searchResults[this.selectedSearchResultIndex];
@@ -212,7 +209,6 @@ export default class SidebarSearch {
     }
     // empty search results.
     this.searchResults = [];
-
     // match search value with sidebar sections.
     this.sections.forEach(section => {
       // match with section title.
