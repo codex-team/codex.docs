@@ -5,7 +5,6 @@ import PageOrder from '../models/pageOrder.js';
 import HttpException from '../exceptions/httpException.js';
 import PagesFlatArray from '../models/pagesFlatArray.js';
 
-
 type PageDataFields = keyof PageData;
 
 /**
@@ -292,6 +291,7 @@ class Pages {
       await alias.destroy();
     }
     const removedPage = page.destroy();
+
     await PagesFlatArray.regenerate();
 
     return removedPage;
