@@ -1,6 +1,6 @@
 import { Storage } from '../utils/storage';
 import Shortcut from '@codexteam/shortcuts';
-import SidebarSearch from '../classes/sidebar-search';
+import SidebarFilter from '../classes/sidebar-filter';
 /**
  * Local storage key
  */
@@ -69,8 +69,8 @@ export default class Sidebar {
 
     // Sidebar visibility
     this.isVisible = storedVisibility !== 'false';
-    // Sidebar search module
-    this.search = new SidebarSearch();
+    // Sidebar filter module
+    this.filter = new SidebarFilter();
   }
 
   /**
@@ -90,7 +90,7 @@ export default class Sidebar {
     this.nodes.slider.addEventListener('click', () => this.handleSliderClick());
 
     this.nodes.search = moduleEl.querySelector('.' + Sidebar.CSS.sidebarSearch);
-    this.search.init(this.nodes.sections, this.nodes.sidebarContent, this.nodes.search);
+    this.filter.init(this.nodes.sections, this.nodes.sidebarContent, this.nodes.search);
 
     this.ready();
   }
@@ -231,6 +231,7 @@ export default class Sidebar {
           // make sidebar visible.
           this.handleSliderClick();
         }
+        // focus search input.
         this.nodes.search.focus();
         // Stop propagation of event.
         e.stopPropagation();
