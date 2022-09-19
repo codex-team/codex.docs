@@ -1,3 +1,11 @@
+:root {
+  /**
+   * Allows to dynamically set main column minimun margin left.
+   * Is used for adding extra space for editor controls in page edit mode (otherwise controls overlap sidebar)
+   */
+  --main-col-min-margin-left: 0px;
+}
+
 .docs {
   min-height: calc(100vh - var(--layout-height-header));
 
@@ -6,37 +14,39 @@
   }
 
   &__content {
+    --max-space-between-cols: 160px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
     flex-grow: 2;
     word-wrap: break-word;
-
 
     @media (--mobile) {
       width: 100%;
       flex-basis: 100%;
     }
 
+    @media (--desktop) {
+      max-width: min(
+        calc(var(--layout-width-main-col) + var(--max-space-between-cols) + var(--layout-sidebar-width)),
+        calc(100vw - var(--layout-sidebar-width))
+      );
+      margin-left: max(var(--main-col-min-margin-left), calc(50vw - var(--layout-sidebar-width) - var(--layout-width-main-col) / 2) - var(--layout-padding-horizontal));
+      margin-right: auto;
+      padding: 0;
+    }
+
     &-inner {
       max-width: var(--layout-width-main-col);
       margin: 0 auto;
+      min-width: 0;
+      width: 100%;
 
       @media (--desktop) {
         margin-left: 0;
-        padding: var(--layout-padding-vertical) var(--layout-padding-horizontal);
+        padding: var(--layout-padding-vertical) var(--layout-padding-content-horizontal);
       }
-    }
-  }
-
-  &__content {
-    --max-space-between-cols: 160px;
-
-    display: flex;
-    justify-content: space-between;
-    max-width: calc(var(--layout-width-main-col) + var(--max-space-between-cols) + var(--layout-sidebar-width));
-    margin-left: max(0px, calc(50vw - var(--layout-sidebar-width) - var(--layout-width-main-col) / 2));
-    margin-right: auto;
-
-    @media (--mobile) {
-      padding: 20px var(--layout-padding-horizontal);
     }
   }
 
@@ -54,6 +64,10 @@
 
     @media (--desktop) {
       display: block;
+    }
+
+    &:empty {
+      display: none;
     }
   }
 
