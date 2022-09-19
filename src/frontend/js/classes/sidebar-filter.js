@@ -64,13 +64,13 @@ export default class SidebarFilter {
     // Initialize search input.
     this.search.value = '';
     // Initialize the search results.
-    this.filterSections('');
+    this.filter('');
 
     // Add event listener for search input.
     this.search.addEventListener('input', e => {
       e.stopImmediatePropagation();
       e.preventDefault();
-      this.filterSections(e.target.value);
+      this.filter(e.target.value);
     });
     // Add event listener for keyboard events.
     this.search.addEventListener('keydown', e => this.handleKeyboardEvent(e));
@@ -224,7 +224,7 @@ export default class SidebarFilter {
   /**
    * Scroll to title or item.
    *
-   * @param {HTMLElement} titleOrItem - Title or item element. 
+   * @param {HTMLElement} titleOrItem - Title or item element.
    */
   scrollToTitleOrItem(titleOrItem) {
     // check if it's visible.
@@ -260,11 +260,63 @@ export default class SidebarFilter {
   }
 
   /**
-   * Filter sidebar items.
+   * filter sidebar items.
    *
-   * @param {string} searchValue - Search value. 
+   * @param {HTMLElement} section - Section element.
+   * @param {string} searchValue - Search value.
    */
-  filterSections(searchValue) {
+  filterSection(section, searchValue) {
+    // match with section title.
+    const sectionTitle = section.querySelector('.' + SidebarFilter.CSS.sectionTitle);
+    const sectionList = section.querySelector('.' + SidebarFilter.CSS.sectionList);
+
+    // check if section title matches.
+    const isTitleMatch = sectionTitle.innerText.trim().toLowerCase()
+      .indexOf(searchValue.toLowerCase()) !== -1;
+    const matchResults = [];
+    // match with section items.
+    let isSingleItemMatch = false;
+
+    if (sectionList) {
+      const sectionListItems = sectionList.querySelectorAll('.' + SidebarFilter.CSS.sectionListItem);
+
+      sectionListItems.forEach(item => {
+        if (item.innerText.trim().toLowerCase()
+          .indexOf(searchValue.toLowerCase()) !== -1) {
+          // remove hiden class from item.
+          item.parentElement.classList.remove(SidebarFilter.CSS.sectionListItemWrapperHidden);
+          // add item to search results.
+          matchResults.push({
+            element: item,
+            type: 'item',
+          });
+          isSingleItemMatch = true;
+        } else {
+          // hide item if it is not a match.
+          item.parentElement.classList.add(SidebarFilter.CSS.sectionListItemWrapperHidden);
+        }
+      });
+    }
+    if (!isTitleMatch && !isSingleItemMatch) {
+      // hide section and it's items are not a match.
+      section.classList.add(SidebarFilter.CSS.sectionHidden);
+    } else {
+      // show section and it's items are a match.
+      section.classList.remove(SidebarFilter.CSS.sectionHidden);
+      // add section title to search results.
+      this.searchResults.push({
+        element: sectionTitle,
+        type: 'title',
+      }, ...matchResults);
+    }
+  }
+
+  /**
+   * Filter sidebar sections.
+   *
+   * @param {string} searchValue - Search value.
+   */
+  filter(searchValue) {
     // remove selection from previous search results.
     this.blurTitleOrItem(this.selectedSearchResultIndex);
     // empty selected index.
@@ -273,47 +325,7 @@ export default class SidebarFilter {
     this.searchResults = [];
     // match search value with sidebar sections.
     this.sections.forEach(section => {
-      // match with section title.
-      const sectionTitle = section.querySelector('.' + SidebarFilter.CSS.sectionTitle);
-      const isTitleMatch = sectionTitle.innerText.trim().toLowerCase()
-        .indexOf(searchValue.toLowerCase()) !== -1;
-      const matchResults = [];
-      // match with section items.
-      const sectionList = section.querySelector('.' + SidebarFilter.CSS.sectionList);
-      let isSingleItemMatch = false;
-
-      if (sectionList) {
-        const sectionListItems = sectionList.querySelectorAll('.' + SidebarFilter.CSS.sectionListItem);
-
-        sectionListItems.forEach(item => {
-          if (item.innerText.trim().toLowerCase()
-            .indexOf(searchValue.toLowerCase()) !== -1) {
-            // remove hiden class from item.
-            item.parentElement.classList.remove(SidebarFilter.CSS.sectionListItemWrapperHidden);
-            // add item to search results.
-            matchResults.push({
-              element: item,
-              type: 'item',
-            });
-            isSingleItemMatch = true;
-          } else {
-            // hide item if it is not a match.
-            item.parentElement.classList.add(SidebarFilter.CSS.sectionListItemWrapperHidden);
-          }
-        });
-      }
-      if (!isTitleMatch && !isSingleItemMatch) {
-        // hide section and it's items are not a match.
-        section.classList.add(SidebarFilter.CSS.sectionHidden);
-      } else {
-        // show section and it's items are a match.
-        section.classList.remove(SidebarFilter.CSS.sectionHidden);
-        // add section title to search results.
-        this.searchResults.push({
-          element: sectionTitle,
-          type: 'title',
-        }, ...matchResults);
-      }
+      this.filterSection(section, searchValue);
     });
   }
 }
