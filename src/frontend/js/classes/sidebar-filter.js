@@ -41,8 +41,15 @@ export default class SidebarFilter {
     this.selectedSearchResultIndex = null;
   }
 
-  init(sections, sidebarContent, search)
-  {
+  /**
+   * Initialize sidebar filter.
+   *
+   * @param {HTMLElement[]} sections - Array of sections.
+   * @param {HTMLElement} sidebarContent - Sidebar content.
+   * @param {HTMLElement} search - Search input.
+   */
+  init(sections, sidebarContent, search) {
+    // Store refs to HTML elements.
     this.sections = sections;
     this.sidebarContent = sidebarContent;
     this.search = search;
@@ -54,25 +61,25 @@ export default class SidebarFilter {
     }
     this.search.parentElement.classList.add(className);
 
+    // Initialize search input.
+    this.search.value = '';
+    // Initialize the search results.
+    this.filterSections('');
+
     // Add event listener for search input.
     this.search.addEventListener('input', e => {
       e.stopImmediatePropagation();
       e.preventDefault();
       this.filterSections(e.target.value);
     });
-    // Initialize the search results.
-    this.filterSections('');
-
     // Add event listener for keyboard events.
     this.search.addEventListener('keydown', e => this.handleKeyboardEvent(e));
   }
 
-
   /**
-   * Handle keyboard events when search input is focused.
+   * Handle keyboard events while search input is focused.
    *
    * @param {Event} e - Event Object.
-   * @returns {void}
    */
   handleKeyboardEvent(e) {
     // Return if search is not focused.
@@ -80,9 +87,9 @@ export default class SidebarFilter {
       return;
     }
 
-    // if enter is pressed and item is focused, then click on focused item.
+    // handle enter key when item is focused.
     if (e.code === 'Enter' && this.selectedSearchResultIndex !== null) {
-      // goto focused item.
+      // navigate to focused item.
       this.searchResults[this.selectedSearchResultIndex].element.click();
       // prevent default action.
       e.preventDefault();
@@ -90,21 +97,25 @@ export default class SidebarFilter {
       e.stopImmediatePropagation();
     }
 
+    // handle up and down navigation.
     if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
       // check for search results.
       if (this.searchResults.length === 0) {
         return;
       }
+
       // get current focused item.
       const prevSelectedSearchResultIndex = this.selectedSearchResultIndex;
 
-      this.selectedSearchResultIndex = this.getNextSectionOrItemIndex(e.code,
+      // get next item to be focus.
+      this.selectedSearchResultIndex = this.getNextTitleOrItemIndex(e.code,
         this.selectedSearchResultIndex,
         this.searchResults.length - 1);
 
-      this.blurSectionOrItem(prevSelectedSearchResultIndex);
-
-      this.focusSectionOrItem(this.selectedSearchResultIndex);
+      // blur previous focused item.
+      this.blurTitleOrItem(prevSelectedSearchResultIndex);
+      // focus next item.
+      this.focusTitleOrItem(this.selectedSearchResultIndex);
 
       // prevent default action.
       e.preventDefault();
@@ -113,68 +124,96 @@ export default class SidebarFilter {
     }
   }
 
-  getNextSectionOrItemIndex(code, sectionOrItemIndex, maxNumberOfSectionsOrItems) {
-    let nextSectionOrItemIndex = sectionOrItemIndex;
+  /**
+   * Get next title or item index.
+   *
+   * @param {string} code - Key code for navigation.
+   * @param {number} titleOrItemIndex - Current title or item index.
+   * @param {number} maxNumberOfTitlesOrItems - Max number of titles or items.
+   * @returns {number} - Next section or item index.
+   */
+  getNextTitleOrItemIndex(code, titleOrItemIndex, maxNumberOfTitlesOrItems) {
+    let nextTitleOrItemIndex = titleOrItemIndex;
 
     if (code === 'ArrowUp') {
-      if (sectionOrItemIndex === null) {
-        return maxNumberOfSectionsOrItems;
+      // if no item is focused, focus last item.
+      if (titleOrItemIndex === null) {
+        return maxNumberOfTitlesOrItems;
       }
 
-      nextSectionOrItemIndex--;
+      // focus previous item.
+      nextTitleOrItemIndex--;
 
-      if (nextSectionOrItemIndex < 0) {
-        nextSectionOrItemIndex = maxNumberOfSectionsOrItems;
+      // circular navigation.
+      if (nextTitleOrItemIndex < 0) {
+        nextTitleOrItemIndex = maxNumberOfTitlesOrItems;
       }
 
-      return nextSectionOrItemIndex;
-    }
-    else if (code === 'ArrowDown') {
-      if (sectionOrItemIndex === null) {
+      return nextTitleOrItemIndex;
+    } else if (code === 'ArrowDown') {
+      // if no item is focused, focus first item.
+      if (titleOrItemIndex === null) {
         return 0;
       }
 
-      nextSectionOrItemIndex++;
+      // focus next item.
+      nextTitleOrItemIndex++;
 
-      if (nextSectionOrItemIndex > maxNumberOfSectionsOrItems) {
-        nextSectionOrItemIndex = 0;
+      // circular navigation.
+      if (nextTitleOrItemIndex > maxNumberOfTitlesOrItems) {
+        nextTitleOrItemIndex = 0;
       }
 
-      return nextSectionOrItemIndex;
+      return nextTitleOrItemIndex;
     }
   }
 
-  focusSectionOrItem(sectionOrItemIndex) {
-    if (sectionOrItemIndex === null) {
+  /**
+   * Focus title or item at given index.
+   *
+   * @param {number} titleOrItemIndex - Title or item index.
+   */
+  focusTitleOrItem(titleOrItemIndex) {
+    // check for valid index.
+    if (titleOrItemIndex === null) {
       return;
     }
 
-    const { element, type } = this.searchResults[sectionOrItemIndex];
+    const { element, type } = this.searchResults[titleOrItemIndex];
 
     if (!element || !type) {
       return;
     }
 
+    // focus title or item.
     if (type === 'title') {
       element.classList.add(SidebarFilter.CSS.sectionTitleSelected);
     } else if (type === 'item') {
       element.classList.add(SidebarFilter.CSS.sectionListItemSlelected);
     }
 
-    this.scrollToSectionOrItem(element);
+    // scroll to focused title or item.
+    this.scrollToTitleOrItem(element);
   }
 
-  blurSectionOrItem(sectionOrItemIndex) {
-    if (sectionOrItemIndex === null) {
+  /**
+   * Blur title or item at given index.
+   *
+   * @param {number} titleOrItemIndex - Title or item index.
+   */
+  blurTitleOrItem(titleOrItemIndex) {
+    // check for valid index.
+    if (titleOrItemIndex === null) {
       return;
     }
 
-    const { element, type } = this.searchResults[sectionOrItemIndex];
+    const { element, type } = this.searchResults[titleOrItemIndex];
 
     if (!element || !type) {
       return;
     }
 
+    // blur title or item.
     if (type === 'title') {
       element.classList.remove(SidebarFilter.CSS.sectionTitleSelected);
     } else if (type === 'item') {
@@ -182,9 +221,14 @@ export default class SidebarFilter {
     }
   }
 
-  scrollToSectionOrItem(sectionOrItem) {
+  /**
+   * Scroll to title or item.
+   *
+   * @param {HTMLElement} titleOrItem - Title or item element. 
+   */
+  scrollToTitleOrItem(titleOrItem) {
     // check if it's visible.
-    const rect = sectionOrItem.getBoundingClientRect();
+    const rect = titleOrItem.getBoundingClientRect();
     let elemTop = rect.top;
     let elemBottom = rect.bottom;
     const halfOfViewport = window.innerHeight / 2;
@@ -215,9 +259,14 @@ export default class SidebarFilter {
     }
   }
 
+  /**
+   * Filter sidebar items.
+   *
+   * @param {string} searchValue - Search value. 
+   */
   filterSections(searchValue) {
     // remove selection from previous search results.
-    this.blurSectionOrItem(this.selectedSearchResultIndex);
+    this.blurTitleOrItem(this.selectedSearchResultIndex);
     // empty selected index.
     this.selectedSearchResultIndex = null;
     // empty search results.
