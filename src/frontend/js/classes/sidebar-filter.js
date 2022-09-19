@@ -17,6 +17,7 @@ export default class SidebarFilter {
       sectionHidden: 'docs-sidebar__section--hidden',
       sectionTitle: 'docs-sidebar__section-title',
       sectionTitleSelected: 'docs-sidebar__section-title--selected',
+      sectionTitleActive: 'docs-sidebar__section-title--active',
       sectionList: 'docs-sidebar__section-list',
       sectionListItem: 'docs-sidebar__section-list-item',
       sectionListItemWrapperHidden: 'docs-sidebar__section-list-item-wrapper--hidden',
@@ -47,12 +48,14 @@ export default class SidebarFilter {
    * @param {HTMLElement[]} sections - Array of sections.
    * @param {HTMLElement} sidebarContent - Sidebar content.
    * @param {HTMLElement} search - Search input.
+   * @param {Function} setSectionCollapsed - Function to set section collapsed.
    */
-  init(sections, sidebarContent, search) {
+  init(sections, sidebarContent, search, setSectionCollapsed) {
     // Store refs to HTML elements.
     this.sections = sections;
     this.sidebarContent = sidebarContent;
     this.search = search;
+    this.setSectionCollapsed = setSectionCollapsed;
     let className = SidebarFilter.CSS.sidebarSearchWrapperOther;
 
     // Search initialize with platform specific shortcut.
@@ -190,6 +193,13 @@ export default class SidebarFilter {
       element.classList.add(SidebarFilter.CSS.sectionTitleSelected);
     } else if (type === 'item') {
       element.classList.add(SidebarFilter.CSS.sectionListItemSlelected);
+      // close section.
+      const parentSection = element.closest('section');
+
+      // if item is in collapsed section, expand it.
+      if (!parentSection.classList.contains(SidebarFilter.CSS.sectionTitleActive)) {
+        this.setSectionCollapsed(parentSection, false);
+      }
     }
 
     // scroll to focused title or item.

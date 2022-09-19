@@ -90,7 +90,8 @@ export default class Sidebar {
     this.nodes.slider.addEventListener('click', () => this.handleSliderClick());
 
     this.nodes.search = moduleEl.querySelector('.' + Sidebar.CSS.sidebarSearch);
-    this.filter.init(this.nodes.sections, this.nodes.sidebarContent, this.nodes.search);
+    this.filter.init(this.nodes.sections, this.nodes.sidebarContent,
+      this.nodes.search, this.setSectionCollapsed);
 
     this.ready();
   }
