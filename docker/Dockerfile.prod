@@ -2,7 +2,7 @@
 FROM node:16.14.0-alpine3.15 as build
 
 ## Install build toolchain, install node deps and compile native add-ons
-RUN apk add --no-cache python3 make g++
+RUN apk add --no-cache python3 make g++ git
 
 WORKDIR /usr/src/app
 
