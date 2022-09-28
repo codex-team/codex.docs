@@ -2,10 +2,10 @@ import fileType from 'file-type';
 import fetch from 'node-fetch';
 import fs from 'fs';
 import nodePath from 'path';
-import config from 'config';
 import File, { FileData } from '../models/file.js';
 import crypto from '../utils/crypto.js';
 import deepMerge from '../utils/objects.js';
+import appConfig from "../utils/appConfig.js";
 
 const random16 = crypto.random16;
 
@@ -71,7 +71,7 @@ class Transport {
     const type = await fileType.fromBuffer(buffer);
     const ext = type ? type.ext : nodePath.extname(url).slice(1);
 
-    fs.writeFileSync(`${config.get('uploads')}/${filename}.${ext}`, buffer);
+    fs.writeFileSync(`${appConfig.uploads}/${filename}.${ext}`, buffer);
 
     const fetchedContentType: string | null = fetchedFile.headers.get('content-type');
     let fetchedMimeType: string | undefined;
@@ -87,7 +87,7 @@ class Transport {
     const file = new File({
       name: url,
       filename: `${filename}.${ext}`,
-      path: `${config.get('uploads')}/${filename}.${ext}`,
+      path: `${appConfig.uploads}/${filename}.${ext}`,
       size: buffer.length,
       mimetype: mimeType,
     });
