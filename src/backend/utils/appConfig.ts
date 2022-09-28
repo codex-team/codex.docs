@@ -19,6 +19,13 @@ const LocalDatabaseConfig = z.object({
   })
 })
 
+const MongoDatabaseConfig = z.object({
+  driver: z.literal('mongodb'),
+  mongodb: z.object({
+    uri: z.string()
+  })
+})
+
 const AuthConfig = z.object({
   secret: z.string() // Secret for JWT
 })
@@ -48,7 +55,7 @@ const AppConfig = z.object({
   password: z.string(), // Password for admin panel
   frontend: FrontendConfig, // Frontend configuration
   auth: AuthConfig, // Auth configuration
-  database: LocalDatabaseConfig, // Database configuration
+  database: z.union([LocalDatabaseConfig, MongoDatabaseConfig]), // Database configuration
 })
 
 export type AppConfig = z.infer<typeof AppConfig>;
