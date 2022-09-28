@@ -45,6 +45,7 @@ const AppConfig = z.object({
   favicon: z.string().optional(), // Path or URL to favicon
   uploads: z.string(), // Path to uploads folder
   hawk: HawkConfig.optional().nullable(), // Hawk configuration
+  password: z.string(), // Password for admin panel
   frontend: FrontendConfig, // Frontend configuration
   auth: AuthConfig, // Auth configuration
   database: LocalDatabaseConfig, // Database configuration

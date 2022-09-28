@@ -43,7 +43,7 @@ Here is our [Demo Application](https://docs-demo.codex.so/) where you can try Co
 git clone https://github.com/codex-team/codex.docs
 ```
 
-### 2. Fill the appConfig
+### 2. Fill the config
 
 Read about available [configuration](https://docs.codex.so/configuration) options.
 

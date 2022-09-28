@@ -1,7 +1,7 @@
 port: 4000
 host: "localhost"
 uploads: "./uploads"
-
+password: secretpassword
 frontend:
   title: "CodeX Docs"
   description: "A block-styled editor with clean JSON output"
