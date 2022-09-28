@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import config from 'config';
 import { fileURLToPath } from 'url';
 
 /**
@@ -10,7 +9,7 @@ import { fileURLToPath } from 'url';
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const rcPath = path.resolve(__dirname, '../../../', config.get('rcFile') || './.codexdocsrc');
+const rcPath = path.resolve(__dirname, '../../../', './.codexdocsrc');
 
 /**
  * @typedef {object} menu

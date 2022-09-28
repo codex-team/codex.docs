@@ -3,15 +3,13 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
-import rcParser from './utils/rcparser.js';
 import routes from './routes/index.js';
 import HttpException from './exceptions/httpException.js';
 import * as dotenv from 'dotenv';
-import config from 'config';
 import HawkCatcher from '@hawk.so/nodejs';
 import os from 'os';
-import appConfig from 'config';
 import { downloadFavicon, FaviconData } from './utils/downloadFavicon.js';
+import appConfig from "./utils/appConfig.js";
 
 /**
  * The __dirname CommonJS variables are not available in ES modules.
@@ -22,20 +20,20 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 dotenv.config();
 const app = express();
-const localConfig = rcParser.getConfiguration();
+const localConfig = appConfig.frontend;
 
 // Initialize the backend error tracking catcher.
-if (process.env.HAWK_TOKEN_BACKEND) {
-  HawkCatcher.init(process.env.HAWK_TOKEN_BACKEND);
+if (appConfig.hawk?.backendToken) {
+  HawkCatcher.init(appConfig.hawk.backendToken);
 }
 
 // Get url to upload favicon from config
-const favicon: string = appConfig.get('favicon');
+const favicon = appConfig.favicon
 
 app.locals.config = localConfig;
 // Set client error tracking token as app local.
-if (process.env.HAWK_TOKEN_CLIENT) {
-  app.locals.config.hawkClientToken = process.env.HAWK_TOKEN_CLIENT;
+if (appConfig.hawk?.frontendToken) {
+  app.locals.config.hawkClientToken = appConfig.hawk.frontendToken;
 }
 
 // view engine setup
@@ -69,7 +67,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../public')));
-app.use('/uploads', express.static(config.get('uploads')));
+app.use('/uploads', express.static(appConfig.uploads));
 app.use('/favicon', express.static(downloadedFaviconFolder));
 
 app.use('/', routes);
@@ -78,7 +76,7 @@ app.use('/', routes);
 // global error handler
 app.use(function (err: unknown, req: Request, res: Response, next: NextFunction) {
   // send any type of error to hawk server.
-  if (process.env.HAWK_TOKEN_BACKEND && err instanceof Error) {
+  if (appConfig.hawk?.backendToken && err instanceof Error) {
     HawkCatcher.send(err);
   }
   // only send Http based exception to client.

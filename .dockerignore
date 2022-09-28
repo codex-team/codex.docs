@@ -3,6 +3,6 @@
 !src
 !package.json
 !yarn.lock
-!webpack.config.js
+!webpack.appConfig.js
 !tsconfig.json
 !.postcssrc

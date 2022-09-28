@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import config from 'config';
 import csrf from 'csurf';
+import appConfig from "../utils/appConfig.js";
 
 const router = express.Router();
 const csrfProtection = csrf({ cookie: true });
@@ -46,7 +46,7 @@ router.post('/auth', parseForm, csrfProtection, async (req: Request, res: Respon
       iss: 'Codex Team',
       sub: 'auth',
       iat: Date.now(),
-    }, process.env.PASSWORD + config.get('secret'));
+    }, process.env.PASSWORD + appConfig.auth.secret);
 
     res.cookie('authToken', token, {
       httpOnly: true,

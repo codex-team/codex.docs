@@ -3,15 +3,15 @@
  */
 import app from '../backend/app.js';
 import http from 'http';
-import config from 'config';
 import Debug from 'debug';
+import appConfig from "../backend/utils/appConfig.js";
 
 const debug = Debug.debug('codex.editor.docs:server');
 
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(config.get('port') || '3000');
+const port = normalizePort(appConfig.port.toString() || '3000');
 
 app.set('port', port);
 

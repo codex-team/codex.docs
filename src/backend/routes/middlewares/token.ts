@@ -1,6 +1,6 @@
-import config from 'config';
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import appConfig from "../../utils/appConfig.js";
 
 
 /**
@@ -21,7 +21,7 @@ export default async function verifyToken(req: Request, res: Response, next: Nex
       return;
     }
 
-    const decodedToken = jwt.verify(token, process.env.PASSWORD + config.get('secret'));
+    const decodedToken = jwt.verify(token, process.env.PASSWORD + appConfig.auth.secret);
 
     res.locals.isAuthorized = !!decodedToken;
 

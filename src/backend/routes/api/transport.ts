@@ -2,9 +2,9 @@ import { Request, Response, Router } from 'express';
 import multer, { StorageEngine } from 'multer';
 import mime from 'mime';
 import mkdirp from 'mkdirp';
-import config from 'config';
 import Transport from '../../controllers/transport.js';
 import { random16 } from '../../utils/crypto.js';
+import appConfig from "../../utils/appConfig.js";
 
 const router = Router();
 
@@ -15,7 +15,7 @@ const router = Router();
  */
 const storage: StorageEngine = multer.diskStorage({
   destination: (req, file, cb) => {
-    const dir: string = config.get('uploads') || 'public/uploads';
+    const dir: string = appConfig.uploads || 'public/uploads';
 
     mkdirp(dir);
     cb(null, dir);

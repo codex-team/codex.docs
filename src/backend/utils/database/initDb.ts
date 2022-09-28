@@ -1,6 +1,6 @@
 import Datastore from 'nedb';
-import config from 'config';
 import path from 'path';
+import appConfig from "../appConfig.js";
 
 /**
  * Init function for nedb instance
@@ -10,7 +10,7 @@ import path from 'path';
  */
 export default function initDb(name: string): Datastore {
   return new Datastore({
-    filename: path.resolve(`${config.get('database')}/${name}.db`),
+    filename: path.resolve(`${appConfig.database.local.path}/${name}.db`),
     autoload: true,
   });
 }

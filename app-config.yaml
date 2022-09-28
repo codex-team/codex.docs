@@ -1,0 +1,31 @@
+port: 4000
+host: "localhost"
+uploads: "./uploads"
+
+frontend:
+  title: "CodeX Docs"
+  description: "A block-styled editor with clean JSON output"
+  startPage: ""
+  misprintsChatId: "12344564"
+  yandexMetrikaId: ""
+  carbon:
+    serve: ""
+    placement: ""
+  menu:
+    - "Guides"
+    - title: "CodeX"
+      uri: "https://codex.so"
+
+auth:
+  secret: supersecret
+
+hawk:
+#  frontendToken: "123"
+#  backendToken: "123"
+
+database:
+  driver: local
+  local:
+    path: ./db
+  mongodb:
+    uri: mongodb://localhost:27017
