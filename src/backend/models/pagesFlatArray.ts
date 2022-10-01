@@ -1,6 +1,7 @@
 import Page from './page.js';
 import PageOrder from './pageOrder.js';
 import NodeCache from 'node-cache';
+import { EntityId } from '../utils/database/types.js';
 
 // Create cache for flat array
 const cache = new NodeCache({ stdTTL: 120 });
@@ -14,12 +15,12 @@ export interface PagesFlatArrayData {
   /**
    * Page id
    */
-  id: string;
+  id: EntityId;
 
   /**
    * Page parent id
    */
-  parentId?: string;
+  parentId?: EntityId;
 
   /**
    * id of parent with parent id '0'
@@ -105,7 +106,7 @@ class PagesFlatArray {
    * @param pageId - page id
    * @returns {Promise<PagesFlatArrayData | undefined>}
    */
-  public static async getPageBefore(pageId: string): Promise<PagesFlatArrayData | undefined> {
+  public static async getPageBefore(pageId: EntityId): Promise<PagesFlatArrayData | undefined> {
     const arr = await this.get();
 
     const pageIndex = arr.findIndex( (item) => item.id == pageId);
@@ -125,7 +126,7 @@ class PagesFlatArray {
    * @param pageId - page id
    * @returns {Promise<PagesFlatArrayData | undefined>}
    */
-  public static async getPageAfter(pageId: string): Promise<PagesFlatArrayData | undefined> {
+  public static async getPageAfter(pageId: EntityId): Promise<PagesFlatArrayData | undefined> {
     const arr = await this.get();
 
     const pageIndex = arr.findIndex( (item) => item.id == pageId );
@@ -148,7 +149,7 @@ class PagesFlatArray {
    * @param orders - all page orders
    * @returns {Promise<Array<PagesFlatArrayData>>}
    */
-  private static getChildrenFlatArray(pageId: string, level: number,
+  private static getChildrenFlatArray(pageId: EntityId, level: number,
     pages: Array<Page>, orders: Array<PageOrder>): Array<PagesFlatArrayData> {
     let arr: Array<PagesFlatArrayData> = new Array<PagesFlatArrayData>();
 

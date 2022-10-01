@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import appConfig from "../../utils/appConfig.js";
+import appConfig from '../../utils/appConfig.js';
 
 
 /**

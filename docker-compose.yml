@@ -12,3 +12,12 @@ services:
       - ./public/uploads:/uploads
       - ./db:/usr/src/app/db
       - ./app-config.yaml:/usr/src/app/app-config.yaml
+  mongodb:
+    image: mongo:6.0.1
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:

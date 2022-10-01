@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 export interface DatabaseDriver<DocType> {
   insert(doc: DocType): Promise<DocType>;
   find(query: Record<string, unknown>, projection?: DocType): Promise<Array<DocType>>;
@@ -5,6 +7,8 @@ export interface DatabaseDriver<DocType> {
   update(query: Record<string, unknown>, update: DocType, options: Options): Promise<number|boolean|Array<DocType>>
   remove(query: Record<string, unknown>, options: Options): Promise<number>
 }
+
+export type EntityId = string | ObjectId;
 
 /**
  * @typedef Options - optional params

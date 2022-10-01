@@ -24,8 +24,8 @@ hawk:
 #  backendToken: "123"
 
 database:
-  driver: local
+  driver: mongodb
   local:
     path: ./db
   mongodb:
-    uri: mongodb://localhost:27017
+    uri: mongodb://localhost:27017/docs1

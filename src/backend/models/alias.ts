@@ -1,46 +1,71 @@
 import crypto from '../utils/crypto.js';
 import database from '../utils/database/index.js';
+import { EntityId } from '../utils/database/types.js';
 
 const binaryMD5 = crypto.binaryMD5;
 const aliasesDb = database['aliases'];
 
 /**
- * @typedef {object} AliasData
- * @property {string} _id - alias id
- * @property {string} hash - alias binary hash
- * @property {string} type - entity type
- * @property {boolean} deprecated - indicate if alias deprecated
- * @property {string} id - entity id
- *
+ * Describe an alias
  */
 export interface AliasData {
-  _id?: string;
+  /**
+   * Alias id
+   */
+  _id?: EntityId;
+
+  /**
+   * Alias binary hash
+   */
   hash?: string;
+
+  /**
+   * Entity type
+   */
   type?: string;
+
+  /**
+   * Indicate if alias deprecated
+   */
   deprecated?: boolean;
-  id?: string;
+
+  /**
+   * Entity id
+   */
+  id?: EntityId;
 }
 
 /**
- * @class Alias
- * @classdesc Alias model
- *
- * @property {string} _id - alias id
- * @property {string} hash - alias binary hash
- * @property {string} type - entity type
- * @property {boolean} deprecated - indicate if alias deprecated
- * @property {string} id - entity title
+ * Alias model
  */
 class Alias {
-  public _id?: string;
+  /**
+   * Alias id
+   */
+  public _id?: EntityId;
+
+  /**
+   * Alias binary hash
+   */
   public hash?: string;
+
+  /**
+   * Entity type
+   */
   public type?: string;
+
+  /**
+   * Indicate if alias deprecated
+   */
   public deprecated?: boolean;
-  public id?: string;
+
+  /**
+   * Entity id
+   */
+  public id?: EntityId;
 
   /**
    * @class
-   *
    * @param {AliasData} data - info about alias
    * @param {string} aliasName - alias of entity
    */

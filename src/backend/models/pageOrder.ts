@@ -1,4 +1,6 @@
 import database from '../utils/database/index.js';
+import { ObjectId } from 'mongodb';
+import { EntityId } from '../utils/database/types.js';
 
 const db = database['pagesOrder'];
 
@@ -9,9 +11,9 @@ const db = database['pagesOrder'];
  * @property {Array<string>} order - list of ordered pages
  */
 export interface PageOrderData {
-  _id?: string;
-  page?: string;
-  order?: string[];
+  _id?: EntityId;
+  page?: EntityId;
+  order?: EntityId[];
 }
 
 /**
@@ -21,14 +23,13 @@ export interface PageOrderData {
  * Creates order for Pages with children
  */
 class PageOrder {
-  public _id?: string;
-  public page?: string;
-  private _order?: string[];
+  public _id?: EntityId;
+  public page?: EntityId;
+  private _order?: EntityId[];
 
 
   /**
    * @class
-   *
    * @param {PageOrderData} data - info about pageOrder
    */
   constructor(data: PageOrderData = {}) {
@@ -49,7 +50,7 @@ class PageOrder {
    * @param {string} pageId - page's id
    * @returns {Promise<PageOrder>}
    */
-  public static async get(pageId: string): Promise<PageOrder> {
+  public static async get(pageId: EntityId): Promise<PageOrder> {
     const order = await db.findOne({ page: pageId });
 
     let data: PageOrderData = {};
@@ -125,8 +126,8 @@ class PageOrder {
    *
    * @param {string} pageId - page's id
    */
-  public push(pageId: string | number): void {
-    if (typeof pageId === 'string') {
+  public push(pageId: EntityId): void {
+    if (typeof pageId === 'string' || pageId instanceof ObjectId) {
       if (this.order === undefined) {
         this.order = [];
       }
@@ -141,7 +142,7 @@ class PageOrder {
    *
    * @param {string} pageId - page's id
    */
-  public remove(pageId: string): void {
+  public remove(pageId: EntityId): void {
     if (this.order === undefined) {
       return;
     }
@@ -156,10 +157,9 @@ class PageOrder {
   /**
    * @param {string} currentPageId - page's id that changes the order
    * @param {string} putAbovePageId - page's id above which we put the target page
-   *
    * @returns {void}
    */
-  public putAbove(currentPageId: string, putAbovePageId: string): void {
+  public putAbove(currentPageId: EntityId, putAbovePageId: EntityId): void {
     if (this.order === undefined) {
       return;
     }
@@ -182,7 +182,7 @@ class PageOrder {
    *
    * @param {string} pageId - identity of page
    */
-  public getSubPageBefore(pageId: string): string | null {
+  public getSubPageBefore(pageId: EntityId): EntityId | null {
     if (this.order === undefined) {
       return null;
     }
@@ -204,7 +204,7 @@ class PageOrder {
    *
    * @param pageId - identity of page
    */
-  public getSubPageAfter(pageId: string): string | null {
+  public getSubPageAfter(pageId: EntityId): EntityId | null {
     if (this.order === undefined) {
       return null;
     }
@@ -224,7 +224,7 @@ class PageOrder {
   /**
    * @param {string[]} order - define new order
    */
-  public set order(order: string[]) {
+  public set order(order: EntityId[]) {
     this._order = order;
   }
 
@@ -233,7 +233,7 @@ class PageOrder {
    *
    * @returns {string[]}
    */
-  public get order(): string[] {
+  public get order(): EntityId[] {
     return this._order || [];
   }
 

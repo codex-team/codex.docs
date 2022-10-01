@@ -1,6 +1,6 @@
-import {Collection, Filter, MongoClient, OptionalUnlessRequiredId, UpdateFilter} from 'mongodb';
-import {DatabaseDriver, Options} from "./types.js";
-import appConfig from "../appConfig.js";
+import { Collection, Filter, MongoClient, OptionalUnlessRequiredId, UpdateFilter } from 'mongodb';
+import { DatabaseDriver, Options } from './types.js';
+import appConfig from '../appConfig.js';
 
 const mongodbUri = appConfig.database.driver === 'mongodb' ? appConfig.database.mongodb.uri : null;
 const mongodbClient = mongodbUri ? await MongoClient.connect(mongodbUri): null;
@@ -15,6 +15,10 @@ export default class MongoDatabaseDriver<DocType> implements DatabaseDriver<DocT
   private db: MongoClient;
   private collection: Collection<DocType>;
 
+  /**
+   *
+   * @param collectionName
+   */
   constructor(collectionName: string) {
     if (!mongodbClient) {
       throw new Error('MongoDB client is not initialized');
@@ -26,47 +30,46 @@ export default class MongoDatabaseDriver<DocType> implements DatabaseDriver<DocT
   /**
    * Insert new document into the database
    *
-   * @param {Object} doc - object to insert
-   * @returns {Promise<Object|Error>} - inserted doc or Error object
+   * @param {object} doc - object to insert
+   * @returns {Promise<object | Error>} - inserted doc or Error object
    */
   public async insert(doc: DocType): Promise<DocType> {
     const result = await this.collection.insertOne(doc as OptionalUnlessRequiredId<DocType>);
+
     return {
       ...doc,
       _id: result.insertedId,
-    }
+    };
   }
 
   /**
    * Find documents that match passed query
    *
-   * @param {Object} query - query object
-   * @param {Object} projection - projection object
-   * @returns {Promise<Array<Object>|Error>} - found docs or Error object
+   * @param {object} query - query object
+   * @param {object} projection - projection object
+   * @returns {Promise<Array<object> | Error>} - found docs or Error object
    */
   public async find(query: Record<string, unknown>, projection?: DocType): Promise<Array<DocType>> {
-    const cursor = this.collection.find(query as Filter<DocType>)
+    const cursor = this.collection.find(query as Filter<DocType>);
 
     if (projection) {
       cursor.project(projection);
     }
 
     const docs = await cursor.toArray();
+
     return docs as unknown as Array<DocType>;
   }
 
   /**
    * Find one document matches passed query
    *
-   * @param {Object} query - query object
-   * @param {Object} projection - projection object
-   * @returns {Promise<Object|Error>} - found doc or Error object
+   * @param {object} query - query object
+   * @param {object} projection - projection object
+   * @returns {Promise<object | Error>} - found doc or Error object
    */
   public async findOne(query: Record<string, unknown>, projection?: DocType): Promise<DocType> {
-    const doc = await this.collection.findOne(query as Filter<DocType>, {projection});
-    if (!doc) {
-      throw new Error('Document not found');
-    }
+    const doc = await this.collection.findOne(query as Filter<DocType>, { projection });
 
     return doc as unknown as DocType;
   }
@@ -74,39 +77,41 @@ export default class MongoDatabaseDriver<DocType> implements DatabaseDriver<DocT
   /**
    * Update document matches query
    *
-   * @param {Object} query - query object
-   * @param {Object} update - fields to update
+   * @param {object} query - query object
+   * @param {object} update - fields to update
    * @param {Options} options - optional params
-   * @returns {Promise<number|Object|Object[]|Error>} - number of updated rows or affected docs or Error object
+   * @returns {Promise<number | object | object[] | Error>} - number of updated rows or affected docs or Error object
    */
   public async update(query: Record<string, unknown>, update: DocType, options: Options = {}): Promise<number|boolean|Array<DocType>> {
     const updateDocument = {
-      $set: update
+      $set: update,
     } as UpdateFilter<DocType>;
     const result = await this.collection.updateMany(query as Filter<DocType>, updateDocument, options);
 
     switch (true) {
       case options.returnUpdatedDocs:
-        return result.modifiedCount
+        return result.modifiedCount;
       case options.upsert:
         if (result.modifiedCount) {
           return result.modifiedCount;
         }
-        return result as DocType[]
+
+        return result as DocType[];
       default:
-        return result as DocType[]
+        return result as DocType[];
     }
   }
 
   /**
    * Remove document matches passed query
    *
-   * @param {Object} query - query object
+   * @param {object} query - query object
    * @param {Options} options - optional params
    * @returns {Promise<number|Error>} - number of removed rows or Error object
    */
   public async remove(query: Record<string, unknown>, options: Options = {}): Promise<number> {
     const result = await this.collection.deleteMany(query as Filter<DocType>);
+
     return result.deletedCount;
   }
 }

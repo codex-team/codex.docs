@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import multerFunc from 'multer';
 import Pages from '../../controllers/pages.js';
 import PagesOrder from '../../controllers/pagesOrder.js';
+import { EntityId } from '../../utils/database/types.js';
 
 const router = express.Router();
 const multer = multerFunc();
@@ -35,7 +36,7 @@ router.get('/page/:id', async (req: Request, res: Response) => {
  */
 router.get('/pages', async (req: Request, res: Response) => {
   try {
-    const pages = await Pages.getAll();
+    const pages = await Pages.getAllPages();
 
     res.json({
       success: true,
@@ -92,7 +93,7 @@ router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
 
   try {
     const { title, body, parent, putAbovePageId, uri } = req.body;
-    const pages = await Pages.getAll();
+    const pages = await Pages.getAllPages();
     let page = await Pages.get(id);
 
     if (page._id === undefined) {
@@ -177,8 +178,8 @@ router.delete('/page/:id', async (req: Request, res: Response) => {
      * @param {string} startFrom - start point to delete
      * @returns {Promise<void>}
      */
-    const deleteRecursively = async (startFrom: string): Promise<void> => {
-      let order: string[] = [];
+    const deleteRecursively = async (startFrom: EntityId): Promise<void> => {
+      let order: EntityId[] = [];
 
       try {
         const children = await PagesOrder.get(startFrom);
