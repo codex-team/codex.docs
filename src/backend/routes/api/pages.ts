@@ -3,7 +3,7 @@ import multerFunc from 'multer';
 import Pages from '../../controllers/pages.js';
 import PagesOrder from '../../controllers/pagesOrder.js';
 import { EntityId } from '../../utils/database/types.js';
-import {isEntityId, toEntityId} from "../../utils/database/index.js";
+import {isEntityId, isEqualIds, toEntityId} from "../../utils/database/index.js";
 
 const router = express.Router();
 const multer = multerFunc();
@@ -105,11 +105,11 @@ router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
       throw new Error('Parent not found');
     }
 
-    if (page._parent !== parent) {
+    if (!isEqualIds(page._parent, parent)) {
       await PagesOrder.move(page._parent, parent, id);
     } else {
       if (putAbovePageId && putAbovePageId !== '0') {
-        const unordered = pages.filter(_page => _page._parent === page._parent).map(_page => _page._id);
+        const unordered = pages.filter(_page => isEqualIds(_page._parent, page._parent)).map(_page => _page._id);
 
         const unOrdered: EntityId[] = [];
 

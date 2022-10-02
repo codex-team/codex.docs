@@ -1,4 +1,4 @@
-import database, {isEntityId} from '../utils/database/index.js';
+import database, {isEntityId, isEqualIds} from '../utils/database/index.js';
 import { ObjectId } from 'mongodb';
 import { EntityId } from '../utils/database/types.js';
 
@@ -147,7 +147,7 @@ class PageOrder {
       return;
     }
 
-    const found = this.order.indexOf(pageId);
+    const found = this.order.findIndex(order => isEqualIds(order, pageId));
 
     if (found >= 0) {
       this.order.splice(found, 1);
@@ -164,8 +164,8 @@ class PageOrder {
       return;
     }
 
-    const found1 = this.order.indexOf(putAbovePageId);
-    const found2 = this.order.indexOf(currentPageId);
+    const found1 = this.order.findIndex(order => isEqualIds(order, putAbovePageId));
+    const found2 = this.order.findIndex(order => isEqualIds(order,currentPageId));
 
     if (found1 === -1 || found2 === -1) {
       return;
@@ -187,7 +187,7 @@ class PageOrder {
       return null;
     }
 
-    const currentPageInOrder = this.order.indexOf(pageId);
+    const currentPageInOrder = this.order.findIndex(order => isEqualIds(order, pageId));
 
     /**
      * If page not found or first return nothing
@@ -209,7 +209,7 @@ class PageOrder {
       return null;
     }
 
-    const currentPageInOrder = this.order.indexOf(pageId);
+    const currentPageInOrder = this.order.findIndex(order => isEqualIds(order, pageId));
 
     /**
      * If page not found or is last
