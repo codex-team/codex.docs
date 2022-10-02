@@ -6,8 +6,6 @@ services:
       context: .
     ports:
       - "5005:3000"
-    env_file:
-      - .env
     volumes:
       - ./public/uploads:/uploads
       - ./db:/usr/src/app/db
