@@ -1,6 +1,6 @@
 import urlify from '../utils/urlify.js';
-import database from '../utils/database/index.js';
-import { EntityId } from '../utils/database/types.js';
+import database from '../database/index.js';
+import { EntityId } from '../database/types.js';
 
 const pagesDb = database['pages'];
 

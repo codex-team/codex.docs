@@ -1,6 +1,6 @@
 import { Collection, Filter, MongoClient, OptionalUnlessRequiredId, UpdateFilter } from 'mongodb';
 import { DatabaseDriver, Options } from './types.js';
-import appConfig from '../appConfig.js';
+import appConfig from '../utils/appConfig.js';
 
 const mongodbUri = appConfig.database.driver === 'mongodb' ? appConfig.database.mongodb.uri : null;
 const mongodbClient = mongodbUri ? await MongoClient.connect(mongodbUri): null;

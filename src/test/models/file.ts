@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import config from 'config';
 import File from '../../backend/models/file.js';
-import database from '../../backend/utils/database/index.js';
+import database from '../../backend/database/index.js';
 import { fileURLToPath } from 'url';
 
 /**

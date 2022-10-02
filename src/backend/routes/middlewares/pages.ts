@@ -4,8 +4,8 @@ import PagesOrder from '../../controllers/pagesOrder.js';
 import Page from '../../models/page.js';
 import asyncMiddleware from '../../utils/asyncMiddleware.js';
 import PageOrder from '../../models/pageOrder.js';
-import { EntityId } from '../../utils/database/types.js';
-import { isEqualIds } from '../../utils/database/index.js';
+import { EntityId } from '../../database/types.js';
+import { isEqualIds } from '../../database/index.js';
 
 /**
  * Process one-level pages list to parent-children list

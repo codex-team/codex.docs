@@ -1,7 +1,7 @@
 import Datastore from 'nedb';
 import { DatabaseDriver, Options, RejectFunction, ResolveFunction } from './types.js';
 import path from 'path';
-import appConfig from '../appConfig.js';
+import appConfig from '../utils/appConfig.js';
 
 /**
  * Init function for nedb instance

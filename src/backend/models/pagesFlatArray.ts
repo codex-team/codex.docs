@@ -1,7 +1,7 @@
 import Page from './page.js';
 import PageOrder from './pageOrder.js';
 import NodeCache from 'node-cache';
-import { EntityId } from '../utils/database/types.js';
+import { EntityId } from '../database/types.js';
 
 // Create cache for flat array
 const cache = new NodeCache({ stdTTL: 120 });

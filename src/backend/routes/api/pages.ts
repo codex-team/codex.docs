@@ -2,8 +2,8 @@ import express, { Request, Response } from 'express';
 import multerFunc from 'multer';
 import Pages from '../../controllers/pages.js';
 import PagesOrder from '../../controllers/pagesOrder.js';
-import { EntityId } from '../../utils/database/types.js';
-import { isEntityId, isEqualIds, toEntityId } from '../../utils/database/index.js';
+import { EntityId } from '../../database/types.js';
+import { isEntityId, isEqualIds, toEntityId } from '../../database/index.js';
 
 const router = express.Router();
 const multer = multerFunc();

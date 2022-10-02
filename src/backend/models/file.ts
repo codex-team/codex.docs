@@ -1,5 +1,5 @@
-import database from '../utils/database/index.js';
-import { EntityId } from '../utils/database/types.js';
+import database from '../database/index.js';
+import { EntityId } from '../database/types.js';
 
 const filesDb = database['files'];
 

@@ -12,6 +12,7 @@ services:
       - ./public/uploads:/uploads
       - ./db:/usr/src/app/db
       - ./app-config.yaml:/usr/src/app/app-config.yaml
+      - ./app-config.local.yaml:/usr/src/app/app-config.local.yaml
   mongodb:
     image: mongo:6.0.1
     ports:

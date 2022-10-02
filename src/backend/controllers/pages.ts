@@ -4,8 +4,8 @@ import PagesOrder from './pagesOrder.js';
 import PageOrder from '../models/pageOrder.js';
 import HttpException from '../exceptions/httpException.js';
 import PagesFlatArray from '../models/pagesFlatArray.js';
-import { EntityId } from '../utils/database/types.js';
-import { isEqualIds } from '../utils/database/index.js';
+import { EntityId } from '../database/types.js';
+import { isEqualIds } from '../database/index.js';
 
 type PageDataFields = keyof PageData;
 

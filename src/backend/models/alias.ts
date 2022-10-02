@@ -1,6 +1,6 @@
 import crypto from '../utils/crypto.js';
-import database from '../utils/database/index.js';
-import { EntityId } from '../utils/database/types.js';
+import database from '../database/index.js';
+import { EntityId } from '../database/types.js';
 
 const binaryMD5 = crypto.binaryMD5;
 const aliasesDb = database['aliases'];

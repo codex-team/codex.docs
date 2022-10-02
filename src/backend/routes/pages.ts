@@ -4,7 +4,7 @@ import PagesOrder from '../controllers/pagesOrder.js';
 import verifyToken from './middlewares/token.js';
 import allowEdit from './middlewares/locals.js';
 import PagesFlatArray from '../models/pagesFlatArray.js';
-import { toEntityId } from '../utils/database/index.js';
+import { toEntityId } from '../database/index.js';
 
 const router = express.Router();
 

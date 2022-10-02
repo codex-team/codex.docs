@@ -1,8 +1,8 @@
 import PageOrder from '../models/pageOrder.js';
 import Page from '../models/page.js';
 import PagesFlatArray from '../models/pagesFlatArray.js';
-import { EntityId } from '../utils/database/types.js';
-import { isEqualIds } from '../utils/database/index.js';
+import { EntityId } from '../database/types.js';
+import { isEqualIds } from '../database/index.js';
 
 /**
  * @class PagesOrder

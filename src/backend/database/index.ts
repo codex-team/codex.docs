@@ -1,8 +1,8 @@
-import { AliasData } from '../../models/alias.js';
-import { FileData } from '../../models/file.js';
-import { PageData } from '../../models/page.js';
-import { PageOrderData } from '../../models/pageOrder.js';
-import appConfig from '../appConfig.js';
+import { AliasData } from '../models/alias.js';
+import { FileData } from '../models/file.js';
+import { PageData } from '../models/page.js';
+import { PageOrderData } from '../models/pageOrder.js';
+import appConfig from '../utils/appConfig.js';
 import LocalDatabaseDriver from './local.js';
 import MongoDatabaseDriver from './mongodb.js';
 import { EntityId } from './types.js';
