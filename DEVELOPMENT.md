@@ -49,3 +49,14 @@ database:
 ```shell
 yarn dev
 ```
+
+## Convert local database to MongoDB
+
+There is small CLI tool to convert local database to MongoDB in [bin/db-converter](./bin/db-converter/README.md).
+Check it out for more details.
+
+Run it with
+
+```shell
+node bin/db-converter --db-path=./db --mongodb-uri=mongodb://localhost:27017/docs
+```
