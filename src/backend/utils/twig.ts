@@ -56,6 +56,16 @@ export default (function () {
   });
 
   /**
+   * Converts object to string
+   *
+   * @param {object} object - object to be converted
+   * @returns {string} stringified object
+   */
+  twig.extendFunction('toString', function (object: object): string {
+    return object.toString();
+  });
+
+  /**
    * Converts JSON to string
    * @param {string} data - data to be converted
    * @returns {string} - converted data
