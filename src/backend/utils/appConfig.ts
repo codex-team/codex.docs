@@ -1,4 +1,4 @@
-import { loadConfig } from 'config-loader';
+import { loadConfig } from '@codex-team/config-loader';
 import * as process from 'process';
 import arg from 'arg';
 import path from 'path';

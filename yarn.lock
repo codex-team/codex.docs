@@ -899,6 +899,16 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@codex-team/config-loader@0.0.1-alpha.2":
+  version "0.0.1-alpha.2"
+  resolved "https://registry.yarnpkg.com/@codex-team/config-loader/-/config-loader-0.0.1-alpha.2.tgz#1852feef1cb7bea2bd530fd55a0a1a7d8ab75cef"
+  integrity sha512-RNf53ttDwOUCKaMfJM/X4y7+gYtzHmmIQ0np9W2chpFxhFdNJxZB6SPF3y3Et7Xe6damOrGl5P46+W5R/5iToA==
+  dependencies:
+    eslint-plugin-n "^15.2.5"
+    js-yaml "^4.1.0"
+    lodash.isarray "^4.0.0"
+    lodash.merge "^4.6.2"
+
 "@codexteam/misprints@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@codexteam/misprints/-/misprints-1.0.0.tgz#e5a7dec7389fe0f176cd51a040d6dc9bdc252086"
@@ -2329,14 +2339,6 @@ concurrently@^7.1.0:
     supports-color "^8.1.0"
     tree-kill "^1.2.2"
     yargs "^17.3.1"
-
-"config-loader@https://github.com/codex-team/config-loader#081ad636684e9d1e5efa6dd757e1e0535f0a2b26":
-  version "0.0.1"
-  resolved "https://github.com/codex-team/config-loader#081ad636684e9d1e5efa6dd757e1e0535f0a2b26"
-  dependencies:
-    js-yaml "^4.1.0"
-    lodash.isarray "^4.0.0"
-    lodash.merge "^4.6.2"
 
 config@^3.3.6:
   version "3.3.7"
