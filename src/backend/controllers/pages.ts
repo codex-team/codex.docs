@@ -69,7 +69,7 @@ class Pages {
   }
 
   /**
-   *
+   * Helper to get all pages as map
    */
   private static async getPagesMap(): Promise<Map<string, Page>> {
     const pages = await Pages.getAllPages();

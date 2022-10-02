@@ -55,6 +55,11 @@ export default (function () {
     }
   });
 
+  /**
+   * Converts JSON to string
+   * @param {string} data - data to be converted
+   * @returns {string} - converted data
+   */
   twig.extendFilter('json_stringify', function (data: any): string {
     return JSON.stringify(data);
   });

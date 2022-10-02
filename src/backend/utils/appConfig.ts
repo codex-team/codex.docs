@@ -12,24 +12,36 @@ const HawkConfig = z.object({
   frontendToken: z.string().optional(), // Hawk frontend token
 });
 
+/**
+ * Config for local database driver
+ */
 const LocalDatabaseConfig = z.object({
   driver: z.literal('local'),
   local: z.object({
-    path: z.string(),
+    path: z.string(), // path to the database directory
   }),
 });
 
+/**
+ * Config for MongoDB database driver
+ */
 const MongoDatabaseConfig = z.object({
   driver: z.literal('mongodb'),
   mongodb: z.object({
-    uri: z.string(),
+    uri: z.string(), // MongoDB connection URI
   }),
 });
 
+/**
+ * Config for authentication
+ */
 const AuthConfig = z.object({
   secret: z.string(), // Secret for JWT
 });
 
+/**
+ * Frontend configuration
+ */
 const FrontendConfig = z.object({
   title: z.string(), // Title for pages
   description: z.string(), // Description for pages
