@@ -93,7 +93,6 @@ class Pages {
   public static async groupByParent(pageId: EntityId = ''): Promise<Page[]> {
     const rootPageOrder = await PagesOrder.getRootPageOrder(); // get order of the root pages
     const childPageOrder = await PagesOrder.getChildPageOrder(); // get order of the all other pages
-    const orphanPageOrder: PageOrder[] = [];
 
     /**
      * If there is no root and child page order, then it returns an empty array
@@ -105,75 +104,28 @@ class Pages {
     const pagesMap = await this.getPagesMap();
     const idsOfRootPages = rootPageOrder.order;
 
-    /**
-     * It groups root pages and 1 level pages by its parent
-     */
-    const orderGroupedByParent = idsOfRootPages.reduce((acc, curr, idx) => {
-      const childPages: PageOrder[] = [];
-
-      childPageOrder.forEach((pageOrder, _idx) => {
-        if (isEqualIds(pageOrder.page, curr)) {
-          childPages.push(pageOrder);
-          childPageOrder.splice(_idx, 1);
-        }
-      });
-
-      const hasChildPage = childPages.length > 0;
-
-      acc[curr.toString()] = [];
-      acc[curr.toString()].push(curr);
-
-      /**
-       * It attaches 1 level page id to its parent page id
-       */
-      if (hasChildPage) {
-        acc[curr.toString()].push(...childPages[0].order);
+    const getChildrenOrder = (pageId: EntityId): EntityId[] => {
+      const order = childPageOrder.find((order) => isEqualIds(order.page, pageId))?.order || [];
+      if (order.length === 0) {
+        return [];
       }
-
-      /**
-       * If non-attached childPages which is not 1 level page still remains,
-       * It is stored as an orphan page so that it can be processed in the next statements
-       */
-      if (idx === idsOfRootPages.length - 1 && childPageOrder.length > 0) {
-        orphanPageOrder.push(...childPageOrder);
-      }
-
-      return acc;
-    }, {} as Record<string, EntityId[]>);
-
-    let count = 0;
-
-    /**
-     * It groups remained ungrouped pages by its parent
-     */
-    while (orphanPageOrder.length > 0) {
-      if (count >= 1000) {
-        throw new HttpException(500, `Page cannot be processed`);
-      }
-
-      orphanPageOrder.forEach((orphanOrder, idx) => {
-        // It loops each of grouped orders formatted as [root page id(1): corresponding child pages id(2)]
-        Object.entries(orderGroupedByParent).forEach(([parentPageId, value]) => {
-          // If (2) contains orphanOrder's parent id(page)
-          if (orphanOrder.page && orphanOrder.order && value.includes(orphanOrder.page)) {
-            // Append orphanOrder's id(order) into its parent id
-            orderGroupedByParent[parentPageId].splice(value.indexOf(orphanOrder.page) + 1, 0, ...orphanOrder.order);
-            // Finally, remove orphanOrder from orphanPageOrder
-            orphanPageOrder.splice(idx, 1);
-          }
-        });
-      });
-
-      count += 1;
+      const expandedOrder = order.map((id) => [id,...getChildrenOrder(id)]);
+      return expandedOrder.flat();
     }
+
+    const orderGroupedByParent = idsOfRootPages.reduce((acc, curr) => {
+      const pageOrder = getChildrenOrder(curr);
+      acc[curr.toString()] = [curr, ...pageOrder];
+      return acc;
+    }, {} as Record<string, EntityId[]>)
 
     /**
      * It converts grouped pages(object) to array
      */
     const result = Object.values(orderGroupedByParent)
-      .flatMap(arr => [ ...arr ])
-      .map(arr => {
-        return pagesMap.get(arr.toString()) as Page;
+      .flatMap(ids => [ ...ids ])
+      .map(id => {
+        return pagesMap.get(id.toString()) as Page;
       });
 
     /**
