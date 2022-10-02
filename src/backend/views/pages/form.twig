@@ -27,8 +27,8 @@
           <select id="parent" name="parent">
             <option value="0">Root</option>
             {% for _page in pagesAvailableGrouped %}
-              {% if _page._id != currentPageId %}
-                <option value="{{ _page._id }}" {{ page is not empty and page._parent == _page._id ? 'selected' : ''}}>
+              {% if _page._id.toString() != currentPageId.toString() %}
+                <option value="{{ _page._id }}" {{ page is not empty and page._parent.toString() == _page._id.toString() ? 'selected' : ''}}>
                   {% if _page._parent != "0" %}
                     &nbsp;
                     &nbsp;
