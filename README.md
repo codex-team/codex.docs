@@ -66,6 +66,10 @@ docker-compose up
 
 We have the ready-to-use [Helm chart](https://github.com/codex-team/codex.docs.chart) to deploy project in Kubernetes
 
+## Development
+
+See documentation for developers in [DEVELOPMENT.md](./DEVELOPMENT.md).
+
 # About CodeX
 
 <img align="right" width="120" height="120" src="https://codex.so/public/app/img/codex-logo.svg" hspace="50">

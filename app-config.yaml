@@ -24,7 +24,7 @@ hawk:
 #  backendToken: "123"
 
 database:
-  driver: mongodb
+  driver: local # you can change database driver here. 'mongodb' or 'local'
   local:
     path: ./db
   mongodb:

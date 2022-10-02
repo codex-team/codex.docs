@@ -9,7 +9,7 @@
   "scripts": {
     "start": "concurrently \"yarn start-backend\" \"yarn build-frontend\"",
     "dev": "concurrently \"yarn start-backend\" \"yarn build-frontend:dev\"",
-    "start-backend": "cross-env NODE_ENV=development npx nodemon --config nodemon.json ./src/bin/server.ts",
+    "start-backend": "cross-env NODE_ENV=development npx nodemon --config nodemon.json ./src/bin/server.ts -c app-config.yaml -c app-config.local.yaml",
     "compile": "tsc && copyfiles -u 3 ./src/**/*.twig ./dist/backend/views && copyfiles -u 1 ./src/**/*.svg ./dist/",
     "build-frontend": "webpack --mode=production",
     "build-frontend:dev": "webpack --mode=development --watch",
