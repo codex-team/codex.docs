@@ -27,5 +27,5 @@ database:
   driver: local # you can change database driver here. 'mongodb' or 'local'
   local:
     path: ./db
-  mongodb:
-    uri: mongodb://localhost:27017/docs1
+#  mongodb:
+#    uri: mongodb://localhost:27017/docs

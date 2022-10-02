@@ -26,3 +26,26 @@ touch app-config.local.yaml
 ```shell
 yarn dev
 ```
+
+## Starting docs with MongoDB
+
+### 1. Run MongoDB instance with docker-compose
+
+```shell
+docker-compose up mongodb
+```
+
+### 2. Setup MongoDB driver in app-config.local.yaml
+
+```yaml
+database:
+  driver: mongodb
+  mongodb:
+    uri: mongodb://localhost:27017/docs
+```
+
+### 3. Run the application
+
+```shell
+yarn dev
+```
