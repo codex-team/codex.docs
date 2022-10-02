@@ -4,7 +4,7 @@ This doc describes how to bootstrap and run the project locally.
 
 ## Setup
 
-### 1. Clone the repo.
+### 1. Clone the repo
 ```shell
 git clone https://github.com/codex-team/codex.docs
 ```
