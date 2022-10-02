@@ -29,6 +29,10 @@ yarn dev
 
 ## Starting docs with MongoDB
 
+By default, the application uses a local database powered by [nedb](https://www.npmjs.com/package/nedb).
+In order to use MongoDB, follow these steps:
+
+
 ### 1. Run MongoDB instance with docker-compose
 
 ```shell
