@@ -2,6 +2,7 @@ import PageOrder from '../models/pageOrder.js';
 import Page from '../models/page.js';
 import PagesFlatArray from '../models/pagesFlatArray.js';
 import { EntityId } from '../utils/database/types.js';
+import {isEqualIds} from "../utils/database/index.js";
 
 /**
  * @class PagesOrder
@@ -99,8 +100,7 @@ class PagesOrder {
    */
   public static async getOrderedChildren(pages: Page[], currentPageId: EntityId, parentPageId: EntityId, ignoreSelf = false): Promise<Page[]> {
     const children = await PageOrder.get(parentPageId);
-    console.log({children})
-    const unordered = pages.filter(page => page._parent === parentPageId).map(page => page._id);
+    const unordered = pages.filter(page => isEqualIds(page._parent, parentPageId)).map(page => page._id);
 
     // Create unique array with ordered and unordered pages id
     const ordered = Array.from(new Set([...children.order, ...unordered]));
@@ -109,7 +109,7 @@ class PagesOrder {
 
     ordered.forEach(pageId => {
       pages.forEach(page => {
-        if (page._id === pageId && (pageId !== currentPageId || !ignoreSelf)) {
+        if (isEqualIds(page._id, pageId) && (!isEqualIds(pageId, currentPageId) || !ignoreSelf)) {
           result.push(page);
         }
       });

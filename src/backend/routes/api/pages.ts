@@ -3,6 +3,7 @@ import multerFunc from 'multer';
 import Pages from '../../controllers/pages.js';
 import PagesOrder from '../../controllers/pagesOrder.js';
 import { EntityId } from '../../utils/database/types.js';
+import {toEntityId} from "../../utils/database/index.js";
 
 const router = express.Router();
 const multer = multerFunc();
@@ -15,7 +16,7 @@ const multer = multerFunc();
 
 router.get('/page/:id', async (req: Request, res: Response) => {
   try {
-    const page = await Pages.get(req.params.id);
+    const page = await Pages.get(toEntityId(req.params.id));
 
     res.json({
       success: true,
@@ -89,7 +90,7 @@ router.put('/page', multer.none(), async (req: Request, res: Response) => {
  * Update page data in the database
  */
 router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = toEntityId(req.params.id);
 
   try {
     const { title, body, parent, putAbovePageId, uri } = req.body;
@@ -147,7 +148,7 @@ router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
  */
 router.delete('/page/:id', async (req: Request, res: Response) => {
   try {
-    const pageId = req.params.id;
+    const pageId = toEntityId(req.params.id);
     const page = await Pages.get(pageId);
 
     if (page._id === undefined) {

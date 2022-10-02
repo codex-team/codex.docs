@@ -202,7 +202,7 @@ class Pages {
    * @param {PageData} data - info about page
    * @returns {Promise<Page>}
    */
-  public static async update(id: string, data: PageData): Promise<Page> {
+  public static async update(id: EntityId, data: PageData): Promise<Page> {
     const page = await Page.get(id);
     const previousUri = page.uri;
 
