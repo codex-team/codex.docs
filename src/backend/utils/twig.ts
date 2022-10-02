@@ -57,5 +57,5 @@ export default (function () {
 
   twig.extendFilter('json_stringify', function (data: any): string {
     return JSON.stringify(data);
-  })
+  });
 }());

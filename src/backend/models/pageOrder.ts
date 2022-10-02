@@ -1,4 +1,4 @@
-import database, {isEntityId, isEqualIds} from '../utils/database/index.js';
+import database, { isEntityId, isEqualIds } from '../utils/database/index.js';
 import { ObjectId } from 'mongodb';
 import { EntityId } from '../utils/database/types.js';
 
@@ -165,7 +165,7 @@ class PageOrder {
     }
 
     const found1 = this.order.findIndex(order => isEqualIds(order, putAbovePageId));
-    const found2 = this.order.findIndex(order => isEqualIds(order,currentPageId));
+    const found2 = this.order.findIndex(order => isEqualIds(order, currentPageId));
 
     if (found1 === -1 || found2 === -1) {
       return;

@@ -18,10 +18,19 @@ export function toEntityId(id: string): EntityId {
   return (appConfig.database.driver === 'mongodb' ? new ObjectId(id) : id) as EntityId;
 }
 
+/**
+ *
+ * @param id1
+ * @param id2
+ */
 export function isEqualIds(id1?: EntityId, id2?: EntityId): boolean {
   return id1?.toString() === id2?.toString();
 }
 
+/**
+ *
+ * @param id
+ */
 export function isEntityId(id?: EntityId): id is EntityId {
   return typeof id === 'string' || id instanceof ObjectId;
 }

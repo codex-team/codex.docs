@@ -1,11 +1,11 @@
-import Page, {PageData} from '../models/page.js';
+import Page, { PageData } from '../models/page.js';
 import Alias from '../models/alias.js';
 import PagesOrder from './pagesOrder.js';
 import PageOrder from '../models/pageOrder.js';
 import HttpException from '../exceptions/httpException.js';
 import PagesFlatArray from '../models/pagesFlatArray.js';
-import {EntityId} from '../utils/database/types.js';
-import {isEqualIds} from "../utils/database/index.js";
+import { EntityId } from '../utils/database/types.js';
+import { isEqualIds } from '../utils/database/index.js';
 
 type PageDataFields = keyof PageData;
 
@@ -68,6 +68,9 @@ class Pages {
     return nullFilteredPages;
   }
 
+  /**
+   *
+   */
   private static async getPagesMap(): Promise<Map<string, Page>> {
     const pages = await Pages.getAllPages();
     const pagesMap = new Map<string, Page>();
@@ -106,18 +109,22 @@ class Pages {
 
     const getChildrenOrder = (pageId: EntityId): EntityId[] => {
       const order = childPageOrder.find((order) => isEqualIds(order.page, pageId))?.order || [];
+
       if (order.length === 0) {
         return [];
       }
-      const expandedOrder = order.map((id) => [id,...getChildrenOrder(id)]);
+      const expandedOrder = order.map((id) => [id, ...getChildrenOrder(id)]);
+
       return expandedOrder.flat();
-    }
+    };
 
     const orderGroupedByParent = idsOfRootPages.reduce((acc, curr) => {
       const pageOrder = getChildrenOrder(curr);
+
       acc[curr.toString()] = [curr, ...pageOrder];
+
       return acc;
-    }, {} as Record<string, EntityId[]>)
+    }, {} as Record<string, EntityId[]>);
 
     /**
      * It converts grouped pages(object) to array
