@@ -1,17 +1,16 @@
+import './program.js'
 import {ObjectId} from "mongodb";
 import {closeConnection, getFromLocalDB, saveData} from "./lib.js";
 
-
-const pages = getFromLocalDB('pages');
-const aliases = getFromLocalDB('aliases');
-const files = getFromLocalDB('files');
-const pagesOrder = getFromLocalDB('pagesOrder');
+console.log('Start converting...')
+const [pages, aliases, files, pagesOrder] = ['pages', 'aliases', 'files', 'pagesOrder'].map(getFromLocalDB)
 
 const pagesIdsMap = pages.reduce((acc, curr) => {
   const newId = new ObjectId();
   acc.set(curr._id, newId)
   return acc
 }, new Map())
+// Explicitly set the root page id
 pagesIdsMap.set('0', '0')
 
 
@@ -33,7 +32,6 @@ const newAliases = aliases.map(alias => {
 })
 await saveData('aliases', newAliases)
 
-
 const newFiles = files.map(file => {
   return {
     ...file,
@@ -54,3 +52,4 @@ const newPagesOrder = pagesOrder.map(pageOrder => {
 await saveData('pagesOrder', newPagesOrder)
 
 await closeConnection()
+console.log('Done!')

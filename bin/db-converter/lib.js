@@ -1,13 +1,13 @@
 import fs from "fs";
 import path from "path";
-import {fileURLToPath} from "url";
 import {MongoClient} from "mongodb";
-
-const mongoClient = await MongoClient.connect("mongodb://localhost:27017/docs1");
+import {options} from "./program.js";
+const mongoClient = await MongoClient.connect(options.mongodbUri);
 const db = mongoClient.db();
 
 export function getFromLocalDB(filename) {
-  let rawData = fs.readFileSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), `../../db/${filename}.db`));
+  const filePath = path.resolve(process.cwd(), `${options.dbPath}/${filename}.db`)
+  let rawData = fs.readFileSync(filePath);
 
   let convertedData = String(rawData)
     .replace(/\n/gi, ',')
