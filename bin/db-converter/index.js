@@ -1,12 +1,16 @@
 import './program.js';
-import { ObjectId } from 'mongodb';
-import { closeConnection, getFromLocalDB, saveData } from './lib.js';
+import {ObjectId} from 'mongodb';
+import {closeConnection, getFromLocalDB, saveData} from './lib.js';
 
 console.log('Start converting...');
 const [pages, aliases, files, pagesOrder] = ['pages', 'aliases', 'files', 'pagesOrder'].map(getFromLocalDB);
 
 const pagesIdsMap = pages.reduce((acc, curr) => {
   const newId = new ObjectId();
+
+  if (acc.has(curr._id)) {
+    console.log(`Duplicate id detected ${curr._id}. Skipping it`);
+  }
 
   acc.set(curr._id, newId);
 
@@ -16,12 +20,18 @@ const pagesIdsMap = pages.reduce((acc, curr) => {
 // Explicitly set the root page id
 pagesIdsMap.set('0', '0');
 
-const newPages = pages.map(page => {
-  return {
+const newPages = [];
+
+pagesIdsMap.forEach((newId, oldId) => {
+  if (newId === '0') {
+    return
+  }
+  const page = pages.find((p) => p._id === oldId);
+  newPages.push({
     ...page,
-    _id: pagesIdsMap.get(page._id),
+    _id: newId,
     parent: page.parent ? pagesIdsMap.get(page.parent) : null,
-  };
+  });
 });
 
 await saveData('pages', newPages);
