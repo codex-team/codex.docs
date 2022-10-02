@@ -17,7 +17,7 @@ import {isEqualIds} from "../../utils/database/index.js";
  * @param {number} currentLevel - current level of element
  * @returns {Page[]}
  */
-function createMenuTree(parentPageId: string, pages: Page[], pagesOrder: PageOrder[], level = 1, currentLevel = 1): Page[] {
+function createMenuTree(parentPageId: EntityId, pages: Page[], pagesOrder: PageOrder[], level = 1, currentLevel = 1): Page[] {
   const childrenOrder = pagesOrder.find(order => isEqualIds(order.data.page, parentPageId));
 
   /**
@@ -66,7 +66,7 @@ export default asyncMiddleware(async (req: Request, res: Response, next: NextFun
    *
    * @type {string}
    */
-  const parentIdOfRootPages = '0';
+  const parentIdOfRootPages = '0' as EntityId;
 
   try {
     const pages = await Pages.getAllPages();

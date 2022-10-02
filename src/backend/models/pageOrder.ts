@@ -1,4 +1,4 @@
-import database from '../utils/database/index.js';
+import database, {isEntityId} from '../utils/database/index.js';
 import { ObjectId } from 'mongodb';
 import { EntityId } from '../utils/database/types.js';
 
@@ -104,7 +104,7 @@ class PageOrder {
    * @param {PageOrderData} pageOrderData - info about pageOrder
    */
   public set data(pageOrderData: PageOrderData) {
-    this.page = pageOrderData.page || '0';
+    this.page = pageOrderData.page || '0' as EntityId;
     this.order = pageOrderData.order || [];
   }
 
@@ -116,7 +116,7 @@ class PageOrder {
   public get data(): PageOrderData {
     return {
       _id: this._id,
-      page: '' + this.page,
+      page: this.page,
       order: this.order,
     };
   }
@@ -127,7 +127,7 @@ class PageOrder {
    * @param {string} pageId - page's id
    */
   public push(pageId: EntityId): void {
-    if (typeof pageId === 'string' || pageId instanceof ObjectId) {
+    if (isEntityId(pageId)) {
       if (this.order === undefined) {
         this.order = [];
       }
@@ -244,7 +244,7 @@ class PageOrder {
    */
   public async save(): Promise<PageOrder> {
     if (!this._id) {
-      const insertedRow = await db.insert(this.data) as { _id: string};
+      const insertedRow = await db.insert(this.data) as { _id: EntityId};
 
       this._id = insertedRow._id;
     } else {

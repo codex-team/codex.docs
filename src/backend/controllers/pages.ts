@@ -90,7 +90,7 @@ class Pages {
    * @param {string} pageId - pageId to exclude from result pages
    * @returns {Page[]}
    */
-  public static async groupByParent(pageId: EntityId = ''): Promise<Page[]> {
+  public static async groupByParent(pageId = '' as EntityId): Promise<Page[]> {
     const rootPageOrder = await PagesOrder.getRootPageOrder(); // get order of the root pages
     const childPageOrder = await PagesOrder.getChildPageOrder(); // get order of the all other pages
 

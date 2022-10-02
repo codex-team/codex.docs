@@ -3,7 +3,7 @@ import multerFunc from 'multer';
 import Pages from '../../controllers/pages.js';
 import PagesOrder from '../../controllers/pagesOrder.js';
 import { EntityId } from '../../utils/database/types.js';
-import {toEntityId} from "../../utils/database/index.js";
+import {isEntityId, toEntityId} from "../../utils/database/index.js";
 
 const router = express.Router();
 const multer = multerFunc();
@@ -111,10 +111,10 @@ router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
       if (putAbovePageId && putAbovePageId !== '0') {
         const unordered = pages.filter(_page => _page._parent === page._parent).map(_page => _page._id);
 
-        const unOrdered: string[] = [];
+        const unOrdered: EntityId[] = [];
 
         unordered.forEach(item => {
-          if (typeof item === 'string') {
+          if (isEntityId(item)) {
             unOrdered.push(item);
           }
         });
@@ -202,10 +202,12 @@ router.delete('/page/:id', async (req: Request, res: Response) => {
       }
     };
 
-    await deleteRecursively(req.params.id);
+    const id = toEntityId(req.params.id)
+
+    await deleteRecursively(id);
 
     // remove also from parent's order
-    parentPageOrder.remove(req.params.id);
+    parentPageOrder.remove(id);
     await parentPageOrder.save();
 
     res.json({

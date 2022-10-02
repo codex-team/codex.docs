@@ -133,7 +133,7 @@ class File {
    */
   public async save(): Promise<File> {
     if (!this._id) {
-      const insertedRow = await filesDb.insert(this.data) as { _id: string };
+      const insertedRow = await filesDb.insert(this.data) as { _id: EntityId };
 
       this._id = insertedRow._id;
     } else {

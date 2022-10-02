@@ -99,7 +99,7 @@ class Page {
     this.body = body || this.body;
     this.title = this.extractTitleFromBody();
     this.uri = uri || '';
-    this._parent = parent || this._parent || '0';
+    this._parent = parent || this._parent || '0' as EntityId;
   }
 
   /**
@@ -160,7 +160,7 @@ class Page {
     }
 
     if (!this._id) {
-      const insertedRow = await pagesDb.insert(this.data) as { _id: string };
+      const insertedRow = await pagesDb.insert(this.data) as { _id: EntityId };
 
       this._id = insertedRow._id;
     } else {

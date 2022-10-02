@@ -15,11 +15,15 @@ const Database = appConfig.database.driver === 'mongodb' ? MongoDatabaseDriver :
  * @param id
  */
 export function toEntityId(id: string): EntityId {
-  return appConfig.database.driver === 'mongodb' ? new ObjectId(id) : id;
+  return (appConfig.database.driver === 'mongodb' ? new ObjectId(id) : id) as EntityId;
 }
 
 export function isEqualIds(id1?: EntityId, id2?: EntityId): boolean {
   return id1?.toString() === id2?.toString();
+}
+
+export function isEntityId(id?: EntityId): id is EntityId {
+  return typeof id === 'string' || id instanceof ObjectId;
 }
 
 export default {

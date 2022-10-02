@@ -8,7 +8,7 @@ export interface DatabaseDriver<DocType> {
   remove(query: Record<string, unknown>, options: Options): Promise<number>
 }
 
-export type EntityId = string | ObjectId;
+export type EntityId = (string | ObjectId) & {readonly id: unique symbol};
 
 /**
  * @typedef Options - optional params

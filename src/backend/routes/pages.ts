@@ -57,7 +57,7 @@ router.get('/page/edit/:id', verifyToken, allowEdit, async (req: Request, res: R
  * View page
  */
 router.get('/page/:id', verifyToken, async (req: Request, res: Response, next: NextFunction) => {
-  const pageId = req.params.id;
+  const pageId = toEntityId(req.params.id);
 
   try {
     const page = await Pages.get(pageId);

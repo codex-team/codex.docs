@@ -124,7 +124,7 @@ class PagesOrder {
    * @param {string} parentPageId - parent page's id that contains both two pages
    * @param {string} putAbovePageId - page's id above which we put the target page
    */
-  public static async update(unordered: string[], currentPageId: EntityId, parentPageId: EntityId, putAbovePageId: EntityId): Promise<void> {
+  public static async update(unordered: EntityId[], currentPageId: EntityId, parentPageId: EntityId, putAbovePageId: EntityId): Promise<void> {
     const pageOrder = await PageOrder.get(parentPageId);
 
     // Create unique array with ordered and unordered pages id
