@@ -6,18 +6,22 @@ const mongodbUri = appConfig.database.driver === 'mongodb' ? appConfig.database.
 const mongodbClient = mongodbUri ? await MongoClient.connect(mongodbUri): null;
 
 /**
- * Simple decorator class to work with nedb datastore
+ * MongoDB driver for working with database
  */
 export default class MongoDatabaseDriver<DocType> implements DatabaseDriver<DocType> {
   /**
    * Mongo client instance
    */
   private db: MongoClient;
+
+  /**
+   * Collection instance
+   */
   private collection: Collection<DocType>;
 
   /**
-   *
-   * @param collectionName
+   * Creates driver instance
+   * @param collectionName - collection to work with
    */
   constructor(collectionName: string) {
     if (!mongodbClient) {

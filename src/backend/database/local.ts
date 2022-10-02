@@ -1,5 +1,5 @@
 import Datastore from 'nedb';
-import { DatabaseDriver, Options, RejectFunction, ResolveFunction } from './types.js';
+import { DatabaseDriver, Options } from './types.js';
 import path from 'path';
 import appConfig from '../utils/appConfig.js';
 
@@ -21,6 +21,21 @@ function initDb(name: string): Datastore {
     autoload: true,
   });
 }
+
+/**
+ * Resolve function helper
+ */
+export interface ResolveFunction {
+  (value: any): void;
+}
+
+/**
+ * Reject function helper
+ */
+export interface RejectFunction {
+  (reason?: unknown): void;
+}
+
 
 
 /**

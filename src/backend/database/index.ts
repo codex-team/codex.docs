@@ -11,25 +11,25 @@ import { ObjectId } from 'mongodb';
 const Database = appConfig.database.driver === 'mongodb' ? MongoDatabaseDriver : LocalDatabaseDriver;
 
 /**
- *
- * @param id
+ * Convert a string to an EntityId (string or ObjectId depending on the database driver)
+ * @param id - id to convert
  */
 export function toEntityId(id: string): EntityId {
   return (appConfig.database.driver === 'mongodb' ? new ObjectId(id) : id) as EntityId;
 }
 
 /**
- *
- * @param id1
- * @param id2
+ * Check if provided ids are equal
+ * @param id1 - first id
+ * @param id2 - second id
  */
 export function isEqualIds(id1?: EntityId, id2?: EntityId): boolean {
   return id1?.toString() === id2?.toString();
 }
 
 /**
- *
- * @param id
+ * Check if provided ids are valid
+ * @param id - id to check
  */
 export function isEntityId(id?: EntityId): id is EntityId {
   return typeof id === 'string' || id instanceof ObjectId;
