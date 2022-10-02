@@ -47,7 +47,8 @@
     "zod": "^3.19.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.5",
+    "@babel/core": "^7.19.3",
+    "@babel/eslint-parser": "^7.19.1",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.16.11",

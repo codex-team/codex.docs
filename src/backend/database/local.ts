@@ -37,7 +37,6 @@ export interface RejectFunction {
 }
 
 
-
 /**
  * Simple decorator class to work with nedb datastore
  */

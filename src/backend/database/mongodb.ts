@@ -21,6 +21,7 @@ export default class MongoDatabaseDriver<DocType> implements DatabaseDriver<DocT
 
   /**
    * Creates driver instance
+   *
    * @param collectionName - collection to work with
    */
   constructor(collectionName: string) {
