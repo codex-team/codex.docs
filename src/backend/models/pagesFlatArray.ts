@@ -2,6 +2,7 @@ import Page from './page.js';
 import PageOrder from './pageOrder.js';
 import NodeCache from 'node-cache';
 import { EntityId } from '../database/types.js';
+import { isEqualIds } from '../database/index.js';
 
 // Create cache for flat array
 const cache = new NodeCache({ stdTTL: 120 });
@@ -109,7 +110,7 @@ class PagesFlatArray {
   public static async getPageBefore(pageId: EntityId): Promise<PagesFlatArrayData | undefined> {
     const arr = await this.get();
 
-    const pageIndex = arr.findIndex( (item) => item.id == pageId);
+    const pageIndex = arr.findIndex((item) => isEqualIds(item.id, pageId));
 
     // Check if index is not the first
     if (pageIndex && pageIndex > 0) {
@@ -129,7 +130,7 @@ class PagesFlatArray {
   public static async getPageAfter(pageId: EntityId): Promise<PagesFlatArrayData | undefined> {
     const arr = await this.get();
 
-    const pageIndex = arr.findIndex( (item) => item.id == pageId );
+    const pageIndex = arr.findIndex( (item) => isEqualIds(item.id, pageId));
 
     // Check if index is not the last
     if (pageIndex < arr.length -1) {
@@ -153,7 +154,7 @@ class PagesFlatArray {
     pages: Array<Page>, orders: Array<PageOrder>): Array<PagesFlatArrayData> {
     let arr: Array<PagesFlatArrayData> = new Array<PagesFlatArrayData>();
 
-    const page = pages.find( item => item._id == pageId );
+    const page = pages.find(item => isEqualIds(item._id, pageId));
 
     // Add element to child array
     if (page) {
@@ -167,7 +168,7 @@ class PagesFlatArray {
       } );
     }
 
-    const order = orders.find(item => item.page == pageId);
+    const order = orders.find(item => isEqualIds(item.page, pageId));
 
     if (order) {
       for (const childPageId of order.order) {
