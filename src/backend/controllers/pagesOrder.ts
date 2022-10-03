@@ -2,7 +2,7 @@ import PageOrder from '../models/pageOrder.js';
 import Page from '../models/page.js';
 import PagesFlatArray from '../models/pagesFlatArray.js';
 import { EntityId } from '../database/types.js';
-import { isEqualIds } from '../database/index.js';
+import { isEqualIds, toEntityId } from '../database/index.js';
 
 /**
  * @class PagesOrder
@@ -103,13 +103,15 @@ class PagesOrder {
     const unordered = pages.filter(page => isEqualIds(page._parent, parentPageId)).map(page => page._id);
 
     // Create unique array with ordered and unordered pages id
-    const ordered = Array.from(new Set([...children.order, ...unordered]));
+    const ordered = Array.from(new Set([...children.order, ...unordered].map(id => id?.toString())));
 
     const result: Page[] = [];
 
     ordered.forEach(pageId => {
+      const id = pageId ? toEntityId(pageId): undefined;
+
       pages.forEach(page => {
-        if (isEqualIds(page._id, pageId) && (!isEqualIds(pageId, currentPageId) || !ignoreSelf)) {
+        if (isEqualIds(page._id, id) && (!isEqualIds(id, currentPageId) || !ignoreSelf)) {
           result.push(page);
         }
       });

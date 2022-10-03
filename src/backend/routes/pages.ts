@@ -15,6 +15,8 @@ router.get('/page/new', verifyToken, allowEdit, async (req: Request, res: Respon
   try {
     const pagesAvailableGrouped = await Pages.groupByParent();
 
+    console.log(pagesAvailableGrouped);
+
     res.render('pages/form', {
       pagesAvailableGrouped,
       page: null,

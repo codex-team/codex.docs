@@ -28,7 +28,7 @@
             <option value="0">Root</option>
             {% for _page in pagesAvailableGrouped %}
               {% if toString(_page._id) != toString(currentPageId) %}
-                <option value="{{ _page._id }}" {{ page is not empty and toString(page._parent) == toString(_page._id) ? 'selected' : ''}}>
+                <option value="{{ toString(_page._id) }}" {{ page is not empty and toString(page._parent) == toString(_page._id) ? 'selected' : ''}}>
                   {% if _page._parent != "0" %}
                     &nbsp;
                     &nbsp;
@@ -45,7 +45,7 @@
             <select id="above" name="above">
               <option value="0">—</option>
               {% for _page in parentsChildrenOrdered %}
-                <option value="{{ _page._id }}">{{ _page.title }}</option>
+                <option value="{{ toString(_page._id) }}">{{ _page.title }}</option>
               {% endfor %}
             </select>
           </div>
