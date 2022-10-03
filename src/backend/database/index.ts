@@ -16,6 +16,10 @@ const Database = appConfig.database.driver === 'mongodb' ? MongoDatabaseDriver :
  * @param id - id to convert
  */
 export function toEntityId(id: string): EntityId {
+  if (id === '0') {
+    return id as EntityId;
+  }
+
   return (appConfig.database.driver === 'mongodb' ? new ObjectId(id) : id) as EntityId;
 }
 

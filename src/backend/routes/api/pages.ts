@@ -58,7 +58,8 @@ router.get('/pages', async (req: Request, res: Response) => {
  */
 router.put('/page', multer.none(), async (req: Request, res: Response) => {
   try {
-    const { title, body, parent } = req.body;
+    const { title, body } = req.body;
+    const parent = toEntityId(req.body.parent);
     const page = await Pages.insert({
       title,
       body,
