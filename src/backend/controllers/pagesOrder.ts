@@ -130,7 +130,9 @@ class PagesOrder {
     const pageOrder = await PageOrder.get(parentPageId);
 
     // Create unique array with ordered and unordered pages id
-    pageOrder.order = Array.from(new Set([...pageOrder.order, ...unordered]));
+    pageOrder.order = Array
+      .from(new Set([...pageOrder.order, ...unordered].map(id => id?.toString())))
+      .map(toEntityId);
     pageOrder.putAbove(currentPageId, putAbovePageId);
     await pageOrder.save();
     await PagesFlatArray.regenerate();

@@ -1,5 +1,5 @@
 import urlify from '../utils/urlify.js';
-import database from '../database/index.js';
+import database, {isEqualIds} from '../database/index.js';
 import { EntityId } from '../database/types.js';
 
 const pagesDb = database['pages'];
@@ -208,7 +208,7 @@ class Page {
     if (uri) {
       let pageWithSameUri = await Page.getByUri(uri);
 
-      while (pageWithSameUri._id && pageWithSameUri._id !== this._id) {
+      while (pageWithSameUri._id && !isEqualIds(pageWithSameUri._id, this._id)) {
         pageWithSameUriCount++;
         pageWithSameUri = await Page.getByUri(uri + `-${pageWithSameUriCount}`);
       }

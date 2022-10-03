@@ -93,7 +93,8 @@ router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
   const id = toEntityId(req.params.id);
 
   try {
-    const { title, body, parent, putAbovePageId, uri } = req.body;
+    const { title, body, putAbovePageId, uri } = req.body;
+    const parent = toEntityId(req.body.parent);
     const pages = await Pages.getAllPages();
     let page = await Pages.get(id);
 
