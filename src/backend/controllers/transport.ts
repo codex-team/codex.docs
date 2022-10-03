@@ -5,7 +5,7 @@ import nodePath from 'path';
 import File, { FileData } from '../models/file.js';
 import crypto from '../utils/crypto.js';
 import deepMerge from '../utils/objects.js';
-import appConfig from "../utils/appConfig.js";
+import appConfig from '../utils/appConfig.js';
 
 const random16 = crypto.random16;
 
@@ -29,7 +29,6 @@ class Transport {
    * @param {string} multerData.path - path to the uploaded file
    * @param {number} multerData.size - size of the uploaded file
    * @param {string} multerData.mimetype - MIME type of the uploaded file
-   *
    * @param {object} map - object that represents how should fields of File object should be mapped to response
    * @returns {Promise<FileData>}
    */
@@ -108,11 +107,10 @@ class Transport {
    *
    * @param {File} file - file object
    * @param {object} map - object that represents how should fields of File object should be mapped to response
-   *
    */
   public static composeResponse(file: File, map: Dict): Dict {
     const response: Dict = {};
-    const { data } = file;
+    const data = file.data as Record<string, string | number | undefined>;
 
     Object.entries(map).forEach(([name, path]) => {
       const fields: string[] = path.split(':');

@@ -1,6 +1,8 @@
 import Page from './page.js';
 import PageOrder from './pageOrder.js';
 import NodeCache from 'node-cache';
+import { EntityId } from '../database/types.js';
+import { isEqualIds } from '../database/index.js';
 
 // Create cache for flat array
 const cache = new NodeCache({ stdTTL: 120 });
@@ -14,12 +16,12 @@ export interface PagesFlatArrayData {
   /**
    * Page id
    */
-  id: string;
+  id: EntityId;
 
   /**
    * Page parent id
    */
-  parentId?: string;
+  parentId?: EntityId;
 
   /**
    * id of parent with parent id '0'
@@ -105,10 +107,10 @@ class PagesFlatArray {
    * @param pageId - page id
    * @returns {Promise<PagesFlatArrayData | undefined>}
    */
-  public static async getPageBefore(pageId: string): Promise<PagesFlatArrayData | undefined> {
+  public static async getPageBefore(pageId: EntityId): Promise<PagesFlatArrayData | undefined> {
     const arr = await this.get();
 
-    const pageIndex = arr.findIndex( (item) => item.id == pageId);
+    const pageIndex = arr.findIndex((item) => isEqualIds(item.id, pageId));
 
     // Check if index is not the first
     if (pageIndex && pageIndex > 0) {
@@ -125,10 +127,10 @@ class PagesFlatArray {
    * @param pageId - page id
    * @returns {Promise<PagesFlatArrayData | undefined>}
    */
-  public static async getPageAfter(pageId: string): Promise<PagesFlatArrayData | undefined> {
+  public static async getPageAfter(pageId: EntityId): Promise<PagesFlatArrayData | undefined> {
     const arr = await this.get();
 
-    const pageIndex = arr.findIndex( (item) => item.id == pageId );
+    const pageIndex = arr.findIndex( (item) => isEqualIds(item.id, pageId));
 
     // Check if index is not the last
     if (pageIndex < arr.length -1) {
@@ -148,11 +150,11 @@ class PagesFlatArray {
    * @param orders - all page orders
    * @returns {Promise<Array<PagesFlatArrayData>>}
    */
-  private static getChildrenFlatArray(pageId: string, level: number,
+  private static getChildrenFlatArray(pageId: EntityId, level: number,
     pages: Array<Page>, orders: Array<PageOrder>): Array<PagesFlatArrayData> {
     let arr: Array<PagesFlatArrayData> = new Array<PagesFlatArrayData>();
 
-    const page = pages.find( item => item._id == pageId );
+    const page = pages.find(item => isEqualIds(item._id, pageId));
 
     // Add element to child array
     if (page) {
@@ -166,7 +168,7 @@ class PagesFlatArray {
       } );
     }
 
-    const order = orders.find(item => item.page == pageId);
+    const order = orders.find(item => isEqualIds(item.page, pageId));
 
     if (order) {
       for (const childPageId of order.order) {

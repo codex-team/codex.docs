@@ -1,10 +1,10 @@
-import database from '../utils/database/index.js';
+import database from '../database/index.js';
+import { EntityId } from '../database/types.js';
 
 const filesDb = database['files'];
 
 /**
  * @typedef {object} FileData
- *
  * @property {string} _id - file id
  * @property {string} name - original file name
  * @property {string} filename - name of uploaded file
@@ -14,20 +14,18 @@ const filesDb = database['files'];
  * @property {number} size - size of the file in
  */
 export interface FileData {
-  _id?: string;
+  _id?: EntityId;
   name?: string;
   filename?: string;
   path?: string;
   mimetype?: string;
   url?: string;
   size?: number;
-  [key: string]: string | number | undefined;
 }
 
 /**
  * @class File
  * @class File model
- *
  * @property {string} _id - file id
  * @property {string} name - original file name
  * @property {string} filename - name of uploaded file
@@ -36,7 +34,7 @@ export interface FileData {
  * @property {number} size - size of the file in
  */
 class File {
-  public _id?: string;
+  public _id?: EntityId;
   public name?: string;
   public filename?: string;
   public path?: string;
@@ -46,7 +44,6 @@ class File {
 
   /**
    * @class
-   *
    * @param {FileData} data - info about file
    */
   constructor(data: FileData = {}) {
@@ -136,7 +133,7 @@ class File {
    */
   public async save(): Promise<File> {
     if (!this._id) {
-      const insertedRow = await filesDb.insert(this.data) as { _id: string };
+      const insertedRow = await filesDb.insert(this.data) as { _id: EntityId };
 
       this._id = insertedRow._id;
     } else {

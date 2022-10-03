@@ -4,6 +4,8 @@ import PagesOrder from '../../controllers/pagesOrder.js';
 import Page from '../../models/page.js';
 import asyncMiddleware from '../../utils/asyncMiddleware.js';
 import PageOrder from '../../models/pageOrder.js';
+import { EntityId } from '../../database/types.js';
+import { isEqualIds } from '../../database/index.js';
 
 /**
  * Process one-level pages list to parent-children list
@@ -13,11 +15,10 @@ import PageOrder from '../../models/pageOrder.js';
  * @param {PagesOrder[]} pagesOrder - list of pages order
  * @param {number} level - max level recursion
  * @param {number} currentLevel - current level of element
- *
  * @returns {Page[]}
  */
-function createMenuTree(parentPageId: string, pages: Page[], pagesOrder: PageOrder[], level = 1, currentLevel = 1): Page[] {
-  const childrenOrder = pagesOrder.find(order => order.data.page === parentPageId);
+function createMenuTree(parentPageId: EntityId, pages: Page[], pagesOrder: PageOrder[], level = 1, currentLevel = 1): Page[] {
+  const childrenOrder = pagesOrder.find(order => isEqualIds(order.data.page, parentPageId));
 
   /**
    * branch is a page children in tree
@@ -27,12 +28,12 @@ function createMenuTree(parentPageId: string, pages: Page[], pagesOrder: PageOrd
   let ordered: any[] = [];
 
   if (childrenOrder) {
-    ordered = childrenOrder.order.map((pageId: string) => {
-      return pages.find(page => page._id === pageId);
+    ordered = childrenOrder.order.map((pageId: EntityId) => {
+      return pages.find(page => isEqualIds(page._id, pageId));
     });
   }
 
-  const unordered = pages.filter(page => page._parent === parentPageId);
+  const unordered = pages.filter(page => isEqualIds(page._parent, parentPageId));
   const branch = Array.from(new Set([...ordered, ...unordered]));
 
   /**
@@ -65,10 +66,10 @@ export default asyncMiddleware(async (req: Request, res: Response, next: NextFun
    *
    * @type {string}
    */
-  const parentIdOfRootPages = '0';
+  const parentIdOfRootPages = '0' as EntityId;
 
   try {
-    const pages = await Pages.getAll();
+    const pages = await Pages.getAllPages();
     const pagesOrder = await PagesOrder.getAll();
 
     res.locals.menu = createMenuTree(parentIdOfRootPages, pages, pagesOrder, 2);

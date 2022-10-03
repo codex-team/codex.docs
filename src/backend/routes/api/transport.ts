@@ -4,7 +4,7 @@ import mime from 'mime';
 import mkdirp from 'mkdirp';
 import Transport from '../../controllers/transport.js';
 import { random16 } from '../../utils/crypto.js';
-import appConfig from "../../utils/appConfig.js";
+import appConfig from '../../utils/appConfig.js';
 
 const router = Router();
 

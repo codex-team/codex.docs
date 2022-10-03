@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express';
 import multerFunc from 'multer';
 import Pages from '../../controllers/pages.js';
 import PagesOrder from '../../controllers/pagesOrder.js';
+import { EntityId } from '../../database/types.js';
+import { isEntityId, isEqualIds, toEntityId } from '../../database/index.js';
 
 const router = express.Router();
 const multer = multerFunc();
@@ -14,7 +16,7 @@ const multer = multerFunc();
 
 router.get('/page/:id', async (req: Request, res: Response) => {
   try {
-    const page = await Pages.get(req.params.id);
+    const page = await Pages.get(toEntityId(req.params.id));
 
     res.json({
       success: true,
@@ -35,7 +37,7 @@ router.get('/page/:id', async (req: Request, res: Response) => {
  */
 router.get('/pages', async (req: Request, res: Response) => {
   try {
-    const pages = await Pages.getAll();
+    const pages = await Pages.getAllPages();
 
     res.json({
       success: true,
@@ -56,7 +58,8 @@ router.get('/pages', async (req: Request, res: Response) => {
  */
 router.put('/page', multer.none(), async (req: Request, res: Response) => {
   try {
-    const { title, body, parent } = req.body;
+    const { title, body } = req.body;
+    const parent = toEntityId(req.body.parent);
     const page = await Pages.insert({
       title,
       body,
@@ -88,11 +91,12 @@ router.put('/page', multer.none(), async (req: Request, res: Response) => {
  * Update page data in the database
  */
 router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = toEntityId(req.params.id);
 
   try {
-    const { title, body, parent, putAbovePageId, uri } = req.body;
-    const pages = await Pages.getAll();
+    const { title, body, putAbovePageId, uri } = req.body;
+    const parent = toEntityId(req.body.parent);
+    const pages = await Pages.getAllPages();
     let page = await Pages.get(id);
 
     if (page._id === undefined) {
@@ -103,16 +107,16 @@ router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
       throw new Error('Parent not found');
     }
 
-    if (page._parent !== parent) {
+    if (!isEqualIds(page._parent, parent)) {
       await PagesOrder.move(page._parent, parent, id);
     } else {
       if (putAbovePageId && putAbovePageId !== '0') {
-        const unordered = pages.filter(_page => _page._parent === page._parent).map(_page => _page._id);
+        const unordered = pages.filter(_page => isEqualIds(_page._parent, page._parent)).map(_page => _page._id);
 
-        const unOrdered: string[] = [];
+        const unOrdered: EntityId[] = [];
 
         unordered.forEach(item => {
-          if (typeof item === 'string') {
+          if (isEntityId(item)) {
             unOrdered.push(item);
           }
         });
@@ -146,7 +150,7 @@ router.post('/page/:id', multer.none(), async (req: Request, res: Response) => {
  */
 router.delete('/page/:id', async (req: Request, res: Response) => {
   try {
-    const pageId = req.params.id;
+    const pageId = toEntityId(req.params.id);
     const page = await Pages.get(pageId);
 
     if (page._id === undefined) {
@@ -177,8 +181,8 @@ router.delete('/page/:id', async (req: Request, res: Response) => {
      * @param {string} startFrom - start point to delete
      * @returns {Promise<void>}
      */
-    const deleteRecursively = async (startFrom: string): Promise<void> => {
-      let order: string[] = [];
+    const deleteRecursively = async (startFrom: EntityId): Promise<void> => {
+      let order: EntityId[] = [];
 
       try {
         const children = await PagesOrder.get(startFrom);
@@ -200,10 +204,12 @@ router.delete('/page/:id', async (req: Request, res: Response) => {
       }
     };
 
-    await deleteRecursively(req.params.id);
+    const id = toEntityId(req.params.id);
+
+    await deleteRecursively(id);
 
     // remove also from parent's order
-    parentPageOrder.remove(req.params.id);
+    parentPageOrder.remove(id);
     await parentPageOrder.save();
 
     res.json({

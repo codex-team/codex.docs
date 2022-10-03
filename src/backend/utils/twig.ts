@@ -54,4 +54,28 @@ export default (function () {
       return '';
     }
   });
+
+  /**
+   * Converts object to string
+   *
+   * @param {object} object - object to be converted
+   * @returns {string} stringified object
+   */
+  twig.extendFunction('toString', function (object: object): string {
+    if (!object) {
+      return object;
+    }
+
+    return object.toString();
+  });
+
+  /**
+   * Converts JSON to string
+   *
+   * @param {string} data - data to be converted
+   * @returns {string} - converted data
+   */
+  twig.extendFilter('json_stringify', function (data: any): string {
+    return JSON.stringify(data);
+  });
 }());

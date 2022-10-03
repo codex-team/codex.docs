@@ -1,8 +1,8 @@
-import { loadConfig } from 'config-loader';
+import { loadConfig } from '@codex-team/config-loader';
 import * as process from 'process';
 import arg from 'arg';
 import path from 'path';
-import { z } from "zod";
+import { z } from 'zod';
 
 /**
  * Configuration for Hawk errors catcher
@@ -10,19 +10,38 @@ import { z } from "zod";
 const HawkConfig = z.object({
   backendToken: z.string().optional(), // Hawk backend token
   frontendToken: z.string().optional(), // Hawk frontend token
-})
+});
 
+/**
+ * Config for local database driver
+ */
 const LocalDatabaseConfig = z.object({
   driver: z.literal('local'),
   local: z.object({
-    path: z.string()
-  })
-})
+    path: z.string(), // path to the database directory
+  }),
+});
 
+/**
+ * Config for MongoDB database driver
+ */
+const MongoDatabaseConfig = z.object({
+  driver: z.literal('mongodb'),
+  mongodb: z.object({
+    uri: z.string(), // MongoDB connection URI
+  }),
+});
+
+/**
+ * Config for authentication
+ */
 const AuthConfig = z.object({
-  secret: z.string() // Secret for JWT
-})
+  secret: z.string(), // Secret for JWT
+});
 
+/**
+ * Frontend configuration
+ */
 const FrontendConfig = z.object({
   title: z.string(), // Title for pages
   description: z.string(), // Description for pages
@@ -33,8 +52,9 @@ const FrontendConfig = z.object({
     serve: z.string().optional(), // Carbon serve url
     placement: z.string().optional(), // Carbon placement
   }),
-  menu: z.array(z.union([z.string(), z.object({title: z.string(), uri: z.string()})])), // Menu for pages
-})
+  menu: z.array(z.union([z.string(), z.object({ title: z.string(),
+    uri: z.string() })])), // Menu for pages
+});
 
 /**
  * Application configuration
@@ -48,8 +68,8 @@ const AppConfig = z.object({
   password: z.string(), // Password for admin panel
   frontend: FrontendConfig, // Frontend configuration
   auth: AuthConfig, // Auth configuration
-  database: LocalDatabaseConfig, // Database configuration
-})
+  database: z.union([LocalDatabaseConfig, MongoDatabaseConfig]), // Database configuration
+});
 
 export type AppConfig = z.infer<typeof AppConfig>;
 
@@ -59,7 +79,7 @@ const args = arg({ /* eslint-disable @typescript-eslint/naming-convention */
 });
 
 const cwd = process.cwd();
-const paths = (args['--config'] || ['./app-config.yaml']).map((configPath) => {
+const paths = (args['--config'] || [ './app-config.yaml' ]).map((configPath) => {
   if (path.isAbsolute(configPath)) {
     return configPath;
   }
@@ -69,6 +89,6 @@ const paths = (args['--config'] || ['./app-config.yaml']).map((configPath) => {
 
 const loadedConfig = loadConfig<AppConfig>(...paths);
 
-const appConfig = AppConfig.parse(loadedConfig)
+const appConfig = AppConfig.parse(loadedConfig);
 
 export default appConfig;

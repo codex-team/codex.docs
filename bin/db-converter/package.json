@@ -1,0 +1,12 @@
+{
+  "name": "db-converter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "commander": "^9.4.1",
+    "mongodb": "^4.10.0"
+  },
+  "packageManager": "yarn@3.2.3"
+}

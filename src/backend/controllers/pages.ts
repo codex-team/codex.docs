@@ -4,6 +4,8 @@ import PagesOrder from './pagesOrder.js';
 import PageOrder from '../models/pageOrder.js';
 import HttpException from '../exceptions/httpException.js';
 import PagesFlatArray from '../models/pagesFlatArray.js';
+import { EntityId } from '../database/types.js';
+import { isEqualIds } from '../database/index.js';
 
 type PageDataFields = keyof PageData;
 
@@ -27,7 +29,7 @@ class Pages {
    * @param {string} id - page id
    * @returns {Promise<Page>}
    */
-  public static async get(id: string): Promise<Page> {
+  public static async get(id: EntityId): Promise<Page> {
     const page = await Page.get(id);
 
     if (!page._id) {
@@ -42,7 +44,7 @@ class Pages {
    *
    * @returns {Promise<Page[]>}
    */
-  public static async getAll(): Promise<Page[]> {
+  public static async getAllPages(): Promise<Page[]> {
     return Page.getAll();
   }
 
@@ -52,8 +54,8 @@ class Pages {
    * @param {string} parent - id of current page
    * @returns {Promise<Page[]>}
    */
-  public static async getAllExceptChildren(parent: string): Promise<Page[]> {
-    const pagesAvailable = this.removeChildren(await Pages.getAll(), parent);
+  public static async getAllExceptChildren(parent: EntityId): Promise<Page[]> {
+    const pagesAvailable = this.removeChildren(await Pages.getAllPages(), parent);
 
     const nullFilteredPages: Page[] = [];
 
@@ -67,18 +69,33 @@ class Pages {
   }
 
   /**
+   * Helper to get all pages as map
+   */
+  private static async getPagesMap(): Promise<Map<string, Page>> {
+    const pages = await Pages.getAllPages();
+    const pagesMap = new Map<string, Page>();
+
+    pages.forEach(page => {
+      if (page._id) {
+        pagesMap.set(page._id.toString(), page);
+      } else {
+        throw new Error('Page id is not defined');
+      }
+    });
+
+    return pagesMap;
+  }
+
+  /**
    * Group all pages by their parents
    * If the pageId is passed, it excludes passed page from result pages
    *
    * @param {string} pageId - pageId to exclude from result pages
    * @returns {Page[]}
    */
-  public static async groupByParent(pageId = ''): Promise<Page[]> {
-    const result: Page[] = [];
-    const orderGroupedByParent: Record<string, string[]> = {};
-    const rootPageOrder = await PagesOrder.getRootPageOrder();
-    const childPageOrder = await PagesOrder.getChildPageOrder();
-    const orphanPageOrder: PageOrder[] = [];
+  public static async groupByParent(pageId = '' as EntityId): Promise<Page[]> {
+    const rootPageOrder = await PagesOrder.getRootPageOrder(); // get order of the root pages
+    const childPageOrder = await PagesOrder.getChildPageOrder(); // get order of the all other pages
 
     /**
      * If there is no root and child page order, then it returns an empty array
@@ -87,81 +104,35 @@ class Pages {
       return [];
     }
 
-    const pages = (await this.getAll()).reduce((map, _page) => {
-      map.set(_page._id, _page);
-
-      return map;
-    }, new Map);
+    const pagesMap = await this.getPagesMap();
     const idsOfRootPages = rootPageOrder.order;
 
-    /**
-     * It groups root pages and 1 level pages by its parent
-     */
-    idsOfRootPages.reduce((prev, curr, idx) => {
-      const childPages:PageOrder[] = [];
+    const getChildrenOrder = (pageId: EntityId): EntityId[] => {
+      const order = childPageOrder.find((order) => isEqualIds(order.page, pageId))?.order || [];
 
-      childPageOrder.forEach((pageOrder, _idx) => {
-        if (pageOrder.page === curr) {
-          childPages.push(pageOrder);
-          childPageOrder.splice(_idx, 1);
-        }
-      });
-
-      const hasChildPage = childPages.length > 0;
-
-      prev[curr] = [];
-      prev[curr].push(curr);
-
-      /**
-       * It attaches 1 level page id to its parent page id
-       */
-      if (hasChildPage) {
-        prev[curr].push(...childPages[0].order);
+      if (order.length === 0) {
+        return [];
       }
+      const expandedOrder = order.map((id) => [id, ...getChildrenOrder(id)]);
 
-      /**
-       * If non-attached childPages which is not 1 level page still remains,
-       * It is stored as an orphan page so that it can be processed in the next statements
-       */
-      if (idx === idsOfRootPages.length - 1 && childPageOrder.length > 0) {
-        orphanPageOrder.push(...childPageOrder);
-      }
+      return expandedOrder.flat();
+    };
 
-      return prev;
-    }, orderGroupedByParent);
+    const orderGroupedByParent = idsOfRootPages.reduce((acc, curr) => {
+      const pageOrder = getChildrenOrder(curr);
 
-    let count = 0;
+      acc[curr.toString()] = [curr, ...pageOrder];
 
-    /**
-     * It groups remained ungrouped pages by its parent
-     */
-    while (orphanPageOrder.length > 0) {
-      if (count >= 1000) {
-        throw new HttpException(500, `Page cannot be processed`);
-      }
-
-      orphanPageOrder.forEach((orphanOrder, idx) => {
-        // It loops each of grouped orders formatted as [root page id(1): corresponding child pages id(2)]
-        Object.entries(orderGroupedByParent).forEach(([parentPageId, value]) => {
-          // If (2) contains orphanOrder's parent id(page)
-          if (orphanOrder.page && orphanOrder.order && value.includes(orphanOrder.page)) {
-            // Append orphanOrder's id(order) into its parent id
-            orderGroupedByParent[parentPageId].splice(value.indexOf(orphanOrder.page) + 1, 0, ...orphanOrder.order);
-            // Finally, remove orphanOrder from orphanPageOrder
-            orphanPageOrder.splice(idx, 1);
-          }
-        });
-      });
-
-      count += 1;
-    }
+      return acc;
+    }, {} as Record<string, EntityId[]>);
 
     /**
      * It converts grouped pages(object) to array
      */
-    Object.values(orderGroupedByParent).flatMap(arr => [ ...arr ])
-      .forEach(arr => {
-        result.push(pages.get(arr));
+    const result = Object.values(orderGroupedByParent)
+      .flatMap(ids => [ ...ids ])
+      .map(id => {
+        return pagesMap.get(id.toString()) as Page;
       });
 
     /**
@@ -188,9 +159,9 @@ class Pages {
    * @param {string} parent - id of parent page
    * @returns {Array<?Page>}
    */
-  public static removeChildren(pagesAvailable: Array<Page | null>, parent: string | undefined): Array<Page | null> {
+  public static removeChildren(pagesAvailable: Array<Page | null>, parent: EntityId | undefined): Array<Page | null> {
     pagesAvailable.forEach(async (item, index) => {
-      if (item === null || item._parent !== parent) {
+      if (item === null || !isEqualIds(item._parent, parent)) {
         return;
       }
       pagesAvailable[index] = null;
@@ -238,7 +209,7 @@ class Pages {
    * @param {PageData} data - info about page
    * @returns {Promise<Page>}
    */
-  public static async update(id: string, data: PageData): Promise<Page> {
+  public static async update(id: EntityId, data: PageData): Promise<Page> {
     const page = await Page.get(id);
     const previousUri = page.uri;
 
@@ -278,7 +249,7 @@ class Pages {
    * @param {string} id - page id
    * @returns {Promise<Page>}
    */
-  public static async remove(id: string): Promise<Page> {
+  public static async remove(id: EntityId): Promise<Page> {
     const page = await Page.get(id);
 
     if (!page._id) {
@@ -291,6 +262,7 @@ class Pages {
       await alias.destroy();
     }
     const removedPage = page.destroy();
+
     await PagesFlatArray.regenerate();
 
     return removedPage;

@@ -9,7 +9,7 @@ import * as dotenv from 'dotenv';
 import HawkCatcher from '@hawk.so/nodejs';
 import os from 'os';
 import { downloadFavicon, FaviconData } from './utils/downloadFavicon.js';
-import appConfig from "./utils/appConfig.js";
+import appConfig from './utils/appConfig.js';
 
 /**
  * The __dirname CommonJS variables are not available in ES modules.
@@ -28,7 +28,7 @@ if (appConfig.hawk?.backendToken) {
 }
 
 // Get url to upload favicon from config
-const favicon = appConfig.favicon
+const favicon = appConfig.favicon;
 
 app.locals.config = localConfig;
 // Set client error tracking token as app local.

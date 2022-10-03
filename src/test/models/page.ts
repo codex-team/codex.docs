@@ -4,7 +4,7 @@ import path from 'path';
 import config from 'config';
 import Page from '../../backend/models/page.js';
 import translateString from '../../backend/utils/translation.js';
-import database from '../../backend/utils/database/index.js';
+import database from '../../backend/database/index.js';
 import { fileURLToPath } from 'url';
 
 /**

@@ -1,6 +1,7 @@
 *
 !public
 !src
+src/test
 !package.json
 !yarn.lock
 !webpack.config.js

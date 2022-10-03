@@ -81,3 +81,5 @@ db/
 # Compiled files
 /dist/*
 /public/dist/*
+
+*.local.yaml
