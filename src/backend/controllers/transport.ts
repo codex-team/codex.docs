@@ -1,142 +1,74 @@
-import fileType from 'file-type';
 import fetch from 'node-fetch';
-import fs from 'fs';
 import nodePath from 'path';
 import File, { FileData } from '../models/file.js';
-import crypto from '../utils/crypto.js';
-import deepMerge from '../utils/objects.js';
-import appConfig from '../utils/appConfig.js';
+import { uploadsDriver } from '../uploads/index.js';
 
-const random16 = crypto.random16;
-
-interface Dict {
-  [key: string]: any;
+/**
+ * Represents file data from multer
+ */
+interface MulterLocalFile {
+  originalname: string;
+  mimetype: string;
+  filename: string;
+  size: number;
 }
 
 /**
- * @class Transport
- * @classdesc Transport controller
- *
- * Allows to save files from client or fetch them by URL
+ * Represents file data from multer S3 plugin
+ */
+interface MulterS3File {
+  originalname: string
+  mimetype: string
+  key: string
+  size: number
+}
+
+/**
+ * Represents file data from multer (both local and s3 plugins)
+ */
+type MulterFile = MulterLocalFile | MulterS3File;
+
+/**
+ * Transport controller allows to save files from client or fetch them by URL
  */
 class Transport {
   /**
    * Saves file passed from client
    *
-   * @param {object} multerData - file data from multer
-   * @param {string} multerData.originalname - original name of the file
-   * @param {string} multerData.filename - name of the uploaded file
-   * @param {string} multerData.path - path to the uploaded file
-   * @param {number} multerData.size - size of the uploaded file
-   * @param {string} multerData.mimetype - MIME type of the uploaded file
-   * @param {object} map - object that represents how should fields of File object should be mapped to response
-   * @returns {Promise<FileData>}
+   * @param fileData - file data to save
    */
-  public static async save(multerData: Dict, map: Dict): Promise<FileData> {
-    const { originalname: name, path, filename, size, mimetype, url } = multerData;
-
+  public static async save(fileData: MulterFile): Promise<FileData> {
     const file = new File({
-      name,
-      filename,
-      path,
-      size,
-      mimetype,
-      url,
+      name: fileData.originalname,
+      filename: 'filename' in fileData? fileData.filename : fileData.key,
+      mimetype: fileData.mimetype,
+      size: fileData.size,
     });
 
     await file.save();
 
-    let response = file.data;
-
-    if (map) {
-      response = Transport.composeResponse(file, map);
-    }
-
-    return response;
+    return file.data;
   }
 
   /**
    * Fetches file by passed URL
    *
    * @param {string} url - URL of the file
-   * @param {object} map - object that represents how should fields of File object should be mapped to response
    * @returns {Promise<FileData>}
    */
-  public static async fetch(url: string, map: Dict): Promise<FileData> {
+  public static async fetch(url: string): Promise<FileData> {
     const fetchedFile = await fetch(url);
-    const buffer = await fetchedFile.buffer();
-    const filename = await random16();
+    const buffer = Buffer.from(await fetchedFile.arrayBuffer());
+    const fetchedContentType = fetchedFile.headers.get('content-type');
+    const fetchedMimeType = fetchedContentType ? fetchedContentType : undefined;
 
-    const type = await fileType.fromBuffer(buffer);
-    const ext = type ? type.ext : nodePath.extname(url).slice(1);
+    const fileData = await uploadsDriver.save(buffer, fetchedMimeType, nodePath.extname(url).slice(1));
 
-    fs.writeFileSync(`${appConfig.uploads}/${filename}.${ext}`, buffer);
-
-    const fetchedContentType: string | null = fetchedFile.headers.get('content-type');
-    let fetchedMimeType: string | undefined;
-
-    if (fetchedContentType === null) {
-      fetchedMimeType = undefined;
-    } else {
-      fetchedMimeType = fetchedContentType;
-    }
-
-    const mimeType = type ? type.mime : fetchedMimeType;
-
-    const file = new File({
-      name: url,
-      filename: `${filename}.${ext}`,
-      path: `${appConfig.uploads}/${filename}.${ext}`,
-      size: buffer.length,
-      mimetype: mimeType,
-    });
+    const file = new File(fileData);
 
     await file.save();
 
-    let response = file.data;
-
-    if (map) {
-      response = Transport.composeResponse(file, map);
-    }
-
-    return response;
-  }
-
-  /**
-   * Map fields of File object to response by provided map object
-   *
-   * @param {File} file - file object
-   * @param {object} map - object that represents how should fields of File object should be mapped to response
-   */
-  public static composeResponse(file: File, map: Dict): Dict {
-    const response: Dict = {};
-    const data = file.data as Record<string, string | number | undefined>;
-
-    Object.entries(map).forEach(([name, path]) => {
-      const fields: string[] = path.split(':');
-
-      if (fields.length > 1) {
-        let object: Dict = {};
-        const result = object;
-
-        fields.forEach((field, i) => {
-          if (i === fields.length - 1) {
-            object[field] = data[name];
-
-            return;
-          }
-
-          object[field] = {};
-          object = object[field];
-        });
-
-        deepMerge(response, result);
-      } else {
-        response[fields[0]] = data[name];
-      }
-    });
-
-    return response;
+    return file.data;
   }
 }
 

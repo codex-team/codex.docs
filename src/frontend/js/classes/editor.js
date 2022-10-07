@@ -53,13 +53,6 @@ export default class Editor {
               byFile: '/api/transport/image',
               byUrl: '/api/transport/fetch',
             },
-            additionalRequestData: {
-              map: JSON.stringify({
-                url: 'file:url',
-                size: 'file:size',
-                mimetype: 'file:mime',
-              }),
-            },
           },
         },
 
