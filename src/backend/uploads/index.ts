@@ -3,7 +3,7 @@ import S3UploadsDriver from './s3.js';
 import LocalUploadsDriver from './local.js';
 
 /**
- * Multer storage for uploaded files and images
+ * Initialize the uploads driver based on the configuration
  */
 export const uploadsDriver = appConfig.uploads.driver === 'local'
   ? new LocalUploadsDriver(appConfig.uploads)
