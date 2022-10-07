@@ -67,6 +67,9 @@ node bin/db-converter --db-path=./db --mongodb-uri=mongodb://localhost:27017/doc
 
 ## Using S3 uploads driver
 
+Uploads driver is used to store files uploaded by users.
+By default, the application uses local filesystem to store files, but S3 driver is also available.
+
 ### 1. Get credentials for S3 bucket
 Create a S3 bucket and get access key and secret key (or use existing ones)
 
