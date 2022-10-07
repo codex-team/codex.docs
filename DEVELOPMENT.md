@@ -64,3 +64,28 @@ Run it with
 ```shell
 node bin/db-converter --db-path=./db --mongodb-uri=mongodb://localhost:27017/docs
 ```
+
+## Using S3 uploads driver
+
+### 1. Get credentials for S3 bucket
+Create a S3 bucket and get access key and secret key (or use existing ones)
+
+### 2. Setup S3 driver in app-config.local.yaml
+
+```yaml
+uploads:
+  driver: "s3"
+  s3:
+    bucket: example.codex.so
+    region: "eu-central-1"
+    baseUrl: "http://example.codex.so.s3-website.eu-central-1.amazonaws.com"
+    keyPrefix: "docs-test"
+    accessKeyId: "<secret>"
+    secretAccessKey: "<secret>
+```
+
+### 3. Run the application
+
+```shell
+yarn dev
+```
