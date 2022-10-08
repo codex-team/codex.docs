@@ -17,9 +17,7 @@ export interface FileData {
   _id?: EntityId;
   name?: string;
   filename?: string;
-  path?: string;
   mimetype?: string;
-  url?: string;
   size?: number;
 }
 
@@ -37,10 +35,8 @@ class File {
   public _id?: EntityId;
   public name?: string;
   public filename?: string;
-  public path?: string;
   public mimetype?: string;
   public size?: number;
-  public url?: string;
 
   /**
    * @class
@@ -99,14 +95,12 @@ class File {
    * @param {FileData} fileData - info about file
    */
   public set data(fileData: FileData) {
-    const { name, filename, path, mimetype, size, url } = fileData;
+    const { name, filename, mimetype, size } = fileData;
 
     this.name = name || this.name;
     this.filename = filename || this.filename;
-    this.path = path ? this.processPath(path) : this.path;
     this.mimetype = mimetype || this.mimetype;
     this.size = size || this.size;
-    this.url = url || this.url;
   }
 
   /**
@@ -119,10 +113,8 @@ class File {
       _id: this._id,
       name: this.name,
       filename: this.filename,
-      path: this.path,
       mimetype: this.mimetype,
       size: this.size,
-      url: this.url,
     };
   }
 
@@ -163,16 +155,6 @@ class File {
    */
   public toJSON(): FileData {
     return this.data;
-  }
-
-  /**
-   * Removes unnecessary public folder prefix
-   *
-   * @param {string} path - input path to be processed
-   * @returns {string}
-   */
-  private processPath(path: string): string {
-    return path.replace(/^public/, '');
   }
 }
 

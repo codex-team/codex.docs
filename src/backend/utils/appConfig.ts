@@ -13,6 +13,34 @@ const HawkConfig = z.object({
 });
 
 /**
+ * Config for local uploads driver
+ */
+const LocalUploadsConfig = z.object({
+  driver: z.literal('local'),
+  local: z.object({
+    path: z.string(), // path to the database directory
+  }),
+});
+
+/**
+ * Config for S3 uploads driver
+ */
+const S3UploadsConfig = z.object({
+  driver: z.literal('s3'),
+  s3: z.object({
+    bucket: z.string(),
+    region: z.string(),
+    baseUrl: z.string(),
+    keyPrefix: z.string(),
+    accessKeyId: z.string(),
+    secretAccessKey: z.string(),
+  }),
+});
+
+export type LocalUploadsConfig = z.infer<typeof LocalUploadsConfig>;
+export type S3UploadsConfig = z.infer<typeof S3UploadsConfig>;
+
+/**
  * Config for local database driver
  */
 const LocalDatabaseConfig = z.object({
@@ -63,7 +91,7 @@ const AppConfig = z.object({
   port: z.number(), // Port to listen on
   host: z.string(), // Host to listen on
   favicon: z.string().optional(), // Path or URL to favicon
-  uploads: z.string(), // Path to uploads folder
+  uploads: z.union([LocalUploadsConfig, S3UploadsConfig]), // Uploads configuration
   hawk: HawkConfig.optional().nullable(), // Hawk configuration
   password: z.string(), // Password for admin panel
   frontend: FrontendConfig, // Frontend configuration

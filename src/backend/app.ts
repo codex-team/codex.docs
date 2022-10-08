@@ -67,7 +67,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../public')));
-app.use('/uploads', express.static(appConfig.uploads));
+
+if (appConfig.uploads.driver === 'local') {
+  app.use('/uploads', express.static(appConfig.uploads.local.path));
+}
+
 app.use('/favicon', express.static(downloadedFaviconFolder));
 
 app.use('/', routes);
