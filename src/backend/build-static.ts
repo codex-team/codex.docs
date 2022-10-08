@@ -101,8 +101,6 @@ export default async function buildStatic(): Promise<void> {
 
     const page = await Pages.get(alias.id);
 
-    console.log(page);
-
     await renderPage(page, true);
   }
 
