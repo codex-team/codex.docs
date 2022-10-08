@@ -1,10 +1,10 @@
 /**
  * Module dependencies.
  */
-import app from '../backend/app.js';
+import app from './app.js';
 import http from 'http';
 import Debug from 'debug';
-import appConfig from "../backend/utils/appConfig.js";
+import appConfig from './utils/appConfig.js';
 
 const debug = Debug.debug('codex.editor.docs:server');
 
@@ -29,6 +29,7 @@ server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
+ *
  * @param val
  */
 function normalizePort(val: string): number | string | false {
@@ -49,6 +50,7 @@ function normalizePort(val: string): number | string | false {
 
 /**
  * Event listener for HTTP server 'error' event.
+ *
  * @param error
  */
 function onError(error: NodeJS.ErrnoException): void {
@@ -95,15 +97,16 @@ function onListening(): void {
   drawBanner([
     `CodeX Docs server is running`,
     ``,
-    `Main page: http://localhost:${port}`
+    `Main page: http://localhost:${port}`,
   ]);
 }
 
 /**
  * Draw banner in console with given text lines
+ *
  * @param {string[]} lines
  */
-function drawBanner(lines: string[]) {
+function drawBanner(lines: string[]): void {
   /** Define banner parts */
   const PARTS = {
     TOP_LEFT: '┌',
@@ -113,7 +116,7 @@ function drawBanner(lines: string[]) {
     HORIZONTAL: '─',
     VERTICAL: '│',
     SPACE: ' ',
-  }
+  };
 
   /** Calculate max line length */
   const maxLength = lines.reduce((max, line) => Math.max(max, line.length), 0);
