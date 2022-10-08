@@ -3,7 +3,7 @@ host: "localhost"
 uploads:
   driver: "local"
   local:
-    path: "./uploads"
+    path: "./public/uploads"
   s3:
     bucket: "my-bucket"
     region: "eu-central-1"
