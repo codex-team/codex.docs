@@ -112,8 +112,14 @@ export default async function buildStatic(): Promise<void> {
   }
 
   await renderIndexPage(config.indexPageUri);
-
-  await fse.copy(path.resolve(dirname, '../../public'), distPath);
   console.log('Static files built');
+
+  console.log('Copy public directory');
+  await fse.copy(path.resolve(dirname, '../../public'), distPath);
+
+  if (appConfig.uploads.driver === 'local') {
+    console.log('Copy uploads directory');
+    await fse.copy(path.resolve(cwd, appConfig.uploads.local.path), path.resolve(distPath, 'uploads'));
+  }
 }
 
