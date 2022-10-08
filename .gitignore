@@ -83,3 +83,5 @@ db/
 /public/dist/*
 
 *.local.yaml
+
+static-build

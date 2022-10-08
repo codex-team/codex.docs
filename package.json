@@ -1,10 +1,10 @@
 {
   "name": "codex.docs",
   "license": "Apache-2.0",
-  "version": "0.0.1-alpha.5",
+  "version": "0.0.1-alpha.6",
   "type": "module",
   "bin": {
-    "codex.docs": "dist/backend/server.js"
+    "codex.docs": "dist/backend/app.js"
   },
   "browserslist": [
     "last 2 versions",
@@ -14,8 +14,8 @@
     "start": "concurrently \"yarn start-backend\" \"yarn build-frontend\"",
     "dev": "concurrently \"yarn start-backend\" \"yarn build-frontend:dev\"",
     "build-all": "yarn build-frontend && yarn build-backend",
-    "build-static": "ts-node src/backend/build-static.ts",
-    "start-backend": "cross-env NODE_ENV=development npx nodemon --config nodemon.json src/backend/server.ts -c docs-config.yaml -c docs-config.local.yaml",
+    "build-static": "ts-node src/backend/app.ts build-static -c docs-config.yaml -c docs-config.local.yaml",
+    "start-backend": "cross-env NODE_ENV=development npx nodemon --config nodemon.json src/backend/app.ts -c docs-config.yaml -c docs-config.local.yaml",
     "build-backend": "tsc && copyfiles -u 3 ./src/**/*.twig ./dist/backend/views && copyfiles -u 1 ./src/**/*.svg ./dist/",
     "build-frontend": "webpack --mode=production",
     "build-frontend:dev": "webpack --mode=development --watch",
@@ -31,6 +31,7 @@
     "@hawk.so/javascript": "^3.0.1",
     "@hawk.so/nodejs": "^3.1.4",
     "@types/multer-s3": "^3.0.0",
+    "@types/yargs": "^17.0.13",
     "arg": "^5.0.2",
     "config": "^3.3.6",
     "cookie-parser": "^1.4.5",
@@ -39,6 +40,7 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.1",
     "file-type": "^16.5.4",
+    "fs-extra": "^10.1.0",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "mime": "^3.0.0",
@@ -53,6 +55,7 @@
     "open-graph-scraper": "^4.9.0",
     "twig": "^1.15.4",
     "uuid4": "^2.0.2",
+    "yargs": "^17.6.0",
     "zod": "^3.19.1"
   },
   "devDependencies": {
@@ -84,6 +87,7 @@
     "@types/debug": "^4.1.7",
     "@types/express": "^4.17.13",
     "@types/file-type": "^10.9.1",
+    "@types/fs-extra": "^9.0.13",
     "@types/jsonwebtoken": "^8.5.4",
     "@types/mime": "^2.0.3",
     "@types/mkdirp": "^1.0.2",
