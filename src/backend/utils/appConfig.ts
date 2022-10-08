@@ -107,7 +107,7 @@ const args = arg({ /* eslint-disable @typescript-eslint/naming-convention */
 });
 
 const cwd = process.cwd();
-const paths = (args['--config'] || [ './app-config.yaml' ]).map((configPath) => {
+const paths = (args['--config'] || [ './docs-config.yaml' ]).map((configPath) => {
   if (path.isAbsolute(configPath)) {
     return configPath;
   }

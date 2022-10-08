@@ -9,8 +9,8 @@ services:
     volumes:
       - ./public/uploads:/uploads
       - ./db:/usr/src/app/db
-      - ./app-config.yaml:/usr/src/app/app-config.yaml
-      - ./app-config.local.yaml:/usr/src/app/app-config.local.yaml
+      - ./docs-config.yaml:/usr/src/app/docs-config.yaml
+      - ./docs-config.local.yaml:/usr/src/app/docs-config.local.yaml
   mongodb:
     image: mongo:6.0.1
     ports:

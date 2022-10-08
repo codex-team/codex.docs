@@ -1,7 +1,11 @@
 {
   "name": "codex.docs",
   "license": "Apache-2.0",
+  "version": "0.0.1-alpha.5",
   "type": "module",
+  "bin": {
+    "codex.docs": "dist/backend/server.js"
+  },
   "browserslist": [
     "last 2 versions",
     "> 1%"
@@ -9,9 +13,10 @@
   "scripts": {
     "start": "concurrently \"yarn start-backend\" \"yarn build-frontend\"",
     "dev": "concurrently \"yarn start-backend\" \"yarn build-frontend:dev\"",
+    "build-all": "yarn build-frontend && yarn build-backend",
     "build-static": "ts-node src/backend/build-static.ts",
-    "start-backend": "cross-env NODE_ENV=development npx nodemon --config nodemon.json src/backend/server.ts -c app-config.yaml -c app-config.local.yaml",
-    "compile": "tsc && copyfiles -u 3 ./src/**/*.twig ./dist/backend/views && copyfiles -u 1 ./src/**/*.svg ./dist/",
+    "start-backend": "cross-env NODE_ENV=development npx nodemon --config nodemon.json src/backend/server.ts -c docs-config.yaml -c docs-config.local.yaml",
+    "build-backend": "tsc && copyfiles -u 3 ./src/**/*.twig ./dist/backend/views && copyfiles -u 1 ./src/**/*.svg ./dist/",
     "build-frontend": "webpack --mode=production",
     "build-frontend:dev": "webpack --mode=development --watch",
     "test:js": "cross-env NODE_ENV=testing mocha --recursive ./dist/test --exit",
