@@ -1,7 +1,8 @@
 /**
  * HEIGHT of the header in px
  */
-const HEADER_HEIGHT = 56;
+const HEADER_HEIGHT = parseInt(window.getComputedStyle(
+  document.documentElement).getPropertyValue('--layout-height-header'));
 
 /**
  * Sidebar Search module.
