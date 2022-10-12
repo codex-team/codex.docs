@@ -286,6 +286,17 @@ export default class SidebarFilter {
   }
 
   /**
+   * Check if content contains search text.
+   *
+   * @param {string} content - content to be searched.
+   * @param {string} searchValue - Search value.
+   * @returns {boolean} - true if content contains search value.
+   */
+  isValueMatched(content, searchValue) {
+    return content.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
+  }
+
+  /**
    * filter sidebar items.
    *
    * @param {HTMLElement} section - Section element.
@@ -297,8 +308,8 @@ export default class SidebarFilter {
     const sectionList = section.querySelector('.' + SidebarFilter.CSS.sectionList);
 
     // check if section title matches.
-    const isTitleMatch = sectionTitle.innerText.trim().toLowerCase()
-      .indexOf(searchValue.toLowerCase()) !== -1;
+    const isTitleMatch = this.isValueMatched(sectionTitle.textContent, searchValue);
+
     const matchResults = [];
     // match with section items.
     let isSingleItemMatch = false;
@@ -307,8 +318,7 @@ export default class SidebarFilter {
       const sectionListItems = sectionList.querySelectorAll('.' + SidebarFilter.CSS.sectionListItem);
 
       sectionListItems.forEach(item => {
-        if (item.innerText.trim().toLowerCase()
-          .indexOf(searchValue.toLowerCase()) !== -1) {
+        if (this.isValueMatched(item.textContent, searchValue)) {
           // remove hiden class from item.
           item.parentElement.classList.remove(SidebarFilter.CSS.sectionListItemWrapperHidden);
           // add item to search results.
