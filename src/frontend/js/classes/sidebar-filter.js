@@ -23,8 +23,7 @@ export default class SidebarFilter {
       sectionListItem: 'docs-sidebar__section-list-item',
       sectionListItemWrapperHidden: 'docs-sidebar__section-list-item-wrapper--hidden',
       sectionListItemSlelected: 'docs-sidebar__section-list-item--selected',
-      sidebarSearchWrapperMac: 'docs-sidebar__search-wrapper-mac',
-      sidebarSearchWrapperOther: 'docs-sidebar__search-wrapper-other',
+      sidebarSearchWrapper: 'docs-sidebar__search-wrapper',
     };
   }
 
@@ -57,13 +56,13 @@ export default class SidebarFilter {
     this.sidebarContent = sidebarContent;
     this.search = search;
     this.setSectionCollapsed = setSectionCollapsed;
-    let className = SidebarFilter.CSS.sidebarSearchWrapperOther;
+    let shortcutText = 'Ctrl P';
 
     // Search initialize with platform specific shortcut.
-    if (window.navigator.userAgent.indexOf('Mac') != -1) {
-      className = SidebarFilter.CSS.sidebarSearchWrapperMac;
+    if (window.navigator.userAgent.indexOf('Mac') !== -1) {
+      shortcutText = '⌘ P';
     }
-    this.search.parentElement.classList.add(className);
+    this.search.parentElement.setAttribute('data-shortcut', shortcutText);
 
     // Initialize search input.
     this.search.value = '';
