@@ -70,12 +70,11 @@ export default class SidebarFilter {
     if (window.navigator.userAgent.indexOf('Mac') !== -1) {
       shortcutText = '⌘ P';
     }
+      shortcutText = '⌘ P';
     this.search.parentElement.setAttribute('data-shortcut', shortcutText);
 
     // Initialize search input.
     this.search.value = '';
-    // Initialize the search results.
-    this.filter('');
 
     // Add event listener for search input.
     this.search.addEventListener('input', e => {
