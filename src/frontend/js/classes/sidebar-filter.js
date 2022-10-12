@@ -209,13 +209,6 @@ export default class SidebarFilter {
       element.classList.add(SidebarFilter.CSS.sectionTitleSelected);
     } else if (type === 'item') {
       element.classList.add(SidebarFilter.CSS.sectionListItemSlelected);
-      // close section.
-      const parentSection = element.closest('section');
-
-      // if item is in collapsed section, expand it.
-      if (!parentSection.classList.contains(SidebarFilter.CSS.sectionTitleActive)) {
-        this.setSectionCollapsed(parentSection, false);
-      }
     }
 
     // scroll to focused title or item.
@@ -334,10 +327,16 @@ export default class SidebarFilter {
       });
     }
     if (!isTitleMatch && !isSingleItemMatch) {
-      // hide section and it's items are not a match.
+      // hide section if it's items are not a match.
       section.classList.add(SidebarFilter.CSS.sectionHidden);
     } else {
-      // show section and it's items are a match.
+      const parentSection = sectionTitle.closest('section');
+
+      // if item is in collapsed section, expand it.
+      if (!parentSection.classList.contains(SidebarFilter.CSS.sectionTitleActive)) {
+        this.setSectionCollapsed(parentSection, false);
+      }
+      // show section if it's items are a match.
       section.classList.remove(SidebarFilter.CSS.sectionHidden);
       // add section title to search results.
       this.searchResults.push({
