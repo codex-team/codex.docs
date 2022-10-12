@@ -5,6 +5,14 @@ const HEADER_HEIGHT = parseInt(window.getComputedStyle(
   document.documentElement).getPropertyValue('--layout-height-header'));
 
 /**
+ * Enum for the direction of the navigation during the filtering.
+ */
+const Direction = {
+  Next: 1,
+  Previous: 2,
+};
+
+/**
  * Sidebar Search module.
  */
 export default class SidebarFilter {
@@ -111,9 +119,17 @@ export default class SidebarFilter {
       const prevSelectedSearchResultIndex = this.selectedSearchResultIndex;
 
       // get next item to be focus.
-      this.selectedSearchResultIndex = this.getNextTitleOrItemIndex(e.code,
-        this.selectedSearchResultIndex,
-        this.searchResults.length - 1);
+      if (e.code === 'ArrowUp') {
+        this.selectedSearchResultIndex = this.getNextIndex(
+          Direction.Previous,
+          this.selectedSearchResultIndex,
+          this.searchResults.length - 1);
+      } else if (e.code === 'ArrowDown') {
+        this.selectedSearchResultIndex = this.getNextIndex(
+          Direction.Next,
+          this.selectedSearchResultIndex,
+          this.searchResults.length - 1);
+      }
 
       // blur previous focused item.
       this.blurTitleOrItem(prevSelectedSearchResultIndex);
@@ -128,17 +144,17 @@ export default class SidebarFilter {
   }
 
   /**
-   * Get next title or item index.
+   * Get index of next item to be focused.
    *
-   * @param {string} code - Key code for navigation.
+   * @param {number} direction - direction for navigation.
    * @param {number} titleOrItemIndex - Current title or item index.
    * @param {number} maxNumberOfTitlesOrItems - Max number of titles or items.
    * @returns {number} - Next section or item index.
    */
-  getNextTitleOrItemIndex(code, titleOrItemIndex, maxNumberOfTitlesOrItems) {
+  getNextIndex(direction, titleOrItemIndex, maxNumberOfTitlesOrItems) {
     let nextTitleOrItemIndex = titleOrItemIndex;
 
-    if (code === 'ArrowUp') {
+    if (direction === Direction.Previous) {
       // if no item is focused, focus last item.
       if (titleOrItemIndex === null) {
         return maxNumberOfTitlesOrItems;
@@ -153,7 +169,7 @@ export default class SidebarFilter {
       }
 
       return nextTitleOrItemIndex;
-    } else if (code === 'ArrowDown') {
+    } else if (direction === Direction.Next) {
       // if no item is focused, focus first item.
       if (titleOrItemIndex === null) {
         return 0;
