@@ -81,18 +81,28 @@
     background-color: var(--color-input-primary);
     border: 1px solid transparent;
     border-radius: 8px;
-    padding: 8.5px 35px;
+    padding: 7.5px 35px;
     padding-right: 42px;
     line-height: 17px;
+    font-size: 14px;
 
     &-wrapper::after {
       color: var(--color-button-secondary);
-      font-weight: 400;
+      font-weight: 600;
       font-size: 14px;
       line-height: 17px;
       content: attr(data-shortcut);
-      margin-left: -42px;
+      margin-left: -45px;
     }
+
+    @media (--mobile) {
+      display: none;
+    }
+  }
+
+  &__search::placeholder {
+    color: var(--color-button-secondary);
+    font-weight: 600;
   }
 
   &__section {
@@ -129,7 +139,7 @@
   }
 
   &__section:not(:first-child) {
-    margin-top: 19px;
+    margin-top: 20px;
   }
 
   &__section-title {
