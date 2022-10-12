@@ -88,7 +88,7 @@
 
     &-wrapper::after {
       color: var(--color-button-secondary);
-      font-weight: 600;
+      font-weight: 400;
       font-size: 14px;
       line-height: 17px;
       content: attr(data-shortcut);
@@ -102,12 +102,13 @@
 
   &__search::placeholder {
     color: var(--color-button-secondary);
-    font-weight: 600;
+    font-weight: 400;
   }
 
   &__section {
     overflow: hidden;
     flex-shrink: 0;
+    margin-top: 20px;
 
     &--hidden {
       display: none;
@@ -138,10 +139,12 @@
     }
   }
 
-  &__section:not(:first-child) {
-    margin-top: 20px;
+  @media (--mobile) {
+    &__section:nth-child(2) {
+      margin-top: 0px;
+    }
   }
-
+  
   &__section-title {
     font-size: 16px;
     line-height: 24px;
