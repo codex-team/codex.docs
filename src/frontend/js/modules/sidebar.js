@@ -1,6 +1,6 @@
 import { Storage } from '../utils/storage';
 import Shortcut from '@codexteam/shortcuts';
-
+import SidebarFilter from '../classes/sidebar-filter';
 /**
  * Local storage key
  */
@@ -38,6 +38,7 @@ export default class Sidebar {
       sidebarContent: 'docs-sidebar__content',
       sidebarContentVisible: 'docs-sidebar__content--visible',
       sidebarContentInvisible: 'docs-sidebar__content--invisible',
+      sidebarSearch: 'docs-sidebar__search',
     };
   }
 
@@ -54,6 +55,7 @@ export default class Sidebar {
       sidebarContent: null,
       toggler: null,
       slider: null,
+      search: null,
     };
     this.sidebarStorage = new Storage(LOCAL_STORAGE_KEY);
     const storedState = this.sidebarStorage.get();
@@ -67,6 +69,8 @@ export default class Sidebar {
 
     // Sidebar visibility
     this.isVisible = storedVisibility !== 'false';
+    // Sidebar filter module
+    this.filter = new SidebarFilter();
   }
 
   /**
@@ -84,6 +88,11 @@ export default class Sidebar {
     this.nodes.toggler.addEventListener('click', () => this.toggleSidebar());
     this.nodes.slider = moduleEl.querySelector('.' + Sidebar.CSS.sidebarSlider);
     this.nodes.slider.addEventListener('click', () => this.handleSliderClick());
+
+    this.nodes.search = moduleEl.querySelector('.' + Sidebar.CSS.sidebarSearch);
+    this.filter.init(this.nodes.sections, this.nodes.sidebarContent,
+      this.nodes.search, this.setSectionCollapsed);
+
     this.ready();
   }
 
@@ -210,6 +219,25 @@ export default class Sidebar {
       name: 'CMD+.',
       on: document.body,
       callback: () => this.handleSliderClick(),
+    });
+
+    // Add event listener to focus search input on Ctrl+P or ⌘+P is pressed.
+    // eslint-disable-next-line no-new
+    new Shortcut({
+      name: 'CMD+P',
+      on: document.body,
+      callback: (e) => {
+        // If sidebar is not visible.
+        if (!this.isVisible) {
+          // make sidebar visible.
+          this.handleSliderClick();
+        }
+        // focus search input.
+        this.nodes.search.focus();
+        // Stop propagation of event.
+        e.stopPropagation();
+        e.preventDefault();
+      },
     });
   }
 
