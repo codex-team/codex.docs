@@ -45,7 +45,7 @@ export default async function buildStatic(): Promise<void> {
     });
   }
 
-  console.log('Remove old static files');
+  console.log('Removing old static files');
   await fse.remove(distPath);
 
   console.log('Building static files');
