@@ -17,7 +17,7 @@ import cookieParser from 'cookie-parser';
 import routes from './routes/index.js';
 import HttpException from './exceptions/httpException.js';
 
-const debug = Debug.debug('codex.editor.docs:server');
+const debug = Debug.debug('codex.docs:server');
 
 /**
  * Get port from environment and store in Express.
