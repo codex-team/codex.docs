@@ -75,7 +75,7 @@ db/
 .DS_Store
 
 # Uploads
-/public/uploads
+/uploads
 /public/uploads_test
 
 # Compiled files
@@ -83,3 +83,5 @@ db/
 /public/dist/*
 
 *.local.yaml
+
+static-build

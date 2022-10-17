@@ -18,7 +18,7 @@ yarn install
 ### 3. Create separate config file for local overrides
 
 ```shell
-touch app-config.local.yaml
+touch docs-config.local.yaml
 ```
 
 ### 4. Run the application
@@ -39,7 +39,7 @@ In order to use MongoDB, follow these steps:
 docker-compose up mongodb
 ```
 
-### 2. Setup MongoDB driver in app-config.local.yaml
+### 2. Setup MongoDB driver in docs-config.local.yaml
 
 ```yaml
 database:
@@ -73,7 +73,7 @@ By default, the application uses local filesystem to store files, but S3 driver 
 ### 1. Get credentials for S3 bucket
 Create a S3 bucket and get access key and secret key (or use existing ones)
 
-### 2. Setup S3 driver in app-config.local.yaml
+### 2. Setup S3 driver in docs-config.local.yaml
 
 ```yaml
 uploads:

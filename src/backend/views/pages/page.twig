@@ -1,4 +1,4 @@
-{% extends 'layout.twig' %}
+{% extends '../layout.twig' %}
 
 {% block body %}
   <article class="page" data-module="page">
@@ -44,7 +44,7 @@
         {% endif %}
       {%  endfor %}
     </section>
-    {% include 'components/navigator.twig' with {previousPage:  previousPage, nextPage: nextPage} %}
+    {% include '../components/navigator.twig' with {previousPage:  previousPage, nextPage: nextPage} %}
   </article>
 
 {% endblock %}

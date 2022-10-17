@@ -1,0 +1,8 @@
+*
+!public/**/*
+public/uploads
+!dist/**/*
+!package.json
+!README.md
+!yarn.lock
+!LICENSE

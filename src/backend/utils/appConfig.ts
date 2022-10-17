@@ -85,6 +85,16 @@ const FrontendConfig = z.object({
 });
 
 /**
+ * Static build configuration
+ */
+const StaticBuildConfig = z.object({
+  outputDir: z.string(), // Output directory for static build
+  indexPageUri: z.string(), // URI for index page to render
+});
+
+export type StaticBuildConfig = z.infer<typeof StaticBuildConfig>;
+
+/**
  * Application configuration
  */
 const AppConfig = z.object({
@@ -97,6 +107,7 @@ const AppConfig = z.object({
   frontend: FrontendConfig, // Frontend configuration
   auth: AuthConfig, // Auth configuration
   database: z.union([LocalDatabaseConfig, MongoDatabaseConfig]), // Database configuration
+  staticBuild: StaticBuildConfig.optional(), // Static build configuration
 });
 
 export type AppConfig = z.infer<typeof AppConfig>;
@@ -107,7 +118,7 @@ const args = arg({ /* eslint-disable @typescript-eslint/naming-convention */
 });
 
 const cwd = process.cwd();
-const paths = (args['--config'] || [ './app-config.yaml' ]).map((configPath) => {
+const paths = (args['--config'] || [ './docs-config.yaml' ]).map((configPath) => {
   if (path.isAbsolute(configPath)) {
     return configPath;
   }

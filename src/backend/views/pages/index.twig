@@ -12,13 +12,13 @@
 <script>
 </script>
 <body class="greeting-body">
-  {% include "components/header.twig" %}
+  {% include "../components/header.twig" %}
   <div class="greeting-content">
     {{ svg('frog') }}
     <p class="greeting-content__message">
       It’s time to create the first page!
     </p>
-    {% include 'components/button.twig' with {label: 'Add page', icon: 'plus', size: 'small', url: '/page/new'} %}
+    {% include '../components/button.twig' with {label: 'Add page', icon: 'plus', size: 'small', url: '/page/new'} %}
   </div>
   {% if config.yandexMetrikaId is not empty %}
     <script type="text/javascript" >
