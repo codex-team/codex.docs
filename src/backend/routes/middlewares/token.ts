@@ -14,14 +14,14 @@ export default async function verifyToken(req: Request, res: Response, next: Nex
   const token = req.cookies.authToken;
 
   try {
-    if (!appConfig.password) {
+    if (!appConfig.auth.password) {
       res.locals.isAuthorized = false;
       next();
 
       return;
     }
 
-    const decodedToken = jwt.verify(token, appConfig.password + appConfig.auth.secret);
+    const decodedToken = jwt.verify(token, appConfig.auth.password + appConfig.auth.secret);
 
     res.locals.isAuthorized = !!decodedToken;
 
