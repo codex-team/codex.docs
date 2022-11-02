@@ -16,7 +16,6 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - run: echo "$IMAGE_NAME_TEST"
       - name: Checkout repository
         uses: actions/checkout@v3
 
