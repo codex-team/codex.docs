@@ -10,12 +10,14 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME_TEST: fromJSON('[${{github.repository}}, ${{github.repository}}-stage]')[job.status == 'success']
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
+      - run: echo "$IMAGE_NAME_TEST"
       - name: Checkout repository
         uses: actions/checkout@v3
 
