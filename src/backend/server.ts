@@ -88,7 +88,6 @@ function createApp(): express.Express {
   if (appConfig.uploads.driver === 'local') {
     const uploadsPath = path.join(cwd, appConfig.uploads.local.path);
 
-    console.log(uploadsPath);
     app.use('/uploads', express.static(uploadsPath));
   }
 
