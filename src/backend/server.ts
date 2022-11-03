@@ -34,6 +34,7 @@ function createApp(): express.Express {
    */
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  const cwd = process.cwd();
 
   const app = express();
   const localConfig = appConfig.frontend;
@@ -85,7 +86,9 @@ function createApp(): express.Express {
   app.use(express.static(path.join(__dirname, '../../public')));
 
   if (appConfig.uploads.driver === 'local') {
-    app.use('/uploads', express.static(appConfig.uploads.local.path));
+    const uploadsPath = path.join(cwd, appConfig.uploads.local.path);
+
+    app.use('/uploads', express.static(uploadsPath));
   }
 
   app.use('/favicon', express.static(downloadedFaviconFolder));

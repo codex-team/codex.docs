@@ -65,6 +65,7 @@ const MongoDatabaseConfig = z.object({
  */
 const AuthConfig = z.object({
   secret: z.string(), // Secret for JWT
+  password: z.string(), // Password for admin panel
 });
 
 /**
@@ -103,7 +104,6 @@ const AppConfig = z.object({
   favicon: z.string().optional(), // Path or URL to favicon
   uploads: z.union([LocalUploadsConfig, S3UploadsConfig]), // Uploads configuration
   hawk: HawkConfig.optional().nullable(), // Hawk configuration
-  password: z.string(), // Password for admin panel
   frontend: FrontendConfig, // Frontend configuration
   auth: AuthConfig, // Auth configuration
   database: z.union([LocalDatabaseConfig, MongoDatabaseConfig]), // Database configuration
@@ -111,6 +111,38 @@ const AppConfig = z.object({
 });
 
 export type AppConfig = z.infer<typeof AppConfig>;
+
+const defaultConfig: AppConfig = {
+  'port': 3000,
+  'host': 'localhost',
+  'uploads': {
+    'driver': 'local',
+    'local': {
+      'path': './uploads',
+    },
+  },
+  'frontend': {
+    'title': 'CodeX Docs',
+    'description': 'Free Docs app powered by Editor.js ecosystem',
+    'startPage': '',
+    'carbon': {
+      'serve': '',
+      'placement': '',
+    },
+    'menu': [],
+  },
+  'auth': {
+    'secret': 'supersecret',
+    'password': 'secretpassword',
+  },
+  'hawk': null,
+  'database': {
+    'driver': 'local',
+    'local': {
+      'path': './db',
+    },
+  },
+};
 
 const args = arg({ /* eslint-disable @typescript-eslint/naming-convention */
   '--config': [ String ],
@@ -126,7 +158,7 @@ const paths = (args['--config'] || [ './docs-config.yaml' ]).map((configPath) =>
   return path.join(cwd, configPath);
 });
 
-const loadedConfig = loadConfig<AppConfig>(...paths);
+const loadedConfig = loadConfig(...[defaultConfig, ...paths]);
 
 const appConfig = AppConfig.parse(loadedConfig);
 

@@ -30,4 +30,4 @@ COPY --from=build /usr/src/app/public ./public
 
 ENV NODE_ENV=production
 
-CMD ["node", "dist/backend/server.js"]
+CMD ["node", "dist/backend/app.js"]

@@ -1809,12 +1809,11 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@codex-team/config-loader@0.0.1-alpha.2":
-  version "0.0.1-alpha.2"
-  resolved "https://registry.yarnpkg.com/@codex-team/config-loader/-/config-loader-0.0.1-alpha.2.tgz#1852feef1cb7bea2bd530fd55a0a1a7d8ab75cef"
-  integrity sha512-RNf53ttDwOUCKaMfJM/X4y7+gYtzHmmIQ0np9W2chpFxhFdNJxZB6SPF3y3Et7Xe6damOrGl5P46+W5R/5iToA==
+"@codex-team/config-loader@0.1.0-rc1":
+  version "0.1.0-rc1"
+  resolved "https://registry.yarnpkg.com/@codex-team/config-loader/-/config-loader-0.1.0-rc1.tgz#f4adf2553e97933b029982622ed29ef667cded3f"
+  integrity sha512-dHII0e2L3QsSs77zn1KLz+PIuVCYTqSUPAPgk4UiT5MUA1lNi/6smJ5A7+QEcbBnKaHVmRtvhHGR9ahfJ5ZhIQ==
   dependencies:
-    eslint-plugin-n "^15.2.5"
     js-yaml "^4.1.0"
     lodash.isarray "^4.0.0"
     lodash.merge "^4.6.2"
@@ -3299,12 +3298,6 @@ concurrently@^7.1.0:
     tree-kill "^1.2.2"
     yargs "^17.3.1"
 
-config@^3.3.6:
-  version "3.3.7"
-  resolved "https://registry.yarnpkg.com/config/-/config-3.3.7.tgz#4310410dc2bf4e0effdca21a12a4035860a24ee4"
-  dependencies:
-    json5 "^2.1.1"
-
 content-disposition@0.5.4:
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/content-disposition/-/content-disposition-0.5.4.tgz#8b82b4efac82512a02bb0b1dcec9d2c5e8eb5bfe"
@@ -3717,10 +3710,6 @@ domutils@^3.0.1:
     dom-serializer "^2.0.0"
     domelementtype "^2.3.0"
     domhandler "^5.0.1"
-
-dotenv@^16.0.0:
-  version "16.0.1"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.1.tgz#8f8f9d94876c35dac989876a5d3a82a267fdce1d"
 
 ecdsa-sig-formatter@1.0.11:
   version "1.0.11"
@@ -4969,7 +4958,7 @@ json5@^1.0.1:
   dependencies:
     minimist "^1.2.0"
 
-json5@^2.1.1, json5@^2.1.2, json5@^2.2.1:
+json5@^2.1.2, json5@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.1.tgz#655d50ed1e6f95ad1a3caababd2b0efda10b395c"
 

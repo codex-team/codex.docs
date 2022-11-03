@@ -22,7 +22,7 @@ router.get('/auth', csrfProtection, function (req: Request, res: Response) {
  */
 router.post('/auth', parseForm, csrfProtection, async (req: Request, res: Response) => {
   try {
-    if (!appConfig.password) {
+    if (!appConfig.auth.password) {
       res.render('auth', {
         title: 'Login page',
         header: 'Password not set',
@@ -32,7 +32,7 @@ router.post('/auth', parseForm, csrfProtection, async (req: Request, res: Respon
       return;
     }
 
-    if (req.body.password !== appConfig.password) {
+    if (req.body.password !== appConfig.auth.password) {
       res.render('auth', {
         title: 'Login page',
         header: 'Wrong password',
@@ -46,7 +46,7 @@ router.post('/auth', parseForm, csrfProtection, async (req: Request, res: Respon
       iss: 'Codex Team',
       sub: 'auth',
       iat: Date.now(),
-    }, appConfig.password + appConfig.auth.secret);
+    }, appConfig.auth.password + appConfig.auth.secret);
 
     res.cookie('authToken', token, {
       httpOnly: true,
