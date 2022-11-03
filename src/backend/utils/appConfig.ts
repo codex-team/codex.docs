@@ -123,21 +123,13 @@ const defaultConfig: AppConfig = {
   },
   'frontend': {
     'title': 'CodeX Docs',
-    'description': 'A block-styled editor with clean JSON output',
+    'description': 'Free Docs app powered by Editor.js ecosystem',
     'startPage': '',
-    'misprintsChatId': '12344564',
-    'yandexMetrikaId': '',
     'carbon': {
       'serve': '',
       'placement': '',
     },
-    'menu': [
-      'Guides',
-      {
-        'title': 'CodeX',
-        'uri': 'https://codex.so',
-      },
-    ],
+    'menu': [],
   },
   'auth': {
     'secret': 'supersecret',
