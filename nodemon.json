@@ -8,5 +8,5 @@
   "watch": [
     "**/*"
   ],
-  "ext": "js,twig,ts"
+  "ext": "ts,js,twig"
 }
