@@ -5,7 +5,7 @@ services:
       dockerfile: docker/Dockerfile.prod
       context: .
     ports:
-      - "5005:3000"
+      - "3000:3000"
     volumes:
       - ./public/uploads:/uploads
       - ./db:/usr/src/app/db
