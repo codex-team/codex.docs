@@ -44,7 +44,7 @@ jobs:
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value={{branch}}-{{sha}}-{{date 'X'}},enable=${{ startsWith(github.ref, 'refs/heads') }}
-            type=semver,pattern={{raw}}
+            type=semver,pattern=v{{version}}
             type=semver,pattern=v{{major}}.{{minor}}
 
       - name: Build and push image
