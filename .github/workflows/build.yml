@@ -44,7 +44,8 @@ jobs:
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value={{branch}}-{{sha}}-{{date 'X'}},enable=${{ startsWith(github.ref, 'refs/heads') }}
-            type=semver,prefix=v
+            type=semver,pattern={{version}},prefix=v
+            type=semver,pattern=v{{major}}.{{minor}},prefix=v
 
       - name: Build and push image
         uses: docker/build-push-action@v3
