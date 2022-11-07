@@ -44,6 +44,7 @@ jobs:
           tags: |
             type=ref,event=branch
             type=ref,event=pr
+            type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value={{branch}}-{{sha}}-{{date 'X'}},enable=${{ startsWith(github.ref, 'refs/heads') }}
             type=semver,pattern=v{{raw}}
             type=semver,pattern=v{{major}}.{{minor}}
