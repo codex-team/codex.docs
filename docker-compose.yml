@@ -7,7 +7,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./public/uploads:/uploads
+      - ./uploads:/usr/src/app/uploads
       - ./db:/usr/src/app/db
       - ./docs-config.yaml:/usr/src/app/docs-config.yaml
       - ./docs-config.local.yaml:/usr/src/app/docs-config.local.yaml
