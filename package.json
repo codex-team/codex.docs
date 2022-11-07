@@ -95,7 +95,7 @@
     "@types/nedb": "^1.8.12",
     "@types/node": "^16.4.1",
     "@types/node-fetch": "^2.5.12",
-    "@types/open-graph-scraper": "^4.8.1",
+    "@types/open-graph-scraper": "^4.8.2",
     "@types/rimraf": "^3.0.1",
     "@types/sinon": "^10.0.2",
     "@types/twig": "^1.12.6",

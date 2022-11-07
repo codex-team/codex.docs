@@ -2331,9 +2331,10 @@
   version "16.11.56"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.56.tgz#dcbb617669481e158e0f1c6204d1c768cd675901"
 
-"@types/open-graph-scraper@^4.8.1":
-  version "4.8.1"
-  resolved "https://registry.yarnpkg.com/@types/open-graph-scraper/-/open-graph-scraper-4.8.1.tgz#c009360a3e242f7e9a290d3609ffb950f44d6966"
+"@types/open-graph-scraper@^4.8.2":
+  version "4.8.2"
+  resolved "https://registry.yarnpkg.com/@types/open-graph-scraper/-/open-graph-scraper-4.8.2.tgz#25064a6dd572b4b36ce0824f23d131896b7430ec"
+  integrity sha512-r/TmtdVW5gR67Je58v+pWKNZ8DuQK17TuaLOHi0d82IXZxNUoDhRYLu23th2StQeRSN3lST3Fox2zvCJmc0YRw==
   dependencies:
     "@types/node" "*"
 
