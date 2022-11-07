@@ -7,10 +7,6 @@ on:
     tags:
       - 'v*'
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -18,6 +14,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Get full image name
+        id: base_image_name
+        env:
+          REGISTRY: ghcr.io
+          BASE_IMAGE_NAME: ${{ github.repository }}
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            echo "image_name=${REGISTRY}/${BASE_IMAGE_NAME}" >> $GITHUB_OUTPUT
+          else
+            echo "image_name=${REGISTRY}/${BASE_IMAGE_NAME}-stage" >> $GITHUB_OUTPUT
+          fi
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -30,7 +38,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ steps.base_image_name.outputs.image_name }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
