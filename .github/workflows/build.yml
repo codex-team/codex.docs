@@ -7,6 +7,9 @@ on:
     tags:
       - 'v*'
 
+env:
+  REGISTRY: ghcr.io
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -18,7 +21,6 @@ jobs:
       - name: Get full image name
         id: base_image_name
         env:
-          REGISTRY: ghcr.io
           BASE_IMAGE_NAME: ${{ github.repository }}
         run: |
           if [[ $GITHUB_REF == refs/tags/* ]]; then
