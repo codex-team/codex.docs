@@ -42,8 +42,6 @@ jobs:
         with:
           images: ${{ steps.base_image_name.outputs.image_name }}
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value={{branch}}-{{sha}}-{{date 'X'}},enable=${{ startsWith(github.ref, 'refs/heads') }}
             type=semver,pattern={{raw}}
