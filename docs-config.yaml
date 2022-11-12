@@ -11,10 +11,9 @@ uploads:
     keyPrefix: "/"
     accessKeyId: "my-access-key"
     secretAccessKey: "my-secret-key"
-password: secretpassword
 frontend:
   title: "CodeX Docs"
-  description: "A block-styled editor with clean JSON output"
+  description: "Free Docs app powered by Editor.js ecosystemt"
   startPage: ""
   misprintsChatId: "12344564"
   yandexMetrikaId: ""
@@ -27,6 +26,7 @@ frontend:
       uri: "https://codex.so"
 
 auth:
+  password: secretpassword
   secret: supersecret
 
 hawk:

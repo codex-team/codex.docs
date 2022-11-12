@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   docs:
-    image: ghcr.io/codex-team/codex.docs:stage-17857c8-1667816216 # need to be changed after release
+    image: ghcr.io/codex-team/codex.docs:v2.0.0-rc.8
     ports:
       - "3000:3000"
     volumes:
