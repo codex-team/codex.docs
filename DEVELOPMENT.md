@@ -36,7 +36,7 @@ In order to use MongoDB, follow these steps:
 ### 1. Run MongoDB instance with docker-compose
 
 ```shell
-docker-compose up mongodb
+docker-compose -f docker-compose.dev.yml up mongodb
 ```
 
 ### 2. Setup MongoDB driver in docs-config.local.yaml
