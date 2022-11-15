@@ -6,6 +6,13 @@ services:
       context: .
     ports:
       - "3000:3000"
+    command:
+      - node
+      - dist/backend/app.js
+      - -c
+      - docs-config.yaml
+      - -c
+      - docs-config.local.yaml
     volumes:
       - ./uploads:/usr/src/app/uploads
       - ./db:/usr/src/app/db
