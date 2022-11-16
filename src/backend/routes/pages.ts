@@ -4,6 +4,7 @@ import PagesOrder from '../controllers/pagesOrder.js';
 import verifyToken from './middlewares/token.js';
 import allowEdit from './middlewares/locals.js';
 import PagesFlatArray from '../models/pagesFlatArray.js';
+import { toEntityId } from '../database/index.js';
 
 const router = express.Router();
 
@@ -13,6 +14,8 @@ const router = express.Router();
 router.get('/page/new', verifyToken, allowEdit, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const pagesAvailableGrouped = await Pages.groupByParent();
+
+    console.log(pagesAvailableGrouped);
 
     res.render('pages/form', {
       pagesAvailableGrouped,
@@ -28,7 +31,7 @@ router.get('/page/new', verifyToken, allowEdit, async (req: Request, res: Respon
  * Edit page form
  */
 router.get('/page/edit/:id', verifyToken, allowEdit, async (req: Request, res: Response, next: NextFunction) => {
-  const pageId = req.params.id;
+  const pageId = toEntityId(req.params.id);
 
   try {
     const page = await Pages.get(pageId);
@@ -56,7 +59,7 @@ router.get('/page/edit/:id', verifyToken, allowEdit, async (req: Request, res: R
  * View page
  */
 router.get('/page/:id', verifyToken, async (req: Request, res: Response, next: NextFunction) => {
-  const pageId = req.params.id;
+  const pageId = toEntityId(req.params.id);
 
   try {
     const page = await Pages.get(pageId);

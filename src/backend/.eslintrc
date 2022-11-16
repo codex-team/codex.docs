@@ -6,7 +6,8 @@
     "chai-friendly"
   ],
   "env": {
-    "mocha": true
+    "mocha": true,
+    "node": true
   },
   "rules": {
     "no-unused-expressions": 1,

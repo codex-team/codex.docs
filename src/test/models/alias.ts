@@ -4,7 +4,7 @@ import path from 'path';
 import config from 'config';
 import Alias from '../../backend/models/alias.js';
 import { binaryMD5 } from '../../backend/utils/crypto.js';
-import database from '../../backend/utils/database/index.js';
+import database from '../../backend/database/index.js';
 import { fileURLToPath } from 'url';
 
 const aliases = database['aliases'];

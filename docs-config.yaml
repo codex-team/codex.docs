@@ -1,0 +1,41 @@
+port: 3000
+host: "localhost"
+uploads:
+  driver: "local"
+  local:
+    path: "./uploads"
+  s3:
+    bucket: "my-bucket"
+    region: "eu-central-1"
+    baseUrl: "http://docs-static.codex.so.s3-website.eu-central-1.amazonaws.com"
+    keyPrefix: "/"
+    accessKeyId: "my-access-key"
+    secretAccessKey: "my-secret-key"
+frontend:
+  title: "CodeX Docs"
+  description: "Free Docs app powered by Editor.js ecosystemt"
+  startPage: ""
+  misprintsChatId: "12344564"
+  yandexMetrikaId: ""
+  carbon:
+    serve: ""
+    placement: ""
+  menu:
+    - "Guides"
+    - title: "CodeX"
+      uri: "https://codex.so"
+
+auth:
+  password: secretpassword
+  secret: supersecret
+
+hawk:
+#  frontendToken: "123"
+#  backendToken: "123"
+
+database:
+  driver: local # you can change database driver here. 'mongodb' or 'local'
+  local:
+    path: ./db
+#  mongodb:
+#    uri: mongodb://localhost:27017/docs

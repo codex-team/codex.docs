@@ -29,7 +29,7 @@ Here is our [Demo Application](https://docs-demo.codex.so/) where you can try Co
 
 1. [Getting Started](https://docs.codex.so/getting-started)
 2. [Configuration](https://docs.codex.so/configuration)
-3. [Deployment](https://docs.codex.so/deployment)
+3. [Kubernetes deployment](https://docs.codex.so/k8s-deployment)
 4. [Authentication](https://docs.codex.so/authentication)
 5. [Writing](https://docs.codex.so/writing)
 6. [How to enable analytics](https://docs.codex.so/yandex-metrica)
@@ -65,6 +65,10 @@ docker-compose up
 #### Using Kubernetes
 
 We have the ready-to-use [Helm chart](https://github.com/codex-team/codex.docs.chart) to deploy project in Kubernetes
+
+## Development
+
+See documentation for developers in [DEVELOPMENT.md](./DEVELOPMENT.md).
 
 # About CodeX
 

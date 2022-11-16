@@ -66,6 +66,7 @@ typings/
 
 # Database files
 .db/
+db/
 .testdb/
 
 # Cache of babel and others
@@ -74,9 +75,13 @@ typings/
 .DS_Store
 
 # Uploads
-/public/uploads
+/uploads
 /public/uploads_test
 
 # Compiled files
 /dist/*
 /public/dist/*
+
+*.local.yaml
+
+static-build

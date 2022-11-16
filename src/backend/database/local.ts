@@ -1,55 +1,64 @@
 import Datastore from 'nedb';
-import { AliasData } from '../../models/alias.js';
-import { FileData } from '../../models/file.js';
-import { PageData } from '../../models/page.js';
-import { PageOrderData } from '../../models/pageOrder.js';
-import initDb from './initDb.js';
+import { DatabaseDriver, Options } from './types.js';
+import path from 'path';
+import appConfig from '../utils/appConfig.js';
 
 /**
- * @typedef Options - optional params
- * @param {boolean} multi - (false) allows to take action to several documents
- * @param {boolean} upsert - (false) if true, upsert document with update fields.
- *                           Method will return inserted doc or number of affected docs if doc hasn't been inserted
- * @param {boolean} returnUpdatedDocs - (false) if true, returns affected docs
+ * Init function for nedb instance
+ *
+ * @param {string} name - name of the data file
+ * @returns {Datastore} db - nedb instance
  */
-interface Options {
-  multi?: boolean;
-  upsert?: boolean;
-  returnUpdatedDocs?: boolean;
+function initDb(name: string): Datastore {
+  const dbConfig = appConfig.database.driver === 'local' ? appConfig.database.local : null;
+
+  if (!dbConfig) {
+    throw new Error('Database config is not initialized');
+  }
+
+  return new Datastore({
+    filename: path.resolve(`${dbConfig.path}/${name}.db`),
+    autoload: true,
+  });
 }
 
-interface ResolveFunction {
+/**
+ * Resolve function helper
+ */
+export interface ResolveFunction {
   (value: any): void;
 }
 
-interface RejectFunction {
+/**
+ * Reject function helper
+ */
+export interface RejectFunction {
   (reason?: unknown): void;
 }
 
+
 /**
- * @class Database
- * @classdesc Simple decorator class to work with nedb datastore
- *
- * @property {Datastore} db - nedb Datastore object
+ * Simple decorator class to work with nedb datastore
  */
-export class Database<DocType> {
-  private db: Datastore;
+export default class LocalDatabaseDriver<DocType> implements DatabaseDriver<DocType> {
   /**
-   * @class
-   *
-   * @param {Object} nedbInstance - nedb Datastore object
+   * nedb Datastore object
    */
-  constructor(nedbInstance: Datastore) {
-    this.db = nedbInstance;
+  private db: Datastore;
+
+  /**
+   * @param collectionName - collection name for storing data
+   */
+  constructor(collectionName: string) {
+    this.db = initDb(collectionName);
   }
 
   /**
    * Insert new document into the database
    *
    * @see https://github.com/louischatriot/nedb#inserting-documents
-   *
-   * @param {Object} doc - object to insert
-   * @returns {Promise<Object|Error>} - inserted doc or Error object
+   * @param {object} doc - object to insert
+   * @returns {Promise<object | Error>} - inserted doc or Error object
    */
   public async insert(doc: DocType): Promise<DocType> {
     return new Promise((resolve, reject) => this.db.insert(doc, (err, newDoc) => {
@@ -65,10 +74,9 @@ export class Database<DocType> {
    * Find documents that match passed query
    *
    * @see https://github.com/louischatriot/nedb#finding-documents
-   *
-   * @param {Object} query - query object
-   * @param {Object} projection - projection object
-   * @returns {Promise<Array<Object>|Error>} - found docs or Error object
+   * @param {object} query - query object
+   * @param {object} projection - projection object
+   * @returns {Promise<Array<object> | Error>} - found docs or Error object
    */
   public async find(query: Record<string, unknown>, projection?: DocType): Promise<Array<DocType>> {
     const cbk = (resolve: ResolveFunction, reject: RejectFunction) => (err: Error | null, docs: DocType[]) => {
@@ -92,10 +100,9 @@ export class Database<DocType> {
    * Find one document matches passed query
    *
    * @see https://github.com/louischatriot/nedb#finding-documents
-   *
-   * @param {Object} query - query object
-   * @param {Object} projection - projection object
-   * @returns {Promise<Object|Error>} - found doc or Error object
+   * @param {object} query - query object
+   * @param {object} projection - projection object
+   * @returns {Promise<object | Error>} - found doc or Error object
    */
   public async findOne(query: Record<string, unknown>, projection?: DocType): Promise<DocType> {
     const cbk = (resolve: ResolveFunction, reject: RejectFunction) => (err: Error | null, doc: DocType) => {
@@ -119,11 +126,10 @@ export class Database<DocType> {
    * Update document matches query
    *
    * @see https://github.com/louischatriot/nedb#updating-documents
-   *
-   * @param {Object} query - query object
-   * @param {Object} update - fields to update
+   * @param {object} query - query object
+   * @param {object} update - fields to update
    * @param {Options} options - optional params
-   * @returns {Promise<number|Object|Object[]|Error>} - number of updated rows or affected docs or Error object
+   * @returns {Promise<number | object | object[] | Error>} - number of updated rows or affected docs or Error object
    */
   public async update(query: Record<string, unknown>, update: DocType, options: Options = {}): Promise<number|boolean|Array<DocType>> {
     return new Promise((resolve, reject) => this.db.update(query, update, options, (err, result, affectedDocs) => {
@@ -151,8 +157,7 @@ export class Database<DocType> {
    * Remove document matches passed query
    *
    * @see https://github.com/louischatriot/nedb#removing-documents
-   *
-   * @param {Object} query - query object
+   * @param {object} query - query object
    * @param {Options} options - optional params
    * @returns {Promise<number|Error>} - number of removed rows or Error object
    */
@@ -166,10 +171,3 @@ export class Database<DocType> {
     }));
   }
 }
-
-export default {
-  pages: new Database<PageData>(initDb('pages')),
-  aliases: new Database<AliasData>(initDb('aliases')),
-  pagesOrder: new Database<PageOrderData>(initDb('pagesOrder')),
-  files: new Database<FileData>(initDb('files')),
-};

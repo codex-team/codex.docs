@@ -48,8 +48,14 @@ router.get('/fetchUrl', async (req: Request, res: Response) => {
       },
     };
 
-    if (linkData.ogImage !== undefined) {
-      response.meta.image = { url: linkData.ogImage.toString() };
+    const image = linkData.ogImage;
+
+    if (image) {
+      if (Array.isArray(image)) {
+        response.meta.image = { url: image[0].url };
+      } else {
+        response.meta.image = { url: image.url };
+      }
     }
 
     res.status(200).json(response);

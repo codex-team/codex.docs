@@ -32,7 +32,7 @@
                 <a
                   class="docs-sidebar__section-list-item-wrapper"
                   href="{{ child.uri ? '/' ~ child.uri : '/page/' ~ child._id }}">
-                    <div class="docs-sidebar__section-list-item {{page is defined and page._id == child._id ? 'docs-sidebar__section-list-item--active' : ''}}">
+                    <div class="docs-sidebar__section-list-item {{page is defined and toString(page._id) == toString(child._id) ? 'docs-sidebar__section-list-item--active' : ''}}">
                       <span>{{ child.title | striptags }}</span>
                     </div>
                 </a>

@@ -2,7 +2,7 @@
 FROM node:16.14.0-alpine3.15 as build
 
 ## Install build toolchain, install node deps and compile native add-ons
-RUN apk add --no-cache python3 make g++
+RUN apk add --no-cache python3 make g++ git
 
 WORKDIR /usr/src/app
 
@@ -16,9 +16,7 @@ RUN yarn install
 
 COPY . .
 
-RUN yarn build-frontend
-
-RUN yarn compile
+RUN yarn build-all
 
 # Stage 2 - make final image
 FROM node:16.14.0-alpine3.15
@@ -32,4 +30,4 @@ COPY --from=build /usr/src/app/public ./public
 
 ENV NODE_ENV=production
 
-CMD ["node", "dist/bin/server.js"]
+CMD ["node", "dist/backend/app.js"]

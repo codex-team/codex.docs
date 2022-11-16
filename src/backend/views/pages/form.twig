@@ -9,7 +9,7 @@
   <section data-module="writing">
     <textarea name="module-settings" hidden>
       {
-        "page": {{ page | json_encode | escape }}
+        "page": {{ page | json_stringify | escape }}
       }
     </textarea>
     <header class="writing-header">
@@ -27,8 +27,8 @@
           <select id="parent" name="parent">
             <option value="0">Root</option>
             {% for _page in pagesAvailableGrouped %}
-              {% if _page._id != currentPageId %}
-                <option value="{{ _page._id }}" {{ page is not empty and page._parent == _page._id ? 'selected' : ''}}>
+              {% if toString(_page._id) != toString(currentPageId) %}
+                <option value="{{ toString(_page._id) }}" {{ page is not empty and toString(page._parent) == toString(_page._id) ? 'selected' : ''}}>
                   {% if _page._parent != "0" %}
                     &nbsp;
                     &nbsp;
@@ -45,7 +45,7 @@
             <select id="above" name="above">
               <option value="0">—</option>
               {% for _page in parentsChildrenOrdered %}
-                <option value="{{ _page._id }}">{{ _page.title }}</option>
+                <option value="{{ toString(_page._id) }}">{{ _page.title }}</option>
               {% endfor %}
             </select>
           </div>
@@ -64,7 +64,7 @@
 
     <div class="writing-buttons">
       {% include 'components/button.twig' with {label: 'Save changes', name: 'js-submit-save', icon: 'check'} %}
-      {% if page._id is not empty %}
+      {% if toString(page._id) is not empty %}
           {% include 'components/button.twig' with {label: 'Delete doc', name: 'js-submit-remove', icon: 'trash', style: 'warning'} %}
       {% endif %}
     </div>

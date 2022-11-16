@@ -1,5 +1,6 @@
 import urlify from '../utils/urlify.js';
-import database from '../utils/database/index.js';
+import database, {isEqualIds} from '../database/index.js';
+import { EntityId } from '../database/types.js';
 
 const pagesDb = database['pages'];
 
@@ -12,17 +13,16 @@ const pagesDb = database['pages'];
  * @property {string} parent - id of parent page
  */
 export interface PageData {
-  _id?: string;
+  _id?: EntityId;
   title?: string;
   uri?: string;
   body?: any;
-  parent?: string;
+  parent?: EntityId;
 }
 
 /**
  * @class Page
  * @class Page model
- *
  * @property {string} _id - page id
  * @property {string} title - page title
  * @property {string} uri - page uri
@@ -30,15 +30,14 @@ export interface PageData {
  * @property {string} _parent - id of parent page
  */
 class Page {
-  public _id?: string;
+  public _id?: EntityId;
   public body?: any;
   public title?: string;
   public uri?: string;
-  public _parent?: string;
+  public _parent?: EntityId;
 
   /**
    * @class
-   *
    * @param {PageData} data - page's data
    */
   constructor(data: PageData = {}) {
@@ -59,7 +58,7 @@ class Page {
    * @param {string} _id - page id
    * @returns {Promise<Page>}
    */
-  public static async get(_id: string): Promise<Page> {
+  public static async get(_id: EntityId): Promise<Page> {
     const data = await pagesDb.findOne({ _id });
 
     return new Page(data);
@@ -86,7 +85,7 @@ class Page {
   public static async getAll(query: Record<string, unknown> = {}): Promise<Page[]> {
     const docs = await pagesDb.find(query);
 
-    return Promise.all(docs.map(doc => new Page(doc)));
+    return docs.map(doc => new Page(doc));
   }
 
   /**
@@ -100,7 +99,7 @@ class Page {
     this.body = body || this.body;
     this.title = this.extractTitleFromBody();
     this.uri = uri || '';
-    this._parent = parent || this._parent || '0';
+    this._parent = parent || this._parent || '0' as EntityId;
   }
 
   /**
@@ -161,7 +160,7 @@ class Page {
     }
 
     if (!this._id) {
-      const insertedRow = await pagesDb.insert(this.data) as { _id: string };
+      const insertedRow = await pagesDb.insert(this.data) as { _id: EntityId };
 
       this._id = insertedRow._id;
     } else {
@@ -209,7 +208,7 @@ class Page {
     if (uri) {
       let pageWithSameUri = await Page.getByUri(uri);
 
-      while (pageWithSameUri._id && pageWithSameUri._id !== this._id) {
+      while (pageWithSameUri._id && !isEqualIds(pageWithSameUri._id, this._id)) {
         pageWithSameUriCount++;
         pageWithSameUri = await Page.getByUri(uri + `-${pageWithSameUriCount}`);
       }

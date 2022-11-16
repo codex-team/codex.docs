@@ -1,0 +1,29 @@
+version: "3.2"
+services:
+  docs:
+    build:
+      dockerfile: docker/Dockerfile.prod
+      context: .
+    ports:
+      - "3000:3000"
+    command:
+      - node
+      - dist/backend/app.js
+      - -c
+      - docs-config.yaml
+      - -c
+      - docs-config.local.yaml
+    volumes:
+      - ./uploads:/usr/src/app/uploads
+      - ./db:/usr/src/app/db
+      - ./docs-config.yaml:/usr/src/app/docs-config.yaml
+      - ./docs-config.local.yaml:/usr/src/app/docs-config.local.yaml
+  mongodb:
+    image: mongo:6.0.1
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
