@@ -20,10 +20,7 @@ export default class Page {
    */
   static get CSS() {
     return {
-      page: 'page',
-      copyLinkBtn: 'block-header__copy-link',
-      header: 'block-header--anchor',
-      headerLinkCopied: 'block-header--link-copied',
+      page: 'page'
     };
   }
 
@@ -35,11 +32,11 @@ export default class Page {
     this.tableOfContent = this.createTableOfContent();
 
     /**
-     * Add click event listener to capture copy link button clicks
+     * Add click event listener
      */
     const page = document.querySelector(`.${Page.CSS.page}`);
 
-    page.addEventListener('click', this.copyAnchorLinkIfNeeded);
+    page.addEventListener('click', (event) => { });
   }
 
   /**
@@ -69,39 +66,11 @@ export default class Page {
     try {
       // eslint-disable-next-line no-new
       new TableOfContent({
-        tagSelector:
-          'h2.block-header--anchor,' +
-          'h3.block-header--anchor,' +
-          'h4.block-header--anchor',
+        tagSelector: '.block-header',
         appendTo: document.getElementById('layout-sidebar-right'),
       });
     } catch (error) {
       console.error(error); // @todo send to Hawk
     }
-  }
-
-  /**
-   * Checks if 'copy link' button was clicked and copies the link to clipboard
-   *
-   * @param e - click event
-   */
-  copyAnchorLinkIfNeeded = async (e) => {
-    const copyLinkButtonClicked = e.target.closest(`.${Page.CSS.copyLinkBtn}`);
-
-    if (!copyLinkButtonClicked) {
-      return;
-    }
-
-    const header = e.target.closest(`.${Page.CSS.header}`);
-    const link = header.querySelector('a').href;
-
-    await copyToClipboard(link);
-    header.classList.add(Page.CSS.headerLinkCopied);
-
-    header.addEventListener('mouseleave', () => {
-      setTimeout(() => {
-        header.classList.remove(Page.CSS.headerLinkCopied);
-      }, 500);
-    }, { once: true });
   }
 }
