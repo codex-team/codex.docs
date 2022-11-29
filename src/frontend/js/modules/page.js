@@ -20,7 +20,9 @@ export default class Page {
    */
   static get CSS() {
     return {
-      page: 'page'
+      copyButton: 'copy-button',
+      copyButtonCopied: 'copy-button__copied',
+      page: 'page',
     };
   }
 
@@ -36,7 +38,11 @@ export default class Page {
      */
     const page = document.querySelector(`.${Page.CSS.page}`);
 
-    page.addEventListener('click', (event) => { });
+    page.addEventListener('click', (event) => {
+      if (event.target.classList.contains(Page.CSS.copyButton)) {
+        this.handleCopyButtonClickEvent(event);
+      }
+    });
   }
 
   /**
@@ -69,6 +75,35 @@ export default class Page {
         tagSelector: '.block-header',
         appendTo: document.getElementById('layout-sidebar-right'),
       });
+    } catch (error) {
+      console.error(error); // @todo send to Hawk
+    }
+  }
+
+  /**
+   * Handles copy button click events
+   *
+   * @param {Event} e - Event Object.
+   * @returns {Promise<void>}
+   */
+  async handleCopyButtonClickEvent({ target }) {
+    if (target.classList.contains(Page.CSS.copyButtonCopied)) return;
+
+    let textToCopy = target.getAttribute('data-text-to-copy');
+    if (!textToCopy) return;
+
+    // Check if text to copy is an anchor link
+    if (/^#\S*$/.test(textToCopy))
+      textToCopy = window.location.origin + window.location.pathname + textToCopy;
+
+    try {
+      await copyToClipboard(textToCopy);
+
+      target.classList.add(Page.CSS.copyButtonCopied);
+      target.addEventListener('mouseleave', () => {
+        setTimeout(() => target.classList.remove(Page.CSS.copyButtonCopied), 5e2);
+      }, { once: true });
+
     } catch (error) {
       console.error(error); // @todo send to Hawk
     }
