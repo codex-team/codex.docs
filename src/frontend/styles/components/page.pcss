@@ -125,6 +125,20 @@
     pointer-events: none;
   }
 
+  &__copy-button {
+    margin-right: 8px;
+    color: var(--color-text-second);
+    opacity: 0;
+  }
+
+  @media (--can-hover) {
+    &:hover {
+      .block-header__copy-button {
+        opacity: 1;
+      }
+    }
+  }
+
   .inline-code {
     line-height: inherit;
   }

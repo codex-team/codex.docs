@@ -1,4 +1,11 @@
 <h{{ level }} id="{{ text | urlify  }}" class="block-header block-header--{{ level }}">
+  {%
+    include 'components/copy-button.twig' with {
+      ariaLabel: 'Copy Link to the ' ~ text,
+      class: 'block-header__copy-button',
+      textToCopy: '#' ~ text | urlify,
+    }
+  %}
   <a href="#{{ text | urlify  }}">
     {{ text }}
   </a>
