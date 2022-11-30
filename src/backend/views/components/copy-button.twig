@@ -1,0 +1,25 @@
+{#
+  Reusable copy button component.
+  Available props:
+    - ariaLabel: label for better accessibility
+    - class: additional class for the button
+    - textToCopy: text to be copied to the clipboard (use '#' for anchor links)
+
+  Usage examples:
+    {% include 'components/copy-button.twig' with { textToCopy: 'Lorem ipsum dolor' }  %}
+    {% include 'components/copy-button.twig' with { textToCopy: '#anchor-link-dolor' } %}
+#}
+
+{% set attrNameForTextToCopy = 'data-text-to-copy' %}
+
+{% set ariaLabel = ariaLabel ?? 'Copy to the Clipboard' %}
+
+{% set mainTag = 'button' %}
+{% set mainClass = 'copy-button' %}
+
+<{{ mainTag }} class="{{ mainClass }} {{ class ?? '' }}" aria-label="{{ ariaLabel }}" {{ attrNameForTextToCopy }}="{{ textToCopy }}">
+  <div class="{{ mainClass }}__inner">
+    <div class="{{ mainClass }}__icon--initial">{{ svg('copy') }}</div>
+    <div class="{{ mainClass }}__icon--success">{{ svg('check') }}</div>
+  </div>
+</{{ mainTag }}>

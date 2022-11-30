@@ -193,7 +193,7 @@ export default class TableOfContent {
 
       const linkWrapper = $.make('li', this.CSS.tocElementItem);
       const linkBlock = $.make('a', null, {
-        innerText: tag.innerText,
+        innerText: tag.innerText.trim(),
         href: `${linkTarget}`,
       });
 

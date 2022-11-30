@@ -1,11 +1,12 @@
-<h{{ level }} id="{{ text | urlify  }}" class="block-header block-header--{{ level }} block-header--anchor">
-  <div class="block-header__copy-link-splash"></div>
-  <div class="block-header__copy-link">
-    <div class="block-header__copy-link-icon--initial">{{ svg('copy') }}</div>
-    <div class="block-header__copy-link-icon--success">{{ svg('check') }}</div>
-  </div>
+<h{{ level }} id="{{ text | urlify  }}" class="block-header block-header--{{ level }}">
+  {%
+    include 'components/copy-button.twig' with {
+      ariaLabel: 'Copy Link to the ' ~ text,
+      class: 'block-header__copy-button',
+      textToCopy: '#' ~ text | urlify,
+    }
+  %}
   <a href="#{{ text | urlify  }}">
     {{ text }}
   </a>
 </h{{ level }}>
-
