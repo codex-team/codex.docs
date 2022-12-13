@@ -90,7 +90,10 @@ const FrontendConfig = z.object({
  */
 const StaticBuildConfig = z.object({
   outputDir: z.string(), // Output directory for static build
-  indexPageUri: z.string(), // URI for index page to render
+  indexPage: z.object({
+    enabled: z.boolean(), // Is index page enabled
+    uri: z.string(), // Index page uri
+  }),
 });
 
 export type StaticBuildConfig = z.infer<typeof StaticBuildConfig>;
