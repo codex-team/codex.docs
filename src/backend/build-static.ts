@@ -111,7 +111,10 @@ export default async function buildStatic(): Promise<void> {
     await renderPage(page);
   }
 
-  await renderIndexPage(config.indexPageUri);
+  // Check if index page is enabled
+  if (config.indexPage.enabled) {
+    await renderIndexPage(config.indexPage.uri);
+  }
   console.log('Static files built');
 
   console.log('Copy public directory');
