@@ -3,7 +3,7 @@
     <div class="block-code__content">{{ code | escape }}</div>
   </div>
   {%
-    include 'components/copy-button.twig' with {
+    include '../../components/copy-button.twig' with {
       ariaLabel: 'Copy Code to Clipboard',
       class: 'block-code__copy-button',
       textToCopy: code | escape,
