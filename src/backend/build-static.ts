@@ -45,8 +45,10 @@ export default async function buildStatic(): Promise<void> {
     });
   }
 
-  console.log('Removing old static files');
-  await fse.remove(distPath);
+  if (config.overwrite) {
+    console.log('Removing old static files');
+    await fse.remove(distPath);
+  }
 
   console.log('Building static files');
   const pagesOrder = await PagesOrder.getAll();
