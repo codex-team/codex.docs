@@ -1,7 +1,7 @@
 {
   "name": "codex.docs",
   "license": "Apache-2.0",
-  "version": "v2.2.0-rc.3",
+  "version": "v2.2.0-rc.7",
   "type": "module",
   "bin": {
     "codex.docs": "dist/backend/app.js"
