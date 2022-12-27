@@ -45,8 +45,10 @@ export default async function buildStatic(): Promise<void> {
     });
   }
 
-  console.log('Removing old static files');
-  await fse.remove(distPath);
+  if (config.overwrite) {
+    console.log('Removing old static files');
+    await fse.remove(distPath);
+  }
 
   console.log('Building static files');
   const pagesOrder = await PagesOrder.getAll();
@@ -118,11 +120,22 @@ export default async function buildStatic(): Promise<void> {
   console.log('Static files built');
 
   console.log('Copy public directory');
-  await fse.copy(path.resolve(dirname, '../../public'), distPath);
+  const publicDir = path.resolve(dirname, '../../public');
+
+  console.log(`Copy from ${publicDir} to ${distPath}`);
+
+  try {
+    await fse.copy(publicDir, distPath);
+    console.log('Public directory copied');
+  } catch (e) {
+    console.log('Error while copying public directory');
+    console.error(e);
+  }
 
   if (appConfig.uploads.driver === 'local') {
     console.log('Copy uploads directory');
     await fse.copy(path.resolve(cwd, appConfig.uploads.local.path), path.resolve(distPath, 'uploads'));
+    console.log('Uploads directory copied');
   }
 }
 
