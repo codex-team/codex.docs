@@ -64,6 +64,24 @@ export default async function buildStatic(): Promise<void> {
     return;
   }
 
+  console.log('Copy public directory');
+  const publicDir = path.resolve(dirname, '../../public');
+
+  console.log(`Copy from ${publicDir} to ${distPath}`);
+
+  try {
+    await fse.copy(publicDir, distPath);
+    console.log('Public directory copied');
+  } catch (e) {
+    console.log('Error while copying public directory');
+    console.error(e);
+  }
+
+  const favicon = appConfig.favicon ? await downloadFavicon(appConfig.favicon, distPath, '') : {
+    destination: '/favicon.png',
+    type: 'image/png',
+  };
+
 
   /**
    * Renders single page
@@ -88,10 +106,6 @@ export default async function buildStatic(): Promise<void> {
     const previousPage = await PagesFlatArray.getPageBefore(pageId);
     const nextPage = await PagesFlatArray.getPageAfter(pageId);
     const menu = createMenuTree(parentIdOfRootPages, allPages, pagesOrder, 2);
-    const favicon = appConfig.favicon ? await downloadFavicon(appConfig.favicon, distPath) : {
-      destination: '/favicon.png',
-      type: 'image/png',
-    };
 
     const result = await renderTemplate('./views/pages/page.twig', {
       page,
@@ -150,19 +164,6 @@ export default async function buildStatic(): Promise<void> {
     await renderIndexPage(config.indexPage.uri);
   }
   console.log('Static files built');
-
-  console.log('Copy public directory');
-  const publicDir = path.resolve(dirname, '../../public');
-
-  console.log(`Copy from ${publicDir} to ${distPath}`);
-
-  try {
-    await fse.copy(publicDir, distPath);
-    console.log('Public directory copied');
-  } catch (e) {
-    console.log('Error while copying public directory');
-    console.error(e);
-  }
 
   if (appConfig.uploads.driver === 'local') {
     console.log('Copy uploads directory');
