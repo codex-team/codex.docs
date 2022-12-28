@@ -54,7 +54,15 @@ export default async function buildStatic(): Promise<void> {
   const pagesOrder = await PagesOrder.getAll();
   const allPages = await Page.getAll();
 
-  await mkdirp(distPath);
+  try {
+    console.log('Create dist folder');
+    await mkdirp(distPath);
+  } catch (e) {
+    console.log('Error while creating dist folder', e);
+
+    return;
+  }
+
 
   /**
    * Renders single page
