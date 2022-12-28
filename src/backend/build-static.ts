@@ -13,6 +13,7 @@ import fse from 'fs-extra';
 import appConfig  from './utils/appConfig.js';
 import Aliases from './controllers/aliases.js';
 import Pages from './controllers/pages.js';
+import { downloadFavicon } from './utils/downloadFavicon.js';
 
 /**
  * Build static pages from database
@@ -82,12 +83,18 @@ export default async function buildStatic(): Promise<void> {
     const previousPage = await PagesFlatArray.getPageBefore(pageId);
     const nextPage = await PagesFlatArray.getPageAfter(pageId);
     const menu = createMenuTree(parentIdOfRootPages, allPages, pagesOrder, 2);
+    const favicon = appConfig.favicon ? await downloadFavicon(appConfig.favicon, distPath) : {
+      destination: '/favicon.png',
+      type: 'image/png',
+    };
+
     const result = await renderTemplate('./views/pages/page.twig', {
       page,
       pageParent,
       previousPage,
       nextPage,
       menu,
+      favicon,
       config: appConfig.frontend,
     });
 
