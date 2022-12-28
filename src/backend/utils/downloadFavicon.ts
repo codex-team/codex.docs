@@ -1,5 +1,5 @@
 import path from 'path';
-import fs from 'fs';
+import fs from 'fs/promises';
 import fetch, { RequestInit } from 'node-fetch';
 
 /**
@@ -32,9 +32,10 @@ function checkIsUrl(str: string): boolean {
  *
  * @param destination - url or path of favicon
  * @param faviconFolder - folder to save favicon
+ * @param subRoute - subroute from which the favicon will be served
  * @returns { Promise<FaviconData> } - Promise with data about favicon
  */
-export async function downloadFavicon(destination: string, faviconFolder: string): Promise<FaviconData> {
+export async function downloadFavicon(destination: string, faviconFolder: string, subRoute = '/favicon'): Promise<FaviconData> {
   // Check of destination is empty
   if (!destination) {
     throw Error('Favicon destination is empty');
@@ -48,8 +49,10 @@ export async function downloadFavicon(destination: string, faviconFolder: string
 
   // Check if string is url
   if (!checkIsUrl(destination)) {
+    await fs.copyFile(destination, path.join(faviconFolder, filename));
+
     return  {
-      destination: `/${filename}`,
+      destination: `${subRoute}/${filename}`,
       type: `image/${format}`,
     } as FaviconData;
   }
@@ -72,14 +75,10 @@ export async function downloadFavicon(destination: string, faviconFolder: string
   const filePath = path.join(faviconFolder, `favicon.${format}`);
 
   // Save file
-  await fs.writeFile(filePath, fileData, (err) => {
-    if (err) {
-      console.log(err);
-    }
-  });
+  await fs.writeFile(filePath, fileData);
 
   return {
-    destination: `/favicon/favicon.${format}`,
+    destination: `${subRoute}/favicon.${format}`,
     type: `image/${format}`,
   } as FaviconData;
 }
