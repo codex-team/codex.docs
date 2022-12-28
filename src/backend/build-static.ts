@@ -73,6 +73,11 @@ export default async function buildStatic(): Promise<void> {
    */
   async function renderPage(page: Page, isIndex?: boolean): Promise<void> {
     console.log(`Rendering page ${page.uri}`);
+    const pageUri = page.uri;
+
+    if (!pageUri) {
+      throw new Error('Page uri is not defined');
+    }
     const pageParent = await page.getParent();
     const pageId = page._id;
 
@@ -98,7 +103,19 @@ export default async function buildStatic(): Promise<void> {
       config: appConfig.frontend,
     });
 
-    const filename = (isIndex || page.uri === '') ? 'index.html' : `${page.uri}.html`;
+    let filename: string;
+
+    if (isIndex) {
+      filename = 'index.html';
+    } else if (config?.pagesInsideFolders) { // create folder for each page if pagesInsideFolders is true
+      const pagePath = path.resolve(distPath, pageUri);
+
+      await mkdirp(pagePath);
+
+      filename = path.resolve(pagePath, 'index.html');
+    } else {
+      filename = `${page.uri}.html`;
+    }
 
     await fs.writeFile(path.resolve(distPath, filename), result);
     console.log(`Page ${page.uri} rendered`);

@@ -90,7 +90,10 @@ const FrontendConfig = z.object({
  */
 const StaticBuildConfig = z.object({
   outputDir: z.string(), // Output directory for static build
-  overwrite: z.boolean().optional().default(true),
+  overwrite: z.boolean().optional() // Overwrite output directory
+    .default(true),
+  pagesInsideFolders: z.boolean().optional() // Create separate folder for each page
+    .default(true),
   indexPage: z.object({
     enabled: z.boolean(), // Is index page enabled
     uri: z.string(), // Index page uri
