@@ -31,7 +31,10 @@
     gap: 2px;
 
     &-item {
-      @apply --squircle;
+      &:hover,
+      &--active {
+        @apply --squircle;
+      }
 
       &:hover {
         background-color: var(--color-link-hover);
