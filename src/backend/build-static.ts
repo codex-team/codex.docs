@@ -13,6 +13,7 @@ import fse from 'fs-extra';
 import appConfig  from './utils/appConfig.js';
 import Aliases from './controllers/aliases.js';
 import Pages from './controllers/pages.js';
+import { downloadFavicon } from './utils/downloadFavicon.js';
 
 /**
  * Build static pages from database
@@ -54,7 +55,33 @@ export default async function buildStatic(): Promise<void> {
   const pagesOrder = await PagesOrder.getAll();
   const allPages = await Page.getAll();
 
-  await mkdirp(distPath);
+  try {
+    console.log('Create dist folder');
+    await mkdirp(distPath);
+  } catch (e) {
+    console.log('Error while creating dist folder', e);
+
+    return;
+  }
+
+  console.log('Copy public directory');
+  const publicDir = path.resolve(dirname, '../../public');
+
+  console.log(`Copy from ${publicDir} to ${distPath}`);
+
+  try {
+    await fse.copy(publicDir, distPath);
+    console.log('Public directory copied');
+  } catch (e) {
+    console.log('Error while copying public directory');
+    console.error(e);
+  }
+
+  const favicon = appConfig.favicon ? await downloadFavicon(appConfig.favicon, distPath, '') : {
+    destination: '/favicon.png',
+    type: 'image/png',
+  };
+
 
   /**
    * Renders single page
@@ -64,6 +91,11 @@ export default async function buildStatic(): Promise<void> {
    */
   async function renderPage(page: Page, isIndex?: boolean): Promise<void> {
     console.log(`Rendering page ${page.uri}`);
+    const pageUri = page.uri;
+
+    if (!pageUri) {
+      throw new Error('Page uri is not defined');
+    }
     const pageParent = await page.getParent();
     const pageId = page._id;
 
@@ -74,16 +106,30 @@ export default async function buildStatic(): Promise<void> {
     const previousPage = await PagesFlatArray.getPageBefore(pageId);
     const nextPage = await PagesFlatArray.getPageAfter(pageId);
     const menu = createMenuTree(parentIdOfRootPages, allPages, pagesOrder, 2);
+
     const result = await renderTemplate('./views/pages/page.twig', {
       page,
       pageParent,
       previousPage,
       nextPage,
       menu,
+      favicon,
       config: appConfig.frontend,
     });
 
-    const filename = (isIndex || page.uri === '') ? 'index.html' : `${page.uri}.html`;
+    let filename: string;
+
+    if (isIndex) {
+      filename = 'index.html';
+    } else if (config?.pagesInsideFolders) { // create folder for each page if pagesInsideFolders is true
+      const pagePath = path.resolve(distPath, pageUri);
+
+      await mkdirp(pagePath);
+
+      filename = path.resolve(pagePath, 'index.html');
+    } else {
+      filename = `${page.uri}.html`;
+    }
 
     await fs.writeFile(path.resolve(distPath, filename), result);
     console.log(`Page ${page.uri} rendered`);
@@ -118,19 +164,6 @@ export default async function buildStatic(): Promise<void> {
     await renderIndexPage(config.indexPage.uri);
   }
   console.log('Static files built');
-
-  console.log('Copy public directory');
-  const publicDir = path.resolve(dirname, '../../public');
-
-  console.log(`Copy from ${publicDir} to ${distPath}`);
-
-  try {
-    await fse.copy(publicDir, distPath);
-    console.log('Public directory copied');
-  } catch (e) {
-    console.log('Error while copying public directory');
-    console.error(e);
-  }
 
   if (appConfig.uploads.driver === 'local') {
     console.log('Copy uploads directory');
