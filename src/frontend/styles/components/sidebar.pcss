@@ -182,12 +182,15 @@
     transition-property: background-color;
     transition-duration: 0.1s;
 
-    @apply --squircle;
-
     &--selected {
       border-radius: 8px;
       /* border using box-shadow which doesn't increase the height */
       box-shadow: 0 0 0 2px rgba(147, 166, 233, 0.5) inset;
+    }
+
+    &--active,
+    &:hover {
+      @apply --squircle;
     }
   }
 
