@@ -12,7 +12,7 @@ It's super easy to install and use.
 
 - 🤩 [Editor.js](https://editorjs.io/) ecosystem powered
 - 📂 Docs nesting — create any structure you need
-— 💎 Static rendering
+- 💎 Static rendering
 - 📱 Nice look on Desktop and Mobile
 - 🔥 Beautiful page URLs. Human-readable and SEO-friendly.
 - 🦅 [Hawk](https://hawk.so/?from=docs-demo) is hunting. Errors tracking integrated
