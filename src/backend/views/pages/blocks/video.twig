@@ -1,0 +1,26 @@
+{% set width = data.width|default('100%') %}
+{% set height = data.height|default('auto') %}
+{% set alignment = data.alignment|default('center') %}
+
+<figure class="block-video" style="width: {{ width }}; max-width: 100%; margin: 
+  {% if alignment == 'left' %}0 auto 0 0
+  {% elseif alignment == 'right' %}0 0 0 auto
+  {% else %}0 auto
+  {% endif %};">
+  <div class="{{ classes.join(' ') }}" style="padding-bottom: {{ data.aspectRatio ? (1/data.aspectRatio)*100 ~ '%' : '56.25%' }};">
+    <video 
+      controls 
+      style="width: 100%; height: 100%;" 
+      {% if width %}width="{{ width }}"{% endif %}
+      {% if height %}height="{{ height }}"{% endif %}
+    >
+      <source src="{{ url }}" type="{{ data.mime|default('video/mp4') }}">
+      Ваш браузер не поддерживает видео тег.
+    </video>
+  </div>
+  {% if data.caption %}
+    <footer class="block-video__caption">
+      {{ data.caption|raw }}
+    </footer>
+  {% endif %}
+</figure>

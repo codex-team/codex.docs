@@ -2,12 +2,12 @@
 <div data-module="sidebar" class="docs-sidebar">
 
   <div class="docs-sidebar__toggler">
-    {{ svg('menu') }} Table of contents
+    {{ svg('menu') }} Содержание
   </div>
 
   <aside class="docs-sidebar__content docs-sidebar__content--invisible">
     <span class="docs-sidebar__search-wrapper">
-	    <input class="docs-sidebar__search" type="text" placeholder="Search" />
+	    <input class="docs-sidebar__search" type="text" placeholder="Поиск по статьям" />
 	  </span>
     {% for firstLevelPage in menu %}
       <section class="docs-sidebar__section" data-id="{{firstLevelPage._id}}">
@@ -42,18 +42,7 @@
         {% endif %}
       </section>
     {% endfor %}
-
-    <div class="docs-sidebar__logo">
-        <a class="docs-sidebar__logo-wrapper" href="https://github.com/codex-team/codex.docs">
-          <div class="docs-sidebar__logo-image">
-            {{ svg('aside-logo') }}
-          </div>
-          <p class="docs-sidebar__logo-caption">
-            Powered by CodeX Docs
-          </p>
-        </a>
-    </div>
-
+    
   </aside>
 
   <div class="docs-sidebar__slider">

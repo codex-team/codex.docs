@@ -20,12 +20,12 @@
         {% endif %}
         <div class="select-wrapper">
           {% if parentsChildrenOrdered is not empty %}
-            <label for="parent">Parent Page</label>
+            <label for="parent">Родительская страница</label>
           {% else %}
-            <label for="parent">New Page at the</label>
+            <label for="parent">Новая страница в</label>
           {% endif %}
           <select id="parent" name="parent">
-            <option value="0">Root</option>
+            <option value="0">Корень</option>
             {% for _page in pagesAvailableGrouped %}
               {% if toString(_page._id) != toString(currentPageId) %}
                 <option value="{{ toString(_page._id) }}" {{ page is not empty and toString(page._parent) == toString(_page._id) ? 'selected' : ''}}>
@@ -41,7 +41,7 @@
         </div>
         {% if parentsChildrenOrdered is not empty %}
           <div class="select-wrapper">
-            <label for="above">Put Above</label>
+            <label for="above">Поместить выше</label>
             <select id="above" name="above">
               <option value="0">—</option>
               {% for _page in parentsChildrenOrdered %}
@@ -52,8 +52,8 @@
         {% endif %}
         {% if page is not empty %}
           <div class="uri-input-wrapper">
-            <label for="uri-input">Alias</label>
-            <input type="text" id="uri-input" class="uri-input" name="uri-input" placeholder="URI (Optional)" value="{{ page.uri }}">
+            <label for="uri-input">Алиас</label>
+            <input type="text" id="uri-input" class="uri-input" name="uri-input" placeholder="URI (Опционально)" value="{{ page.uri }}">
           </div>
         {% endif %}
       </div>
@@ -63,9 +63,9 @@
     </div>
 
     <div class="writing-buttons">
-      {% include 'components/button.twig' with {label: 'Save changes', name: 'js-submit-save', icon: 'check'} %}
+      {% include 'components/button.twig' with {label: 'Сохранить изменения', name: 'js-submit-save', icon: 'check'} %}
       {% if toString(page._id) is not empty %}
-          {% include 'components/button.twig' with {label: 'Delete doc', name: 'js-submit-remove', icon: 'trash', style: 'warning'} %}
+          {% include 'components/button.twig' with {label: 'Удалить документ', name: 'js-submit-remove', icon: 'trash', style: 'warning'} %}
       {% endif %}
     </div>
 

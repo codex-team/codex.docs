@@ -5,7 +5,7 @@
   <ul class="docs-header__menu">
     {% if isAuthorized == true %}
       <li class="docs-header__menu-add docs-header__menu-add--desktop">
-        {% include 'components/button.twig' with {label: 'Add page', icon: 'plus', size: 'small', url: '/page/new'} %}
+        {% include 'components/button.twig' with {label: 'Добавить страницу', icon: 'plus', size: 'small', url: '/page/new'} %}
       </li>
       <li class="docs-header__menu-add docs-header__menu-add--mobile">
         {% include 'components/button.twig' with {icon: 'plus', size: 'small', url: '/page/new'} %}
@@ -19,7 +19,7 @@
           {% else %}
             href="/page/{{ option._id }}"
           {% endif %}>
-          {{ option.title | striptags }}
+          {{ option.title | raw }}
         </a>
       </li>
     {% endfor %}

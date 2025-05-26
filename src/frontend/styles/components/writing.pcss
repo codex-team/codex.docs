@@ -65,6 +65,10 @@
      @apply --text-inline-link;
     }
   }
+  
+  .ce-paragraph[style*="color"] {
+    padding: 2px 5px;
+  }
 
   .ce-header {
     @apply --text-header;
@@ -117,4 +121,428 @@
 
 .cdx-settings-button[data-tune="stretched"] {
   display: none;
+}
+
+/* Палитра цветов */
+.color-palette {
+  background: white;
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+  padding: 5px;
+  gap: 5px;
+  flex-wrap: wrap;
+  width: 120px;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: none;
+   animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Video styles */
+.video-block {
+  margin: 1rem 0;
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+}
+
+.video-iframe,
+.video-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.video-error {
+  color: #ff0000;
+  padding: 1rem;
+  background: #ffecec;
+  border-radius: 4px;
+  margin: 1rem 0;
+}
+
+.color-palette-item {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.color-palette-item.active {
+  border: 2px solid #000;
+  transform: scale(1.1);
+}
+
+.color-palette-reset {
+  width: 100%;
+  padding: 2px;
+  margin-bottom: 5px;
+  background: #f5f5f5;
+  border: none;
+  cursor: pointer;
+}
+
+.ce-inline-tool--active {
+  background: rgba(0,0,0,0.1);
+}
+
+/* Активная кнопка в тулбаре */
+.ce-inline-tool--active svg {
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
+}
+
+.ce-inline-tool svg path:last-child {
+  transition: fill 0.2s ease;
+}
+
+/* Стили для палитры размеров */
+.size-palette {
+  background: white;
+  border: 1px solid #eaeaea;
+  border-radius: 6px;
+  padding: 6px;
+  width: 90px; /* Уменьшенная ширина */
+  max-height: 132px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: none;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease;
+}
+
+.size-palette-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* Уменьшенный gap */
+}
+
+.size-input-wrapper {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.size-palette-input {
+  flex: 1;
+  padding: 4px 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  min-width: 0;
+  width: 40px; /* Фиксированная ширина поля ввода */
+}
+
+.size-apply-btn {
+  padding: 0 6px;
+  height: 26px;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.size-palette-list {
+  max-height: 90px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* Минимальный gap между элементами */
+}
+
+.size-palette-item {
+  padding: 4px 6px;
+  text-align: center;
+  background: none;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.size-palette-item:hover {
+  background: #f5f5f5;
+}
+
+/* Кнопка в тулбаре */
+.ce-inline-tool .size-label {
+  margin-left: 4px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* Иконка в тулбаре */
+.ce-inline-tool svg text {
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.video-loading {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+.video-error {
+  padding: 20px;
+  color: #d32f2f;
+  background: #ffebee;
+  border-radius: 4px;
+}
+
+.retry-button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.video-tool {
+  position: relative;
+  margin: 1rem 0;
+}
+
+.video-tool__container {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  margin: 1rem auto;
+}
+
+.video-tool__video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Ручки ресайза */
+.resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 20px;
+  height: 20px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: nwse-resize;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 10;
+}
+
+.video-container,
+.cdx-image {
+  position: relative;
+  display: block;
+  width: fit-content;
+  margin: 1rem auto;
+  max-width: 100%;
+}
+
+
+.cdx-image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  transition: width 0.2s ease;
+}
+
+.block-video {
+  margin: 1.5rem auto;
+  max-width: 100%;
+}
+
+.block-video__content {
+  position: relative;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+.block-video__content video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.block-video__caption {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  color: #666;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Общие стили для выравнивания */
+.block-image, .block-video {
+  clear: both;
+}
+
+/* Стили для кнопок выравнивания */
+.image-alignment-controls,
+.video-alignment-controls {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  gap: 5px;
+  z-index: 10;
+  background: rgba(255,255,255,0.8);
+  padding: 3px;
+  border-radius: 3px;
+}
+
+.image-align-controls button,
+.video-align-controls button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+
+.image-align-controls button.active,
+.video-align-controls button.active {
+  background: #3498db;
+  color: white;
+}
+
+.image-resize-handle,
+.video-resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 20px;
+  height: 20px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: nwse-resize;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 10;
+}
+
+.video-container:hover .resize-handle,
+.cdx-image:hover .resize-handle,
+.video-container:hover .alignment-controls,
+.cdx-image:hover .alignment-controls {
+  opacity: 1;
+}
+
+/* Элементы управления выравниванием */
+.alignment-controls {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  gap: 5px;
+  z-index: 10;
+  background: rgba(255,255,255,0.8);
+  padding: 3px;
+  border-radius: 3px;
+}
+
+.alignment-controls button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+
+.alignment-controls button.active {
+  background: #3498db;
+  color: white;
+}
+
+.video-upload-tabs {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.tabs-header {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+}
+
+.tab-button {
+  padding: 10px 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-button.active {
+  border-bottom-color: #3498db;
+  font-weight: bold;
+}
+
+.tab-content {
+  display: none;
+  padding: 15px 0;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.embed-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.embed-form select,
+.embed-form input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.embed-form button {
+  padding: 8px 15px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.video-container iframe {
+  border: none;
+  min-height: 400px;
 }

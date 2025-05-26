@@ -5,7 +5,7 @@
     <header class="page__header">
       <div class="page__header-nav">
         <a href="/" class="page__header-nav-item">
-          Documentation
+          Документация
         </a>
         {{ svg('arrow-right') }}
         {% if page._parent %}
@@ -20,10 +20,10 @@
         {% endif %}
       </div>
       <time class="page__header-time">
-        Last edit {{ (page.body.time / 1000)  | date("M d Y") }}
+        Изменена: {{ (page.body.time / 1000)  | date("M d Y") }}
       </time>
       {% if isAuthorized == true %}
-        {% include 'components/button.twig' with {label: 'Edit', icon: 'pencil', size: 'small', url: '/page/edit/' ~ page._id, class: 'page__header-button'} %}
+        {% include 'components/button.twig' with {label: 'Редактировать', icon: 'pencil', size: 'small', url: '/page/edit/' ~ page._id, class: 'page__header-button'} %}
       {% endif %}
     </header>
     <h1 class="page__title">
@@ -36,7 +36,7 @@
       {% for block in page.body.blocks %}
         {# Skip first header, because it is already showed as a Title #}
         {% if not (loop.first and block.type == 'header') %}
-          {% if block.type in ['paragraph', 'header', 'image', 'code', 'list', 'delimiter', 'table', 'warning', 'checklist', 'linkTool', 'raw', 'embed'] %}
+          {% if block.type in ['paragraph', 'header', 'image', 'code', 'list', 'delimiter', 'table', 'warning', 'checklist', 'linkTool', 'raw', 'embed','video'] %}
             <div class="page__content-block">
               {% include './blocks/' ~ block.type ~ '.twig' with block.data %}
             </div>
@@ -47,4 +47,23 @@
     {% include '../components/navigator.twig' with {previousPage:  previousPage, nextPage: nextPage} %}
   </article>
 
+  <script>
+    // Замена английских месяцев на русские
+    document.addEventListener('DOMContentLoaded', function() {
+      const monthsMap = {
+        'Jan': 'Янв', 'Feb': 'Фев', 'Mar': 'Мар',
+        'Apr': 'Апр', 'May': 'Май', 'Jun': 'Июн',
+        'Jul': 'Июл', 'Aug': 'Авг', 'Sep': 'Сен',
+        'Oct': 'Окт', 'Nov': 'Ноя', 'Dec': 'Дек'
+      };
+      
+      const timeElement = document.querySelector('.page__header-time');
+      if (timeElement) {
+        const text = timeElement.textContent;
+        const updatedText = text.replace(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/, 
+          match => monthsMap[match]);
+        timeElement.textContent = updatedText;
+      }
+    });
+  </script>
 {% endblock %}

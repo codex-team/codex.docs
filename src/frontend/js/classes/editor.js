@@ -20,8 +20,11 @@ import Embed from '@editorjs/embed';
  */
 import InlineCode from '@editorjs/inline-code';
 import Marker from '@editorjs/marker';
-
-/**
+import { TextColorTool } from './text-color-tool.js';
+import { TextSizeTool } from './text-size-tool.js';
+import VideoTool from './video-tool.js';
+import CustomImageTool from './custom-image-tool.js';
+/*
  * Class for working with Editor.js
  */
 export default class Editor {
@@ -35,6 +38,10 @@ export default class Editor {
    */
   constructor(editorConfig = {}, options = {}) {
     const defaultConfig = {
+      // Включаем поддержку отмены действий (CTRL+Z)
+      enableHistoryStack: true,
+      // Максимальное количество действий, которые можно отменить
+      maxHistoryLength: 30,
       tools: {
         header: {
           class: Header,
@@ -44,8 +51,40 @@ export default class Editor {
           },
         },
 
+        textColor: {
+          class: TextColorTool,
+          config: {
+            defaultColor: '#000000',
+            colors: [
+              '#FF0000', '#00FF00', '#0000FF',
+              '#FF00FF', '#00FFFF', '#FFA500',
+              '#000000', '#FFFFFF',
+            ],
+          },
+        },
+
+        textSize: {
+          class: TextSizeTool,
+          config: {
+            defaultSize: '16px',
+            sizes: ['12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px']
+          }
+        },
+
+        video: {
+          class: VideoTool,
+          inlineToolbar: true,
+          config: {
+            uploader: {
+              byFile: '/api/transport/file', // Ваш эндпоинт
+              byUrl: '/api/transport/fetch'    // Если нужна загрузка по URL
+            }
+          },
+          inlineToolbar: true
+        },
+
         image: {
-          class: Image,
+          class: Image,//CustomImageTool
           inlineToolbar: true,
           config: {
             types: 'image/*, video/mp4',

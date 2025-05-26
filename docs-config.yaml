@@ -12,18 +12,14 @@ uploads:
     accessKeyId: "my-access-key"
     secretAccessKey: "my-secret-key"
 frontend:
-  title: "CodeX Docs"
-  description: "Free Docs app powered by Editor.js ecosystemt"
+  title: "Справка"
+  description: "Справка по работе в Кабинетах"
   startPage: ""
   misprintsChatId: "12344564"
   yandexMetrikaId: ""
   carbon:
     serve: ""
     placement: ""
-  menu:
-    - "Guides"
-    - title: "CodeX"
-      uri: "https://codex.so"
 
 auth:
   password: secretpassword

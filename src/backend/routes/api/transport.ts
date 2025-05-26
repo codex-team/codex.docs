@@ -33,6 +33,14 @@ const imageUploader = multer({
  */
 const fileUploader = multer({
   storage,
+  fileFilter: (req, file, cb) => {
+    // Разрешаем только видео и изображения
+    if (!/image|video/.test(file.mimetype)) {
+      cb(null, false);
+      return;
+    }
+    cb(null, true);
+  },
 }).fields([ {
   name: 'file',
   maxCount: 1,

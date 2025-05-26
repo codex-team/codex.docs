@@ -16,9 +16,9 @@
   <div class="greeting-content">
     {{ svg('frog') }}
     <p class="greeting-content__message">
-      It’s time to create the first page!
+      Пора создать первую страницу!
     </p>
-    {% include '../components/button.twig' with {label: 'Add page', icon: 'plus', size: 'small', url: '/page/new'} %}
+    {% include '../components/button.twig' with {label: 'Добавить страницу', icon: 'plus', size: 'small', url: '/page/new'} %}
   </div>
   {% if config.yandexMetrikaId is not empty %}
     <script type="text/javascript" >
@@ -36,4 +36,3 @@
   {% endif %}
 </body>
 </html>
-

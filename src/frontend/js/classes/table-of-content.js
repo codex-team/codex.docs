@@ -229,7 +229,7 @@ export default class TableOfContent {
     this.nodes.wrapper = $.make('section', this.CSS.tocContainer);
 
     const header = $.make('header', this.CSS.tocHeader, {
-      textContent: 'On this page',
+      textContent: 'На этой странице',
     });
 
     this.nodes.wrapper.appendChild(header);

@@ -6,14 +6,13 @@
       ┬┴┬┴┤ ͜ʖ ͡°) ├┬┴┬┴
     </h1>
     <p>
-      Enter a password to access pages editing
+      Введите пароль для доступа к редактированию страниц
     </p>
     <p>
       {{ header }}
     </p>
     <input type="hidden" name="_csrf" value={{ csrfToken }}>
-    <input type="password" name="password" placeholder="Password">
-    <input type="submit" value="Login">
+    <input type="password" name="password" placeholder="Пароль">
+    <input type="submit" value="Войти">
   </form>
 {% endblock %}
-
