@@ -1,26 +1,37 @@
-{% set width = data.width|default('100%') %}
-{% set height = data.height|default('auto') %}
-{% set alignment = data.alignment|default('center') %}
+{% set width = width|default('100%') %}
+{% set height = height|default('auto') %}
+{% set alignment = alignment|default('center') %}
+{% set filetype = filetype|default('file') %}
 
 <figure class="block-video" style="width: {{ width }}; max-width: 100%; margin: 
   {% if alignment == 'left' %}0 auto 0 0
   {% elseif alignment == 'right' %}0 0 0 auto
   {% else %}0 auto
   {% endif %};">
-  <div class="{{ classes.join(' ') }}" style="padding-bottom: {{ data.aspectRatio ? (1/data.aspectRatio)*100 ~ '%' : '56.25%' }};">
-    <video 
-      controls 
-      style="width: 100%; height: 100%;" 
-      {% if width %}width="{{ width }}"{% endif %}
-      {% if height %}height="{{ height }}"{% endif %}
-    >
-      <source src="{{ url }}" type="{{ data.mime|default('video/mp4') }}">
-      Р’Р°С€ Р±СЂР°СѓР·РµСЂ РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚ РІРёРґРµРѕ С‚РµРі.
-    </video>
-  </div>
-  {% if data.caption %}
+  <div class="{{ classes.join(' ') }}">
+    {% if filetype == 'youtube' or filetype == 'rutube' %}
+      <iframe 
+        src="{{ url }}" 
+        frameborder="0" 
+        allowfullscreen
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+      ></iframe>
+    {% else %}
+      <video 
+        controls 
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+        {% if width %}width="{{ width }}"{% endif %}
+        {% if height %}height="{{ height }}"{% endif %}
+      >
+        <source src="{{ url }}" type="{{ mime|default('video/mp4') }}">
+        Ваш браузер не поддерживает видео тег.
+      </video>
+    {% endif %}
+</div>
+  {% if caption %}
     <footer class="block-video__caption">
-      {{ data.caption|raw }}
+      {{ caption|raw }}
     </footer>
   {% endif %}
 </figure>

@@ -112,6 +112,7 @@ export default class Writing {
    */
   async getData() {
     const editorData = await this.editor.save();
+    console.log('Editor data:', JSON.stringify(editorData, null, 2));
     const firstBlock = editorData.blocks.length ? editorData.blocks[0] : null;
     const title = firstBlock && firstBlock.type === 'header' ? firstBlock.data.text : null;
     let uri = '';

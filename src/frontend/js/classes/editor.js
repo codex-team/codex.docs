@@ -80,7 +80,7 @@ export default class Editor {
               byUrl: '/api/transport/fetch'    // Если нужна загрузка по URL
             }
           },
-          inlineToolbar: true
+          shortcut: 'CMD+SHIFT+V'
         },
 
         image: {
