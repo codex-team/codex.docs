@@ -1,0 +1,10 @@
+<div class="cdx-alert cdx-alert-{{ type }}{% if align %} cdx-alert-align-{{ align }}{% endif %}">
+  {% if title is not empty %}
+    <div class="cdx-alert__title">
+      {{ title }}
+    </div>
+  {% endif %}
+  <div class="cdx-alert__message">
+    {{ message }}
+  </div>
+</div> 

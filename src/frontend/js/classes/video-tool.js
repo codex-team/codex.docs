@@ -6,28 +6,24 @@ export default class VideoTool {
     };
   }
 
-  constructor({ data, api, config, block }) {  // Добавляем block в параметры
+  constructor({ data, api, config, block }) {
     this.data = data || {};
     this.api = api;
     this.config = config || {};
-    this.block = block;  // Сохраняем ссылку на текущий блок
+    this.block = block;
     this.wrapper = null;
     this.alignment = data.alignment || 'center';
-    this.width = data.width || '100%';
     this.filetype = data.filetype || 'file';
     
-    // Привязываем контекст для обработчиков
     this._handleFileUpload = this._handleFileUpload.bind(this);
-    this._initResize = this._initResize.bind(this);
     this._handleUrlSubmit = this._handleUrlSubmit.bind(this);
-}
+  }
 
   render() {
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('video-tool');
 
     if (this.data.url) {
-      // Добавляем проверку для совместимости со старыми данными
       const filetype = this.data.filetype || 
                       (this.data.url.includes('youtube') ? 'youtube' : 
                        this.data.url.includes('rutube') ? 'rutube' : 'file');
@@ -61,7 +57,7 @@ export default class VideoTool {
               <option value="rutube">Rutube</option>
             </select>
             <input type="text" class="embed-url" placeholder="Paste video URL...">
-            <button class="embed-submit">Вставить видео</button>
+            <button class="embed-submit">Р”РѕР±Р°РІРёС‚СЊ</button>
           </div>
         </div>
       </div>
@@ -75,35 +71,31 @@ export default class VideoTool {
   }
 
   _bindFormHandlers() {
-    // Tab switching
     this.wrapper.querySelectorAll('.tab-button').forEach(btn => {
       btn.addEventListener('click', () => {
         this.wrapper.querySelectorAll('.tab-button, .tab-content').forEach(el => {
           el.classList.toggle('active', el.dataset.tab === btn.dataset.tab);
         });
         
-        // После переключения вкладки перепривязываем обработчики
         this._bindFormHandlers();
       });
     });
 
-    // File upload handler
     const fileInput = this.wrapper.querySelector('.video-file-input');
     if (fileInput) {
       fileInput.addEventListener('change', this._handleFileUpload);
     }
 
-    // URL embed handler
     const embedSubmit = this.wrapper.querySelector('.embed-submit');
     if (embedSubmit) {
       embedSubmit.addEventListener('click', this._handleUrlSubmit);
     }
-}
+  }
 
   async _handleFileUpload(event) {
     if (!event.target.files || event.target.files.length === 0) {
       return;
-  }
+    }
     const file = event.target.files[0];
     if (!file) return;
 
@@ -129,51 +121,44 @@ export default class VideoTool {
     const url = urlInput.value.trim();
 
     if (!url) {
-        this._showError('Пожалуйста, введите URL видео');
+        this._showError(',  URL ');
         return;
     }
 
     try {
         const submitBtn = wrapper.querySelector('.embed-submit');
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Обработка...';
+        submitBtn.textContent = '...';
 
         const embedUrl = this._parseEmbedUrl(service, url);
         
-        // Обновляем данные текущего блока
         this.data = {
             url: embedUrl,
             filetype: service,
-            width: this.width,
             alignment: this.alignment,
             caption: ''
         };
 
-        // Сохраняем изменения
         this.api.blocks.update(this.block.id, this.data);
         
-        // Пересоздаем элемент
         this.wrapper.innerHTML = '';
         this._createVideoElement(embedUrl, '');
 
-        // Восстанавливаем кнопку
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Вставить видео';
+        submitBtn.textContent = ' ';
 
     } catch (error) {
         this._showError(error.message);
         const submitBtn = wrapper.querySelector('.embed-submit');
         if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Вставить видео';
+            submitBtn.textContent = ' ';
         }
     }
-}
+  }
 
   _parseEmbedUrl(service, url) {
-    // YouTube
     if (service === 'youtube') {
-        // Поддержка всех форматов YouTube ссылок
         const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
         const match = url.match(regExp);
         if (match && match[1]) {
@@ -181,71 +166,66 @@ export default class VideoTool {
         }
     }
     
-    // Rutube
     if (service === 'rutube') {
-      // Поддержка всех форматов Rutube ссылок
       const regExp = /rutube\.ru\/(?:video\/|play\/embed\/|video\/embed\/)?([a-zA-Z0-9]+)/i;
       const match = url.match(regExp);
       if (match && match[1]) {
           return `https://rutube.ru/play/embed/${match[1]}`;
       }
       
-      throw new Error('Неверный URL Rutube. Пример правильного формата: https://rutube.ru/video/CODE/');
-  }
+      throw new Error(' URL Rutube.   : https://rutube.ru/video/CODE/');
+    }
     
     throw new Error('Invalid URL.');
-}
-
-_createVideoElement(url, caption, filetype = null) {
-  this.wrapper.innerHTML = '';
-  
-  const container = document.createElement('div');
-  container.className = 'video-container';
-  container.style.margin = this._getAlignmentMargin();
-  container.style.width = this.width;
-
-  // Определяем тип контента
-  const type = filetype || this.filetype || 
-      (url.match(/\.(mp4|webm|ogg)$/i) ? 'file' :
-      (url.includes('youtube.com/embed') || url.includes('youtu.be') ? 'youtube' :
-      (url.includes('rutube.ru/embed') || url.includes('rutube.ru/video') ? 'rutube' : 'file')));
-
-  const mediaContainer = document.createElement('div');
-  mediaContainer.style.position = 'relative';
-  mediaContainer.style.paddingBottom = '56.25%';
-  mediaContainer.style.height = '0';
-  mediaContainer.style.overflow = 'hidden';
-
-  if (type === 'file') {
-      const video = document.createElement('video');
-      video.src = url;
-      video.controls = true;
-      video.style.position = 'absolute';
-      video.style.top = '0';
-      video.style.left = '0';
-      video.style.width = '100%';
-      video.style.height = '100%';
-      mediaContainer.appendChild(video);
-  } else {
-      const iframe = document.createElement('iframe');
-      iframe.src = url.includes('rutube.ru/video') ? 
-                   url.replace('rutube.ru/video', 'rutube.ru/play/embed') : url;
-      iframe.frameBorder = '0';
-      iframe.allowFullscreen = true;
-      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-      iframe.style.position = 'absolute';
-      iframe.style.top = '0';
-      iframe.style.left = '0';
-      iframe.style.width = '100%';
-      iframe.style.height = '100%';
-      mediaContainer.appendChild(iframe);
   }
 
-  container.appendChild(mediaContainer);
-  this._addCaption(container, caption);
-  this._addResizeHandle(container);
-  this.wrapper.appendChild(container);
-}
+  _createVideoElement(url, caption, filetype = null) {
+    this.wrapper.innerHTML = '';
+    
+    const container = document.createElement('div');
+    container.className = 'video-container';
+    container.style.margin = this._getAlignmentMargin();
+
+    const type = filetype || this.filetype || 
+        (url.match(/\.(mp4|webm|ogg)$/i) ? 'file' :
+        (url.includes('youtube.com/embed') || url.includes('youtu.be') ? 'youtube' :
+        (url.includes('rutube.ru/embed') || url.includes('rutube.ru/video') ? 'rutube' : 'file')));
+
+    const mediaContainer = document.createElement('div');
+    mediaContainer.style.position = 'relative';
+    mediaContainer.style.paddingBottom = '56.25%';
+    mediaContainer.style.height = '0';
+    mediaContainer.style.overflow = 'hidden';
+
+    if (type === 'file') {
+        const video = document.createElement('video');
+        video.src = url;
+        video.controls = true;
+        video.style.position = 'absolute';
+        video.style.top = '0';
+        video.style.left = '0';
+        video.style.width = '100%';
+        video.style.height = '100%';
+        mediaContainer.appendChild(video);
+    } else {
+        const iframe = document.createElement('iframe');
+        iframe.src = url.includes('rutube.ru/video') ? 
+                     url.replace('rutube.ru/video', 'rutube.ru/play/embed') : url;
+        iframe.frameBorder = '0';
+        iframe.allowFullscreen = true;
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        iframe.style.position = 'absolute';
+        iframe.style.top = '0';
+        iframe.style.left = '0';
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        mediaContainer.appendChild(iframe);
+    }
+
+    container.appendChild(mediaContainer);
+    this._addCaption(container, caption);
+    this.wrapper.appendChild(container);
+  }
 
   _addCaption(container, captionText) {
     if (!captionText) return;
@@ -284,59 +264,6 @@ _createVideoElement(url, caption, filetype = null) {
     }
   }
 
-  _addResizeHandle(container) {
-    const video = container.querySelector('video, iframe');
-    
-    if (!video) return; // Если видео не найдено, выходим
-  
-    const handle = document.createElement('div');
-    handle.className = 'resize-handle';
-    handle.innerHTML = '-';
-    
-    handle.addEventListener('mousedown', (e) => {
-      e.preventDefault();
-      const startWidth = parseInt(video.style.width) || video.offsetWidth;
-      const startX = e.clientX;
-  
-      const doResize = (e) => {
-        const newWidth = Math.max(200, startWidth + (e.clientX - startX));
-        video.style.width = `${newWidth}px`;
-      };
-  
-      const stopResize = () => {
-        document.removeEventListener('mousemove', doResize);
-        document.removeEventListener('mouseup', stopResize);
-        this.width = video.style.width;
-      };
-  
-      document.addEventListener('mousemove', doResize);
-      document.addEventListener('mouseup', stopResize, { once: true });
-    });
-    
-    container.appendChild(handle);
-  }
-
-  _initResize(e) {
-    e.preventDefault();
-    const video = this.wrapper.querySelector('video');
-    const startWidth = parseInt(video.style.width) || video.offsetWidth;
-    const startX = e.clientX;
-
-    const doResize = (e) => {
-      const newWidth = Math.max(200, startWidth + (e.clientX - startX));
-      video.style.width = `${newWidth}px`;
-    };
-
-    const stopResize = () => {
-      document.removeEventListener('mousemove', doResize);
-      document.removeEventListener('mouseup', stopResize);
-      this.width = video.style.width;
-    };
-
-    document.addEventListener('mousemove', doResize);
-    document.addEventListener('mouseup', stopResize, { once: true });
-  }
-
   save(blockContent) {
     const video = blockContent.querySelector('video, iframe');
     const caption = blockContent.querySelector('.video-caption');
@@ -344,7 +271,6 @@ _createVideoElement(url, caption, filetype = null) {
     return {
       url: video?.src || this.data.url || '',
       caption: caption?.innerHTML || this.data.caption || '',
-      width: this.width || '100%',
       alignment: this.alignment,
       filetype: this.filetype || (video?.tagName === 'IFRAME' ? 
                                 (video.src.includes('youtube') ? 'youtube' : 'rutube') 
@@ -363,25 +289,22 @@ _createVideoElement(url, caption, filetype = null) {
   _showError(message) {
     if (!this.wrapper) return;
     
-    // Сохраняем текущее состояние формы
     const currentTab = this.wrapper.querySelector('.tab-button.active').dataset.tab;
     const currentUrl = this.wrapper.querySelector('.embed-url')?.value || '';
     
     this.wrapper.innerHTML = `
         <div class="video-error">
             <p>${message}</p>
-            <button class="retry-button">Попробовать снова</button>
+            <button class="retry-button"> </button>
         </div>
     `;
     
-    // Обработчик для кнопки повтора
     this.wrapper.querySelector('.retry-button').addEventListener('click', () => {
         this._createUploadForm();
-        // Восстанавливаем состояние
         if (currentTab === 'embed') {
             const embedUrl = this.wrapper.querySelector('.embed-url');
             if (embedUrl) embedUrl.value = currentUrl;
         }
     });
-}
+  }
 }

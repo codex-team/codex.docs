@@ -22,7 +22,7 @@
     "test:js": "cross-env NODE_ENV=testing mocha --recursive ./dist/test --exit",
     "test": "cross-env NODE_ENV=testing ts-mocha -n loader=ts-node/esm ./src/test/*.ts ./src/test/**/*.ts --exit ",
     "lint": "eslint --fix --ext .ts ./src/backend",
-    "editor-upgrade": "yarn add -D @editorjs/{editorjs,header,code,delimiter,list,link,image,table,inline-code,marker,warning,checklist,raw}@latest"
+    "editor-upgrade": "yarn add -D @editorjs/{editorjs,header,code,list,link,image,table,inline-code,marker,warning,checklist,raw}@latest"
   },
   "dependencies": {
     "@aws-sdk/abort-controller": "^3.374.0",
@@ -37,6 +37,8 @@
     "cookie-parser": "^1.4.5",
     "csurf": "^1.2.2",
     "debug": "^4.3.2",
+    "editorjs-header-with-alignment": "^1.0.1",
+    "editorjs-alert": "^1.1.4",
     "express": "^4.17.1",
     "file-type": "^16.5.4",
     "fs-extra": "^10.1.0",
@@ -66,10 +68,11 @@
     "@codexteam/misprints": "^1.0.0",
     "@editorjs/checklist": "^1.3.0",
     "@editorjs/code": "^2.7.0",
-    "@editorjs/delimiter": "^1.2.0",
+    "@coolbytes/editorjs-delimiter": "^1.0.3",
     "@editorjs/editorjs": "^2.25.0",
     "@editorjs/embed": "^2.5.1",
     "@editorjs/header": "^2.6.2",
+    "@editorjs/paragraph": "^2.11.7",
     "@editorjs/image": "^2.6.2",
     "@editorjs/inline-code": "^1.3.1",
     "@editorjs/link": "^2.4.0",

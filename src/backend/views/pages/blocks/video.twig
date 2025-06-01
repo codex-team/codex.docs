@@ -1,9 +1,7 @@
-{% set width = width|default('100%') %}
-{% set height = height|default('auto') %}
 {% set alignment = alignment|default('center') %}
 {% set filetype = filetype|default('file') %}
 
-<figure class="block-video" style="width: {{ width }}; max-width: 100%; margin: 
+<figure class="block-video" style="margin: 
   {% if alignment == 'left' %}0 auto 0 0
   {% elseif alignment == 'right' %}0 0 0 auto
   {% else %}0 auto
@@ -15,20 +13,14 @@
         frameborder="0" 
         allowfullscreen
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
       ></iframe>
     {% else %}
-      <video 
-        controls 
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
-        {% if width %}width="{{ width }}"{% endif %}
-        {% if height %}height="{{ height }}"{% endif %}
-      >
+      <video controls>
         <source src="{{ url }}" type="{{ mime|default('video/mp4') }}">
-        Ваш браузер не поддерживает видео тег.
+        Р’Р°С€ Р±СЂР°СѓР·РµСЂ РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚ РІРёРґРµРѕ С‚РµРі.
       </video>
     {% endif %}
-</div>
+  </div>
   {% if caption %}
     <footer class="block-video__caption">
       {{ caption|raw }}

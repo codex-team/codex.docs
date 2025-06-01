@@ -102,16 +102,23 @@ function createApp(): express.Express {
     if (appConfig.hawk?.backendToken && err instanceof Error) {
       HawkCatcher.send(err);
     }
+    // CSRF error (from csurf)
+    if (err && typeof err === 'object' && 'code' in err && (err as any).code === 'EBADCSRFTOKEN') {
+      res.status(403);
+      return res.render('error', { status: 403, message: 'Invalid CSRF token' });
+    }
     // only send Http based exception to client.
     if (err instanceof HttpException) {
-      // set locals, only providing error in development
       res.locals.message = err.message;
       res.locals.error = req.app.get('env') === 'development' ? err : {};
-      // render the error page
       res.status(err.status || 500);
-      res.render('error');
+      if (err.status === 403) {
+        return res.render('error', { status: 403, message: 'Доступ запрещён' });
+      }
+      return res.render('error');
     }
-    next(err);
+    // fallback for other errors
+    res.status(500).render('error', { status: 500, message: 'Internal Server Error' });
   });
 
   return app;

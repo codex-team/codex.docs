@@ -4,12 +4,15 @@ import EditorJS from '@editorjs/editorjs';
  * Block Tools for the Editor
  */
 import Header from '@editorjs/header';
+import Paragraph from '@editorjs/paragraph';
 import Image from '@editorjs/image';
 import CodeTool from '@editorjs/code';
 import List from '@editorjs/list';
-import Delimiter from '@editorjs/delimiter';
+//import Delimiter from '@editorjs/delimiter';
+import Delimiter from '@coolbytes/editorjs-delimiter';
 import Table from '@editorjs/table';
 import Warning from '@editorjs/warning';
+import Alert from 'editorjs-alert';
 import Checklist from '@editorjs/checklist';
 import LinkTool from '@editorjs/link';
 import RawTool from '@editorjs/raw';
@@ -23,7 +26,6 @@ import Marker from '@editorjs/marker';
 import { TextColorTool } from './text-color-tool.js';
 import { TextSizeTool } from './text-size-tool.js';
 import VideoTool from './video-tool.js';
-import CustomImageTool from './custom-image-tool.js';
 /*
  * Class for working with Editor.js
  */
@@ -50,7 +52,11 @@ export default class Editor {
             placeholder: options.headerPlaceholder || '',
           },
         },
-
+        paragraph: {
+          class: Paragraph,
+          inlineToolbar: true,
+        },
+        //header: Header,
         textColor: {
           class: TextColorTool,
           config: {
@@ -124,6 +130,8 @@ export default class Editor {
           inlineToolbar: true,
         },
 
+        alert: Alert,
+
         checklist: {
           class: Checklist,
           inlineToolbar: true,
@@ -146,13 +154,14 @@ export default class Editor {
 
         embed: Embed,
       },
+      defaultBlock: 'Paragraph',
       data: {
         blocks: [
           {
             type: 'header',
             data: {
               text: '',
-              level: 2,
+              level: 3,
             },
           },
         ],
@@ -170,4 +179,6 @@ export default class Editor {
   save() {
     return this.editor.saver.save();
   }
+
+  
 }

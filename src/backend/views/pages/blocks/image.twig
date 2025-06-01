@@ -1,28 +1,27 @@
-{% set width = data.width|default('100%') %}
-{% set alignment = data.alignment|default('center') %}
+{% set classes = ['block-image__content'] %}
 
-<figure class="block-image" style="width: {{ width }}; max-width: 100%; margin: 
-  {% if alignment == 'left' %}0 auto 0 0
-  {% elseif alignment == 'right' %}0 0 0 auto
-  {% else %}0 auto
-  {% endif %};">
+{% if withBorder %}
+  {% set classes = classes|merge(['block-image__content--bordered']) %}
+{% endif %}
+
+{% if withBackground %}
+  {% set classes = classes|merge(['block-image__content--with-background']) %}
+{% endif %}
+
+<figure class="block-image">
   <div class="{{ classes.join(' ') }}">
     {% if file.mime and file.mime == 'video/mp4' %}
-      <video controls style="width: 100%;">
+      <video autoplay loop muted playsinline>
         <source src="{{ file.url }}" type="video/mp4">
       </video>
     {% else %}
-      <img 
-        src="{{ file.url }}" 
-        alt="{{ caption ? caption | striptags : '' }}"
-        style="width: {{ width }};"
-      >
+      <img src="{{ file.url }}" alt="{{ caption ? caption | striptags : '' }}">
     {% endif %}
 
   </div>
   {% if caption %}
-    <footer class="block-image__caption">
-      {{ caption }}
-    </footer>
+      <footer class="block-image__caption">
+          {{ caption }}
+      </footer>
   {% endif %}
 </figure>
