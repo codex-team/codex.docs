@@ -1,11 +1,7 @@
 {% set alignment = alignment|default('center') %}
 {% set filetype = filetype|default('file') %}
 
-<figure class="block-video" style="margin: 
-  {% if alignment == 'left' %}0 auto 0 0
-  {% elseif alignment == 'right' %}0 0 0 auto
-  {% else %}0 auto
-  {% endif %};">
+<figure class="block-video">
   <div class="{{ classes.join(' ') }}">
     {% if filetype == 'youtube' or filetype == 'rutube' %}
       <iframe 

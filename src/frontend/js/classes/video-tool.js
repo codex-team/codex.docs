@@ -3,6 +3,7 @@ export default class VideoTool {
     return {
       icon: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M16.25 3.75H3.75C2.36929 3.75 1.25 4.86929 1.25 6.25V13.75C1.25 15.1307 2.36929 16.25 3.75 16.25H16.25C17.6307 16.25 18.75 15.1307 18.75 13.75V6.25C18.75 4.86929 17.6307 3.75 16.25 3.75Z" stroke="currentColor" stroke-width="1.5"/><path d="M8.125 6.875L13.125 10L8.125 13.125V6.875Z" fill="currentColor"/></svg>`,
       title: 'Video',
+      name: 'video', // Diagnostic: Add name property
     };
   }
 
@@ -14,6 +15,8 @@ export default class VideoTool {
     this.wrapper = null;
     this.alignment = data.alignment || 'center';
     this.filetype = data.filetype || 'file';
+
+    this.name = 'video'; // Diagnostic: Add name property to instance
     
     this._handleFileUpload = this._handleFileUpload.bind(this);
     this._handleUrlSubmit = this._handleUrlSubmit.bind(this);
@@ -140,9 +143,6 @@ export default class VideoTool {
         };
 
         this.api.blocks.update(this.block.id, this.data);
-        
-        this.wrapper.innerHTML = '';
-        this._createVideoElement(embedUrl, '');
 
         submitBtn.disabled = false;
         submitBtn.textContent = ' ';
@@ -185,6 +185,10 @@ export default class VideoTool {
     const container = document.createElement('div');
     container.className = 'video-container';
     container.style.margin = this._getAlignmentMargin();
+    container.style.position = 'relative';
+    container.style.paddingBottom = '56.25%'; // 16:9 aspect ratio
+    container.style.height = '0';
+    container.style.overflow = 'hidden';
 
     const type = filetype || this.filetype || 
         (url.match(/\.(mp4|webm|ogg)$/i) ? 'file' :
@@ -192,10 +196,11 @@ export default class VideoTool {
         (url.includes('rutube.ru/embed') || url.includes('rutube.ru/video') ? 'rutube' : 'file')));
 
     const mediaContainer = document.createElement('div');
-    mediaContainer.style.position = 'relative';
-    mediaContainer.style.paddingBottom = '56.25%';
-    mediaContainer.style.height = '0';
-    mediaContainer.style.overflow = 'hidden';
+    mediaContainer.style.position = 'absolute';
+    mediaContainer.style.top = '0';
+    mediaContainer.style.left = '0';
+    mediaContainer.style.width = '100%';
+    mediaContainer.style.height = '100%';
 
     if (type === 'file') {
         const video = document.createElement('video');
@@ -206,6 +211,7 @@ export default class VideoTool {
         video.style.left = '0';
         video.style.width = '100%';
         video.style.height = '100%';
+        video.style.verticalAlign = 'top'; // Добавляем vertical-align
         mediaContainer.appendChild(video);
     } else {
         const iframe = document.createElement('iframe');
@@ -219,6 +225,7 @@ export default class VideoTool {
         iframe.style.left = '0';
         iframe.style.width = '100%';
         iframe.style.height = '100%';
+        iframe.style.verticalAlign = 'top'; // Добавляем vertical-align
         mediaContainer.appendChild(iframe);
     }
 
