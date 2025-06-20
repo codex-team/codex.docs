@@ -154,7 +154,7 @@ export default class Editor {
 
         embed: Embed,
       },
-      defaultBlock: 'Paragraph',
+      //defaultBlock: 'Paragraph',
       data: {
         blocks: [
           {
