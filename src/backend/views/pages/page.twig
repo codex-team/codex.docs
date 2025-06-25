@@ -20,7 +20,7 @@
         {% endif %}
       </div>
       <time class="page__header-time">
-        Изменена: {{ (page.body.time / 1000)  | date("M d Y") }}
+        Изменена: {{ (page.body.time / 1000)  | date("d.m.Y") }}
       </time>
       {% if isAuthorized == true %}
         {% include 'components/button.twig' with {label: 'Редактировать', icon: 'pencil', size: 'small', url: '/page/edit/' ~ page._id, class: 'page__header-button'} %}
@@ -47,23 +47,4 @@
     {% include '../components/navigator.twig' with {previousPage:  previousPage, nextPage: nextPage} %}
   </article>
 
-  <script>
-    // Замена английских месяцев на русские
-    document.addEventListener('DOMContentLoaded', function() {
-      const monthsMap = {
-        'Jan': 'Янв', 'Feb': 'Фев', 'Mar': 'Мар',
-        'Apr': 'Апр', 'May': 'Май', 'Jun': 'Июн',
-        'Jul': 'Июл', 'Aug': 'Авг', 'Sep': 'Сен',
-        'Oct': 'Окт', 'Nov': 'Ноя', 'Dec': 'Дек'
-      };
-      
-      const timeElement = document.querySelector('.page__header-time');
-      if (timeElement) {
-        const text = timeElement.textContent;
-        const updatedText = text.replace(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/, 
-          match => monthsMap[match]);
-        timeElement.textContent = updatedText;
-      }
-    });
-  </script>
-{% endblock %}
+  {% endblock %}
