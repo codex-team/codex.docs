@@ -8,5 +8,8 @@
   "watch": [
     "**/*"
   ],
-  "ext": "ts,js,twig"
+  "ext": "ts,js,twig",
+  "execMap": {
+    "ts": "node --loader ts-node/esm"
+  }
 }
