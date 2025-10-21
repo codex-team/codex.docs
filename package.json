@@ -3,9 +3,7 @@
   "license": "Apache-2.0",
   "version": "2.2.3",
   "type": "module",
-  "bin": {
-    "codex.docs": "dist/backend/app.js"
-  },
+  "bin": "dist/backend/app.js",
   "browserslist": [
     "last 2 versions",
     "> 1%"
