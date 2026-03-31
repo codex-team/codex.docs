@@ -211,6 +211,48 @@ Tasks should be completed in the sequence listed below to maintain dependencies 
 
 ---
 
+### Task 2.3-DOC: Create Task Documentation (Phase 2.1-2.3)
+**Category:** Documentation  
+**Priority:** High  
+**Estimated Time:** 4-6 hours  
+**Dependencies:** Tasks 2.1-2.3 complete
+
+**Subtasks:**
+- [x] Create `.github/specs/dark-mode/documentation/header-toggle-button/` directory
+- [x] Create `ImplementationSummary.md` (268 lines):
+  - [x] Overview of Phase 2.1-2.3 implementation
+  - [x] What was built (button UI, toggle module, styling)
+  - [x] File modifications summary
+  - [x] Build verification details
+  - [x] Code quality notes
+- [x] Create `QuickReference.md` (268 lines):
+  - [x] Quick navigation guide
+  - [x] Usage patterns and common tasks
+  - [x] Debugging tips
+  - [x] Accessibility checklist
+  - [x] Testing checklist
+- [x] Create `TechnicalDeepDive.md` (532 lines):
+  - [x] System architecture and component hierarchy
+  - [x] Component interaction patterns
+  - [x] Implementation details with code samples
+  - [x] Event flow sequence
+  - [x] Styling strategy with CSS cascade
+  - [x] Accessibility implementation
+  - [x] Error handling
+  - [x] Performance optimization
+  - [x] Browser compatibility matrix
+  - [x] Testing strategy
+  - [x] Future enhancements
+
+**Acceptance Criteria:**
+- [x] All documentation files created and comprehensive
+- [x] Total ~1100 lines of documentation across 3 files
+- [x] Reorganized Phase 1.1 docs to `documentation/foundation-setup/` directory
+- [x] All documentation committed (Commit: 9877d5a)
+- [x] **COMMITTED:** `[dark-mode] Phase 1.1 and Phase 2.1-2.3 task documentation`
+
+---
+
 ### Task 2.4: Update Page Component Styles
 **Category:** Styling  
 **Priority:** High  
