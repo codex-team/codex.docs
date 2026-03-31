@@ -1,4 +1,4 @@
-port: 3000
+port: 7777
 host: "localhost"
 uploads:
   driver: "local"

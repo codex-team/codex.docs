@@ -238,7 +238,7 @@
 
     @media (--can-hover) {
       .docs-sidebar__section-toggler:hover {
-        background: rgba(0, 0, 0, 0.3);
+        background: var(--color-sidebar-toggle-hover-bg, rgba(0, 0, 0, 0.3));
       }
     }
   }
@@ -266,7 +266,7 @@
 
     @media (--can-hover) {
       &:hover {
-        background: white;
+        background: var(--color-sidebar-toggler-hover-bg, white);
       }
     }
 
@@ -314,7 +314,7 @@
   &__logo {
     display: none;
     margin-top: auto;
-    background: white;
+    background: var(--color-sidebar-logo-bg, white);
     z-index: 2;
     padding-bottom: 20px;
     padding-top: 60px;

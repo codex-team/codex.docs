@@ -25,28 +25,28 @@ import HawkCatcher from '@hawk.so/javascript';
  * Main app class
  */
 class Docs {
-	/**
-	 * @class
-	 */
-	constructor() {
-		// Initialize theme manager first, before render to prevent FOUC
-		ThemeManager.init();
+  /**
+   * @class
+   */
+  constructor() {
+    // Initialize theme manager first, before render to prevent FOUC
+    ThemeManager.init();
 
-		this.themeToggle = new ThemeToggle();
-		this.writing = new Writing();
-		this.page = new Page();
-		this.extensions = new Extensions();
-		this.sidebar = new Sidebar();
-		if (window.config.hawkClientToken) {
-			this.hawk = new HawkCatcher(window.config.hawkClientToken);
-		}
+    this.themeToggle = new ThemeToggle();
+    this.writing = new Writing();
+    this.page = new Page();
+    this.extensions = new Extensions();
+    this.sidebar = new Sidebar();
+    if (window.config.hawkClientToken) {
+      this.hawk = new HawkCatcher(window.config.hawkClientToken);
+    }
 
-		document.addEventListener('DOMContentLoaded', (event) => {
-			this.docReady();
-		});
+    document.addEventListener('DOMContentLoaded', (event) => {
+      this.docReady();
+    });
 
-		console.log('CodeX Docs initialized');
-	}  /**
+    console.log('CodeX Docs initialized');
+  }  /**
    * Document is ready
    */
   docReady() {
