@@ -1,4 +1,6 @@
-import Datastore from 'nedb';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const Datastore = require('@seald-io/nedb');
 import { DatabaseDriver, Options } from './types.js';
 import path from 'path';
 import appConfig from '../utils/appConfig.js';
@@ -9,7 +11,7 @@ import appConfig from '../utils/appConfig.js';
  * @param {string} name - name of the data file
  * @returns {Datastore} db - nedb instance
  */
-function initDb(name: string): Datastore {
+function initDb(name: string): any {
   const dbConfig = appConfig.database.driver === 'local' ? appConfig.database.local : null;
 
   if (!dbConfig) {
@@ -44,7 +46,7 @@ export default class LocalDatabaseDriver<DocType> implements DatabaseDriver<DocT
   /**
    * nedb Datastore object
    */
-  private db: Datastore;
+  private db: any;
 
   /**
    * @param collectionName - collection name for storing data
@@ -61,7 +63,7 @@ export default class LocalDatabaseDriver<DocType> implements DatabaseDriver<DocT
    * @returns {Promise<object | Error>} - inserted doc or Error object
    */
   public async insert(doc: DocType): Promise<DocType> {
-    return new Promise((resolve, reject) => this.db.insert(doc, (err, newDoc) => {
+    return new Promise((resolve, reject) => this.db.insert(doc, (err: Error | null, newDoc: any) => {
       if (err) {
         reject(err);
       }
@@ -132,7 +134,7 @@ export default class LocalDatabaseDriver<DocType> implements DatabaseDriver<DocT
    * @returns {Promise<number | object | object[] | Error>} - number of updated rows or affected docs or Error object
    */
   public async update(query: Record<string, unknown>, update: DocType, options: Options = {}): Promise<number|boolean|Array<DocType>> {
-    return new Promise((resolve, reject) => this.db.update(query, update, options, (err, result, affectedDocs) => {
+    return new Promise((resolve, reject) => this.db.update(query, update, options, (err: Error | null, result: any, affectedDocs: any) => {
       if (err) {
         reject(err);
       }
@@ -162,7 +164,7 @@ export default class LocalDatabaseDriver<DocType> implements DatabaseDriver<DocT
    * @returns {Promise<number|Error>} - number of removed rows or Error object
    */
   public async remove(query: Record<string, unknown>, options: Options = {}): Promise<number> {
-    return new Promise((resolve, reject) => this.db.remove(query, options, (err, result) => {
+    return new Promise((resolve, reject) => this.db.remove(query, options, (err: Error | null, result: any) => {
       if (err) {
         reject(err);
       }

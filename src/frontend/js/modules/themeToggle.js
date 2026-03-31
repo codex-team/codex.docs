@@ -39,8 +39,11 @@ export default class ThemeToggle {
         /**
          * Update button icon when theme changes
          */
-        ThemeManager.onThemeToggle((theme) => {
-            this.updateButtonIcon(themeToggleButton, theme);
+        document.addEventListener('themeChange', (event) => {
+            const theme = event.detail?.theme;
+            if (theme) {
+                this.updateButtonIcon(themeToggleButton, theme);
+            }
         });
 
         /**

@@ -2,94 +2,102 @@
  * Dark Mode Theme Overrides
  * Defines CSS custom properties for dark theme
  * Automatically applied when data-theme="dark" attribute is set on root element
+ *
+ * Palette: neutral grays (Tailwind zinc) with vibrant accent colors
  */
 
 [data-theme="dark"] {
-	/* Text Colors - VS Code inspired */
-	--color-text-main: #E0E0E0;
-	--color-text-second: #A0A0A0;
+	/* Text Colors */
+	--color-text-main: #E4E4E7;
+	--color-text-second: #A1A1AA;
 
-	/* Background Colors - VS Code inspired */
-	--color-bg-main: #1E1E1E;
-	--color-bg-light: #2D2D30;
+	/* Background Colors — true neutral darks */
+	--color-bg-main: #18181B;
+	--color-bg-light: #27272A;
 
 	/* UI Elements */
-	--color-line-gray: #3E3E42;
-	--color-link-active: #569CD6;
-	--color-link-hover: #252526;
+	--color-line-gray: #3F3F46;
+	--color-link-active: #60A5FA;
+	--color-link-hover: #27272A;
 
 	/* Input Colors */
-	--color-input-primary: #3C3C3C;
-	--color-input-border: #007ACC;
+	--color-input-primary: #27272A;
+	--color-input-border: #60A5FA;
 
 	/* Status Colors */
-	--color-page-active: #FF1777;
+	--color-page-active: #F472B6;
 
 	/* Button Colors */
-	--color-button-primary: #0E639C;
-	--color-button-primary-hover: #1177BB;
-	--color-button-primary-active: #007ACC;
+	--color-button-primary: #3B82F6;
+	--color-button-primary-hover: #2563EB;
+	--color-button-primary-active: #1D4ED8;
 
-	--color-button-secondary: #6A6A6A;
-	--color-button-secondary-hover: #7A7A7A;
-	--color-button-secondary-active: #5A5A5A;
+	--color-button-secondary: #52525B;
+	--color-button-secondary-hover: #3F3F46;
+	--color-button-secondary-active: #27272A;
 
-	--color-button-warning: #F48771;
-	--color-button-warning-hover: #F59988;
-	--color-button-warning-active: #F3785A;
+	--color-button-warning: #FB923C;
+	--color-button-warning-hover: #F97316;
+	--color-button-warning-active: #EA580C;
 
-	--color-success: #4EC9B0;
+	--color-success: #34D399;
 
 	/* Code Block Colors */
-	--color-code-bg: #1E1E1E;
-	--color-code-main: #D4D4D4;
-	--color-code-keyword: #569CD6;
-	--color-code-class: #4EC9B0;
-	--color-code-variable: #9CDCFE;
-	--color-code-string: #CE9178;
-	--color-code-params: #C586C0;
-	--color-code-tag: #4EC9B0;
-	--color-code-number: #B5CEA8;
-	--color-code-comment: #6A9955;
+	--color-code-bg: #131316;
+	--color-code-main: #E4E4E7;
+	--color-code-keyword: #818CF8;
+	--color-code-class: #34D399;
+	--color-code-variable: #67E8F9;
+	--color-code-string: #FCA5A5;
+	--color-code-params: #F0ABFC;
+	--color-code-tag: #34D399;
+	--color-code-number: #FCD34D;
+	--color-code-comment: #71717A;
 
-	/* Checkbox and UI element colors - dark mode */
-	--color-checkbox-border: #555555;
-	--color-checkbox-bg: #2D2D30;
-	--color-checkbox-checked: #0097F6;
-	--color-checkbox-check-mark: #1E1E1E;
+	/* Checkbox and UI element colors */
+	--color-checkbox-border: #52525B;
+	--color-checkbox-bg: #27272A;
+	--color-checkbox-checked: #3B82F6;
+	--color-checkbox-check-mark: #18181B;
 
-	/* Warning block colors - dark mode */
-	--color-warning-bg: #4D3C23;
+	/* Warning block colors */
+	--color-warning-bg: #451A03;
 
-	/* Special element colors - dark mode */
-	--color-marker-highlight: rgba(200, 200, 100, 0.20);
-	--color-inline-code-bg: rgba(80, 80, 100, 0.5);
-	--color-inline-code-text: #CE9178;
+	/* Special element colors */
+	--color-marker-highlight: rgba(251, 191, 36, 0.15);
+	--color-inline-code-bg: rgba(113, 113, 122, 0.2);
+	--color-inline-code-text: #FCA5A5;
 
-	/* Link with inline code - dark mode */
-	--color-link-code-border: rgba(100, 150, 255, 0.99);
-	--color-link-code-text: #82B1FF;
-	--color-link-code-bg: #1E3A5F;
-	--color-link-code-hover-bg: #2A4A7F;
+	/* Link with inline code */
+	--color-link-code-border: rgba(96, 165, 250, 0.6);
+	--color-link-code-text: #93C5FD;
+	--color-link-code-bg: #1E293B;
+	--color-link-code-hover-bg: #2A3A50;
 
-	/* Box shadow opacity - dark mode */
-	--color-shadow-dark: rgba(0, 0, 0, 0.3);
+	/* Box shadow */
+	--color-shadow-dark: rgba(0, 0, 0, 0.5);
 
-	/* Sidebar component colors - dark mode */
-	--color-sidebar-toggler-hover-bg: #3E3E42;
-	--color-sidebar-toggle-hover-bg: rgba(255, 255, 255, 0.1);
-	--color-sidebar-logo-bg: #1E1E1E;
-	--color-navigator-text: #E0E0E0;
+	/* Sidebar component colors */
+	--color-sidebar-toggler-hover-bg: #27272A;
+	--color-sidebar-toggle-hover-bg: rgba(255, 255, 255, 0.08);
+	--color-sidebar-logo-bg: #18181B;
+	--color-navigator-text: #E4E4E7;
 
-	/* Form/Input component colors - dark mode */
-	--color-writing-header-bg: #2D2D30;
-	--color-writing-header-shadow: rgba(0, 0, 0, 0.3);
+	/* Form/Input component colors */
+	--color-writing-header-bg: #27272A;
+	--color-writing-header-shadow: rgba(0, 0, 0, 0.4);
 
-	/* Sidebar active section gradient and focus colors - dark mode */
-	--color-sidebar-active-gradient-start: #0078D4;
-	--color-sidebar-active-gradient-end: #6D28D9;
+	/* Sidebar active section gradient */
+	--color-sidebar-active-gradient-start: #3B82F6;
+	--color-sidebar-active-gradient-end: #8B5CF6;
 	--color-sidebar-active-text: #FFFFFF;
-	--color-sidebar-selected-focus: rgba(88, 166, 255, 0.4);
+	--color-sidebar-selected-focus: rgba(99, 102, 241, 0.3);
+
+	/* Diff colors */
+	--color-diff-added-text: #34D399;
+	--color-diff-added-bg: rgba(16, 185, 129, 0.12);
+	--color-diff-removed-text: #FCA5A5;
+	--color-diff-removed-bg: rgba(239, 68, 68, 0.12);
 }
 
 /**
@@ -99,89 +107,95 @@
 @media (prefers-color-scheme: dark) {
 	:root {
 		/* Text Colors */
-		--color-text-main: #E0E0E0;
-		--color-text-second: #A0A0A0;
+		--color-text-main: #E4E4E7;
+		--color-text-second: #A1A1AA;
 
-		/* Background Colors */
-		--color-bg-main: #1E1E1E;
-		--color-bg-light: #2D2D30;
+		/* Background Colors — true neutral darks */
+		--color-bg-main: #18181B;
+		--color-bg-light: #27272A;
 
 		/* UI Elements */
-		--color-line-gray: #3E3E42;
-		--color-link-active: #569CD6;
-		--color-link-hover: #252526;
+		--color-line-gray: #3F3F46;
+		--color-link-active: #60A5FA;
+		--color-link-hover: #27272A;
 
 		/* Input Colors */
-		--color-input-primary: #3C3C3C;
-		--color-input-border: #007ACC;
+		--color-input-primary: #27272A;
+		--color-input-border: #60A5FA;
 
 		/* Status Colors */
-		--color-page-active: #FF1777;
+		--color-page-active: #F472B6;
 
 		/* Button Colors */
-		--color-button-primary: #0E639C;
-		--color-button-primary-hover: #1177BB;
-		--color-button-primary-active: #007ACC;
+		--color-button-primary: #3B82F6;
+		--color-button-primary-hover: #2563EB;
+		--color-button-primary-active: #1D4ED8;
 
-		--color-button-secondary: #6A6A6A;
-		--color-button-secondary-hover: #7A7A7A;
-		--color-button-secondary-active: #5A5A5A;
+		--color-button-secondary: #52525B;
+		--color-button-secondary-hover: #3F3F46;
+		--color-button-secondary-active: #27272A;
 
-		--color-button-warning: #F48771;
-		--color-button-warning-hover: #F59988;
-		--color-button-warning-active: #F3785A;
+		--color-button-warning: #FB923C;
+		--color-button-warning-hover: #F97316;
+		--color-button-warning-active: #EA580C;
 
-		--color-success: #4EC9B0;
+		--color-success: #34D399;
 
 		/* Code Block Colors */
-		--color-code-bg: #1E1E1E;
-		--color-code-main: #D4D4D4;
-		--color-code-keyword: #569CD6;
-		--color-code-class: #4EC9B0;
-		--color-code-variable: #9CDCFE;
-		--color-code-string: #CE9178;
-		--color-code-params: #C586C0;
-		--color-code-tag: #4EC9B0;
-		--color-code-number: #B5CEA8;
-		--color-code-comment: #6A9955;
+		--color-code-bg: #131316;
+		--color-code-main: #E4E4E7;
+		--color-code-keyword: #818CF8;
+		--color-code-class: #34D399;
+		--color-code-variable: #67E8F9;
+		--color-code-string: #FCA5A5;
+		--color-code-params: #F0ABFC;
+		--color-code-tag: #34D399;
+		--color-code-number: #FCD34D;
+		--color-code-comment: #71717A;
 
-		/* Checkbox and UI element colors - dark mode */
-		--color-checkbox-border: #555555;
-		--color-checkbox-bg: #2D2D30;
-		--color-checkbox-checked: #0097F6;
-		--color-checkbox-check-mark: #1E1E1E;
+		/* Checkbox and UI element colors */
+		--color-checkbox-border: #52525B;
+		--color-checkbox-bg: #27272A;
+		--color-checkbox-checked: #3B82F6;
+		--color-checkbox-check-mark: #18181B;
 
-		/* Warning block colors - dark mode */
-		--color-warning-bg: #4D3C23;
+		/* Warning block colors */
+		--color-warning-bg: #451A03;
 
-		/* Special element colors - dark mode */
-		--color-marker-highlight: rgba(200, 200, 100, 0.20);
-		--color-inline-code-bg: rgba(80, 80, 100, 0.5);
-		--color-inline-code-text: #CE9178;
+		/* Special element colors */
+		--color-marker-highlight: rgba(251, 191, 36, 0.15);
+		--color-inline-code-bg: rgba(113, 113, 122, 0.2);
+		--color-inline-code-text: #FCA5A5;
 
-		/* Link with inline code - dark mode */
-		--color-link-code-border: rgba(100, 150, 255, 0.99);
-		--color-link-code-text: #82B1FF;
-		--color-link-code-bg: #1E3A5F;
-		--color-link-code-hover-bg: #2A4A7F;
+		/* Link with inline code */
+		--color-link-code-border: rgba(96, 165, 250, 0.6);
+		--color-link-code-text: #93C5FD;
+		--color-link-code-bg: #1E293B;
+		--color-link-code-hover-bg: #2A3A50;
 
-		/* Box shadow opacity - dark mode */
-		--color-shadow-dark: rgba(0, 0, 0, 0.3);
+		/* Box shadow */
+		--color-shadow-dark: rgba(0, 0, 0, 0.5);
 
-		/* Sidebar component colors - dark mode */
-		--color-sidebar-toggler-hover-bg: #3E3E42;
-		--color-sidebar-toggle-hover-bg: rgba(255, 255, 255, 0.1);
-		--color-sidebar-logo-bg: #1E1E1E;
-		--color-navigator-text: #E0E0E0;
+		/* Sidebar component colors */
+		--color-sidebar-toggler-hover-bg: #27272A;
+		--color-sidebar-toggle-hover-bg: rgba(255, 255, 255, 0.08);
+		--color-sidebar-logo-bg: #18181B;
+		--color-navigator-text: #E4E4E7;
 
-		/* Form/Input component colors - dark mode */
-		--color-writing-header-bg: #2D2D30;
-		--color-writing-header-shadow: rgba(0, 0, 0, 0.3);
+		/* Form/Input component colors */
+		--color-writing-header-bg: #27272A;
+		--color-writing-header-shadow: rgba(0, 0, 0, 0.4);
 
-		/* Sidebar active section gradient and focus colors - dark mode */
-		--color-sidebar-active-gradient-start: #0078D4;
-		--color-sidebar-active-gradient-end: #6D28D9;
+		/* Sidebar active section gradient */
+		--color-sidebar-active-gradient-start: #3B82F6;
+		--color-sidebar-active-gradient-end: #8B5CF6;
 		--color-sidebar-active-text: #FFFFFF;
-		--color-sidebar-selected-focus: rgba(88, 166, 255, 0.4);
+		--color-sidebar-selected-focus: rgba(99, 102, 241, 0.3);
+
+		/* Diff colors */
+		--color-diff-added-text: #34D399;
+		--color-diff-added-bg: rgba(16, 185, 129, 0.12);
+		--color-diff-removed-text: #FCA5A5;
+		--color-diff-removed-bg: rgba(239, 68, 68, 0.12);
 	}
 }

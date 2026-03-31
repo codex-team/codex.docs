@@ -192,7 +192,7 @@ class Pages {
           type: Alias.types.PAGE,
         }, insertedPage.uri);
 
-        alias.save();
+        await alias.save();
       }
       await PagesFlatArray.regenerate();
 
@@ -231,11 +231,11 @@ class Pages {
           type: Alias.types.PAGE,
         }, updatedPage.uri);
 
-        alias.save();
+        await alias.save();
       }
 
       if (previousUri) {
-        Alias.markAsDeprecated(previousUri);
+        await Alias.markAsDeprecated(previousUri);
       }
     }
     await PagesFlatArray.regenerate();
