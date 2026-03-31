@@ -30,7 +30,7 @@
 | **3.1** | Visual testing, Playwright E2E suite (35 tests), structural CSS fixes, color palette redesign, bug fixes, NeDB migration | ✅ Done |
 | **3.2** | Accessibility testing (WCAG AA contrast, keyboard nav, focus visibility, ARIA) | ✅ Done |
 | **3.3** | Performance testing (< 100ms theme switch, no layout shifts, CSS architecture) | ✅ Done |
-| **3.4** | localStorage persistence testing | Not Started |
+| **3.4** | localStorage persistence testing (edge cases, cross-navigation, validation) | ✅ Done |
 | **3.5** | Browser compatibility testing | Not Started |
 | **4.1** | Code review & cleanup | Not Started |
 | **4.2** | Unit tests for ThemeManager | Not Started |
@@ -114,6 +114,26 @@ Fixes applied to both `[data-theme="dark"]` and `@media (prefers-color-scheme: d
 | CSS Variables Architecture | 3 | data-theme attribute (not classes), synchronous variable update, no inline color styles |
 
 **Total test suite:** 73 tests (61 existing + 12 new) — all passing.
+
+---
+
+## Phase 3.4 Completion Details — localStorage Persistence (FR-2.2)
+
+### Playwright Persistence Test Suite (9 new tests added to theme-persistence.spec.ts)
+
+| Test | Coverage |
+|------|----------|
+| Cross-page navigation persistence | Theme survives navigating away and back |
+| Clearing localStorage resets to light | `localStorage.clear()` → default light |
+| Removing only theme key resets | `removeItem()` → default light |
+| Invalid localStorage value handling | `'invalid-theme'` doesn't crash; toggle still works |
+| Rapid toggles persist final state | 7 toggles → final value persisted and survives reload |
+| Storage format validation | Value is plain string, not JSON object |
+| No key leakage | Only `codex-docs-theme` key exists |
+| CSS variables match after reload | `--color-bg-main`/`--color-text-main` correct post-reload |
+| Toggle icon state after reload | Sun/moon icon visibility correct post-reload |
+
+**Total test suite:** 82 tests (73 existing + 9 new) — all passing.
 
 ---
 
