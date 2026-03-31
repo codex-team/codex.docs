@@ -38,6 +38,29 @@
 
   --color-success: #00e08f;
 
+  /* Checkbox and UI element colors */
+  --color-checkbox-border: #d0d0d0;
+  --color-checkbox-bg: #fff;
+  --color-checkbox-checked: #388ae5;
+  --color-checkbox-check-mark: #fcfff4;
+
+  /* Warning block colors */
+  --color-warning-bg: #fffad0;
+
+  /* Special element colors */
+  --color-marker-highlight: rgba(245,235,111,0.33);
+  --color-inline-code-bg: rgba(251,241,241,0.78);
+  --color-inline-code-text: #C44545;
+
+  /* Link with inline code */
+  --color-link-code-border: rgba(84, 151, 255, 0.99);
+  --color-link-code-text: #1f6fd8;
+  --color-link-code-bg: #daf1fe;
+  --color-link-code-hover-bg: #c8edfe;
+
+  /* Box shadow opacity */
+  --color-shadow-dark: rgba(66, 70, 84, 0.06);
+
 
   /**
    * Site layout sizes
@@ -210,8 +233,8 @@
    */
   --text-inline-code {
     display: inline-block;
-    background: rgba(251,241,241,0.78);
-    color: #C44545;
+    background: var(--color-inline-code-bg);
+    color: var(--color-inline-code-text);
     font-size: 14px;
     line-height: 1.4em;
     letter-spacing: 0;
@@ -223,7 +246,7 @@
     border-bottom: 0;
 
     &:hover {
-      background: rgba(251,241,241,0.78);
+      background: var(--color-inline-code-bg);
     }
   }
 
@@ -247,13 +270,13 @@
     .inline-code {
       margin: 0;
       padding: 2px 5px;
-      border-bottom: 1px dashed rgba(84, 151, 255, 0.99);
-      color: #1f6fd8;
-      background-color: #daf1fe;
+      border-bottom: 1px dashed var(--color-link-code-border);
+      color: var(--color-link-code-text);
+      background-color: var(--color-link-code-bg);
       border-radius: 3px !important;
 
       &:hover {
-        background-color: #c8edfe;
+        background-color: var(--color-link-code-hover-bg);
       }
     }
   }
