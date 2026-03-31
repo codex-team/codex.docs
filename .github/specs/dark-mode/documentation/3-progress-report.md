@@ -31,7 +31,7 @@
 | **3.2** | Accessibility testing (WCAG AA contrast, keyboard nav, focus visibility, ARIA) | ✅ Done |
 | **3.3** | Performance testing (< 100ms theme switch, no layout shifts, CSS architecture) | ✅ Done |
 | **3.4** | localStorage persistence testing (edge cases, cross-navigation, validation) | ✅ Done |
-| **3.5** | Browser compatibility testing | Not Started |
+| **3.5** | Browser compatibility testing (Chromium, Firefox, WebKit) | ✅ Done |
 | **4.1** | Code review & cleanup | Not Started |
 | **4.2** | Unit tests for ThemeManager | Not Started |
 | **4.3** | Developer documentation | Not Started |
@@ -126,7 +126,7 @@ Fixes applied to both `[data-theme="dark"]` and `@media (prefers-color-scheme: d
 | Cross-page navigation persistence | Theme survives navigating away and back |
 | Clearing localStorage resets to light | `localStorage.clear()` → default light |
 | Removing only theme key resets | `removeItem()` → default light |
-| Invalid localStorage value handling | `'invalid-theme'` doesn't crash; toggle still works |
+| Invalid localStorage value handling | `'invalid-theme'` falls back to light mode (ThemeManager bugfix) |
 | Rapid toggles persist final state | 7 toggles → final value persisted and survives reload |
 | Storage format validation | Value is plain string, not JSON object |
 | No key leakage | Only `codex-docs-theme` key exists |
@@ -134,6 +134,33 @@ Fixes applied to both `[data-theme="dark"]` and `@media (prefers-color-scheme: d
 | Toggle icon state after reload | Sun/moon icon visibility correct post-reload |
 
 **Total test suite:** 82 tests (73 existing + 9 new) — all passing.
+
+---
+
+## Phase 3.5 Completion Details — Browser Compatibility (NFR-3.3)
+
+### ThemeManager Bugfix
+
+Fixed `init()` to handle invalid localStorage values: `hasSavedPreference()` returning `true` while `getSavedPreference()` returns `null` now correctly falls back to system preference / light default instead of calling `applyTheme(null)`.
+
+### Multi-Browser Playwright Config
+
+Added 3 browser projects to `playwright.config.ts`:
+- `chromium-compat`, `firefox-compat`, `webkit-compat` — run only `browser-compat.spec.ts`
+- Existing `chromium` project excludes compat tests (avoids duplication)
+
+### Cross-Browser Test Suite (19 tests × 3 browsers = 57 runs)
+
+| Test Group | Tests | Coverage |
+|------------|-------|----------|
+| CSS Custom Properties | 3 | Light/dark variable resolution, `[data-theme]` selector override |
+| Theme Toggle | 4 | Click light→dark, dark→light, icon swap, keyboard Enter/Space |
+| localStorage Persistence | 3 | Save, restore after reload, API availability |
+| System Preference | 3 | `matchMedia` API, `prefers-color-scheme` dark/light emulation |
+| Rendered Colors | 4 | Body bg dark/light, text color, header bg |
+| CustomEvent & API | 2 | CustomEvent dispatch, MutationObserver attribute detection |
+
+**Total test suite:** 139 tests (82 Chromium-only + 19×3 cross-browser) — all passing.
 
 ---
 

@@ -96,7 +96,7 @@ test.describe('Theme Persistence — Edge Cases (FR-2.2)', () => {
 		expect(await getThemeAttribute(page)).toBe('light');
 	});
 
-	test('invalid localStorage value does not crash theme initialization', async ({ page }) => {
+	test('invalid localStorage value falls back to light mode', async ({ page }) => {
 		await page.goto('/auth');
 		await page.waitForSelector(selectors.themeToggleButton, { timeout: 10000 });
 
@@ -105,10 +105,9 @@ test.describe('Theme Persistence — Edge Cases (FR-2.2)', () => {
 		await page.reload();
 		await page.waitForSelector(selectors.themeToggleButton, { timeout: 10000 });
 
-		// Page should still work — toggle should still function
-		await page.click(selectors.themeToggleButton);
-		const stored = await page.evaluate((key) => localStorage.getItem(key), STORAGE_KEY);
-		expect(['light', 'dark']).toContain(stored);
+		// Invalid value should be ignored — falls back to system pref or light
+		const theme = await getThemeAttribute(page);
+		expect(theme).toBe('light');
 	});
 
 	test('rapid toggles persist the final state', async ({ page }) => {

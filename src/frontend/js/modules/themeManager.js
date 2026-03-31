@@ -44,12 +44,12 @@ class ThemeManager {
 
         try {
             // Determine which theme to use based on priority:
-            // 1. Saved preference in localStorage
+            // 1. Saved preference in localStorage (if valid)
             // 2. System preference (prefers-color-scheme)
             // 3. Default to light mode
-            const theme = this.hasSavedPreference()
-                ? this.getSavedPreference()
-                : (this.getSystemPreference() ? ThemeManager.THEMES.DARK : ThemeManager.THEMES.LIGHT);
+            const saved = this.hasSavedPreference() ? this.getSavedPreference() : null;
+            const theme = saved
+                || (this.getSystemPreference() ? ThemeManager.THEMES.DARK : ThemeManager.THEMES.LIGHT);
 
             // Apply theme synchronously to prevent visual flicker
             this.applyTheme(theme);
