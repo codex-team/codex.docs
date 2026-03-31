@@ -34,7 +34,7 @@
 |-------|-------------|--------|
 | **4.1** | Code review & cleanup | ✅ Done |
 | **4.2** | Unit tests for ThemeManager | ✅ Done |
-| **4.3** | Developer documentation | Not Started |
+| **4.3** | Developer documentation (audit & prune outdated docs) | ✅ Done |
 | **4.4** | Update project documentation (README, DEVELOPMENT.md) | Not Started |
 | **5.1** | Prepare for merge (rebase, PR) | Not Started |
 | **5.2** | Deploy & monitor | Not Started |
@@ -53,13 +53,13 @@
 | `components.spec.ts` | 16 | CSS variable values per theme, body/header/text rendered colors |
 | `no-fouc.spec.ts` | 4 | data-theme attribute on load, DOM consistent with localStorage |
 
-**Infrastructure:** `playwright.config.ts`, `e2e/fixtures/setup.ts`, `.gitignore` for artifacts, `package.json` test scripts
+**Infrastructure:** `playwright.config.ts`, `src/test/e2e/fixtures/setup.ts`, `.gitignore` for artifacts, `package.json` test scripts
 
 ### Bugs Discovered & Fixed
 
 | Bug | Symptom | Root Cause | Fix |
 |-----|---------|------------|-----|
-| **themeToggle event** | Icons never updated after click | `onThemeToggle()` listens for `themeToggle` but `setTheme()` emits `themeChange` | Listen to `themeChange` directly |
+| **themeToggle event** | Icons never updated after click | Event listener used wrong event name (`themeToggle` vs `themeChange`) | Listen to `themeChange` directly |
 | **Missing body bg** | Page still white in dark mode | `body`, `header`, `copy-button` had hardcoded `white` | Replaced with `var(--color-bg-main)` |
 | **Greeting page** | Dark mode lost after login | `index.twig` missing `main.bundle.js` script | Added script tag |
 | **Alias race condition** | Page redirect → 500 error | `alias.save()` missing `await` in pages.ts | Added `await` to insert/update |
