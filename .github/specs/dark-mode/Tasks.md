@@ -1,0 +1,623 @@
+# Dark Mode Feature - Task Breakdown
+
+**Status:** In Progress (Phase 1.1 Completed)  
+**Created:** November 6, 2025  
+**Last Updated:** November 6, 2025  
+**Version:** 1.1  
+**Priority:** High  
+**Estimated Duration:** 2-3 weeks
+
+## Task Execution Order
+
+Tasks should be completed in the sequence listed below to maintain dependencies and avoid rework.
+
+---
+
+## Phase 1: Foundation Setup (2 days)
+
+### Task 1.1: Create Theme Manager Module
+**Category:** Backend/JavaScript  
+**Priority:** Critical  
+**Estimated Time:** 4-6 hours  
+**Dependencies:** None
+
+**Subtasks:**
+- [x] Create `src/frontend/js/modules/themeManager.js`
+- [x] Implement ThemeManager class with methods:
+  - [x] `init()` - Initialize theme on app startup
+  - [x] `getCurrentTheme()` - Get current theme value
+  - [x] `setTheme(theme)` - Set theme and persist to localStorage
+  - [x] `getSystemPreference()` - Detect prefers-color-scheme
+  - [x] `hasSavedPreference()` - Check if localStorage has saved theme
+  - [x] `onThemeToggle(callback)` - Listen for toggle events
+  - [x] `emitThemeChange(theme)` - Fire theme change event
+- [x] Add localStorage key constant: `codex-docs-theme`
+- [x] Handle system preference detection with `window.matchMedia('(prefers-color-scheme: dark)')`
+- [x] Add error handling for localStorage quota exceeded
+- [x] Document API with JSDoc comments
+
+**Acceptance Criteria:**
+- [x] All methods implemented and functional
+- [x] localStorage operations work correctly
+- [x] System preference detection works
+- [x] No console errors
+- [x] Unit tests pass (if tests exist)
+- [x] **BUILD VERIFIED:** `npm run build-frontend` executed successfully with no compilation errors
+
+**Code Style Notes:**
+- Use tabs for indentation (per .editorconfig)
+- Follow existing module-dispatcher pattern in codebase
+- Use ES6 class syntax
+- Add proper error handling
+
+---
+
+### Task 1.2: Define CSS Custom Properties for Colors
+**Category:** Styling/CSS  
+**Priority:** Critical  
+**Estimated Time:** 3-4 hours  
+**Dependencies:** None
+
+**Subtasks:**
+- [ ] Update `src/frontend/styles/vars.pcss`:
+  - Add light mode color variables to `:root` selector:
+    - `--color-text-main`
+    - `--color-text-second`
+    - `--color-bg-main` (new)
+    - `--color-bg-light`
+    - `--color-line-gray`
+    - `--color-link-active`
+    - `--color-link-hover`
+    - `--color-input-primary`
+    - `--color-input-border`
+    - `--color-page-active`
+    - `--color-success` (new)
+    - Code block color variables (already exist)
+  - Ensure all existing hardcoded colors are replaced with variables
+- [ ] Create `src/frontend/styles/dark-mode.pcss`:
+  - Define `[data-theme="dark"]` selector with dark theme values
+  - Reference DESIGN.md for color palette
+  - Mirror all variables from `:root`
+- [ ] Add to `src/frontend/styles/main.pcss` import:
+  - `@import './dark-mode.pcss';` after other imports
+- [ ] Add system preference fallback in `vars.pcss`:
+  - `@media (prefers-color-scheme: dark)` block
+- [ ] Validate all colors meet WCAG AA contrast standards
+
+**Acceptance Criteria:**
+- [ ] All CSS variables defined
+- [ ] Light and dark theme colors defined
+- [ ] No hardcoded hex values in CSS (all use var())
+- [ ] WCAG AA color contrast validated
+- [ ] No CSS compilation errors
+
+**Code Style Notes:**
+- Use PostCSS custom properties syntax
+- Use lowercase hex values and variable names
+- Maintain existing var-naming convention
+
+---
+
+### Task 1.3: Initialize ThemeManager in App
+**Category:** JavaScript  
+**Priority:** Critical  
+**Estimated Time:** 1-2 hours  
+**Dependencies:** Task 1.1, Task 1.2
+
+**Subtasks:**
+- [ ] Update `src/frontend/js/app.js`:
+  - Import ThemeManager module
+  - Call `ThemeManager.init()` early in constructor
+  - Call before other module initialization (to prevent FOUC)
+  - Ensure theme is applied before DOM renders
+- [ ] Verify theme is applied synchronously (not async)
+- [ ] Test page load in browser:
+  - Light mode loads correctly
+  - Dark mode loads correctly if localStorage has value
+  - System preference respected if no saved preference
+  - No theme flickering or flash
+
+**Acceptance Criteria:**
+- [ ] ThemeManager initializes on app load
+- [ ] Theme applied before visible render (no FOUC)
+- [ ] Console shows no errors
+- [ ] Correct theme loads based on preference order:
+  1. Saved localStorage value
+  2. System preference
+  3. Default to light mode
+
+---
+
+## Phase 2: UI Component Updates (5-6 days)
+
+### Task 2.1: Create Header Theme Toggle Button
+**Category:** UI/Template  
+**Priority:** Critical  
+**Estimated Time:** 4-6 hours  
+**Dependencies:** Task 1.3
+
+**Subtasks:**
+- [ ] Update `src/frontend/views/components/header.twig`:
+  - Add theme toggle button in header
+  - Position: After existing header controls (right side)
+  - HTML structure (from DESIGN.md):
+    ```twig
+    <button class="theme-toggle" 
+            aria-label="Toggle dark mode" 
+            title="Toggle theme"
+            data-module="theme-toggle">
+      <svg class="theme-toggle__icon theme-toggle__icon--light" ...></svg>
+      <svg class="theme-toggle__icon theme-toggle__icon--dark" ...></svg>
+    </button>
+    ```
+- [ ] Add SVG icons (sun icon for light, moon icon for dark)
+- [ ] Ensure button has proper ARIA labels
+- [ ] Add keyboard support (Enter/Space to activate)
+- [ ] Add title attribute for tooltip
+
+**Acceptance Criteria:**
+- [ ] Button renders in header
+- [ ] Button is visible and clickable
+- [ ] Correct icon shown based on current theme
+- [ ] ARIA label is accessible
+- [ ] Keyboard accessible (Tab focus, Enter/Space activate)
+
+**Code Style Notes:**
+- Follow existing twig component patterns
+- Use BEM naming convention for CSS classes
+- Use data-module attribute for JS hooks
+
+---
+
+### Task 2.2: Implement Theme Toggle Click Handler
+**Category:** JavaScript  
+**Priority:** Critical  
+**Estimated Time:** 2-3 hours  
+**Dependencies:** Task 2.1, Task 1.1
+
+**Subtasks:**
+- [ ] Create or update module for theme toggle interaction
+- [ ] Listen for click events on `.theme-toggle` button
+- [ ] Emit `themeToggle` event with new theme value
+- [ ] Listen in ThemeManager for `themeToggle` event
+- [ ] Call `ThemeManager.setTheme()` on toggle
+- [ ] Update button icon to reflect new theme
+- [ ] Prevent double-clicks/rapid toggling
+- [ ] Add transition/animation for theme change
+
+**Acceptance Criteria:**
+- [ ] Clicking button toggles theme
+- [ ] Theme persists to localStorage
+- [ ] Button icon updates
+- [ ] No console errors
+- [ ] Theme applies instantly
+
+---
+
+### Task 2.3: Update Header Component Styles
+**Category:** Styling  
+**Priority:** High  
+**Estimated Time:** 2-3 hours  
+**Dependencies:** Task 1.2
+
+**Subtasks:**
+- [ ] Update `src/frontend/styles/components/header.pcss`:
+  - Replace hardcoded colors with CSS variables
+  - Add `.theme-toggle` button styles:
+    - Light mode appearance
+    - Dark mode appearance
+    - Hover state
+    - Focus state
+    - Active state
+  - Ensure button is visible in both themes
+  - Add icon animations if applicable
+- [ ] Add hover/focus states
+- [ ] Ensure accessible focus indicators
+
+**Acceptance Criteria:**
+- [ ] Header renders correctly in light mode
+- [ ] Header renders correctly in dark mode
+- [ ] Toggle button visible and styled appropriately
+- [ ] All focus states visible
+- [ ] No layout shift
+
+---
+
+### Task 2.4: Update Page Component Styles
+**Category:** Styling  
+**Priority:** High  
+**Estimated Time:** 4-5 hours  
+**Dependencies:** Task 1.2
+
+**Subtasks:**
+- [ ] Update `src/frontend/styles/components/page.pcss`:
+  - Replace all hardcoded colors with CSS variables
+  - Update text colors (main and secondary)
+  - Update background colors
+  - Update link colors and states
+  - Update heading styles
+  - Update inline code block styles
+- [ ] Update `src/frontend/styles/layout.pcss`:
+  - Replace hardcoded colors with CSS variables
+  - Update main layout background
+  - Update borders and dividers
+- [ ] Test all page elements render correctly
+
+**Acceptance Criteria:**
+- [ ] All page text uses CSS variables
+- [ ] All backgrounds use CSS variables
+- [ ] Light mode appearance matches original
+- [ ] Dark mode appearance is consistent
+- [ ] No hardcoded colors in page styles
+
+---
+
+### Task 2.5: Update Sidebar Component Styles
+**Category:** Styling  
+**Priority:** High  
+**Estimated Time:** 3-4 hours  
+**Dependencies:** Task 1.2
+
+**Subtasks:**
+- [ ] Update `src/frontend/styles/components/sidebar.pcss`:
+  - Replace hardcoded colors with CSS variables
+  - Update background, text, borders
+  - Update hover/active states for navigation items
+- [ ] Update `src/frontend/styles/components/navigator.pcss`:
+  - Replace hardcoded colors
+  - Update link colors and states
+- [ ] Test sidebar navigation in both themes
+
+**Acceptance Criteria:**
+- [ ] Sidebar renders correctly in both themes
+- [ ] Navigation items have proper contrast
+- [ ] Hover/active states visible
+- [ ] No visual inconsistencies
+
+---
+
+### Task 2.6: Update Button Component Styles
+**Category:** Styling  
+**Priority:** High  
+**Estimated Time:** 2-3 hours  
+**Dependencies:** Task 1.2
+
+**Subtasks:**
+- [ ] Update `src/frontend/styles/components/button.pcss`:
+  - Replace hardcoded colors with CSS variables
+  - Update primary button styles
+  - Update secondary button styles
+  - Update warning button styles
+  - Update button hover/active states
+- [ ] Ensure buttons have sufficient contrast in both themes
+- [ ] Test all button variants
+
+**Acceptance Criteria:**
+- [ ] All button variants render in both themes
+- [ ] Buttons have proper contrast
+- [ ] Hover/active states visible and distinct
+- [ ] No color issues
+
+---
+
+### Task 2.7: Update Input/Form Component Styles
+**Category:** Styling  
+**Priority:** Medium  
+**Estimated Time:** 2-3 hours  
+**Dependencies:** Task 1.2
+
+**Subtasks:**
+- [ ] Update `src/frontend/styles/components/auth.pcss`:
+  - Replace hardcoded colors with CSS variables
+  - Update input backgrounds and borders
+  - Update form styling
+- [ ] Update form focus states for both themes
+- [ ] Update error message colors
+- [ ] Test form inputs in both themes
+
+**Acceptance Criteria:**
+- [ ] Forms render correctly in both themes
+- [ ] Input fields have clear focus states
+- [ ] Text is readable in both themes
+- [ ] No contrast issues
+
+---
+
+### Task 2.8: Update Remaining Component Styles
+**Category:** Styling  
+**Priority:** Medium  
+**Estimated Time:** 3-4 hours  
+**Dependencies:** Task 1.2
+
+**Subtasks:**
+- [ ] Update `src/frontend/styles/components/writing.pcss`
+- [ ] Update `src/frontend/styles/components/copy-button.pcss`
+- [ ] Update `src/frontend/styles/components/error.pcss`
+- [ ] Update `src/frontend/styles/components/greeting.pcss`
+- [ ] Update `src/frontend/styles/components/table-of-content.pcss`
+- [ ] Update any other component styles
+- [ ] Review `carbon.pcss` for Carbon UI kit colors
+- [ ] Update `diff.pcss` if applicable
+
+**Acceptance Criteria:**
+- [ ] All components updated to use CSS variables
+- [ ] Consistent appearance in both themes
+- [ ] No hardcoded colors remaining
+- [ ] All text readable in both themes
+
+---
+
+## Phase 3: Testing & Validation (3-4 days)
+
+### Task 3.1: Visual Testing All Components
+**Category:** QA/Testing  
+**Priority:** Critical  
+**Estimated Time:** 6-8 hours  
+**Dependencies:** Phase 2 complete
+
+**Subtasks:**
+- [ ] Create manual testing checklist
+- [ ] Test light mode on Chrome, Firefox, Safari, Edge
+- [ ] Test dark mode on Chrome, Firefox, Safari, Edge
+- [ ] Verify all components render correctly:
+  - Header and navigation
+  - Sidebar
+  - Main content area
+  - Code blocks
+  - Forms and inputs
+  - Buttons
+  - Error pages
+  - Authentication pages
+- [ ] Check for any visual anomalies or flickering
+- [ ] Compare against VS Code dark theme for consistency
+- [ ] Document any visual inconsistencies
+
+**Acceptance Criteria:**
+- [ ] All components render correctly in both themes
+- [ ] No visual glitches or anomalies
+- [ ] Consistent with design specification
+- [ ] All major browsers tested
+
+---
+
+### Task 3.2: Accessibility Testing
+**Category:** QA/Testing  
+**Priority:** Critical  
+**Estimated Time:** 4-5 hours  
+**Dependencies:** Phase 2 complete
+
+**Subtasks:**
+- [ ] Run contrast checking tool on all colors
+- [ ] Verify all text meets WCAG AA standards
+- [ ] Test keyboard navigation
+- [ ] Test with screen reader
+- [ ] Document any accessibility issues
+- [ ] Fix any issues found
+
+**Acceptance Criteria:**
+- [ ] All colors meet WCAG AA contrast standards
+- [ ] Theme toggle fully keyboard accessible
+- [ ] Screen reader announces theme button
+- [ ] Focus indicators visible in both themes
+- [ ] No accessibility violations
+
+---
+
+### Task 3.3: Performance Testing
+**Category:** QA/Testing  
+**Priority:** High  
+**Estimated Time:** 3-4 hours  
+**Dependencies:** Phase 2 complete
+
+**Subtasks:**
+- [ ] Measure theme switch latency (target: < 100ms)
+- [ ] Check for layout shifts
+- [ ] Monitor CPU/GPU usage during theme switch
+- [ ] Verify no memory leaks in ThemeManager
+- [ ] Test with DevTools Lighthouse
+- [ ] Check page load time impact
+- [ ] Document results
+
+**Acceptance Criteria:**
+- [ ] Theme switch latency < 100ms
+- [ ] No layout shift
+- [ ] No console errors or warnings
+- [ ] Performance impact minimal
+
+---
+
+### Task 3.4: localStorage Persistence Testing
+**Category:** QA/Testing  
+**Priority:** High  
+**Estimated Time:** 2-3 hours  
+**Dependencies:** Task 3.1
+
+**Subtasks:**
+- [ ] Test preference persistence across reloads
+- [ ] Test system preference fallback
+- [ ] Test in private/incognito mode
+- [ ] Test localStorage quota exceeded handling
+- [ ] Verify localStorage key is correctly named
+
+**Acceptance Criteria:**
+- [ ] Preferences persist across page reloads
+- [ ] System preference respected if no saved preference
+- [ ] Works in private mode
+- [ ] Handles localStorage errors gracefully
+- [ ] Correct localStorage key used
+
+---
+
+### Task 3.5: Browser Compatibility Testing
+**Category:** QA/Testing  
+**Priority:** High  
+**Estimated Time:** 3-4 hours  
+**Dependencies:** Phase 2 complete
+
+**Subtasks:**
+- [ ] Test on Chrome/Edge 55+
+- [ ] Test on Firefox 31+
+- [ ] Test on Safari 9.1+
+- [ ] Test on older IE 11 if in scope
+- [ ] Test on mobile browsers
+- [ ] Verify CSS variables work on all browsers
+- [ ] Document browser-specific issues
+
+**Acceptance Criteria:**
+- [ ] Works correctly on all target browsers
+- [ ] Graceful fallback on older browsers
+- [ ] No broken layouts or styles
+- [ ] All features functional on modern browsers
+
+---
+
+## Phase 4: Code Quality & Documentation (2 days)
+
+### Task 4.1: Code Review & Cleanup
+**Category:** Code Quality  
+**Priority:** High  
+**Estimated Time:** 3-4 hours  
+**Dependencies:** Phase 3 complete
+
+**Subtasks:**
+- [ ] Review code against .editorconfig
+- [ ] Review CSS files for consistency
+- [ ] Remove console.log debug statements
+- [ ] Remove commented-out code
+- [ ] Verify no TypeScript/ESLint errors
+- [ ] Run formatter if applicable
+- [ ] Fix any style issues
+
+**Acceptance Criteria:**
+- [ ] All code follows .editorconfig
+- [ ] No console warnings or errors
+- [ ] No debug code remaining
+- [ ] Clean git history
+
+---
+
+### Task 4.2: Add Unit Tests for ThemeManager
+**Category:** Testing  
+**Priority:** Medium  
+**Estimated Time:** 3-4 hours  
+**Dependencies:** Task 1.1
+
+**Subtasks:**
+- [ ] Create test file for ThemeManager
+- [ ] Write tests for all methods
+- [ ] Achieve > 80% code coverage
+- [ ] Run test suite and verify all pass
+- [ ] Add test documentation
+
+**Acceptance Criteria:**
+- [ ] Unit tests exist
+- [ ] All tests pass
+- [ ] Code coverage > 80%
+
+---
+
+### Task 4.3: Create Developer Documentation
+**Category:** Documentation  
+**Priority:** Medium  
+**Estimated Time:** 2-3 hours  
+**Dependencies:** Phase 2 complete
+
+**Subtasks:**
+- [ ] Create developer guide for dark mode
+- [ ] Add JSDoc comments to ThemeManager
+- [ ] Document CSS variable structure
+- [ ] Add examples of component updates
+- [ ] Include troubleshooting section
+
+**Acceptance Criteria:**
+- [ ] Developer documentation complete
+- [ ] Examples provided
+- [ ] Troubleshooting guide included
+- [ ] Code comments clear
+
+---
+
+### Task 4.4: Update Project Documentation
+**Category:** Documentation  
+**Priority:** Medium  
+**Estimated Time:** 1-2 hours  
+**Dependencies:** Task 4.3
+
+**Subtasks:**
+- [ ] Update README.md
+- [ ] Update DEVELOPMENT.md if exists
+- [ ] Add dark-mode feature to feature list
+- [ ] Document how to customize colors
+
+**Acceptance Criteria:**
+- [ ] README updated
+- [ ] Feature documented
+- [ ] Clear and concise
+
+---
+
+## Phase 5: Release & Deployment (1 day)
+
+### Task 5.1: Prepare for Merge
+**Category:** Release  
+**Priority:** High  
+**Estimated Time:** 2-3 hours  
+**Dependencies:** Phase 4 complete
+
+**Subtasks:**
+- [ ] Final code review
+- [ ] Update git commit messages
+- [ ] Rebase onto main branch
+- [ ] Run full test suite
+- [ ] Verify Docker build succeeds
+- [ ] Create pull request
+
+**Acceptance Criteria:**
+- [ ] All commits have clear messages
+- [ ] Tests pass
+- [ ] Docker builds successfully
+- [ ] PR ready for review
+
+---
+
+### Task 5.2: Deploy & Monitor
+**Category:** Deployment  
+**Priority:** High  
+**Estimated Time:** 1-2 hours  
+**Dependencies:** Task 5.1
+
+**Subtasks:**
+- [ ] Merge pull request to main
+- [ ] Deploy to staging environment
+- [ ] Run smoke tests on staging
+- [ ] Deploy to production
+- [ ] Monitor for errors
+- [ ] Verify feature works
+
+**Acceptance Criteria:**
+- [ ] Code merged to main
+- [ ] Deployed to production
+- [ ] No errors in monitoring
+- [ ] Feature works in production
+
+---
+
+## Task Summary
+
+| Phase | Tasks | Duration | Status |
+|-------|-------|----------|--------|
+| 1. Foundation | 1.1, 1.2, 1.3 | 2 days | Not Started |
+| 2. UI Components | 2.1-2.8 | 5-6 days | Not Started |
+| 3. Testing | 3.1-3.5 | 3-4 days | Not Started |
+| 4. Quality | 4.1-4.4 | 2 days | Not Started |
+| 5. Deployment | 5.1-5.2 | 1 day | Not Started |
+| **Total** | **18 tasks** | **13-15 days** | - |
+
+## Notes
+
+- Tasks should be completed in order due to dependencies
+- Estimated times are for experienced developer; adjust as needed
+- Testing should occur throughout, not just in Phase 3
+- Regular commits to feature/dark-mode branch
+- Daily standup recommended for 2+ week project
+- Pair programming recommended for complex styling

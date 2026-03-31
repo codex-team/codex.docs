@@ -1,0 +1,109 @@
+/**
+ * Dark Mode Theme Overrides
+ * Defines CSS custom properties for dark theme
+ * Automatically applied when data-theme="dark" attribute is set on root element
+ */
+
+[data-theme="dark"] {
+	/* Text Colors - VS Code inspired */
+	--color-text-main: #E0E0E0;
+	--color-text-second: #A0A0A0;
+
+	/* Background Colors - VS Code inspired */
+	--color-bg-main: #1E1E1E;
+	--color-bg-light: #2D2D30;
+
+	/* UI Elements */
+	--color-line-gray: #3E3E42;
+	--color-link-active: #569CD6;
+	--color-link-hover: #252526;
+
+	/* Input Colors */
+	--color-input-primary: #3C3C3C;
+	--color-input-border: #007ACC;
+
+	/* Status Colors */
+	--color-page-active: #FF1777;
+
+	/* Button Colors */
+	--color-button-primary: #0E639C;
+	--color-button-primary-hover: #1177BB;
+	--color-button-primary-active: #007ACC;
+
+	--color-button-secondary: #6A6A6A;
+	--color-button-secondary-hover: #7A7A7A;
+	--color-button-secondary-active: #5A5A5A;
+
+	--color-button-warning: #F48771;
+	--color-button-warning-hover: #F59988;
+	--color-button-warning-active: #F3785A;
+
+	--color-success: #4EC9B0;
+
+	/* Code Block Colors */
+	--color-code-bg: #1E1E1E;
+	--color-code-main: #D4D4D4;
+	--color-code-keyword: #569CD6;
+	--color-code-class: #4EC9B0;
+	--color-code-variable: #9CDCFE;
+	--color-code-string: #CE9178;
+	--color-code-params: #C586C0;
+	--color-code-tag: #4EC9B0;
+	--color-code-number: #B5CEA8;
+	--color-code-comment: #6A9955;
+}
+
+/**
+ * System preference fallback
+ * Apply dark mode colors if system prefers dark scheme and no explicit theme is set
+ */
+@media (prefers-color-scheme: dark) {
+	:root {
+		/* Text Colors */
+		--color-text-main: #E0E0E0;
+		--color-text-second: #A0A0A0;
+
+		/* Background Colors */
+		--color-bg-main: #1E1E1E;
+		--color-bg-light: #2D2D30;
+
+		/* UI Elements */
+		--color-line-gray: #3E3E42;
+		--color-link-active: #569CD6;
+		--color-link-hover: #252526;
+
+		/* Input Colors */
+		--color-input-primary: #3C3C3C;
+		--color-input-border: #007ACC;
+
+		/* Status Colors */
+		--color-page-active: #FF1777;
+
+		/* Button Colors */
+		--color-button-primary: #0E639C;
+		--color-button-primary-hover: #1177BB;
+		--color-button-primary-active: #007ACC;
+
+		--color-button-secondary: #6A6A6A;
+		--color-button-secondary-hover: #7A7A7A;
+		--color-button-secondary-active: #5A5A5A;
+
+		--color-button-warning: #F48771;
+		--color-button-warning-hover: #F59988;
+		--color-button-warning-active: #F3785A;
+
+		--color-success: #4EC9B0;
+
+		/* Code Block Colors */
+		--color-code-bg: #1E1E1E;
+		--color-code-main: #D4D4D4;
+		--color-code-keyword: #569CD6;
+		--color-code-class: #4EC9B0;
+		--color-code-variable: #9CDCFE;
+		--color-code-string: #CE9178;
+		--color-code-params: #C586C0;
+		--color-code-tag: #4EC9B0;
+		--color-code-number: #B5CEA8;
+		--color-code-comment: #6A9955;
+	}
+}

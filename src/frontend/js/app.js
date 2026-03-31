@@ -13,6 +13,7 @@ import ModuleDispatcher from 'module-dispatcher';
 /**
  * Import modules
  */
+import ThemeManager from './modules/themeManager';
 import Writing from './modules/writing';
 import Page from './modules/page';
 import Extensions from './modules/extensions';
@@ -23,26 +24,27 @@ import HawkCatcher from '@hawk.so/javascript';
  * Main app class
  */
 class Docs {
-  /**
-   * @class
-   */
-  constructor() {
-    this.writing = new Writing();
-    this.page = new Page();
-    this.extensions = new Extensions();
-    this.sidebar = new Sidebar();
-    if (window.config.hawkClientToken) {
-      this.hawk = new HawkCatcher(window.config.hawkClientToken);
-    }
+	/**
+	 * @class
+	 */
+	constructor() {
+		// Initialize theme manager first, before render to prevent FOUC
+		ThemeManager.init();
 
-    document.addEventListener('DOMContentLoaded', (event) => {
-      this.docReady();
-    });
+		this.writing = new Writing();
+		this.page = new Page();
+		this.extensions = new Extensions();
+		this.sidebar = new Sidebar();
+		if (window.config.hawkClientToken) {
+			this.hawk = new HawkCatcher(window.config.hawkClientToken);
+		}
 
-    console.log('CodeX Docs initialized');
-  }
+		document.addEventListener('DOMContentLoaded', (event) => {
+			this.docReady();
+		});
 
-  /**
+		console.log('CodeX Docs initialized');
+	}  /**
    * Document is ready
    */
   docReady() {
