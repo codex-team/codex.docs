@@ -29,7 +29,7 @@
 |-------|-------------|--------|
 | **3.1** | Visual testing, Playwright E2E suite (35 tests), structural CSS fixes, color palette redesign, bug fixes, NeDB migration | ✅ Done |
 | **3.2** | Accessibility testing (WCAG AA contrast, keyboard nav, focus visibility, ARIA) | ✅ Done |
-| **3.3** | Performance testing (< 100ms theme switch, no layout shifts) | Not Started |
+| **3.3** | Performance testing (< 100ms theme switch, no layout shifts, CSS architecture) | ✅ Done |
 | **3.4** | localStorage persistence testing | Not Started |
 | **3.5** | Browser compatibility testing | Not Started |
 | **4.1** | Code review & cleanup | Not Started |
@@ -99,6 +99,21 @@ Fixes applied to both `[data-theme="dark"]` and `@media (prefers-color-scheme: d
 | ARIA & Semantic Structure | 8 | aria-label, title, semantic button/header/aside, SVG screen reader handling, no duplicate IDs |
 
 **Total test suite:** 61 tests (35 existing + 26 new) — all passing.
+
+---
+
+## Phase 3.3 Completion Details — Performance (NFR-3.1.1 / 3.1.2 / 3.1.3)
+
+### Playwright Performance Test Suite (12 new tests)
+
+| Test Group | Tests | Coverage |
+|------------|-------|----------|
+| Theme Switch Timing (< 100ms) | 4 | Light→dark, dark→light, 10 rapid toggles, raw setAttribute |
+| No Layout Shift (CLS) | 3 | PerformanceObserver CLS < 0.05, element dimensions stable, scroll position preserved |
+| No FOUC on Load | 2 | Dark preference loads without light flash, theme applied within DOMContentLoaded |
+| CSS Variables Architecture | 3 | data-theme attribute (not classes), synchronous variable update, no inline color styles |
+
+**Total test suite:** 73 tests (61 existing + 12 new) — all passing.
 
 ---
 
