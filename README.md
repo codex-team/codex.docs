@@ -14,6 +14,7 @@ It's super easy to install and use.
 - 📂 Docs nesting — create any structure you need
 - 💎 Static rendering
 - 📱 Nice look on Desktop and Mobile
+- 🌙 Dark mode — system preference detection, manual toggle, localStorage persistence
 - 🔥 Beautiful page URLs. Human-readable and SEO-friendly.
 - 🦅 [Hawk](https://hawk.so/?from=docs-demo) is hunting. Errors tracking integrated
 - 💌 [Misprints](https://github.com/codex-team/codex.misprints) reports to the Telegram / Slack
