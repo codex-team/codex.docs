@@ -34,7 +34,7 @@ export const themeColors = {
 		'--color-bg-main': '#18181b',
 		'--color-text-main': '#e4e4e7',
 		'--color-bg-light': '#27272a',
-		'--color-line-gray': '#3f3f46',
+		'--color-line-gray': '#71717a',
 	},
 };
 
