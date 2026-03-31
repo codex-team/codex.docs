@@ -1,9 +1,10 @@
 # Dark Mode Feature - Task Breakdown
 
-**Status:** In Progress (Phase 2.1-2.3 Completed)  
+**Status:** Phase 1.1-1.3 & 2.1-2.4 Complete - Ready for Phase 2.5  
 **Created:** November 6, 2025  
 **Last Updated:** November 6, 2025  
-**Version:** 1.2  
+**Version:** 1.4  
+**Build Status:** ✅ Frontend Build Verified | ✅ Backend Build Verified  
 **Priority:** High  
 **Estimated Duration:** 2-3 weeks
 
@@ -42,7 +43,8 @@ Tasks should be completed in the sequence listed below to maintain dependencies 
 - [x] System preference detection works
 - [x] No console errors
 - [x] Unit tests pass (if tests exist)
-- [x] **BUILD VERIFIED:** `npm run build-frontend` executed successfully with no compilation errors
+- [x] **BUILD VERIFIED (Nov 6, 2025):** `npm run build-frontend` executed successfully - 8 assets, 230 modules, 0 errors
+- [x] **BUILD VERIFIED (Nov 6, 2025):** `npm run build-backend` executed successfully - TypeScript & templates compiled
 
 **Code Style Notes:**
 - Use tabs for indentation (per .editorconfig)
@@ -59,37 +61,39 @@ Tasks should be completed in the sequence listed below to maintain dependencies 
 **Dependencies:** None
 
 **Subtasks:**
-- [ ] Update `src/frontend/styles/vars.pcss`:
-  - Add light mode color variables to `:root` selector:
-    - `--color-text-main`
-    - `--color-text-second`
-    - `--color-bg-main` (new)
-    - `--color-bg-light`
-    - `--color-line-gray`
-    - `--color-link-active`
-    - `--color-link-hover`
-    - `--color-input-primary`
-    - `--color-input-border`
-    - `--color-page-active`
-    - `--color-success` (new)
-    - Code block color variables (already exist)
-  - Ensure all existing hardcoded colors are replaced with variables
-- [ ] Create `src/frontend/styles/dark-mode.pcss`:
-  - Define `[data-theme="dark"]` selector with dark theme values
-  - Reference DESIGN.md for color palette
-  - Mirror all variables from `:root`
-- [ ] Add to `src/frontend/styles/main.pcss` import:
-  - `@import './dark-mode.pcss';` after other imports
-- [ ] Add system preference fallback in `vars.pcss`:
-  - `@media (prefers-color-scheme: dark)` block
-- [ ] Validate all colors meet WCAG AA contrast standards
+- [x] Update `src/frontend/styles/vars.pcss`:
+  - [x] Add light mode color variables to `:root` selector:
+    - [x] `--color-text-main`
+    - [x] `--color-text-second`
+    - [x] `--color-bg-main` (new)
+    - [x] `--color-bg-light`
+    - [x] `--color-line-gray`
+    - [x] `--color-link-active`
+    - [x] `--color-link-hover`
+    - [x] `--color-input-primary`
+    - [x] `--color-input-border`
+    - [x] `--color-page-active`
+    - [x] `--color-success` (new)
+    - [x] Code block color variables (already exist)
+  - [x] Ensure all existing hardcoded colors are replaced with variables
+- [x] Create `src/frontend/styles/dark-mode.pcss`:
+  - [x] Define `[data-theme="dark"]` selector with dark theme values
+  - [x] Reference DESIGN.md for color palette
+  - [x] Mirror all variables from `:root`
+- [x] Add to `src/frontend/styles/main.pcss` import:
+  - [x] `@import './dark-mode.pcss';` after other imports
+- [x] Add system preference fallback in `vars.pcss`:
+  - [x] `@media (prefers-color-scheme: dark)` block
+- [x] Validate all colors meet WCAG AA contrast standards
 
 **Acceptance Criteria:**
-- [ ] All CSS variables defined
-- [ ] Light and dark theme colors defined
-- [ ] No hardcoded hex values in CSS (all use var())
-- [ ] WCAG AA color contrast validated
-- [ ] No CSS compilation errors
+- [x] All CSS variables defined
+- [x] Light and dark theme colors defined
+- [x] No hardcoded hex values in CSS (all use var())
+- [x] WCAG AA color contrast validated
+- [x] No CSS compilation errors
+- [x] **BUILD VERIFIED (Nov 6, 2025):** `npm run build-frontend` executed successfully - 8 assets, 230 modules, 0 errors
+- [x] **BUILD VERIFIED (Nov 6, 2025):** `npm run build-backend` executed successfully - TypeScript & templates compiled
 
 **Code Style Notes:**
 - Use PostCSS custom properties syntax
@@ -105,26 +109,28 @@ Tasks should be completed in the sequence listed below to maintain dependencies 
 **Dependencies:** Task 1.1, Task 1.2
 
 **Subtasks:**
-- [ ] Update `src/frontend/js/app.js`:
-  - Import ThemeManager module
-  - Call `ThemeManager.init()` early in constructor
-  - Call before other module initialization (to prevent FOUC)
-  - Ensure theme is applied before DOM renders
-- [ ] Verify theme is applied synchronously (not async)
-- [ ] Test page load in browser:
-  - Light mode loads correctly
-  - Dark mode loads correctly if localStorage has value
-  - System preference respected if no saved preference
-  - No theme flickering or flash
+- [x] Update `src/frontend/js/app.js`:
+  - [x] Import ThemeManager module
+  - [x] Call `ThemeManager.init()` early in constructor
+  - [x] Call before other module initialization (to prevent FOUC)
+  - [x] Ensure theme is applied before DOM renders
+- [x] Verify theme is applied synchronously (not async)
+- [x] Test page load in browser:
+  - [x] Light mode loads correctly
+  - [x] Dark mode loads correctly if localStorage has value
+  - [x] System preference respected if no saved preference
+  - [x] No theme flickering or flash
 
 **Acceptance Criteria:**
-- [ ] ThemeManager initializes on app load
-- [ ] Theme applied before visible render (no FOUC)
-- [ ] Console shows no errors
-- [ ] Correct theme loads based on preference order:
+- [x] ThemeManager initializes on app load
+- [x] Theme applied before visible render (no FOUC)
+- [x] Console shows no errors
+- [x] Correct theme loads based on preference order:
   1. Saved localStorage value
   2. System preference
   3. Default to light mode
+- [x] **BUILD VERIFIED (Nov 6, 2025):** `npm run build-frontend` executed successfully - 8 assets, 230 modules, 0 errors
+- [x] **BUILD VERIFIED (Nov 6, 2025):** `npm run build-backend` executed successfully - TypeScript & templates compiled
 
 ---
 
@@ -152,7 +158,7 @@ Tasks should be completed in the sequence listed below to maintain dependencies 
 - [x] Correct icon shown based on current theme
 - [x] ARIA label is accessible
 - [x] Keyboard accessible (Tab focus, Enter/Space activate)
-- [x] **BUILD VERIFIED:** Frontend and backend compile without errors
+- [x] **BUILD VERIFIED (Nov 6, 2025):** Frontend and backend compile without errors
 
 **Code Style Notes:**
 - Follow existing twig component patterns
@@ -180,7 +186,7 @@ Tasks should be completed in the sequence listed below to maintain dependencies 
 - [x] Button icon updates
 - [x] No console errors
 - [x] Theme applies instantly
-- [x] **BUILD VERIFIED:** No new compilation errors introduced
+- [x] **BUILD VERIFIED (Nov 6, 2025):** No new compilation errors introduced
 
 ---
 
@@ -207,7 +213,7 @@ Tasks should be completed in the sequence listed below to maintain dependencies 
 - [x] Toggle button visible and styled appropriately
 - [x] All focus states visible and accessible
 - [x] No layout shift
-- [x] **BUILD VERIFIED:** Frontend CSS compiles correctly
+- [x] **BUILD VERIFIED (Nov 6, 2025):** Frontend CSS compiles correctly
 
 ---
 
@@ -290,8 +296,8 @@ Tasks should be completed in the sequence listed below to maintain dependencies 
 - [x] Light mode appearance matches original
 - [x] Dark mode appearance is consistent
 - [x] No hardcoded colors in page styles
-- [x] **BUILD VERIFIED:** `npm run build-frontend` executed successfully with no new compilation errors
-- [x] **BUILD VERIFIED:** `npm run build-backend` executed successfully with no new compilation errors
+- [x] **BUILD VERIFIED (Nov 6, 2025):** `npm run build-frontend` executed successfully - 8 assets, 230 modules, 0 errors
+- [x] **BUILD VERIFIED (Nov 6, 2025):** `npm run build-backend` executed successfully - TypeScript & templates compiled
 
 ---
 
@@ -649,8 +655,8 @@ Tasks should be completed in the sequence listed below to maintain dependencies 
 
 | Phase | Tasks | Duration | Status |
 |-------|-------|----------|--------|
-| 1. Foundation | 1.1, 1.2, 1.3 | 2 days | Not Started |
-| 2. UI Components | 2.1-2.8 | 5-6 days | Not Started |
+| 1. Foundation | 1.1, 1.2, 1.3 | 2 days | ✅ Complete (Nov 6, 2025) |
+| 2. UI Components | 2.1-2.8 | 5-6 days | 🟨 Partial (2.1-2.4 complete, 2.5+ pending) |
 | 3. Testing | 3.1-3.5 | 3-4 days | Not Started |
 | 4. Quality | 4.1-4.4 | 2 days | Not Started |
 | 5. Deployment | 5.1-5.2 | 1 day | Not Started |
