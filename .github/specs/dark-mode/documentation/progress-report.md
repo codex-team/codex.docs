@@ -33,7 +33,7 @@
 | Phase | Description | Status |
 |-------|-------------|--------|
 | **4.1** | Code review & cleanup | ✅ Done |
-| **4.2** | Unit tests for ThemeManager | Not Started |
+| **4.2** | Unit tests for ThemeManager | ✅ Done |
 | **4.3** | Developer documentation | Not Started |
 | **4.4** | Update project documentation (README, DEVELOPMENT.md) | Not Started |
 | **5.1** | Prepare for merge (rebase, PR) | Not Started |
