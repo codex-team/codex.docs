@@ -46,10 +46,18 @@ class Docs {
     });
 
     console.log('CodeX Docs initialized');
+  }
+
+  /**
+   * Initialize theme toggle module
+   */
+  initThemeToggle() {
+    this.themeToggle.init();
   }  /**
    * Document is ready
    */
   docReady() {
+    this.initThemeToggle();
     this.moduleDispatcher = new ModuleDispatcher({
       Library: this,
     });
