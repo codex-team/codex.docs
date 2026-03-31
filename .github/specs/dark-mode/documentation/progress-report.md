@@ -7,7 +7,7 @@
 
 ---
 
-## Completed Work (Phases 1 & 2) - All verified with passing builds
+## Completed Work (Phases 1-3) - All verified with passing builds
 
 | Phase | Description | Status |
 |-------|-------------|--------|
@@ -20,19 +20,19 @@
 | **2.6** | Button component styles (already using CSS variables, verified + documented) | ✅ Done |
 | **2.7** | Input/Form component styles (`writing.pcss` — 2 hardcoded colors replaced) | ✅ Done |
 | **2.8** | Remaining component styles (sidebar gradient/focus — final 2 hardcoded colors replaced) | ✅ Done |
-
----
-
-## Remaining Work (Phases 3-5)
-
-| Phase | Description | Status |
-|-------|-------------|--------|
 | **3.1** | Visual testing, Playwright E2E suite (35 tests), structural CSS fixes, color palette redesign, bug fixes, NeDB migration | ✅ Done |
 | **3.2** | Accessibility testing (WCAG AA contrast, keyboard nav, focus visibility, ARIA) | ✅ Done |
 | **3.3** | Performance testing (< 100ms theme switch, no layout shifts, CSS architecture) | ✅ Done |
 | **3.4** | localStorage persistence testing (edge cases, cross-navigation, validation) | ✅ Done |
 | **3.5** | Browser compatibility testing (Chromium, Firefox, WebKit) | ✅ Done |
-| **4.1** | Code review & cleanup | Not Started |
+
+---
+
+## Remaining Work (Phases 4-5)
+
+| Phase | Description | Status |
+|-------|-------------|--------|
+| **4.1** | Code review & cleanup | ✅ Done |
 | **4.2** | Unit tests for ThemeManager | Not Started |
 | **4.3** | Developer documentation | Not Started |
 | **4.4** | Update project documentation (README, DEVELOPMENT.md) | Not Started |
@@ -161,6 +161,22 @@ Added 3 browser projects to `playwright.config.ts`:
 | CustomEvent & API | 2 | CustomEvent dispatch, MutationObserver attribute detection |
 
 **Total test suite:** 139 tests (82 Chromium-only + 19×3 cross-browser) — all passing.
+
+---
+
+## Phase 4.1 Completion Details — Code Review & Cleanup
+
+### Dead Code Removed (ThemeManager)
+- `onThemeToggle(callback)` — unused; no code calls this method
+- `static toggleTheme(newTheme)` — unused; ThemeToggle calls `setTheme()` directly
+- Reduced from 227 → 173 lines (~24% reduction)
+
+### CSS Specificity Bug Fixed (dark-mode.pcss)
+- `@media (prefers-color-scheme: dark)` fallback changed `:root` to `:root:not([data-theme="light"])`
+- Prevents system dark preference from overriding an explicit user choice of light mode
+- JS-disabled users with dark system preference still get dark mode correctly
+
+**All 139 tests still passing after cleanup.**
 
 ---
 

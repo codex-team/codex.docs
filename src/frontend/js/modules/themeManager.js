@@ -173,27 +173,6 @@ class ThemeManager {
     }
 
     /**
-     * Listen for theme toggle events
-     * Called by UI components when user wants to toggle theme
-     *
-     * @param {Function} callback - Callback function to execute on toggle
-     * @returns {void}
-     */
-    onThemeToggle(callback) {
-        if (typeof callback !== 'function') {
-            console.warn('[ThemeManager] onThemeToggle callback must be a function');
-            return;
-        }
-
-        document.addEventListener('themeToggle', (event) => {
-            const newTheme = event.detail?.theme;
-            if (newTheme && Object.values(ThemeManager.THEMES).includes(newTheme)) {
-                callback(newTheme);
-            }
-        });
-    }
-
-    /**
      * Emit theme change event for other modules to listen
      * Called internally when theme is changed
      *
@@ -204,20 +183,6 @@ class ThemeManager {
     emitThemeChange(theme) {
         const event = new CustomEvent('themeChange', {
             detail: { theme },
-        });
-        document.dispatchEvent(event);
-    }
-
-    /**
-     * Emit theme toggle event
-     * Called by UI when user clicks toggle button
-     *
-     * @param {string} newTheme - New theme to switch to
-     * @returns {void}
-     */
-    static toggleTheme(newTheme) {
-        const event = new CustomEvent('themeToggle', {
-            detail: { theme: newTheme },
         });
         document.dispatchEvent(event);
     }
