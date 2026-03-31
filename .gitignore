@@ -85,3 +85,7 @@ db/
 *.local.yaml
 
 static-build
+.vs/
+
+# Dark mode agent reference (local development only)
+.github/specs/dark-mode/Agents.md
