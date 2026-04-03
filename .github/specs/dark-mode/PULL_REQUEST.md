@@ -134,13 +134,13 @@ Toggle the sun/moon button in the header to switch themes. Preference persists a
    ```bash
    docker compose up -d --build
    ```
-   The app will be available at http://localhost:7777
+   The app will be available at http://localhost:3000
 
 3. **Verify the container:**
    ```bash
    docker logs codexdocs-docs-1 --tail 20
    ```
-   You should see: `CodeX Docs server is running`
+   You should see: `CodeX Docs server is running` with `Main page: http://localhost:3000`
 
 #### Important Notes
 
