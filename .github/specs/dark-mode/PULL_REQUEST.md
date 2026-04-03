@@ -128,7 +128,7 @@ Toggle the sun/moon button in the header to switch themes. Preference persists a
    # Copy the default config
    cp docs-config.yaml docs-config.local.yaml
    ```
-   Update `port: 7777` and `host: "0.0.0.0"` in `docs-config.local.yaml` if needed.
+   Update `port: 3000` and `host: "0.0.0.0"` in `docs-config.local.yaml` if needed.
 
 2. **Build and start the container:**
    ```bash
