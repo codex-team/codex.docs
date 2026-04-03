@@ -1,6 +1,8 @@
 services:
   docs:
-    image: ghcr.io/codex-team/codex.docs:v2.0.0-rc.8
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.prod
     ports:
       - "7777:7777"
     volumes:

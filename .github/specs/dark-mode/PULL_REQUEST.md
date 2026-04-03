@@ -96,3 +96,59 @@ yarn test:e2e:ui
 ```
 
 Toggle the sun/moon button in the header to switch themes. Preference persists across reloads and pages. Remove localStorage key `codex-docs-theme` to reset to system default.
+
+### Getting Started
+
+#### Prerequisites
+
+- **Node.js 20+** is required (eslint-plugin-jsdoc@62.9.0+ only supports Node 20+)
+- Docker (optional, for containerized deployment)
+
+#### Local Development with Yarn
+
+1. **Install dependencies:**
+   ```bash
+   yarn install --ignore-engines
+   ```
+   (The `--ignore-engines` flag bypasses Node version warnings for some transitive dependencies)
+
+2. **Start the development server:**
+   ```bash
+   yarn dev
+   ```
+   This runs the backend on `http://localhost:3000` and watches frontend assets.
+
+3. **Access the app:**
+   Open http://localhost:3000 and use the sun/moon toggle button in the header (top-right) to switch themes.
+
+#### Production with Docker
+
+1. **Create a local config file:**
+   ```bash
+   # Copy the default config
+   cp docs-config.yaml docs-config.local.yaml
+   ```
+   Update `port: 7777` and `host: "0.0.0.0"` in `docs-config.local.yaml` if needed.
+
+2. **Build and start the container:**
+   ```bash
+   docker compose up -d --build
+   ```
+   The app will be available at http://localhost:7777
+
+3. **Verify the container:**
+   ```bash
+   docker logs codexdocs-docs-1 --tail 20
+   ```
+   You should see: `CodeX Docs server is running`
+
+#### Important Notes
+
+- **Node 22 on local machine:** If you're running Node 22 locally and encounter `eslint-plugin-jsdoc` engine errors during `yarn install`, use the `--ignore-engines` flag:
+  ```bash
+  yarn install --ignore-engines
+  ```
+
+- **Docker builds:** The Dockerfile.prod uses Node 20 and includes `--ignore-engines` flags in yarn install commands to ensure compatibility.
+
+- **Database:** This PR migrates from `nedb` to `@seald-io/nedb`. The new package is a drop-in replacement with identical on-disk format — no data migration required.
