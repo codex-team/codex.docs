@@ -138,6 +138,29 @@ class Page {
   }
 
   /**
+   * Ancestors from root to immediate parent (for breadcrumbs). Omits virtual root id "0".
+   */
+  public async getAncestorChain(): Promise<Page[]> {
+    const chain: Page[] = [];
+    let parentId = this._parent;
+
+    while (parentId && !isEqualIds(parentId, '0' as EntityId)) {
+      const data = await pagesDb.findOne({ _id: parentId });
+
+      if (!data?._id) {
+        break;
+      }
+
+      const ancestor = new Page(data);
+
+      chain.unshift(ancestor);
+      parentId = ancestor._parent;
+    }
+
+    return chain;
+  }
+
+  /**
    * Return child pages models
    *
    * @returns {Promise<Page[]>}

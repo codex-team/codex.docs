@@ -23,14 +23,12 @@ export default class SidebarFilter {
    */
   static get CSS() {
     return {
+      section: 'docs-sidebar__section',
       sectionHidden: 'docs-sidebar__section--hidden',
       sectionTitle: 'docs-sidebar__section-title',
       sectionTitleSelected: 'docs-sidebar__section-title--selected',
       sectionTitleActive: 'docs-sidebar__section-title--active',
       sectionList: 'docs-sidebar__section-list',
-      sectionListItem: 'docs-sidebar__section-list-item',
-      sectionListItemWrapperHidden: 'docs-sidebar__section-list-item-wrapper--hidden',
-      sectionListItemSlelected: 'docs-sidebar__section-list-item--selected',
       sidebarSearchWrapper: 'docs-sidebar__search-wrapper',
     };
   }
@@ -43,7 +41,7 @@ export default class SidebarFilter {
      * Stores refs to HTML elements needed for sidebar filter to work.
      */
     this.sidebar = null;
-    this.sections = [];
+    this.rootSections = [];
     this.sidebarContent = null;
     this.search = null;
     this.searchResults = [];
@@ -53,14 +51,14 @@ export default class SidebarFilter {
   /**
    * Initialize sidebar filter.
    *
-   * @param {HTMLElement[]} sections - Array of sections.
+   * @param {HTMLElement[]} rootSections - Top-level sections (direct children of sidebar content).
    * @param {HTMLElement} sidebarContent - Sidebar content.
    * @param {HTMLElement} search - Search input.
    * @param {Function} setSectionCollapsed - Function to set section collapsed.
    */
-  init(sections, sidebarContent, search, setSectionCollapsed) {
+  init(rootSections, sidebarContent, search, setSectionCollapsed) {
     // Store refs to HTML elements.
-    this.sections = sections;
+    this.rootSections = rootSections;
     this.sidebarContent = sidebarContent;
     this.search = search;
     this.setSectionCollapsed = setSectionCollapsed;
@@ -98,8 +96,10 @@ export default class SidebarFilter {
 
     // handle enter key when item is focused.
     if (e.code === 'Enter' && this.selectedSearchResultIndex !== null) {
-      // navigate to focused item.
-      this.searchResults[this.selectedSearchResultIndex].element.click();
+      const raw = this.searchResults[this.selectedSearchResultIndex].element;
+      const navigateEl = raw.closest('a') || raw;
+
+      navigateEl.click();
       // prevent default action.
       e.preventDefault();
       e.stopPropagation();
@@ -202,11 +202,8 @@ export default class SidebarFilter {
       return;
     }
 
-    // focus title or item.
     if (type === 'title') {
       element.classList.add(SidebarFilter.CSS.sectionTitleSelected);
-    } else if (type === 'item') {
-      element.classList.add(SidebarFilter.CSS.sectionListItemSlelected);
     }
 
     // scroll to focused title or item.
@@ -230,11 +227,8 @@ export default class SidebarFilter {
       return;
     }
 
-    // blur title or item.
     if (type === 'title') {
       element.classList.remove(SidebarFilter.CSS.sectionTitleSelected);
-    } else if (type === 'item') {
-      element.classList.remove(SidebarFilter.CSS.sectionListItemSlelected);
     }
   }
 
@@ -294,54 +288,76 @@ export default class SidebarFilter {
    * @param {string} searchValue - Search value.
    */
   filterSection(section, searchValue) {
-    // match with section title.
     const sectionTitle = section.querySelector('.' + SidebarFilter.CSS.sectionTitle);
-    const sectionList = section.querySelector('.' + SidebarFilter.CSS.sectionList);
+    const sectionList = section.querySelector(':scope > .' + SidebarFilter.CSS.sectionList);
 
-    // check if section title matches.
-    const isTitleMatch = this.isValueMatched(sectionTitle.textContent, searchValue);
-
-    const matchResults = [];
-    // match with section items.
-    let isSingleItemMatch = false;
-
-    if (sectionList) {
-      const sectionListItems = sectionList.querySelectorAll('.' + SidebarFilter.CSS.sectionListItem);
-
-      sectionListItems.forEach(item => {
-        if (this.isValueMatched(item.textContent, searchValue)) {
-          // remove hiden class from item.
-          item.parentElement.classList.remove(SidebarFilter.CSS.sectionListItemWrapperHidden);
-          // add item to search results.
-          matchResults.push({
-            element: item,
-            type: 'item',
-          });
-          isSingleItemMatch = true;
-        } else {
-          // hide item if it is not a match.
-          item.parentElement.classList.add(SidebarFilter.CSS.sectionListItemWrapperHidden);
-        }
-      });
+    if (!sectionTitle) {
+      return false;
     }
-    if (!isTitleMatch && !isSingleItemMatch) {
-      // hide section if it's items are not a match.
-      section.classList.add(SidebarFilter.CSS.sectionHidden);
-    } else {
-      const parentSection = sectionTitle.closest('section');
 
-      // if item is in collapsed section, expand it.
-      if (!parentSection.classList.contains(SidebarFilter.CSS.sectionTitleActive)) {
-        this.setSectionCollapsed(parentSection, false);
-      }
-      // show section if it's items are a match.
+    const empty = !searchValue || !searchValue.trim();
+
+    if (empty) {
       section.classList.remove(SidebarFilter.CSS.sectionHidden);
-      // add section title to search results.
+
+      if (sectionList) {
+        Array.from(sectionList.children).forEach((li) => {
+          const nestedSection = li.querySelector(':scope > .' + SidebarFilter.CSS.section);
+
+          if (nestedSection) {
+            this.filterSection(nestedSection, searchValue);
+          }
+        });
+      }
+
+      return true;
+    }
+
+    const isTitleMatch = this.isValueMatched(sectionTitle.textContent, searchValue);
+    let hasMatch = isTitleMatch;
+
+    if (isTitleMatch) {
       this.searchResults.push({
         element: sectionTitle,
         type: 'title',
-      }, ...matchResults);
+      });
     }
+
+    if (sectionList) {
+      for (const li of sectionList.children) {
+        const nestedSection = li.querySelector(':scope > .' + SidebarFilter.CSS.section);
+
+        if (!nestedSection) {
+          continue;
+        }
+
+        const childHasMatch = this.filterSection(nestedSection, searchValue);
+
+        hasMatch = hasMatch || childHasMatch;
+      }
+    }
+
+    if (hasMatch) {
+      section.classList.remove(SidebarFilter.CSS.sectionHidden);
+      this.setSectionCollapsed(section, false);
+
+      let el = section.parentElement;
+
+      while (el && el !== this.sidebarContent) {
+        const ancSection = el.closest('.' + SidebarFilter.CSS.section);
+
+        if (!ancSection) {
+          break;
+        }
+
+        this.setSectionCollapsed(ancSection, false);
+        el = ancSection.parentElement;
+      }
+    } else {
+      section.classList.add(SidebarFilter.CSS.sectionHidden);
+    }
+
+    return hasMatch;
   }
 
   /**
@@ -356,8 +372,7 @@ export default class SidebarFilter {
     this.selectedSearchResultIndex = null;
     // empty search results.
     this.searchResults = [];
-    // match search value with sidebar sections.
-    this.sections.forEach(section => {
+    this.rootSections.forEach(section => {
       this.filterSection(section, searchValue);
     });
   }

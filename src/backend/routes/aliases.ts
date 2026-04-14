@@ -5,6 +5,7 @@ import Alias from '../models/alias.js';
 import verifyToken from './middlewares/token.js';
 import PagesFlatArray from '../models/pagesFlatArray.js';
 import HttpException from '../exceptions/httpException.js';
+import { buildPageBreadcrumbs } from '../utils/breadcrumbs.js';
 
 
 const router = express.Router();
@@ -33,14 +34,14 @@ router.get('*', verifyToken, async (req: Request, res: Response) => {
       case Alias.types.PAGE: {
         const page = await Pages.get(alias.id);
 
-        const pageParent = await page.getParent();
+        const breadcrumbItems = await buildPageBreadcrumbs(page);
 
         const previousPage = await PagesFlatArray.getPageBefore(alias.id);
         const nextPage = await PagesFlatArray.getPageAfter(alias.id);
 
         res.render('pages/page', {
           page,
-          pageParent,
+          breadcrumbItems,
           previousPage,
           nextPage,
           config: req.app.locals.config,

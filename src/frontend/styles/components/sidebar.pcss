@@ -114,9 +114,31 @@
   }
 
   &__section {
-    overflow: hidden;
+    /* overflow only on the list — squircle mask on titles bleeds past the box and was clipped here */
+    overflow: visible;
     flex-shrink: 0;
     margin-top: 20px;
+
+    &--nested {
+      margin-top: 2px;
+    }
+
+    &--leaf {
+      .docs-sidebar__section-title {
+        font-size: 14px;
+        line-height: 21px;
+        height: 29px;
+
+        @media (--mobile) {
+          font-size: 16px;
+          line-height: 21px;
+        }
+      }
+
+      .docs-sidebar__section-title--active {
+        color: white;
+      }
+    }
 
     &--hidden {
       display: none;
@@ -137,6 +159,7 @@
     &--collapsed {
       .docs-sidebar__section-list {
         max-height: 0 !important;
+        padding-bottom: 0;
       }
 
       .docs-sidebar__section-toggler {
@@ -156,25 +179,11 @@
   &__section-title {
     font-size: 16px;
     line-height: 24px;
-    font-weight: 700;
+    font-weight: 400;
+    color: var(--color-text-main);
     z-index: 2;
     position: relative;
     height: 34px;
-  }
-
-  &__section-list-item {
-    font-size: 14px;
-    line-height: 21px;
-    height: 29px;
-
-    @media (--mobile) {
-      font-size: 16px;
-      line-height: 21px;
-    }
-  }
-
-  &__section-title,
-  &__section-list-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -190,12 +199,16 @@
 
     &--active,
     &:hover {
-      @apply --squircle;
+      /* plain radius: --squircle uses mask-box-image and gets clipped by overflow:hidden on ancestors */
+      border-radius: 8px;
+    }
+
+    &:has(.docs-sidebar__section-toggler) {
+      font-weight: 700;
     }
   }
 
-  &__section-title > span,
-  &__section-list-item > span {
+  &__section-title > span {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -208,22 +221,7 @@
     }
   }
 
-  &__section-list-item-wrapper {
-    padding: 1px 0;
-    display: block;
-    &--hidden {
-      display: none !important;
-    }
-  }
-
-  li:last-child {
-    .docs-sidebar__section-list-item-wrapper {
-      padding-bottom: 0;
-    }
-  }
-
-  &__section-title:not(&__section-title--active),
-  &__section-list-item:not(&__section-list-item--active) {
+  &__section-title:not(&__section-title--active) {
     @media (--can-hover) {
       &:hover {
         background: var(--color-link-hover);
@@ -246,9 +244,20 @@
   &__section-list {
     list-style: none;
     padding: 0;
+    padding-bottom: 6px;
     margin: 0;
     z-index: 1;
     position: relative;
+    overflow: hidden;
+
+    &--nested {
+      padding-left: 12px;
+      margin-top: 2px;
+    }
+
+    & > li + li {
+      margin-top: 2px;
+    }
   }
 
   &__section-toggler {

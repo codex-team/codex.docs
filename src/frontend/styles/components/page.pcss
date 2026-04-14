@@ -6,6 +6,7 @@
     font-size: 14px;
     color: var(--color-text-second);
     line-height: 1.5em;
+    min-width: 0;
 
     @media (--mobile) {
       font-size: 13px;
@@ -14,6 +15,42 @@
     &-nav {
       display: flex;
       align-items: center;
+      min-width: 0;
+      flex: 1 1 auto;
+
+      > .page__header-nav-item:first-of-type {
+        flex-shrink: 0;
+        max-width: min(10rem, 28vw);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      &-crumbs {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        flex: 1 1 auto;
+        overflow: hidden;
+
+        @media (--mobile) {
+          display: none;
+        }
+
+        > .page__header-nav-item:not(.page__header-nav-item--current):not(.page__header-nav-item--ellipsis) {
+          flex: 0 1 auto;
+          max-width: 38%;
+          min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        svg {
+          flex-shrink: 0;
+          margin: 0 6px;
+        }
+      }
 
       &-item {
         color: inherit;
@@ -26,19 +63,30 @@
         &:hover {
           color: var(--color-link-active);
         }
-      }
 
-      svg {
-        margin: 0 6px;
+        &--current {
+          flex: 1 1 0;
+          min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-weight: 600;
+          color: var(--color-text-main);
+          pointer-events: none;
+        }
 
-        @media (--mobile) {
-          display: none;
+        &--ellipsis {
+          flex-shrink: 0;
+          pointer-events: none;
+          user-select: none;
         }
       }
     }
 
     &-time {
       margin-left: auto;
+      flex-shrink: 0;
+      white-space: nowrap;
 
       @media (--mobile) {
         margin-left: 0;
@@ -47,6 +95,7 @@
 
     &-button {
       margin-left: 20px;
+      flex-shrink: 0;
       text-decoration: none;
 
       @media (--mobile) {

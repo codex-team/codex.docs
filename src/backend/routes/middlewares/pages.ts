@@ -25,7 +25,7 @@ export default asyncMiddleware(async (req: Request, res: Response, next: NextFun
     const pages = await Pages.getAllPages();
     const pagesOrder = await PagesOrder.getAll();
 
-    res.locals.menu = createMenuTree(parentIdOfRootPages, pages, pagesOrder, 2);
+    res.locals.menu = createMenuTree(parentIdOfRootPages, pages, pagesOrder);
   } catch (error) {
     console.log('Can not load menu:', error);
   }

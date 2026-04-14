@@ -51,7 +51,8 @@ class PagesFlatArray {
   /**
    * Returns pages flat array
    *
-   * @param nestingLimit - number of flat array nesting, set null to dismiss the restriction, default nesting 2
+   * @param nestingLimit - max `level` to keep (level 0 = root pages, 1 = their children, …).
+   * Pass **null** to return the full tree order (needed for prev/next links past depth 2).
    * @returns {Promise<Array<PagesFlatArrayData>>}
    */
   public static async get(nestingLimit: number | null = 2): Promise<Array<PagesFlatArrayData>> {
@@ -108,7 +109,8 @@ class PagesFlatArray {
    * @returns {Promise<PagesFlatArrayData | undefined>}
    */
   public static async getPageBefore(pageId: EntityId): Promise<PagesFlatArrayData | undefined> {
-    const arr = await this.get();
+    /** `null` = no level cap; default (2) would drop pages at level ≥2 from the chain */
+    const arr = await this.get(null);
 
     const pageIndex = arr.findIndex((item) => isEqualIds(item.id, pageId));
 
@@ -128,7 +130,7 @@ class PagesFlatArray {
    * @returns {Promise<PagesFlatArrayData | undefined>}
    */
   public static async getPageAfter(pageId: EntityId): Promise<PagesFlatArrayData | undefined> {
-    const arr = await this.get();
+    const arr = await this.get(null);
 
     const pageIndex = arr.findIndex( (item) => isEqualIds(item.id, pageId));
 

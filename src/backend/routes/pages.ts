@@ -5,6 +5,7 @@ import verifyToken from './middlewares/token.js';
 import allowEdit from './middlewares/locals.js';
 import PagesFlatArray from '../models/pagesFlatArray.js';
 import { toEntityId } from '../database/index.js';
+import { buildPageBreadcrumbs } from '../utils/breadcrumbs.js';
 
 const router = express.Router();
 
@@ -13,12 +14,10 @@ const router = express.Router();
  */
 router.get('/page/new', verifyToken, allowEdit, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const pagesAvailableGrouped = await Pages.groupByParent();
-
-    console.log(pagesAvailableGrouped);
+    const parentSelectOptions = await Pages.getParentSelectOptions();
 
     res.render('pages/form', {
-      pagesAvailableGrouped,
+      parentSelectOptions,
       page: null,
     });
   } catch (error) {
@@ -36,7 +35,7 @@ router.get('/page/edit/:id', verifyToken, allowEdit, async (req: Request, res: R
   try {
     const page = await Pages.get(pageId);
     const pagesAvailable = await Pages.getAllExceptChildren(pageId);
-    const pagesAvailableGrouped = await Pages.groupByParent(pageId);
+    const parentSelectOptions = await Pages.getParentSelectOptions(pageId);
 
     if (!page._parent) {
       throw new Error('Parent not found');
@@ -47,7 +46,7 @@ router.get('/page/edit/:id', verifyToken, allowEdit, async (req: Request, res: R
     res.render('pages/form', {
       page,
       parentsChildrenOrdered,
-      pagesAvailableGrouped,
+      parentSelectOptions,
     });
   } catch (error) {
     res.status(404);
@@ -64,14 +63,14 @@ router.get('/page/:id', verifyToken, async (req: Request, res: Response, next: N
   try {
     const page = await Pages.get(pageId);
 
-    const pageParent = await page.parent;
+    const breadcrumbItems = await buildPageBreadcrumbs(page);
 
     const previousPage = await PagesFlatArray.getPageBefore(pageId);
     const nextPage = await PagesFlatArray.getPageAfter(pageId);
 
     res.render('pages/page', {
       page,
-      pageParent,
+      breadcrumbItems,
       config: req.app.locals.config,
       previousPage,
       nextPage,

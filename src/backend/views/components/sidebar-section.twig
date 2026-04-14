@@ -1,0 +1,26 @@
+{% set is_leaf = node.children is not defined or node.children is empty %}
+<section class="docs-sidebar__section{{ nested ? ' docs-sidebar__section--nested' : '' }}{{ is_leaf ? ' docs-sidebar__section--leaf' : '' }}" data-id="{{ node._id }}">
+  <a class="docs-sidebar__section-title-wrapper"
+    href="{{ node.uri ? '/' ~ node.uri : '/page/' ~ node._id }}"
+  >
+    <div class="docs-sidebar__section-title {{ page is defined and toString(page._id) == toString(node._id) ? 'docs-sidebar__section-title--active' : '' }}">
+      <span>
+        {{ node.title | striptags }}
+      </span>
+      {% if node.children is defined and node.children is not empty %}
+        <button type="button" class="docs-sidebar__section-toggler" aria-label="Toggle section">
+          {{ svg('arrow-up') }}
+        </button>
+      {% endif %}
+    </div>
+  </a>
+  {% if node.children is defined and node.children is not empty %}
+    <ul class="docs-sidebar__section-list docs-sidebar__section-list--nested">
+      {% for child in node.children %}
+        <li>
+          {% include 'components/sidebar-section.twig' with { node: child, nested: true } %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</section>

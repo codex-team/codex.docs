@@ -14,6 +14,6 @@ router.use('/', pagesMiddleware, home);
 router.use('/', pagesMiddleware, pages);
 router.use('/', pagesMiddleware, auth);
 router.use('/api', verifyToken, allowEdit, api);
-router.use('/', aliases);
+router.use('/', pagesMiddleware, aliases);
 
 export default router;

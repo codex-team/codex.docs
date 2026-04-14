@@ -14,6 +14,7 @@ import appConfig  from './utils/appConfig.js';
 import Aliases from './controllers/aliases.js';
 import Pages from './controllers/pages.js';
 import { downloadFavicon } from './utils/downloadFavicon.js';
+import { buildPageBreadcrumbs } from './utils/breadcrumbs.js';
 
 /**
  * Build static pages from database
@@ -96,7 +97,7 @@ export default async function buildStatic(): Promise<void> {
     if (!pageUri) {
       throw new Error('Page uri is not defined');
     }
-    const pageParent = await page.getParent();
+    const breadcrumbItems = await buildPageBreadcrumbs(page);
     const pageId = page._id;
 
     if (!pageId) {
@@ -105,11 +106,10 @@ export default async function buildStatic(): Promise<void> {
     const parentIdOfRootPages = '0' as EntityId;
     const previousPage = await PagesFlatArray.getPageBefore(pageId);
     const nextPage = await PagesFlatArray.getPageAfter(pageId);
-    const menu = createMenuTree(parentIdOfRootPages, allPages, pagesOrder, 2);
-
+    const menu = createMenuTree(parentIdOfRootPages, allPages, pagesOrder);
     const result = await renderTemplate('./views/pages/page.twig', {
       page,
-      pageParent,
+      breadcrumbItems,
       previousPage,
       nextPage,
       menu,

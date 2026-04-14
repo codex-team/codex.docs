@@ -8,9 +8,9 @@ const LOCAL_STORAGE_KEY = 'docs_sidebar_state';
 const SIDEBAR_VISIBILITY_KEY = 'docs_sidebar_visibility';
 
 /**
- * Section list item height in px
+ * Slack beyond scrollHeight + vertical borders for max-height (subpixels, hover radius).
  */
-const ITEM_HEIGHT = 31;
+const SIDEBAR_LIST_MAX_HEIGHT_SLACK_PX = 4;
 
 /**
  * Sidebar module
@@ -30,7 +30,6 @@ export default class Sidebar {
       sectionTitle: 'docs-sidebar__section-title',
       sectionTitleActive: 'docs-sidebar__section-title--active',
       sectionList: 'docs-sidebar__section-list',
-      sectionListItemActive: 'docs-sidebar__section-list-item--active',
       sidebarToggler: 'docs-sidebar__toggler',
       sidebarSlider: 'docs-sidebar__slider',
       sidebarCollapsed: 'docs-sidebar--collapsed',
@@ -71,6 +70,8 @@ export default class Sidebar {
     this.isVisible = storedVisibility !== 'false';
     // Sidebar filter module
     this.filter = new SidebarFilter();
+    /** @type {number | null} */
+    this._recalcListsRaf = null;
   }
 
   /**
@@ -81,17 +82,25 @@ export default class Sidebar {
    */
   init(settings, moduleEl) {
     this.nodes.sidebar = moduleEl;
-    this.nodes.sections = Array.from(moduleEl.querySelectorAll('.' + Sidebar.CSS.section));
-    this.nodes.sections.forEach(section => this.initSection(section));
     this.nodes.sidebarContent = moduleEl.querySelector('.' + Sidebar.CSS.sidebarContent);
+    this.nodes.sections = Array.from(moduleEl.querySelectorAll('.' + Sidebar.CSS.section));
+    this.nodes.rootSections = Array.from(
+      this.nodes.sidebarContent.querySelectorAll(':scope > .' + Sidebar.CSS.section)
+    );
+    this.nodes.sections.forEach((section) => this.initSection(section));
+    this.scheduleRecalcSectionLists();
     this.nodes.toggler = moduleEl.querySelector('.' + Sidebar.CSS.sidebarToggler);
     this.nodes.toggler.addEventListener('click', () => this.toggleSidebar());
     this.nodes.slider = moduleEl.querySelector('.' + Sidebar.CSS.sidebarSlider);
     this.nodes.slider.addEventListener('click', () => this.handleSliderClick());
 
     this.nodes.search = moduleEl.querySelector('.' + Sidebar.CSS.sidebarSearch);
-    this.filter.init(this.nodes.sections, this.nodes.sidebarContent,
-      this.nodes.search, this.setSectionCollapsed);
+    this.filter.init(
+      this.nodes.rootSections,
+      this.nodes.sidebarContent,
+      this.nodes.search,
+      this.setSectionCollapsed.bind(this)
+    );
 
     this.ready();
   }
@@ -110,7 +119,7 @@ export default class Sidebar {
       return;
     }
 
-    togglerEl.addEventListener('click', e => this.handleSectionTogglerClick(id, section, e));
+    togglerEl.addEventListener('click', (e) => this.handleSectionTogglerClick(id, section, e));
 
     if (typeof this.sectionsState[id] === 'undefined') {
       this.sectionsState[id] = false;
@@ -118,19 +127,55 @@ export default class Sidebar {
     if (this.sectionsState[id]) {
       this.setSectionCollapsed(section, true, false);
     }
+  }
 
-    /**
-     * Calculate and set sections list max height for smooth animation
-     */
-    const sectionList = section.querySelector('.' + Sidebar.CSS.sectionList);
+  /**
+   * Recompute max-height for every expanded section list (nested opens change ancestor scrollHeight).
+   * Uses a two-phase measure so parents see full child height (ITEM_HEIGHT * li was wrong for deep trees).
+   */
+  recalcSectionListsMaxHeight() {
+    this.nodes.sections.forEach((section) => {
+      if (section.classList.contains(Sidebar.CSS.sectionCollapsed)) {
+        return;
+      }
+      const list = section.querySelector(':scope > .' + Sidebar.CSS.sectionList);
 
-    if (!sectionList) {
+      if (list) {
+        list.style.maxHeight = 'none';
+      }
+    });
+
+    requestAnimationFrame(() => {
+      [...this.nodes.sections].reverse().forEach((section) => {
+        if (section.classList.contains(Sidebar.CSS.sectionCollapsed)) {
+          return;
+        }
+        const list = section.querySelector(':scope > .' + Sidebar.CSS.sectionList);
+
+        if (!list) {
+          return;
+        }
+        const cs = globalThis.getComputedStyle(list);
+        const borderY =
+          (Number.parseFloat(cs.borderTopWidth) || 0) +
+          (Number.parseFloat(cs.borderBottomWidth) || 0);
+
+        list.style.maxHeight = `${list.scrollHeight + borderY + SIDEBAR_LIST_MAX_HEIGHT_SLACK_PX}px`;
+      });
+    });
+  }
+
+  /**
+   * Batches recalc after collapse/expand and filter-driven opens.
+   */
+  scheduleRecalcSectionLists() {
+    if (this._recalcListsRaf !== null) {
       return;
     }
-
-    const itemsCount = sectionList.children.length;
-
-    sectionList.style.maxHeight = `${itemsCount * ITEM_HEIGHT}px`;
+    this._recalcListsRaf = requestAnimationFrame(() => {
+      this._recalcListsRaf = null;
+      this.recalcSectionListsMaxHeight();
+    });
   }
 
   /**
@@ -156,7 +201,7 @@ export default class Sidebar {
    * @param {boolean} [animated] - true if state should change with animation
    */
   setSectionCollapsed(sectionEl, collapsed, animated = true) {
-    const sectionList = sectionEl.querySelector('.' + Sidebar.CSS.sectionList);
+    const sectionList = sectionEl.querySelector(':scope > .' + Sidebar.CSS.sectionList);
 
     if (!sectionList) {
       return;
@@ -164,13 +209,15 @@ export default class Sidebar {
     sectionEl.classList.toggle(Sidebar.CSS.sectionAnimated, animated);
     sectionEl.classList.toggle(Sidebar.CSS.sectionCollapsed, collapsed);
 
+    this.scheduleRecalcSectionLists();
+
     /**
      * Highlight section item as active if active child item is collapsed.
      */
-    const activeSectionListItem = sectionList.querySelector('.' + Sidebar.CSS.sectionListItemActive);
+    const activeInSubtree = sectionList.querySelector('.' + Sidebar.CSS.sectionTitleActive);
     const sectionTitle = sectionEl.querySelector('.' + Sidebar.CSS.sectionTitle);
 
-    if (!activeSectionListItem) {
+    if (!activeInSubtree) {
       return;
     }
     if (collapsed && animated) {

@@ -7,17 +7,18 @@
         <a href="/" class="page__header-nav-item">
           Documentation
         </a>
-        {{ svg('arrow-right') }}
-        {% if page._parent %}
-          <a class="page__header-nav-item"
-            {% if pageParent.uri %}
-              href="/{{ pageParent.uri }}"
+        <div class="page__header-nav-crumbs">
+          {% for item in breadcrumbItems %}
+            {{ svg('arrow-right') }}
+            {% if item.isEllipsis %}
+              <span class="page__header-nav-item page__header-nav-item--ellipsis" aria-hidden="true">{{ item.title }}</span>
+            {% elseif item.href %}
+              <a class="page__header-nav-item" href="{{ item.href }}">{{ item.title | striptags }}</a>
             {% else %}
-              href="/page/{{ pageParent._id }}"
-            {% endif %}>
-            {{ pageParent.title }}
-          </a>
-        {% endif %}
+              <span class="page__header-nav-item page__header-nav-item--current">{{ item.title | striptags }}</span>
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
       <time class="page__header-time">
         Last edit {{ (page.body.time / 1000)  | date("M d Y") }}
