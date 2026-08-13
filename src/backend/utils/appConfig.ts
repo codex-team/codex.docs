@@ -34,6 +34,7 @@ const S3UploadsConfig = z.object({
     keyPrefix: z.string(),
     accessKeyId: z.string(),
     secretAccessKey: z.string(),
+    endpoint: z.string().optional(),
   }),
 });
 

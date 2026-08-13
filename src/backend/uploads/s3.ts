@@ -6,7 +6,7 @@ import mime from 'mime';
 import multer from 'multer';
 import { S3UploadsConfig } from '../utils/appConfig.js';
 import { FileData } from '../models/file.js';
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { PutObjectCommand, S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
 import fileType from 'file-type';
 
 /**
@@ -30,13 +30,19 @@ export default class S3UploadsDriver implements UploadsDriver {
    */
   constructor(config: S3UploadsConfig) {
     this.config = config;
-    this.s3Client = new S3Client({
+    const clientConfig: S3ClientConfig = {
       region: this.config.s3.region,
       credentials: {
         accessKeyId: this.config.s3.accessKeyId,
         secretAccessKey: this.config.s3.secretAccessKey,
       },
-    });
+    };
+
+    if (this.config.s3.endpoint) {
+      clientConfig.endpoint = this.config.s3.endpoint;
+    }
+
+    this.s3Client = new S3Client(clientConfig);
   }
 
   /**
