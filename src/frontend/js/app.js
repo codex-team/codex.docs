@@ -13,6 +13,8 @@ import ModuleDispatcher from 'module-dispatcher';
 /**
  * Import modules
  */
+import ThemeManager from './modules/themeManager';
+import ThemeToggle from './modules/themeToggle';
 import Writing from './modules/writing';
 import Page from './modules/page';
 import Extensions from './modules/extensions';
@@ -27,6 +29,10 @@ class Docs {
    * @class
    */
   constructor() {
+    // Initialize theme manager first, before render to prevent FOUC
+    ThemeManager.init();
+
+    this.themeToggle = new ThemeToggle();
     this.writing = new Writing();
     this.page = new Page();
     this.extensions = new Extensions();
@@ -43,9 +49,15 @@ class Docs {
   }
 
   /**
+   * Initialize theme toggle module
+   */
+  initThemeToggle() {
+    this.themeToggle.init();
+  }  /**
    * Document is ready
    */
   docReady() {
+    this.initThemeToggle();
     this.moduleDispatcher = new ModuleDispatcher({
       Library: this,
     });

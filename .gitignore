@@ -85,3 +85,12 @@ db/
 *.local.yaml
 
 static-build
+.vs/
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache
+
+# Dark mode agent reference (local development only)
+.github/specs/dark-mode/Agents.md

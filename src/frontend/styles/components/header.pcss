@@ -13,7 +13,7 @@ html {
   box-sizing: border-box;
   position: sticky;
   top: 0;
-  background: white;
+  background: var(--color-bg-main);
   z-index: 10;
 
   @media (--not-mobile){
@@ -96,5 +96,79 @@ html {
         }
       }
     }
+
+    li&-theme {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+    }
   }
 }
+
+/**
+ * Theme Toggle Button Styles
+ */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  color: var(--color-text-main);
+  transition: background-color 0.2s ease, color 0.2s ease;
+  font-size: 18px;
+
+  /* Icon SVG styling */
+  svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Hide both icons by default, show based on theme */
+  .theme-toggle__icon--light,
+  .theme-toggle__icon--dark {
+    position: absolute;
+  }
+
+  .theme-toggle__icon--light {
+    display: block;
+  }
+
+  .theme-toggle__icon--dark {
+    display: none;
+  }
+
+  /* Hover state */
+  &:hover {
+    background-color: var(--color-link-hover);
+  }
+
+  /* Focus state for accessibility */
+  &:focus {
+    outline: 2px solid var(--color-link-active);
+    outline-offset: 2px;
+  }
+
+  /* Active/pressed state */
+  &:active {
+    transform: scale(0.95);
+  }
+
+  /* Dark mode specific styling */
+  [data-theme="dark"] & {
+    color: var(--color-text-main);
+
+    &:hover {
+      background-color: var(--color-link-hover);
+    }
+  }
+}
+

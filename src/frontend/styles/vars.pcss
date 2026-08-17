@@ -4,6 +4,7 @@
   --color-line-gray: #E8E8EB;
   --color-link-active: #2071cc;
   --color-link-hover: #F3F6F8;
+  --color-bg-main: #ffffff;
   --color-bg-light: #f8f7fa;
   --color-page-active: #ff1767;
   --color-input-primary: #F3F6F8;
@@ -37,6 +38,50 @@
 
   --color-success: #00e08f;
 
+  /* Checkbox and UI element colors */
+  --color-checkbox-border: #d0d0d0;
+  --color-checkbox-bg: #fff;
+  --color-checkbox-checked: #388ae5;
+  --color-checkbox-check-mark: #fcfff4;
+
+  /* Warning block colors */
+  --color-warning-bg: #fffad0;
+
+  /* Special element colors */
+  --color-marker-highlight: rgba(245,235,111,0.33);
+  --color-inline-code-bg: rgba(251,241,241,0.78);
+  --color-inline-code-text: #C44545;
+
+  /* Link with inline code */
+  --color-link-code-border: rgba(84, 151, 255, 0.99);
+  --color-link-code-text: #1f6fd8;
+  --color-link-code-bg: #daf1fe;
+  --color-link-code-hover-bg: #c8edfe;
+
+  /* Box shadow opacity */
+  --color-shadow-dark: rgba(66, 70, 84, 0.06);
+
+  /* Sidebar component colors - light mode */
+  --color-sidebar-toggler-hover-bg: #ffffff;
+  --color-sidebar-toggle-hover-bg: rgba(0, 0, 0, 0.3);
+  --color-sidebar-logo-bg: #ffffff;
+  --color-navigator-text: #000000;
+
+  /* Form/Input component colors - light mode */
+  --color-writing-header-bg: #ffffff;
+  --color-writing-header-shadow: #ffffff;
+
+  /* Sidebar active section gradient and focus colors - light mode */
+  --color-sidebar-active-gradient-start: #129bff;
+  --color-sidebar-active-gradient-end: #8a53ff;
+  --color-sidebar-active-text: #ffffff;
+  --color-sidebar-selected-focus: rgba(147, 166, 233, 0.5);
+
+  /* Diff colors - light mode */
+  --color-diff-added-text: #70b979;
+  --color-diff-added-bg: #25f84d21;
+  --color-diff-removed-text: #f1acaf;
+  --color-diff-removed-bg: #95000069;
 
   /**
    * Site layout sizes
@@ -209,8 +254,8 @@
    */
   --text-inline-code {
     display: inline-block;
-    background: rgba(251,241,241,0.78);
-    color: #C44545;
+    background: var(--color-inline-code-bg);
+    color: var(--color-inline-code-text);
     font-size: 14px;
     line-height: 1.4em;
     letter-spacing: 0;
@@ -222,7 +267,7 @@
     border-bottom: 0;
 
     &:hover {
-      background: rgba(251,241,241,0.78);
+      background: var(--color-inline-code-bg);
     }
   }
 
@@ -246,13 +291,13 @@
     .inline-code {
       margin: 0;
       padding: 2px 5px;
-      border-bottom: 1px dashed rgba(84, 151, 255, 0.99);
-      color: #1f6fd8;
-      background-color: #daf1fe;
+      border-bottom: 1px dashed var(--color-link-code-border);
+      color: var(--color-link-code-text);
+      background-color: var(--color-link-code-bg);
       border-radius: 3px !important;
 
       &:hover {
-        background-color: #c8edfe;
+        background-color: var(--color-link-code-hover-bg);
       }
     }
   }

@@ -177,7 +177,7 @@
     &--selected {
       border-radius: 8px;
       /* border using box-shadow which doesn't increase the height */
-      box-shadow: 0 0 0 2px rgba(147, 166, 233, 0.5) inset;
+      box-shadow: 0 0 0 2px var(--color-sidebar-selected-focus) inset;
     }
 
     &--active,
@@ -230,13 +230,14 @@
     }
   }
 
-  &__section-title--active {
-    background: linear-gradient(270deg, #129bff 0%, #8a53ff 100%);
-    color: white;
+  &__section-title--active,
+  &__section-list-item--active {
+    background: linear-gradient(270deg, var(--color-sidebar-active-gradient-start) 0%, var(--color-sidebar-active-gradient-end) 100%);
+    color: var(--color-sidebar-active-text);
 
     @media (--can-hover) {
       .docs-sidebar__section-toggler:hover {
-        background: rgba(0, 0, 0, 0.3);
+        background: var(--color-sidebar-toggle-hover-bg, rgba(0, 0, 0, 0.3));
       }
     }
   }
@@ -275,7 +276,7 @@
 
     @media (--can-hover) {
       &:hover {
-        background: white;
+        background: var(--color-sidebar-toggler-hover-bg, white);
       }
     }
 
@@ -323,7 +324,7 @@
   &__logo {
     display: none;
     margin-top: auto;
-    background: white;
+    background: var(--color-sidebar-logo-bg, white);
     z-index: 2;
     padding-bottom: 20px;
     padding-top: 60px;
