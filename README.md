@@ -63,6 +63,15 @@ docker-compose build
 docker-compose up
 ```
 
+#### Using Easypanel
+
+CodeX Docs has a one-click deployment template on [Easypanel](https://easypanel.io), a self-hosted Docker deployment platform:
+
+[![Deploy on Easypanel][easypanel-btn]][easypanel-deploy]
+
+[easypanel-btn]: https://easypanel.io/img/deploy-on-easypanel-40.svg
+[easypanel-deploy]: https://easypanel.io/templates/codex-docs
+
 #### Using Kubernetes
 
 We have the ready-to-use [Helm chart](https://github.com/codex-team/codex.docs.chart) to deploy project in Kubernetes
