@@ -67,6 +67,10 @@ docker-compose up
 
 We have the ready-to-use [Helm chart](https://github.com/codex-team/codex.docs.chart) to deploy project in Kubernetes
 
+### 4. One-Click Deploy
+
+[![Deploy on RepoCloud](https://d16t0pc4846x52.cloudfront.net/deploylobe.svg)](https://repocloud.io/details/CodeX%20Docs/)
+
 ## Development
 
 See documentation for developers in [DEVELOPMENT.md](./DEVELOPMENT.md).
