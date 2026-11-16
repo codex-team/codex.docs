@@ -21,13 +21,9 @@ router.get('/fetchUrl', async (req: Request, res: Response) => {
     success: 0,
   };
 
-  if (!req.query.url) {
+  if (!req.query.url || typeof req.query.url !== 'string') {
     res.status(400).json(response);
 
-    return;
-  }
-
-  if (typeof req.query.url !== 'string') {
     return;
   }
 
@@ -35,6 +31,8 @@ router.get('/fetchUrl', async (req: Request, res: Response) => {
     const linkData = (await ogs({ url: req.query.url })).result;
 
     if (!linkData.success) {
+      res.status(400).json(response);
+
       return;
     }
 
