@@ -1,10 +1,12 @@
 import chai from 'chai';
 import chaiHTTP from 'chai-http';
-import server from '../../bin/server.js';
+import express from 'express';
+import links from '../../backend/routes/api/links.js';
 
 const {expect} = chai;
-const app = server.app;
+const app = express();
 
+app.use('/api', links);
 chai.use(chaiHTTP);
 
 describe('Links REST: ', () => {
