@@ -27,9 +27,15 @@ touch docs-config.local.yaml
 yarn dev
 ```
 
+## Prerequisites
+
+- **Node.js ≥ 18** (tested up to Node 24)
+
+> **Note on NeDB:** The local database driver was migrated from the original [`nedb`](https://www.npmjs.com/package/nedb) package (unmaintained since 2016) to [`@seald-io/nedb`](https://github.com/seald/nedb). The original `nedb` crashes on Node.js ≥ 24 because it relies on removed `util.isDate()` / `util.isRegExp()` functions. The `@seald-io/nedb` fork is a drop-in replacement that supports modern Node.js versions. No data migration is needed — the on-disk format is identical.
+
 ## Starting docs with MongoDB
 
-By default, the application uses a local database powered by [nedb](https://www.npmjs.com/package/nedb).
+By default, the application uses a local database powered by [@seald-io/nedb](https://github.com/seald/nedb) (a maintained fork of nedb).
 In order to use MongoDB, follow these steps:
 
 
@@ -64,6 +70,38 @@ Run it with
 ```shell
 node bin/db-converter --db-path=./db --mongodb-uri=mongodb://localhost:27017/docs
 ```
+
+## Dark Mode
+
+The application includes a dark mode that can be toggled via the sun/moon button in the header. Theme preference is saved to `localStorage` and persists across sessions. If no preference is saved, the system `prefers-color-scheme` setting is used.
+
+The theme system uses CSS custom properties defined in `src/frontend/styles/vars.pcss` (light defaults) and `src/frontend/styles/dark-mode.pcss` (dark overrides via `[data-theme="dark"]`). The `ThemeManager` module (`src/frontend/js/modules/themeManager.js`) handles initialization, persistence, and theme switching.
+
+All dark mode colors follow WCAG 2.1 AA contrast requirements.
+
+## Testing
+
+### Unit Tests
+
+```shell
+yarn test
+```
+
+### E2E Tests (Playwright)
+
+Runs across Chromium, Firefox, and WebKit:
+
+```shell
+yarn test:e2e
+```
+
+Interactive UI mode:
+
+```shell
+yarn test:e2e:ui
+```
+
+The E2E suite auto-starts the dev server on port 7777. Test files are in `src/test/e2e/`.
 
 ## Using S3 uploads driver
 

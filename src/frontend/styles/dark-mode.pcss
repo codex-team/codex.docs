@@ -1,0 +1,203 @@
+/**
+ * Dark Mode Theme Overrides
+ * Defines CSS custom properties for dark theme
+ * Automatically applied when data-theme="dark" attribute is set on root element
+ *
+ * Palette: neutral grays (Tailwind zinc) with vibrant accent colors
+ */
+
+[data-theme="dark"] {
+	/* Text Colors */
+	--color-text-main: #E4E4E7;
+	--color-text-second: #A1A1AA;
+
+	/* Background Colors — true neutral darks */
+	--color-bg-main: #18181B;
+	--color-bg-light: #27272A;
+
+	/* UI Elements — WCAG 1.4.11: 3:1 minimum for UI boundaries */
+	--color-line-gray: #71717A;
+	--color-link-active: #60A5FA;
+	--color-link-hover: #27272A;
+
+	/* Input Colors */
+	--color-input-primary: #27272A;
+	--color-input-border: #60A5FA;
+
+	/* Status Colors */
+	--color-page-active: #F472B6;
+
+	/* Button Colors — WCAG 1.4.3: 4.5:1 for text on button bg */
+	--color-button-primary: #2563EB;
+	--color-button-primary-hover: #1D4ED8;
+	--color-button-primary-active: #1E40AF;
+
+	--color-button-secondary: #52525B;
+	--color-button-secondary-hover: #3F3F46;
+	--color-button-secondary-active: #27272A;
+
+	--color-button-warning: #C2410C;
+	--color-button-warning-hover: #9A3412;
+	--color-button-warning-active: #7C2D12;
+
+	--color-success: #34D399;
+
+	/* Code Block Colors */
+	--color-code-bg: #131316;
+	--color-code-main: #E4E4E7;
+	--color-code-keyword: #818CF8;
+	--color-code-class: #34D399;
+	--color-code-variable: #67E8F9;
+	--color-code-string: #FCA5A5;
+	--color-code-params: #F0ABFC;
+	--color-code-tag: #34D399;
+	--color-code-number: #FCD34D;
+	--color-code-comment: #909099;
+
+	/* Checkbox and UI element colors — WCAG 1.4.11: 3:1 */
+	--color-checkbox-border: #71717A;
+	--color-checkbox-bg: #27272A;
+	--color-checkbox-checked: #3B82F6;
+	--color-checkbox-check-mark: #18181B;
+
+	/* Warning block colors */
+	--color-warning-bg: #451A03;
+
+	/* Special element colors */
+	--color-marker-highlight: rgba(251, 191, 36, 0.15);
+	--color-inline-code-bg: rgba(113, 113, 122, 0.2);
+	--color-inline-code-text: #FCA5A5;
+
+	/* Link with inline code */
+	--color-link-code-border: rgba(96, 165, 250, 0.6);
+	--color-link-code-text: #93C5FD;
+	--color-link-code-bg: #1E293B;
+	--color-link-code-hover-bg: #2A3A50;
+
+	/* Box shadow */
+	--color-shadow-dark: rgba(0, 0, 0, 0.5);
+
+	/* Sidebar component colors */
+	--color-sidebar-toggler-hover-bg: #27272A;
+	--color-sidebar-toggle-hover-bg: rgba(255, 255, 255, 0.08);
+	--color-sidebar-logo-bg: #18181B;
+	--color-navigator-text: #E4E4E7;
+
+	/* Form/Input component colors */
+	--color-writing-header-bg: #27272A;
+	--color-writing-header-shadow: rgba(0, 0, 0, 0.4);
+
+	/* Sidebar active section gradient */
+	--color-sidebar-active-gradient-start: #3B82F6;
+	--color-sidebar-active-gradient-end: #8B5CF6;
+	--color-sidebar-active-text: #FFFFFF;
+	--color-sidebar-selected-focus: rgba(99, 102, 241, 0.3);
+
+	/* Diff colors */
+	--color-diff-added-text: #34D399;
+	--color-diff-added-bg: rgba(16, 185, 129, 0.12);
+	--color-diff-removed-text: #FCA5A5;
+	--color-diff-removed-bg: rgba(239, 68, 68, 0.12);
+}
+
+/**
+ * System preference fallback
+ * Apply dark mode colors if system prefers dark scheme and no explicit theme is set.
+ * The :not([data-theme="light"]) guard prevents this from overriding an explicit
+ * user choice of light mode when JavaScript has set the attribute.
+ */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) {
+		/* Text Colors */
+		--color-text-main: #E4E4E7;
+		--color-text-second: #A1A1AA;
+
+		/* Background Colors — true neutral darks */
+		--color-bg-main: #18181B;
+		--color-bg-light: #27272A;
+
+		/* UI Elements — WCAG 1.4.11: 3:1 minimum for UI boundaries */
+		--color-line-gray: #71717A;
+		--color-link-active: #60A5FA;
+		--color-link-hover: #27272A;
+
+		/* Input Colors */
+		--color-input-primary: #27272A;
+		--color-input-border: #60A5FA;
+
+		/* Status Colors */
+		--color-page-active: #F472B6;
+
+		/* Button Colors — WCAG 1.4.3: 4.5:1 for text on button bg */
+		--color-button-primary: #2563EB;
+		--color-button-primary-hover: #1D4ED8;
+		--color-button-primary-active: #1E40AF;
+
+		--color-button-secondary: #52525B;
+		--color-button-secondary-hover: #3F3F46;
+		--color-button-secondary-active: #27272A;
+
+		--color-button-warning: #C2410C;
+		--color-button-warning-hover: #9A3412;
+		--color-button-warning-active: #7C2D12;
+
+		--color-success: #34D399;
+
+		/* Code Block Colors */
+		--color-code-bg: #131316;
+		--color-code-main: #E4E4E7;
+		--color-code-keyword: #818CF8;
+		--color-code-class: #34D399;
+		--color-code-variable: #67E8F9;
+		--color-code-string: #FCA5A5;
+		--color-code-params: #F0ABFC;
+		--color-code-tag: #34D399;
+		--color-code-number: #FCD34D;
+		--color-code-comment: #909099;
+
+		/* Checkbox and UI element colors — WCAG 1.4.11: 3:1 */
+		--color-checkbox-border: #71717A;
+		--color-checkbox-bg: #27272A;
+		--color-checkbox-checked: #3B82F6;
+		--color-checkbox-check-mark: #18181B;
+
+		/* Warning block colors */
+		--color-warning-bg: #451A03;
+
+		/* Special element colors */
+		--color-marker-highlight: rgba(251, 191, 36, 0.15);
+		--color-inline-code-bg: rgba(113, 113, 122, 0.2);
+		--color-inline-code-text: #FCA5A5;
+
+		/* Link with inline code */
+		--color-link-code-border: rgba(96, 165, 250, 0.6);
+		--color-link-code-text: #93C5FD;
+		--color-link-code-bg: #1E293B;
+		--color-link-code-hover-bg: #2A3A50;
+
+		/* Box shadow */
+		--color-shadow-dark: rgba(0, 0, 0, 0.5);
+
+		/* Sidebar component colors */
+		--color-sidebar-toggler-hover-bg: #27272A;
+		--color-sidebar-toggle-hover-bg: rgba(255, 255, 255, 0.08);
+		--color-sidebar-logo-bg: #18181B;
+		--color-navigator-text: #E4E4E7;
+
+		/* Form/Input component colors */
+		--color-writing-header-bg: #27272A;
+		--color-writing-header-shadow: rgba(0, 0, 0, 0.4);
+
+		/* Sidebar active section gradient */
+		--color-sidebar-active-gradient-start: #3B82F6;
+		--color-sidebar-active-gradient-end: #8B5CF6;
+		--color-sidebar-active-text: #FFFFFF;
+		--color-sidebar-selected-focus: rgba(99, 102, 241, 0.3);
+
+		/* Diff colors */
+		--color-diff-added-text: #34D399;
+		--color-diff-added-bg: rgba(16, 185, 129, 0.12);
+		--color-diff-removed-text: #FCA5A5;
+		--color-diff-removed-bg: rgba(239, 68, 68, 0.12);
+	}
+}

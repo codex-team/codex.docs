@@ -3,8 +3,8 @@
   width: 100%;
 
   &--added {
-    color: #70b979;
-    background-color: #25f84d21;
+    color: var(--color-diff-added-text);
+    background-color: var(--color-diff-added-bg);
 
     &::before {
       content: '+';
@@ -13,8 +13,8 @@
   }
 
   &--removed {
-    color: #f1acaf;
-    background-color: #95000069;
+    color: var(--color-diff-removed-text);
+    background-color: var(--color-diff-removed-bg);
 
     &::before {
       content: '-';

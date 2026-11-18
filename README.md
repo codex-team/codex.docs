@@ -14,6 +14,7 @@ It's super easy to install and use.
 - 📂 Docs nesting — create any structure you need
 - 💎 Static rendering
 - 📱 Nice look on Desktop and Mobile
+- 🌙 Dark mode — system preference detection, manual toggle, localStorage persistence
 - 🔥 Beautiful page URLs. Human-readable and SEO-friendly.
 - 🦅 [Hawk](https://hawk.so/?from=docs-demo) is hunting. Errors tracking integrated
 - 💌 [Misprints](https://github.com/codex-team/codex.misprints) reports to the Telegram / Slack
@@ -66,6 +67,51 @@ docker-compose up
 #### Using Kubernetes
 
 We have the ready-to-use [Helm chart](https://github.com/codex-team/codex.docs.chart) to deploy project in Kubernetes
+
+## Dark Mode Feature
+
+The dark mode feature is available in the `feature/dark-mode` branch. It includes:
+- System preference detection
+- Manual toggle button in the header
+- localStorage persistence
+- WCAG 2.1 AA accessibility compliance
+
+### Prerequisites for Dark Mode
+
+- **Node.js 20 or higher is required** (eslint-plugin-jsdoc@62.9.0+ only supports Node 20+)
+- Update your Node.js if you're running an older version: `node --version`
+
+### Get Dark Mode Working
+
+#### Development with Yarn
+
+```shell
+# Checkout the dark mode branch
+git checkout feature/dark-mode
+
+# Install dependencies (--ignore-engines bypasses Node version warnings)
+yarn install --ignore-engines
+
+# Start the dev server
+yarn dev
+```
+
+Access the app at http://localhost:3000 and click the sun/moon toggle in the header.
+
+#### Production with Docker
+
+```shell
+# Checkout the dark mode branch
+git checkout feature/dark-mode
+
+# Create local config
+cp docs-config.yaml docs-config.local.yaml
+
+# Build and start
+docker compose up -d --build
+```
+
+Access the app at http://localhost:3000 with the toggle button visible in the header.
 
 ## Development
 

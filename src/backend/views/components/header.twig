@@ -1,27 +1,30 @@
 <header class="docs-header">
   <a href="/" class="docs-header__logo">
-    {{ config.title | striptags }}
+  {{ config.title | striptags }}
   </a>
   <ul class="docs-header__menu">
-    {% if isAuthorized == true %}
+  <li class="docs-header__menu-theme">
+      {% include './theme-toggle.twig' %}
+  </li>
+  {% if isAuthorized == true %}
       <li class="docs-header__menu-add docs-header__menu-add--desktop">
-        {% include 'components/button.twig' with {label: 'Add page', icon: 'plus', size: 'small', url: '/page/new'} %}
+    {% include 'components/button.twig' with {label: 'Add page', icon: 'plus', size: 'small', url: '/page/new'} %}
       </li>
       <li class="docs-header__menu-add docs-header__menu-add--mobile">
-        {% include 'components/button.twig' with {icon: 'plus', size: 'small', url: '/page/new'} %}
+    {% include 'components/button.twig' with {icon: 'plus', size: 'small', url: '/page/new'} %}
       </li>
-    {% endif %}
-    {% for option in config.menu %}
+  {% endif %}
+  {% for option in config.menu %}
       <li>
-        <a class="docs-header__menu-link"
+    <a class="docs-header__menu-link"
           {% if option.uri %}
-            href="{{ option.uri }}"
+      href="{{ option.uri }}"
           {% else %}
-            href="/page/{{ option._id }}"
+      href="/page/{{ option._id }}"
           {% endif %}>
           {{ option.title | striptags }}
-        </a>
+    </a>
       </li>
-    {% endfor %}
+  {% endfor %}
   </ul>
 </header>

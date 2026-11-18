@@ -1,7 +1,9 @@
 import fs from 'fs';
 import config from 'config';
 import { expect } from 'chai';
-import Datastore from 'nedb';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const Datastore = require('@seald-io/nedb');
 
 import { Database } from '../backend/database/index.js';
 
