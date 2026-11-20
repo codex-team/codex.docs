@@ -40,7 +40,7 @@
     "file-type": "^16.5.4",
     "fs-extra": "^10.1.0",
     "http-errors": "^2.0.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mime": "^3.0.0",
     "mkdirp": "^1.0.4",
     "mongodb": "^4.10.0",
